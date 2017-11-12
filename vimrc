@@ -22,6 +22,7 @@ Plugin 'w0rp/ale'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'zefei/vim-wintabs'
+Plugin 'qpkorr/vim-bufkill'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
