@@ -59,19 +59,42 @@ set tabstop=4
 set softtabstop=0 noexpandtab
 set shiftwidth=4
 
+cmap nt NERDTree
+cmap te tabedit
+cmap vs vsplit
 " YouCompleteMe - do not show completion in another window
 set completeopt-=preview
 let g:javascript_plugin_flow = 1
 let g:vim_tags_auto_generate = 1
 
-" comment the next block if not on mac
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-let &t_EI = "\<Esc>]51;CursorShape=0\x7"
+" Changing cursor in normal and insert mode 
+if !exists("g:os")
+    if has("win64") || has("win32") || has("win16")
+        let g:os = "Windows"
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+    endif
+endif
 
-cmap nt NERDTree
-cmap te tabedit
-cmap vs vsplit
+if has("gui_running")
+    if g:os == "Darwin"
+		let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+		let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+		let &t_EI = "\<Esc>]51;CursorShape=0\x7"
+    elseif g:os == "Linux"
+		if has("autocmd")
+		  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+		  au InsertEnter,InsertChange *
+			\ if v:insertmode == 'i' | 
+			\   silent execute '!echo -ne "\e[5 q"' | redraw! |
+			\ elseif v:insertmode == 'r' |
+			\   silent execute '!echo -ne "\e[3 q"' | redraw! |
+			\ endif
+		  au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+		endif
+    endif
+endif
+
 
 " Buffers 
 nnoremap <silent> <C-S-M> :BufExplorer<CR>
