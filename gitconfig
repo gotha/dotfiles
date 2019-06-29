@@ -1,6 +1,9 @@
 # This is Git's per-user configuration file.
 [user]
-	name = Hristo Georgiev
 	email = h.georgiev@hotmail.com
+	name = Hristo Georgiev
+	signingkey = ECC2A821B32451B8A2158BEC0638724CD26FEE10
+[commit]
+	gpgsign = true
 [diff]
 	tool = vimdiff
