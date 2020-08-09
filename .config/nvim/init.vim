@@ -27,7 +27,6 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'zefei/vim-wintabs'
 Plug 'mileszs/ack.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-"Plug 'fatih/molokai'
 Plug 'moll/vim-node' " for nodejs
 Plug 'kien/ctrlp.vim' " search for files with Ctrl+P
 Plug 'vim-scripts/auto-pairs-gentle' " Insert or delete brackets, parens, quotes in pair.
@@ -38,8 +37,21 @@ Plug 'will133/vim-dirdiff'
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-"Plug 'arcticicestudio/nord-vim'
-Plug 'morhetz/gruvbox'
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
+
+Plug 'NLKNguyen/cloudformation-syntax.vim'
+
+Plug 'lumiliet/vim-twig'
+Plug 'fgsch/vim-varnish'
+
+Plug 'sebdah/vim-delve'
+Plug 'tpope/vim-fugitive'
+
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'rust-lang/rust.vim'
+
+Plug 'Rigellute/rigel'
 
 call plug#end()
 
@@ -60,4 +72,7 @@ source ~/.config/nvim/plugins/ack.vim
 source ~/.config/nvim/plugins/livedown.vim
 source ~/.config/nvim/plugins/markdown.vim
 
-colorscheme gruvbox
+"set background=dark
+colorscheme rigel
+
+let g:loaded_matchparen=1
