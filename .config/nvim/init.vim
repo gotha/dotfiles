@@ -1,7 +1,8 @@
 set nocompatible " be iMproved, required
 filetype off     " required
 
-set clipboard+=unnamed
+"set clipboard+=unnamed
+set clipboard=unnamedplus
 set nu
 
 let mapleader=" "
@@ -34,8 +35,9 @@ Plug 'shime/vim-livedown' "for markdown files
 Plug 'plasticboy/vim-markdown'
 Plug 'sotte/presenting.vim'
 Plug 'will133/vim-dirdiff'
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'fgsch/vim-varnish'
 
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
@@ -53,6 +55,13 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'Rigellute/rigel'
 
+Plug 'vim-test/vim-test'
+Plug 'vim-airline/vim-airline'
+
+Plug 'google/vim-maktaba'
+Plug 'google/vim-glaive'
+Plug 'google/vim-codefmt'
+
 call plug#end()
 
 map <leader>e  <Esc>:e .<CR>
@@ -67,10 +76,12 @@ source ~/.config/nvim/plugins/wintabs.vim
 source ~/.config/nvim/plugins/buffexplorer.vim
 source ~/.config/nvim/plugins/vim-go.vim
 source ~/.config/nvim/plugins/coc-nvim.vim
-source ~/.config/nvim/plugins/ale.vim
+" source ~/.config/nvim/plugins/ale.vim
 source ~/.config/nvim/plugins/ack.vim
 source ~/.config/nvim/plugins/livedown.vim
 source ~/.config/nvim/plugins/markdown.vim
+source ~/.config/nvim/plugins/vim-test.vim
+source ~/.config/nvim/plugins/codefmt.vim
 
 "set background=dark
 colorscheme rigel
