@@ -39,19 +39,33 @@ Plug 'will133/vim-dirdiff'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fgsch/vim-varnish'
 
-Plug 'morhetz/gruvbox'
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
+
+Plug 'NLKNguyen/cloudformation-syntax.vim'
+
+Plug 'lumiliet/vim-twig'
+Plug 'fgsch/vim-varnish'
+
+Plug 'sebdah/vim-delve'
+Plug 'tpope/vim-fugitive'
+
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'rust-lang/rust.vim'
+
+Plug 'Rigellute/rigel'
 
 Plug 'vim-test/vim-test'
 Plug 'vim-airline/vim-airline'
 
-Plug 'google/vim-maktaba' 
+Plug 'google/vim-maktaba'
 Plug 'google/vim-glaive'
-Plug 'google/vim-codefmt' 
+Plug 'google/vim-codefmt'
 
 call plug#end()
 
 map <leader>e  <Esc>:e .<CR>
- 
+
 source ~/.config/nvim/misc/disable-arrow-keys.vim
 source ~/.config/nvim/misc/spellcheck.vim
 source ~/.config/nvim/misc/snippets.vim
@@ -69,4 +83,7 @@ source ~/.config/nvim/plugins/markdown.vim
 source ~/.config/nvim/plugins/vim-test.vim
 source ~/.config/nvim/plugins/codefmt.vim
 
-colorscheme gruvbox
+"set background=dark
+colorscheme rigel
+
+let g:loaded_matchparen=1
