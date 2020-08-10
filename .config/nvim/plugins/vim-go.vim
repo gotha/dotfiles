@@ -6,14 +6,15 @@ autocmd FileType go map <leader>c  <Esc>:GoCoverage<CR>
 autocmd FileType go map <leader>im  <Esc>:GoImports<CR>
 autocmd FileType go map <leader>in  <Esc>:GoInstall<CR>
 
-" go to test or tested file 
-autocmd FileType go map <leader>y  <Esc>:GoAlternate<CR> 
+" go to test or tested file
+autocmd FileType go map <leader>y  <Esc>:GoAlternate<CR>
 " show list of all functions in file
-autocmd FileType go map <leader>o  <Esc>:GoDecls<CR> 
-autocmd FileType go map <leader>g  <Esc>:GoDoc<CR> 
+autocmd FileType go map <leader>o  <Esc>:GoDecls<CR>
+autocmd FileType go map <leader>g  <Esc>:GoDoc<CR>
 
-autocmd FileType go set foldmethod=syntax
-autocmd FileType go set foldnestmax=1
+"autocmd FileType go set foldmethod=syntax
+"autocmd FileType go set foldnestmax=1
+
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
 

@@ -5,5 +5,5 @@ autocmd FileType sh nnoremap ,1  :-1read $HOME/.config/nvim/snippets/bash/sheban
 " GO snippets
 autocmd FileType go nnoremap ,p  <Esc>:-1read $HOME/.config/nvim/snippets/go/package.go<CR>$a
 autocmd FileType go nnoremap ,e  <Esc>:read $HOME/.config/nvim/snippets/go/err.go<CR>:GoFmt<CR>ji
-autocmd FileType go nnoremap ,d  <Esc>:read $HOME/.config/nvim/snippets/go/dump.go<CR>:GoFmt<CR>f)i, 
-autocmd FileType go nnoremap ,s  <Esc>:read $HOME/.config/nvim/snippets/go/dump_full.go<CR>:GoFmt<CR>jf)i, 
+autocmd FileType go nnoremap ,d  <Esc>:read $HOME/.config/nvim/snippets/go/dump.go<CR>:GoFmt<CR>f)i,
+autocmd FileType go nnoremap ,s  <Esc>:read $HOME/.config/nvim/snippets/go/dump_full.go<CR>:GoFmt<CR>jf)i,
