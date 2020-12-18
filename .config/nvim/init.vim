@@ -35,7 +35,7 @@ Plug 'shime/vim-livedown' "for markdown files
 Plug 'plasticboy/vim-markdown'
 Plug 'sotte/presenting.vim'
 Plug 'will133/vim-dirdiff'
-" Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fgsch/vim-varnish'
 
@@ -76,7 +76,7 @@ source ~/.config/nvim/plugins/wintabs.vim
 source ~/.config/nvim/plugins/buffexplorer.vim
 source ~/.config/nvim/plugins/vim-go.vim
 source ~/.config/nvim/plugins/coc-nvim.vim
-" source ~/.config/nvim/plugins/ale.vim
+source ~/.config/nvim/plugins/ale.vim
 source ~/.config/nvim/plugins/ack.vim
 source ~/.config/nvim/plugins/livedown.vim
 source ~/.config/nvim/plugins/markdown.vim
