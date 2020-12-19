@@ -7,10 +7,12 @@ updated for Big Sur
 First install [homebrew](https://brew.sh/)
 
 These are my base apps
+
 ```sh
 brew install \
   1password \
   alfred3 \
+  basictex \
   cfn-lint \
   checkstyle \
   cloc \
@@ -47,6 +49,7 @@ brew install \
   ncurses \
   node \
   nvim \
+  pandoc \
   php \
   postman \
   sequel-pro \
