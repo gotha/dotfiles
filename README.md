@@ -12,10 +12,25 @@ DOTFILES_PATH=$(pwd)
 
 ## Hammerspoon
 
+### Configure
+
 ```sh
-rm -rf .hammerspoon
+rm -rf ~/.hammerspoon
 ln -s $DOTFILES_PATH/.hammerspoon ~/.hammerspoon
 ```
+
+### Cheatsheet
+
+The prefix is `Ctrl + Option + Cmd`
+
+| shortcut               | effect                                                                  |
+| -----------------------|-------------------------------------------------------------------------|
+| `prefix + 0`           | "maximize" or resize current window                                     |
+| `prefix + 9`           | send window to the other screen (assumes that you have only 2 monitors) |
+| `prefix + left arrow`  | resize window to fit into the left half of the screen                   |
+| `prefix + right arrow` | resize window to fit into the right half of the screen                  |
+| `prefix + up arrow`    | resize window to fit into the top half of the screen                    |
+| `prefix + down arrow`  | resize window to fit into the bottom half of the screen                 |
 
 ## Tmux 
 
@@ -48,6 +63,7 @@ npm install -g livedown
 ```
 
 #### Ack 
+
 [mileszs/ack.vim](https://github.com/mileszs/ack.vim) uses [the_silver_searcher](https://github.com/ggreer/the_silver_searcher) so you have to install it. 
 
 For OSX:
