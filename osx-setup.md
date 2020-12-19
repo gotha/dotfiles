@@ -12,6 +12,7 @@ These are my base apps
 brew install \
   1password \
   alfred3 \
+  authy \
   basictex \
   cfn-lint \
   checkstyle \
@@ -32,6 +33,7 @@ brew install \
   google-chrome \
   google-java-format \
   hammerspoon  \
+  helm \
   httpie \
   hub \
   hugo \
@@ -57,6 +59,7 @@ brew install \
   skype \
   slack \
   spotify \
+  the_silver_searcher \
   tmux \
   transmission \
   vlc \
