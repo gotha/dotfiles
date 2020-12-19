@@ -17,8 +17,6 @@ rm -rf .hammerspoon
 ln -s $DOTFILES_PATH/.hammerspoon ~/.hammerspoon
 ```
 
-and refresh config.
-
 ## Tmux 
 
 ```sh
@@ -41,10 +39,27 @@ then open `nvim` and run `:PlugInstall`
 
 ### Plugin dependencies
 
+#### Livedown
+
 [shime/livedown](https://github.com/shime/vim-livedown) plugin depends on `livedown`
 
 ```sh
 npm install -g livedown
+```
+
+#### Ack 
+[mileszs/ack.vim](https://github.com/mileszs/ack.vim) uses [the_silver_searcher](https://github.com/ggreer/the_silver_searcher) so you have to install it. 
+
+For OSX:
+
+```sh
+brew install the_silver_searcher
+```
+
+For Arch:
+
+```sh
+pacman -S the_silver_searcher
 ```
 
 ## Zsh
