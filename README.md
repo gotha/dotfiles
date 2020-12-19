@@ -38,7 +38,7 @@ The prefix is `Ctrl + Option + Cmd`
 ln -s $DOTFILES_PATH/.tmux.conf ~/.tmux.conf
 ```
 
-start `tmux` and press `preffix` + `I` to install the required plugins
+start `tmux` and press `prefix` + `I` to install the required plugins
 
 if you want to change the `prefix` from `Ctrl+B` to `Ctrl+<space>` uncomment he first several lines and restart tmux
 
