@@ -12,3 +12,6 @@ autocmd FileType vcl setlocal ts=4 sts=4 sw=4 expandtab
 autocmd FileType xml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType java setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType conf setlocal ts=4 sts=4 sw=4 expandtab
+
+au BufNewFile,BufRead Jenkinsfile setf groovy
+autocmd FileType Jenkinsfile setlocal ts=2 sts=2 sw=2 noexpandtab
