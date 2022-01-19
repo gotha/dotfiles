@@ -199,7 +199,7 @@ type = custom/script
 tail = true
 label = %output%
 exec = /usr/bin/i3-volume listen "%i %v %p\n"
-scroll-up = /usr/bin/i3-volume down 2 && volnoti-show $(i3-volume output %v)
+scroll-up = /usr/bin/i3-volume down 2 && VOL=$(i3-volume output %v) && VOL=$(i3-volume output %v | sed -r 's/%//g') && [[ "$VOL" -eq 0 ]] && volnoti-show -m || volnoti-show $VOL
 scroll-down = /usr/bin/i3-volume up 2 && volnoti-show $(i3-volume output %v)
 click-left = /usr/bin/i3-volume mute && VOL=$(i3-volume output %v) && VOL=$(i3-volume output %v) && [[ "$VOL" -eq "MUTE" ]] && volnoti-show -m || volnoti-show $VOL
 click-right = pavucontrol &
