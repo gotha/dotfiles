@@ -45,7 +45,7 @@ font-3 = symbola:fontformat=truetype:size=8
 
 modules-left = bspwm i3
 modules-center = date
-modules-right = pulseaudio xkeyboard
+modules-right = spotify i3-volume xkeyboard
 
 tray-position = right
 tray-padding = 2
@@ -182,6 +182,27 @@ interval = 5
 ; Right and Middle click
 click-right = pavucontrol
 
+[module/spotify]
+type = custom/script
+interval = 1
+format-prefix = " "
+format = <label>
+exec = python ~/.config/polybar/scripts/spotify_status.py -f '{artist}: {song}'
+format-underline = #1db954
+;control players (optional)
+click-left = playerctl --player=spotify play-pause
+click-right = playerctl --player=spotify next
+click-middle = playerctl --player=spotify previous
+
+[module/i3-volume]
+type = custom/script
+tail = true
+label = %output%
+exec = /usr/bin/i3-volume listen "%i %v %p\n"
+scroll-up = /usr/bin/i3-volume down 2 && volnoti-show $(i3-volume output %v)
+scroll-down = /usr/bin/i3-volume up 2 && volnoti-show $(i3-volume output %v)
+click-left = /usr/bin/i3-volume mute && VOL=$(i3-volume output %v) && VOL=$(i3-volume output %v) && [[ "$VOL" -eq "MUTE" ]] && volnoti-show -m || volnoti-show $VOL
+click-right = pavucontrol &
 [settings]
 screenchange-reload = true
 ;compositing-background = xor
