@@ -65,17 +65,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  osx
   vi-mode
-#  aws
-#  brew
-#  go 	
-#  golang
-#  helm
-#  iterm2
-#  node
-#  npm
-#  vault
+  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -97,9 +88,6 @@ export LANG=en_US.UTF-8
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -118,30 +106,18 @@ autoload -U compinit
 compinit
 
 NPM_PACKAGES="${HOME}/.npm-packages"
+export PATH="$PATH:$NPM_PACKAGES/bin"
+export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
-export PATH="$NPM_PACKAGES/bin:$PATH"
 
 # Unset manpath so we can inherit from /etc/manpath via the `manpath` command
 unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
-alias gft='cd ~/go/src/github.com/Financial-Times/'
-
-
-alias kc='kubectl'
-alias kbc='kubectl'
-
-alias kci='kubectl cluster-info'
-alias kgp='kubectl get pods'
-alias kdp="kubectl describe pod"
-
-alias kgd='kubectl get deploy'
-alias kdd='kubectl describe deployment'
-alias kgs='kubectl get secrets'
-alias kgc='kubectl get cm'
-
-alias ksd='kubectl scale deploy '
-alias kss='kubectl scale statefulset'
+[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
+source /usr/share/nvm/nvm.sh
+source /usr/share/nvm/bash_completion
+source /usr/share/nvm/install-nvm-exec
 
 alias gs="git status"
 alias gc="git commit"
@@ -152,14 +128,10 @@ alias gl="git log"
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/go/bin:$PATH
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
 alias uuidgen="uuidgen | tr '[:upper:]' '[:lower:]' | tr -d '\n'"
 alias vim="nvim"
 
-export PATH="$PATH:/Users/gotha/.cargo/bin"
-
-export KUBECONFIG=$HOME/.kube/eks-kubeconfig
-
-export PATH="$HOME/.symfony/bin:$PATH"
-
+if [ $OSTYPE = "linux-gnu" ]; then
+	alias pbcopy='xclip -selection clipboard'
+	alias pbpaste='xclip -selection clipboard -o'
+fi
