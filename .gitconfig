@@ -7,3 +7,5 @@
 	gpgsign = false
 [diff]
 	tool = vimdiff
+[init]
+	defaultBranch = main
