@@ -7,3 +7,6 @@ autocmd FileType go nnoremap ,p  <Esc>:-1read $HOME/.config/nvim/snippets/go/pac
 autocmd FileType go nnoremap ,e  <Esc>:read $HOME/.config/nvim/snippets/go/err.go<CR>:GoFmt<CR>ji
 autocmd FileType go nnoremap ,d  <Esc>:read $HOME/.config/nvim/snippets/go/dump.go<CR>:GoFmt<CR>f)i,
 autocmd FileType go nnoremap ,s  <Esc>:read $HOME/.config/nvim/snippets/go/dump_full.go<CR>:GoFmt<CR>jf)i,
+
+" JS snippets
+autocmd FileType javascript nnoremap ,d  <Esc>:-1read $HOME/.config/nvim/snippets/js/consolelog.js<CR>f)i
