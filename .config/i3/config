@@ -208,3 +208,8 @@ bindsym $mod+Shift+x exec i3exit lock && xset dpms force off
 focus_follows_mouse no
 
 bindsym $mod+Shift+s exec deepin-screenshot
+
+# xprop | grep -i 'class' # to see the class of a window
+for_window [class="1Password"] floating enable
+for_window [class="Transmission-gtk"] floating enable
+for_window [class="Spotify"] floating enable, resize set width 1920, resize set height 1080
