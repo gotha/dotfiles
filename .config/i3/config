@@ -212,7 +212,8 @@ bindsym $mod+Shift+x exec i3exit lock && xset dpms force off
 
 focus_follows_mouse no
 
-bindsym $mod+Shift+s exec deepin-screenshot
+# take screenshot, save it to Desktop and copy it to clipboard
+bindsym --release $mod+Shift+s exec "scrot --select --file ~/Desktop/Screenshot-%Y-%m-%d-%T.png -e 'xclip -t image/png $f -sel clip'"
 
 # xprop | grep -i 'class' # to see the class of a window
 for_window [class="Steam"] floating enable
