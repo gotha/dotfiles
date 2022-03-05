@@ -215,8 +215,19 @@ focus_follows_mouse no
 bindsym $mod+Shift+s exec deepin-screenshot
 
 # xprop | grep -i 'class' # to see the class of a window
-for_window [class="1Password"] floating enable
-for_window [class="Transmission-gtk"] floating enable
 for_window [class="Steam"] floating enable
-for_window [class="Spotify"] floating enable, resize set width 1920, resize set height 1080
 for_window [class="Pavucontrol"] floating enable, resize set width 960, resize set height 480
+
+for_window [class="Slack"] move container to workspace 3
+for_window [class="discord"] move container to workspace 3
+for_window [class="Skype"] move container to workspace 3
+for_window [class="Signal"] move container to workspace 3
+for_window [class="Microsoft Teams - Preview"] move container to workspace 3
+
+for_window [class="1Password"] floating enable, move container to workspace 4
+for_window [class="Transmission-gtk"] floating enable, move container to workspace 4
+for_window [class="Spotify"] floating enable, resize set width 1920, resize set height 1080, move container to workspace 4
+
+exec --no-startup-id i3-msg 'exec gnome-terminal; exec firefox;'
+exec --no-startup-id i3-msg 'exec slack; exec teams --disable-seccomp-filter-sandbox %U; exec discord; exec skypeforlinux; exec signal-desktop;'
+exec --no-startup-id i3-msg 'exec 1password; exec spotify; exec transmission-gtk'
