@@ -215,6 +215,9 @@ focus_follows_mouse no
 # take screenshot, save it to Desktop and copy it to clipboard
 bindsym --release $mod+Shift+s exec "scrot --select --file ~/Desktop/Screenshot-%Y-%m-%d-%T.png -e 'xclip -t image/png $f -sel clip'"
 
+# focus to latest urgent
+bindsym $mod+x [urgent=latest] focus
+
 # xprop | grep -i 'class' # to see the class of a window
 for_window [class="Steam"] floating enable
 for_window [class="Pavucontrol"] floating enable, resize set width 960, resize set height 480
