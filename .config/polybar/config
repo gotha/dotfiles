@@ -17,10 +17,11 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/example]
-monitor = ${env:MONITOR:HDMI-1}
+;monitor = ${env:MONITOR:DP-3}
+monitor = ${env:MONITOR:HDMI-2}
 width = 100%
-height = 27
-radius = 6.0
+height = 24
+radius = 1
 fixed-center = false
 
 background = ${colors.background}
@@ -40,15 +41,14 @@ module-margin-right = 2
 
 font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = wuncon siji:size=30:pixelsize=50;1
+font-2 = NotoEmoji:scale=10;0
 font-3 = symbola:fontformat=truetype:size=8
 
-modules-left = bspwm i3
-modules-center = date
-modules-right = spotify i3-volume xkeyboard
+modules-left = menu i3 xwindow
+modules-right = polytiramisu github spotify i3-volume xkeyboard date
 
-tray-position = right
-tray-padding = 2
+; tray-position = right
+; tray-padding = 2
 
 [module/memory]
 type = internal/memory
@@ -66,18 +66,18 @@ interval = 0.5
 
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:30:...%
+label = %title:0:300:...%
+format-underline = #ffb52a
 
 [module/xkeyboard]
 type = internal/xkeyboard
 blacklist-0 = num lock
 
-;format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
 label-layout = %layout%
-label-layout-underline = ${colors.secondary}
+label-layout-underline = #1db954
 
 label-indicator-padding = 2
 label-indicator-margin = 1
@@ -152,13 +152,12 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 type = internal/date
 interval = 5
 
-date = "%d %b"
-date-alt = " %Y-%m-%d"
+date = "📅 %d %b"
+;date-alt = " %Y-%m-%d"
 
-time = %H:%M
-time-alt = %H:%M:%S
+time = "🕐 %H:%M"
+;time-alt = %H:%M:%S
 
-format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
@@ -185,7 +184,7 @@ click-right = pavucontrol
 [module/spotify]
 type = custom/script
 interval = 1
-format-prefix = " "
+format-prefix = "📻 "
 format = <label>
 exec = python ~/.config/polybar/scripts/spotify_status.py -f '{artist}: {song}'
 format-underline = #1db954
@@ -198,11 +197,38 @@ click-middle = playerctl --player=spotify previous
 type = custom/script
 tail = true
 label = %output%
-exec = /usr/bin/i3-volume listen "%i %v %p\n"
-scroll-up = /usr/bin/i3-volume down 2 && VOL=$(i3-volume output %v) && VOL=$(i3-volume output %v | sed -r 's/%//g') && [[ "$VOL" -eq 0 ]] && volnoti-show -m || volnoti-show $VOL
-scroll-down = /usr/bin/i3-volume up 2 && volnoti-show $(i3-volume output %v)
-click-left = /usr/bin/i3-volume mute && VOL=$(i3-volume output %v) && VOL=$(i3-volume output %v) && [[ "$VOL" -eq "MUTE" ]] && volnoti-show -m || volnoti-show $VOL
+exec = /usr/bin/i3-volume listen "🔊 %v\n"
+scroll-up = /usr/bin/i3-volume up 2
+scroll-down = /usr/bin/i3-volume down 2
+click-left = /usr/bin/i3-volume mute
 click-right = pavucontrol &
+
+format-underline = #ffb52a
+
+[module/polytiramisu]
+type = custom/script
+exec = ~/.config/polybar/scripts/polytiramisu/polytiramisu.sh
+format = <label>
+tail = true
+
+[module/github]
+type = internal/github
+
+token = ${file:~/.config/polybar/github-notifications-token.txt}
+;token = ${env:GITHUB_ACCESS_TOKEN}
+user = gotha
+; Whether empty notifications should be displayed or not
+empty-notifications = false
+; Number of seconds in between requests
+interval = 30
+api-url = https://api.github.com/
+
+format = <label>
+; Default: Notifications: %notifications%
+label = %{A1:xdg-open 'https\://github.com/notifications':} github: %notifications% %{A}
+format-offline = <label-offline>
+format-underline = #ffb52a
+
 [settings]
 screenchange-reload = true
 ;compositing-background = xor
