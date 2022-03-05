@@ -68,8 +68,13 @@ bindsym $mod+d exec --no-startup-id rofi -show combi -show-icons
 # start polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-# keyb config
-exec_always --no-startup-id $HOME/.config/i3/scripts/kbd.sh
+# keyboard config
+# xset r rate 660 25 # default <repeat delay>/<repeat rate>; `xset -q` to see current settings
+exec_always --no-startup-id xset r rate 400 80
+
+exec_always --no-startup-id xmodmap -e "clear lock"
+exec_always --no-startup-id xmodmap -e "keycode 9 = grave NoSymbol grave" # set escape to grave/tilda
+exec_always --no-startup-id xmodmap -e "keycode 66 = Escape NoSymbol Escape" # set caps lock to escape
 
 
 # change focus
@@ -214,3 +219,4 @@ for_window [class="1Password"] floating enable
 for_window [class="Transmission-gtk"] floating enable
 for_window [class="Steam"] floating enable
 for_window [class="Spotify"] floating enable, resize set width 1920, resize set height 1080
+for_window [class="Pavucontrol"] floating enable, resize set width 960, resize set height 480
