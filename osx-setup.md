@@ -18,7 +18,6 @@ brew install \
   checkstyle \
   cloc \
   curl \
-  curl-openssl \
   docker \
   docker-compose \
   eksctl \
@@ -39,7 +38,7 @@ brew install \
   hugo \
   iterm2 \
   jq \
-  kafkacat \
+  kcat \
   karabiner-elements \
   keka \
   kubectx \
@@ -67,15 +66,8 @@ brew install \
   zsh
 ```
 
-Install Virtualbox separately since it requires special permissions.
-
 ```sh
-brew install virtualbox
-```
-
-And when we are done with it, we can install docker desktop
-```sh
-brew cask install docker
+brew install --cask transmission
 ```
 
 ## Config
@@ -89,7 +81,31 @@ defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 
 [sauce](https://apple.stackexchange.com/questions/10467/how-to-increase-keyboard-key-repeat-rate-on-os-x)
 
+## Move dock to the left
 
-## Polish 
+Move Dock to the left and set it to hide itself
 
-follow the [README](./README.md) to configure your tools with the dotfiles.
+```sh
+defaults write com.apple.dock orientation left
+defaults write com.apple.dock autohide -bool TRUE
+```
+
+Enable Mission Control on top left hot corner
+
+```sh
+defaults write com.apple.dock wvous-tl-corner -int 2
+defaults write com.apple.dock wvous-tl-modifier -int 0
+```
+
+Minimize apps to application icon
+
+```sh
+defaults write com.apple.dock minimize-to-application -bool TRUE
+```
+
+Restart Dock to take effect
+
+```sh
+killall Dock
+```
+
