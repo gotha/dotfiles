@@ -135,3 +135,8 @@ if [ $OSTYPE = "linux-gnu" ]; then
 	alias pbcopy='xclip -selection clipboard'
 	alias pbpaste='xclip -selection clipboard -o'
 fi
+
+
+if [[ "$OSTYPE" =~ darwin ]]; then
+	export HOMEBREW_NO_AUTO_UPDATE=1
+fi
