@@ -1,6 +1,5 @@
 # My OSX Setup
 
-updated for Big Sur 
 
 ## Apps 
 
@@ -11,7 +10,7 @@ These are my base apps
 ```sh
 brew install \
   1password \
-  alfred3 \
+  alfred \
   authy \
   basictex \
   cfn-lint \
@@ -109,3 +108,10 @@ Restart Dock to take effect
 killall Dock
 ```
 
+## Accessibility
+
+Enable 3 finger drag:
+
+```sh
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool TRUE
+```
