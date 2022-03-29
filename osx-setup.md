@@ -115,3 +115,9 @@ Enable 3 finger drag:
 ```sh
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool TRUE
 ```
+
+Set shortcut for changing keyboard layout to `Option` + `Space`:
+
+```
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 "{enabled = 1; value = { parameters = (32, 49, 524288); type = 'standard'; }; }"
+```
