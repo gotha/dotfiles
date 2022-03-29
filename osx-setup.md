@@ -10,6 +10,7 @@ These are my base apps
 ```sh
 brew install \
   1password \
+  1password-cli \
   alfred \
   authy \
   basictex \
