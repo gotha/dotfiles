@@ -5,7 +5,13 @@
 
 First install [homebrew](https://brew.sh/)
 
-These are my base apps
+If you are on Apple Silicon, install Rosetta 2:
+
+```sh
+/usr/sbin/softwareupdate --install-rosetta --agree-to-license
+```
+
+These are my base apps:
 
 ```sh
 brew install \
@@ -81,7 +87,13 @@ defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 
 [sauce](https://apple.stackexchange.com/questions/10467/how-to-increase-keyboard-key-repeat-rate-on-os-x)
 
-## Move dock to the left
+### Dock tweaks
+
+Remove all apps from the Dock:
+
+```sh
+defaults write com.apple.dock persistent-apps -array
+```
 
 Move Dock to the left and set it to hide itself
 
@@ -109,7 +121,7 @@ Restart Dock to take effect
 killall Dock
 ```
 
-## Accessibility
+### Accessibility
 
 Enable 3 finger drag:
 
