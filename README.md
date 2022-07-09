@@ -73,33 +73,33 @@ The prefix is `Ctrl + Option + Cmd`
 
 | shortcut               | effect                                                                  |
 | -----------------------|-------------------------------------------------------------------------|
-| `prefix + 0`           | "maximize" or resize current window                                     |
-| `prefix + 9`           | send window to the other screen (assumes that you have only 2 monitors) |
-| `prefix + left arrow`  | resize window to fit into the left half of the screen                   |
-| `prefix + right arrow` | resize window to fit into the right half of the screen                  |
-| `prefix + up arrow`    | resize window to fit into the top half of the screen                    |
-| `prefix + down arrow`  | resize window to fit into the bottom half of the screen                 |
+| `prefix` + `0`         | "maximize" or resize current window                                     |
+| `prefix` + `9`         | send window to the other screen (assumes that you have only 2 monitors) |
+| `prefix` + ➡️           | resize window to fit into the right half of the screen                   |
+| `prefix` + ⬅️           | resize window to fit into the left half of the screen                  |
+| `prefix` + ⬆️           | resize window to fit into the top half of the screen                    |
+| `prefix` + ⬇️           | resize window to fit into the bottom half of the screen                 |
 
 ## Tmux
 
 The prefix in this configuration is `Ctrl + Space`
 
 
-| shortcut               | effect                                                                  |
-| -----------------------|-------------------------------------------------------------------------|
-| `prefix + |`           | split vertically |
-| `prefix + _`           | split horizontaly |
-| `prefix + h|j|k|l`  	 | move to panel in the selected direction (vim style) |
-| `prefix + H|J|K|L`  	 | resize panel in selected direction (vim style)|
-| `prefix + c`  	 | create new workspace (tab) |
-| `prefix + C`  	 | create new window |
-| `prefix + n`  	 | next window |
-| `prefix + p`  	 | previous window |
-| `prefix + w`  	 | view all windows |
-| `prefix + S`  	 | save current session |
-| `prefix + R`  	 | restore last saved session (useful after restart) |
-| `prefix + d`  	 | detach from current tmux session (you can reattach with `tmux attach`) |
-| `prefix + [`  	 | enter in normal mode (navigate with hjkl, select text with `shift + v` and copy with `y`)|
-| `prefix + {`  	 | switch the places of left and right panel |
+| shortcut                    | effect                                                      |
+| ----------------------------|-------------------------------------------------------------|
+| `prefix` + `\|`             | split vertically                                            |
+| `prefix` + `_`              | split horizontaly                                           |
+| `prefix` + `h` `j` `k` `l`  | move to panel in the selected direction (vim style)         |
+| `prefix` + `H` `J` `K` `L`  | resize panel in selected direction (vim style)              |
+| `prefix` + `c`  	      | create new workspace (tab)                                  |
+| `prefix` + `C`  	      | create new window                                           |
+| `prefix` + `n`  	      | next window                                                 |
+| `prefix` + `p`    	      | previous window                                             |
+| `prefix` + `w`  	      | view all windows                                            |
+| `prefix` + `S`  	      | save current session                                        |
+| `prefix` + `R`  	      | restore last saved session (useful after restart)           |
+| `prefix` + `d`  	      | detach from current tmux session (you can reattach with `tmux attach`) |
+| `prefix` + `[`  	      | enter in normal mode (navigate with hjkl, select text with `shift + v` and copy with `y`)|
+| `prefix` + `{`  	      | switch the places of left and right panel                   |
 
 
