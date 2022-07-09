@@ -56,6 +56,7 @@ brew install \
   ncurses \
   node \
   nvim \
+  nvm \
   pandoc \
   php \
   postman \
@@ -64,6 +65,7 @@ brew install \
   skype \
   slack \
   spotify \
+  stow \
   the_silver_searcher \
   tmux \
   transmission \

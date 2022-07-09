@@ -1,25 +1,73 @@
 # My dotfiles
 
-## Prep 
+## Install
 
-set env variable for where the dotfiles repo is cloned
+Install [stow](https://www.gnu.org/software/stow/) first.
 
 ```sh
 git clone git@github.com:gotha/dotfiles.git ~/Document/dotfiles
 cd ~/Documents/dotfiles
-DOTFILES_PATH=$(pwd)
+stow -t ~ .
 ```
 
-## Hammerspoon
+### neovim
 
-### Configure
+Install [vim-plug](https://github.com/junegunn/vim-plug)
+
+```
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+Install all vim plugins
+
+```
+nvim +PlugInstall +qall
+```
+
+
+plugin dependencies:
+
+[vim-livedown](https://github.com/shime/vim-livedown) plugin depends on [livedown](https://github.com/shime/livedown)
 
 ```sh
-rm -rf ~/.hammerspoon
-ln -s $DOTFILES_PATH/.hammerspoon ~/.hammerspoon
+npm install -g livedown
 ```
 
-### Cheatsheet
+[mileszs/ack.vim](https://github.com/mileszs/ack.vim) uses [the_silver_searcher](https://github.com/ggreer/the_silver_searcher) so you have to install it.
+
+### tmux
+
+Start `tmux` and press `prefix` + `I` (shift + i) to install the required plugins.
+
+
+### zsh
+
+Install `zsh` via package manager (it is installed by default on modern osx)
+
+[ohmyzsh](https://ohmyz.sh/#install)
+
+```sh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+[powerlevele10k](https://github.com/romkatv/powerlevel10k#oh-my-zsh)
+
+```sh
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+[zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+
+```
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+
+
+## Usage
+
+### Hammerspoon
 
 The prefix is `Ctrl + Option + Cmd`
 
@@ -32,53 +80,26 @@ The prefix is `Ctrl + Option + Cmd`
 | `prefix + up arrow`    | resize window to fit into the top half of the screen                    |
 | `prefix + down arrow`  | resize window to fit into the bottom half of the screen                 |
 
-## Tmux 
+## Tmux
 
-```sh
-ln -s $DOTFILES_PATH/.tmux.conf ~/.tmux.conf
-```
-
-start `tmux` and press `prefix` + `I` to install the required plugins
-
-if you want to change the `prefix` from `Ctrl+B` to `Ctrl+<space>` uncomment he first several lines and restart tmux
+The prefix in this configuration is `Ctrl + Space`
 
 
-! Note: If you are using OSX, By default `Ctrl+<space>` is used as shortcut for switching between 'input sources' (a.k.a the keyboard layout), if you want to use it as tmux prefix you have to change the shortcut to something else, I personally change it to `Option+<space>`.
+| shortcut               | effect                                                                  |
+| -----------------------|-------------------------------------------------------------------------|
+| `prefix + |`           | split vertically |
+| `prefix + _`           | split horizontaly |
+| `prefix + h|j|k|l`  	 | move to panel in the selected direction (vim style) |
+| `prefix + H|J|K|L`  	 | resize panel in selected direction (vim style)|
+| `prefix + c`  	 | create new workspace (tab) |
+| `prefix + C`  	 | create new window |
+| `prefix + n`  	 | next window |
+| `prefix + p`  	 | previous window |
+| `prefix + w`  	 | view all windows |
+| `prefix + S`  	 | save current session |
+| `prefix + R`  	 | restore last saved session (useful after restart) |
+| `prefix + d`  	 | detach from current tmux session (you can reattach with `tmux attach`) |
+| `prefix + [`  	 | enter in normal mode (navigate with hjkl, select text with `shift + v` and copy with `y`)|
+| `prefix + {`  	 | switch the places of left and right panel |
 
-
-## Vim/NeoVim
-
-First install [vim-plug](https://github.com/junegunn/vim-plug)
-
-then open `nvim` and run `:PlugInstall`
-
-### Plugin dependencies
-
-#### Livedown
-
-[shime/livedown](https://github.com/shime/vim-livedown) plugin depends on `livedown`
-
-```sh
-npm install -g livedown
-```
-
-#### Ack 
-
-[mileszs/ack.vim](https://github.com/mileszs/ack.vim) uses [the_silver_searcher](https://github.com/ggreer/the_silver_searcher) so you have to install it. 
-
-For OSX:
-
-```sh
-brew install the_silver_searcher
-```
-
-For Arch:
-
-```sh
-pacman -S the_silver_searcher
-```
-
-## Zsh
-
-install `zsh` via package manager, [ohmyzsh](https://ohmyz.sh/#install) and [powerlevele10k](https://github.com/romkatv/powerlevel10k#oh-my-zsh)
 
