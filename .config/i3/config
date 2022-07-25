@@ -13,10 +13,12 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-# font pango:monospace 8
+#f ont pango:monospace 8
 
-# I do not want to have title, so just sent font size to 0
+# Remove window titles
 font pango:monospace 0
+for_window [class=".*"] border pixel 0
+for_window [class="^.*"] border pixel 2
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -57,7 +59,7 @@ bindsym $mod+Shift+q kill
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
 bindsym $mod+d exec --no-startup-id rofi -show combi -show-icons
-bindsym $mod+g exec "rofi -show window"
+#bindsym $mod+g exec "rofi -show window"
 
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
@@ -79,6 +81,11 @@ exec_always --no-startup-id xset r rate 400 80
 exec_always --no-startup-id xmodmap -e "clear lock"
 exec_always --no-startup-id xmodmap -e "keycode 9 = grave NoSymbol grave" # set escape to grave/tilda
 exec_always --no-startup-id xmodmap -e "keycode 66 = Escape NoSymbol Escape" # set caps lock to escape
+
+# i3-gaps
+gaps inner 5
+gaps outer 0
+smart_gaps on
 
 
 # change focus
