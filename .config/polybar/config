@@ -21,6 +21,8 @@ alert = #bd2c40
 monitor = ${env:MONITOR:HDMI-2}
 width = 100%
 height = 24
+;offset-x = 1%
+;offset-y = 1%
 radius = 1
 fixed-center = false
 
@@ -44,8 +46,8 @@ font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = NotoEmoji:scale=10;0
 font-3 = symbola:fontformat=truetype:size=8
 
-modules-left = menu i3 xwindow
-modules-right = polytiramisu github spotify i3-volume xkeyboard date
+modules-left = i3 xwindow
+modules-right = github spotify i3-volume xkeyboard date
 
 ; tray-position = right
 ; tray-padding = 2
@@ -64,6 +66,15 @@ type = internal/cpu
 ; Default: 1
 interval = 0.5
 
+format = <label>
+
+; Available tokens:
+;   %percentage% (default) - total cpu load averaged over all cores
+;   %percentage-sum% - Cumulative load on all cores
+;   %percentage-cores% - load percentage for each core
+;   %percentage-core[1-9]% - load percentage for specific core
+label =  %percentage%
+
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:300:...%
@@ -73,10 +84,12 @@ format-underline = #ffb52a
 type = internal/xkeyboard
 blacklist-0 = num lock
 
+;format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
 label-layout = %layout%
+;label-layout-underline = ${colors.secondary}
 label-layout-underline = #1db954
 
 label-indicator-padding = 2
@@ -158,8 +171,12 @@ date = "📅 %d %b"
 time = "🕐 %H:%M"
 ;time-alt = %H:%M:%S
 
+;format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
+;format-background = "#666"
+;format-pading = 5
+;label-font = 6
 
 label = %date% %time%
 
