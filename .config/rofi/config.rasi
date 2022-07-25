@@ -1,6 +1,6 @@
 configuration {
  modi: "window,drun,ssh,combi,emoji";
  font: "hack 10";
- combi-modi: "window,drun,ssh,emoji";
- }
+ combi-modi: "window,drun,emoji";
+}
 @theme "solarized"
