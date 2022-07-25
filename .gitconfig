@@ -9,3 +9,5 @@
 	tool = vimdiff
 [init]
 	defaultBranch = main
+[push]
+	autoSetupRemote = true
