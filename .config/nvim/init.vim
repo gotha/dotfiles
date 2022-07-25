@@ -1,8 +1,14 @@
 set nocompatible " be iMproved, required
 filetype off     " required
 
-"set clipboard+=unnamed
-set clipboard+=unnamedplus
+if has('macunix')
+  set clipboard+=unnamedplus
+endif
+
+if has('unix')
+  set clipboard^=unnamed,unnamedplus
+endif
+
 set nu
 
 let mapleader=" "
@@ -43,9 +49,10 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'Rigellute/rigel'
 Plug 'vim-airline/vim-airline'
 "
-Plug 'neovim/nvim-lspconfig'
+"Plug 'neovim/nvim-lspconfig'
 
 Plug 'udalov/kotlin-vim'
+Plug 'sbdchd/neoformat'
 
 call plug#end()
 
@@ -56,6 +63,7 @@ source ~/.config/nvim/misc/spellcheck.vim
 source ~/.config/nvim/misc/snippets.vim
 source ~/.config/nvim/misc/json-format.vim
 source ~/.config/nvim/misc/filetypes.vim
+source ~/.config/nvim/misc/typescript-playground.vim
 source ~/.config/nvim/misc/whitespaces.vim
 
 source ~/.config/nvim/plugins/wintabs.vim
@@ -66,6 +74,7 @@ source ~/.config/nvim/plugins/ale.vim
 source ~/.config/nvim/plugins/ack.vim
 source ~/.config/nvim/plugins/livedown.vim
 source ~/.config/nvim/plugins/markdown.vim
+source ~/.config/nvim/plugins/neoformat.vim
 
 colorscheme rigel
 
