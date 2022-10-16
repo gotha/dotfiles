@@ -85,7 +85,7 @@ exec_always --no-startup-id picom -c
 # i3-gaps
 gaps inner 5
 gaps outer 0
-smart_gaps on
+smart_gaps off
 gaps top 34
 
 # change focus
