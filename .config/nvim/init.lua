@@ -7,6 +7,7 @@ require("plugins/vim-wintabs")
 require("plugins/telescope")
 require("plugins/mason")
 require("plugins/nvim-lspconfig")
+require("plugins/nvim-cmp")
 require("plugins/nvim-lint")
 require("plugins/formatter")
 
