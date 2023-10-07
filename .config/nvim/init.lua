@@ -10,6 +10,7 @@ require("plugins/nvim-lspconfig")
 require("plugins/nvim-cmp")
 require("plugins/nvim-lint")
 require("plugins/formatter")
+require("plugins/markdown-preview")
 
 vim.cmd("set nu")
 vim.cmd("colorscheme rigel")
