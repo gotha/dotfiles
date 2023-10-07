@@ -13,6 +13,7 @@ require("plugins/formatter")
 
 vim.cmd("set nu")
 vim.cmd("colorscheme rigel")
+vim.cmd("let g:loaded_matchparen=1")
 
 require("config/clipboard")
 require("config/spellcheck")
