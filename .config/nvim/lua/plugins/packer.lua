@@ -56,5 +56,20 @@ return require("packer").startup(function(use)
 		ft = { "markdown" },
 	})
 
+	use({
+		"echasnovski/mini.surround",
+		branch = "stable",
+		config = function()
+			require("mini.surround").setup()
+		end,
+	})
+
+	use({
+		"Pocco81/auto-save.nvim",
+		config = function()
+			require("auto-save").setup()
+		end,
+	})
+
 	use("Rigellute/rigel")
 end)
