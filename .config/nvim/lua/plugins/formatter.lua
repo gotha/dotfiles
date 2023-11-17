@@ -96,6 +96,21 @@ require("formatter").setup({
 				}
 			end,
 		},
+		graphql = {
+			function()
+				return {
+					exe = "prettier", -- change this to your prettier path
+					args = {
+						"--config-precedence",
+						"prefer-file",
+						"--print-width",
+						vim.bo.textwidth,
+						"--stdin-filepath",
+						vim.fn.shellescape(vim.api.nvim_buf_get_name(0)),
+					},
+				}
+			end,
+		},
 
 		-- Use the special "*" filetype for defining formatter configurations on
 		-- any filetype
@@ -111,6 +126,6 @@ require("formatter").setup({
 vim.cmd([[
 augroup FormatAutogroup
 autocmd!
-autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go FormatWrite
+autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go,*.graphql,*.gql FormatWrite
 augroup END
 ]])
