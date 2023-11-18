@@ -78,6 +78,24 @@ require("formatter").setup({
 				}
 			end,
 		},
+		c = {
+			-- clang-format
+			function()
+				return {
+					exe = "clang-format",
+					args = { "--files=", vim.api.nvim_buf_get_name(0) },
+					stdin = true,
+				}
+			end,
+		},
+		go = {
+			function()
+				return {
+					exe = "gofumpt",
+					stdin = true,
+				}
+			end,
+		},
 
 		-- Use the special "*" filetype for defining formatter configurations on
 		-- any filetype
@@ -93,6 +111,6 @@ require("formatter").setup({
 vim.cmd([[
 augroup FormatAutogroup
 autocmd!
-autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua FormatWrite
+autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go FormatWrite
 augroup END
 ]])
