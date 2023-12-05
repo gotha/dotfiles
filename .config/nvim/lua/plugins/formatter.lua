@@ -111,6 +111,15 @@ require("formatter").setup({
 				}
 			end,
 		},
+		python = {
+			function()
+				return {
+					exe = "autopep8",
+					args = { "-" },
+					stdin = true,
+				}
+			end,
+		},
 
 		-- Use the special "*" filetype for defining formatter configurations on
 		-- any filetype
@@ -126,6 +135,6 @@ require("formatter").setup({
 vim.cmd([[
 augroup FormatAutogroup
 autocmd!
-autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go,*.graphql,*.gql FormatWrite
+autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go,*.graphql,*.gql,*.py FormatWrite
 augroup END
 ]])
