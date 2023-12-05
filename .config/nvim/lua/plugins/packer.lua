@@ -64,5 +64,7 @@ return require("packer").startup(function(use)
 		end,
 	})
 
+	use("jparise/vim-graphql")
+
 	use("Rigellute/rigel")
 end)
