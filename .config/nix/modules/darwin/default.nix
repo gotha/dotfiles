@@ -29,7 +29,7 @@
     dock.orientation = "left";
     dock.show-process-indicators = true;
     dock.show-recents = false;
-    dock.wvous-tl-corder = 2; # launch MissionControl on top left hot corner
+    dock.wvous-tl-corner = 2; # launch MissionControl on top left hot corner
     NSGlobalDomain.AppleShowAllExtensions = true;
     NSGlobalDomain.InitialKeyRepeat = 14;
     NSGlobalDomain.KeyRepeat = 1;
