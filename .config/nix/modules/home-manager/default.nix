@@ -8,6 +8,7 @@
     curl
     ffmpeg
     git
+    go
     gofumpt
     htop
     httpie
@@ -15,12 +16,14 @@
     less
     lua
     neovim
+    nodejs
     pandoc
     php
     postgis
     pyright
     qemu
     ripgrep
+    rustup
     shfmt
     stow
     stylua
