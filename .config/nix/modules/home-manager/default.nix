@@ -52,6 +52,13 @@
   programs.zsh.syntaxHighlighting.enable = true;
   programs.zsh.shellAliases = {
     ls = "ls --color=auto -F";
+    vim = "nvim";
+    gs = "git status";
+    gc = "git commit";
+    gd = "git diff";
+    ga = "git add";
+    gl = "git log";
+    uuidgen = "uuidgen | tr '[:upper:]' '[:lower:]' | tr -d '\n'";
   };
   programs.starship.enable = true;
   programs.starship.enableZshIntegration = true;
