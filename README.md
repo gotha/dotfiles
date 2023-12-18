@@ -1,6 +1,59 @@
 # My dotfiles
 
-## Install
+## Install dependencies
+
+### OSX
+
+Install tools:
+
+```sh
+xcode-select --install
+```
+
+install Nix:
+
+```sh
+sh <(curl -L https://nixos.org/nix/install)
+```
+
+install homebrew:
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+set computer name if needed
+
+```sh
+sudo scutil --set ComputerName platypus
+sudo scutil --set LocalHostName platypus
+sudo reboot
+```
+
+remove old config files if needed
+
+```sh
+sudo mv /etc/shells /etc/shells.before-nix-darwin
+```
+
+
+Start with:
+
+```sh
+cd ~/.config/nix
+nix --extra-experimental-features "nix-command flakes" build .#darwinConfigurations.platypus.system
+
+./result/sw/bin/darwin-rebuild switch --flake  .
+```
+
+from that point on, after every change run):
+
+```sh
+darwin-rebuild switch --flake .
+```
+
+
+## Install configuration
 
 Install [stow](https://www.gnu.org/software/stow/) first.
 
@@ -12,57 +65,21 @@ stow -t ~ .
 
 ### neovim
 
-Install [vim-plug](https://github.com/junegunn/vim-plug)
-
-```
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-```
-
-Install all vim plugins
-
-```
-nvim +PlugInstall +qall
-```
-
-
-plugin dependencies:
-
-[vim-livedown](https://github.com/shime/vim-livedown) plugin depends on [livedown](https://github.com/shime/livedown)
-
+Install [packer](https://github.com/wbthomason/packer.nvim)
 ```sh
-npm install -g livedown
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 ```
 
-[mileszs/ack.vim](https://github.com/mileszs/ack.vim) uses [the_silver_searcher](https://github.com/ggreer/the_silver_searcher) so you have to install it.
+Install all plugins
+
+```
+nvim +PackerSync +qall
+```
 
 ### tmux
 
 Start `tmux` and press `prefix` + `I` (shift + i) to install the required plugins.
-
-
-### zsh
-
-Install `zsh` via package manager (it is installed by default on modern osx)
-
-[ohmyzsh](https://ohmyz.sh/#install)
-
-```sh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-[powerlevele10k](https://github.com/romkatv/powerlevel10k#oh-my-zsh)
-
-```sh
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-```
-
-[zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
-
-```
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
-
 
 
 ## Usage
