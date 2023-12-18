@@ -5,6 +5,8 @@
     caddy
     checkstyle
     cloc
+    clang
+    clang-tools
     curl
     ffmpeg
     git
