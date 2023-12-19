@@ -12,6 +12,8 @@
     git
     go
     gofumpt
+    gopls
+    gnumake
     htop
     httpie
     jq
