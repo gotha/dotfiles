@@ -2,6 +2,7 @@
   home.stateVersion = "24.05";
   home.packages = with pkgs; [
     awscli
+    bison
     caddy
     checkstyle
     cloc
@@ -25,6 +26,7 @@
     php
     postgis
     pyright
+    python3
     qemu
     ripgrep
     rustup
