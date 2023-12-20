@@ -62,7 +62,6 @@
     packages = with pkgs; [
       bc
       bison
-      busybox
       cloc
       clang
       clang-tools
