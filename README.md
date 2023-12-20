@@ -81,6 +81,14 @@ nvim +PackerSync +qall
 
 Start `tmux` and press `prefix` + `I` (shift + i) to install the required plugins.
 
+### Vale
+
+```sh
+vale sync
+```
+
+to update vale styles
+
 
 ## Usage
 
