@@ -55,6 +55,7 @@
       "iterm2"
       "karabiner-elements"
       "keka"
+      "keycastr"
       "postman"
       "rar"
       "raycast"
