@@ -1,0 +1,22 @@
+
+# Docs at: https://alacritty.org/config-alacritty.html
+
+[window]
+
+opacity = 0.98
+
+padding.x = 0
+padding.y = 0
+
+decorations = "Full"
+#decorations_theme_variant = "Light" # "Dark"
+decorations_theme_variant = "Dark"
+
+[font]
+# you need nerd-fonts - https://github.com/ryanoasis/nerd-fonts
+normal.family = "FiraCode Nerd Font Propo"
+bold.family = "FiraCode Nerd Font"
+italic.family = "FiraCode Nerd Font"
+bold_italic.family = "FiraCode Nerd Font"
+
+size = 8.0
