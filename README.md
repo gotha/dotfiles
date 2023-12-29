@@ -58,8 +58,7 @@ darwin-rebuild switch --flake .
 Install [stow](https://www.gnu.org/software/stow/) first.
 
 ```sh
-git clone git@github.com:gotha/dotfiles.git ~/Document/dotfiles
-cd ~/Documents/dotfiles
+git clone git@github.com:gotha/dotfiles.git && cd dotfiles
 stow -t ~ .
 ```
 
@@ -89,6 +88,16 @@ vale sync
 
 to update vale styles
 
+### Firefox
+
+to hide tab bar open `about:config` and enable `toolkit.legacyUserProfileCustomizations.stylesheets`
+
+```sh
+cd ~/.mozilla/firefox/$(ls -d *.default-*)
+mkdir -pv chrome
+cd chrome
+cp /path-to-dotfiles/.mozilla/firefox/xxx.profile-xxx/chrome/userChrome.css .
+```
 
 ## Usage
 
