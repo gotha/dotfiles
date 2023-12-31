@@ -76,7 +76,7 @@ plugins=(
   zsh-autosuggestions
 )
 
-source $ZSH/oh-my-zsh.sh
+#source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -107,9 +107,9 @@ source $ZSH/oh-my-zsh.sh
 alias vim="nvim"
 
 [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
-source /usr/share/nvm/nvm.sh
-source /usr/share/nvm/bash_completion
-source /usr/share/nvm/install-nvm-exec
+# source /usr/share/nvm/nvm.sh
+# source /usr/share/nvm/bash_completion
+# source /usr/share/nvm/install-nvm-exec
 
 alias gs="git status"
 alias gc="git commit"
@@ -120,12 +120,18 @@ alias gl="git log"
 NPM_PACKAGES="${HOME}/.npm-packages"
 export PATH="$PATH:$NPM_PACKAGES/bin"
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+export PATH="$PATH:${HOME}/.local/bin"
 
-export PATH=/usr/local/bin:$PATH
-export PATH=$HOME/go/bin:$PATH
+#export LC_ALL=POSIX
+#export LFS=/mnt/lfs
+#export LFS_TGT=$(uname -m)-lfs-linux-gnu
+#export CONFIG_SITE=$LFS/usr/share/config.site
+#export PATH=$LFS/tools/bin:$PATH
+#export NPROC=$(nproc)
+#export MAKEFLAGS="-j$NPROC"
+#umask 022
 
-alias uuidgen="uuidgen | tr '[:upper:]' '[:lower:]' | tr -d '\n'"
-alias vim="nvim"
+source "$HOME/.cargo/env"
 
 if [ $OSTYPE = "linux-gnu" ]; then
   if [ $XDG_SESSION_TYPE = "wayland" ]; then

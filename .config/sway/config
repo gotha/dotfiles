@@ -68,6 +68,7 @@ output HDMI-A-2 scale 1.0
 
 input type:keyboard {
     xkb_layout "ducky-one-2sf",bg
+    #xkb_layout us,bg
     #xkb_options "grp:alt_space_toggle,caps:escape"
     xkb_options "grp:win_space_toggle,caps:escape"
 
@@ -79,6 +80,17 @@ input type:touchpad {
     tap enabled
     natural_scroll enabled
 }
+
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86Search exec bemenu-run
 
 ### Key bindings
 #
