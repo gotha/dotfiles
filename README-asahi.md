@@ -47,6 +47,21 @@ light -s sysfs/leds/kbd_backlight -S 10
 light -s sysfs/backlight/apple-panel-bl -S 50
 ```
 
+## backlight and volume OSD
+
+Detailed instructions here - https://github.com/francma/wob/tree/master/contrib
+
+```sh
+sudo dnf install wob
+mkdir -pv ~/.local/share/systemd/user/
+curl https://raw.githubusercontent.com/francma/wob/master/contrib/systemd/wob.service -o ~/.local/share/systemd/user/wob.service
+curl https://raw.githubusercontent.com/francma/wob/master/contrib/systemd/wob.socket -o ~/.local/share/systemd/user/wob.socket
+
+systemctl daemon-reload --user
+systemctl --user enable --now wob.socket
+systemctl --user enable --now wob
+```
+
 ## start graphical interface automatically
 
 In case you chose Asahi Fedora 'minimal' install, it wont automatically start the GUI
