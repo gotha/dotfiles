@@ -14,25 +14,30 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term foot
+#set $term foot
+set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
+# set $menu dmenu_path | dmenu | xargs swaymsg exec --
+#set $menu dmenu_path | dmenu -m 0 | xargs swaymsg exec --
+set $menu rofi -show combi -show-icons
 
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg ~/Pictures/wallpapers/asahi-rainbow.png fill
+#output * bg ~/Pictures/wallpapers/asahi-rainbow.png fill
+output * bg ~/Pictures/wallpapers/cyberpunk.jpg fill
 #
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-output eDP-1 scale 1.5
+#output eDP-1 scale 1.5
+output HDMI-A-2 scale 1.0
 
 ### Idle configuration
 #
@@ -62,7 +67,8 @@ output eDP-1 scale 1.5
 # Read `man 5 sway-input` for more information about this section.
 
 input type:keyboard {
-    xkb_layout "ducky-one-2sf",bg
+    xkb_layout "ducky-one-2sf"
+    xkb_layout us,bg
     #xkb_options "grp:alt_space_toggle,caps:escape"
     xkb_options "grp:win_space_toggle,caps:escape"
 
@@ -86,9 +92,7 @@ input type:touchpad {
     bindsym $mod+Shift+q kill
 
     # Start your launcher
-    #bindsym $mod+d exec $menu
-    bindsym $mod+d exec --no-startup-id rofi -show combi -show-icons
-
+    bindsym $mod+d exec $menu
 
 
     # Drag floating windows by holding down $mod and left mouse button.
@@ -221,6 +225,7 @@ bindsym $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
+    #swaybar_command waybar
     position top
 
     # When the status_command prints a new line to stdout, swaybar updates.
