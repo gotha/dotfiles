@@ -128,8 +128,13 @@ alias uuidgen="uuidgen | tr '[:upper:]' '[:lower:]' | tr -d '\n'"
 alias vim="nvim"
 
 if [ $OSTYPE = "linux-gnu" ]; then
-  alias pbcopy='xclip -selection clipboard'
-  alias pbpaste='xclip -selection clipboard -o'
+  if [ $XDG_SESSION_TYPE = "wayland" ]; then
+    alias pbcopy='wl-copy'
+    alias pbpaste='wp-paste'
+  else
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
+  fi
 fi
 
 # opam configuration
