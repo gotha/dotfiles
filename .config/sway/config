@@ -67,13 +67,16 @@ output HDMI-A-2 scale 1.0
 # Read `man 5 sway-input` for more information about this section.
 
 input type:keyboard {
-    xkb_layout "ducky-one-2sf",bg
-    #xkb_layout us,bg
-    #xkb_options "grp:alt_space_toggle,caps:escape"
-    xkb_options "grp:win_space_toggle,caps:escape"
+    xkb_layout us,bg
+    xkb_options "grp:alt_space_toggle,caps:escape"
 
     repeat_delay 250
     repeat_rate 45
+}
+
+input "1046:291:Ducky_Ducky_One2_SF_RGB" {
+    xkb_layout "ducky-one-2sf",bg
+    xkb_options "grp:win_space_toggle,caps:escape"
 }
 
 input type:touchpad {
