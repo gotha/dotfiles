@@ -52,7 +52,9 @@ alias gd="git diff"
 alias ga="git add"
 alias gl="git log"
 
-source "$HOME/.cargo/env"
+if [ -f "$HOME/.cargo/env" ]; then
+  source "$HOME/.cargo/env"
+fi
 
 if [ $OSTYPE = "linux-gnu" ]; then
   if [ $XDG_SESSION_TYPE = "wayland" ]; then
