@@ -20,6 +20,7 @@
     jq
     less
     lua
+    ncdu
     neovim
     nodejs
     pandoc
@@ -52,20 +53,6 @@
   programs.fzf.enableZshIntegration = true;
   programs.eza.enable = true;
   programs.git.enable = true;
-  programs.zsh.enable = true;
-  programs.zsh.enableCompletion = true;
-  programs.zsh.enableAutosuggestions = true;
-  programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.shellAliases = {
-    ls = "ls --color=auto -F";
-    vim = "nvim";
-    gs = "git status";
-    gc = "git commit";
-    gd = "git diff";
-    ga = "git add";
-    gl = "git log";
-    uuidgen = "uuidgen | tr '[:upper:]' '[:lower:]' | tr -d '\n'";
-  };
   programs.starship.enable = true;
   programs.starship.enableZshIntegration = true;
   programs.alacritty = {
