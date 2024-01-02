@@ -2,23 +2,15 @@
   home.stateVersion = "24.05";
   home.packages = with pkgs; [
     awscli
-    bison
     caddy
     checkstyle
-    cloc
     clang
     clang-tools
-    curl
     ffmpeg
-    git
     go
     gofumpt
     gopls
-    gnumake
-    htop
     httpie
-    jq
-    less
     lua
     ncdu
     neovim
@@ -32,15 +24,12 @@
     ripgrep
     rustup
     shfmt
-    stow
     stylua
     tcptraceroute
-    tmux
     vale
     vault
     volta
     watch
-    wget
   ];
   home.sessionVariables = {
     PAGER = "less";
