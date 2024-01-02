@@ -46,6 +46,7 @@
     masApps = { };
     casks = [ 
       "1password"
+      "alacritty"
       "dbeaver-community"
       "discord"
       "firefox"
