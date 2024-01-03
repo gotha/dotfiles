@@ -88,3 +88,7 @@ if [[ "$OSTYPE" =~ darwin ]]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
 fi
 
+if [ ! -d ~/.zsh-syntax-highlighting ]; then
+  git clone htps://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh-syntax-highlighting
+fi
+source $HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
