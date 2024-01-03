@@ -31,8 +31,6 @@
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = true;
   system.keyboard.nonUS.remapTilde = true; # remap tilde to non-us
-  fonts.fontDir.enable = true; # DANGER
-  fonts.fonts = [ (pkgs.nerdfonts.override { fonts = [ "Meslo" ]; }) ];
   services.nix-daemon.enable = true;
   system.defaults = {
     finder.AppleShowAllExtensions = true;

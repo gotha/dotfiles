@@ -1,4 +1,5 @@
 { pkgs, ... }: {
+  fonts.fontconfig.enable = true;
   home.stateVersion = "24.05";
   home.packages = with pkgs; [
     awscli
@@ -6,6 +7,7 @@
     checkstyle
     clang
     clang-tools
+    docker
     ffmpeg
     go
     gofumpt
@@ -13,7 +15,9 @@
     httpie
     lua
     ncdu
+    neofetch
     neovim
+    ( nerdfonts.override { fonts = [ "FiraCode" ]; })
     nodejs
     pandoc
     php
