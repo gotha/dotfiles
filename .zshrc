@@ -70,6 +70,10 @@ alias gd="git diff"
 alias ga="git add"
 alias gl="git log"
 
+if which -a bat &> /dev/null ; then
+  alias cat="bat"
+fi
+
 if [ -f "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
 fi
