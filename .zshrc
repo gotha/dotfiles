@@ -39,11 +39,19 @@ export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 export LANG=en_US.UTF-8
 
 # enable history
-HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt appendhistory
-setopt share_history
+
+HISTFILE="$HOME/.zsh_history"
+mkdir -p "$(dirname "$HISTFILE")"
+
+setopt HIST_FCNTL_LOCK
+setopt HIST_IGNORE_DUPS
+unsetopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+unsetopt HIST_EXPIRE_DUPS_FIRST
+setopt SHARE_HISTORY
+unsetopt EXTENDED_HISTORY
 
 # set search in history shortcut
 bindkey '^R' history-incremental-search-backward
