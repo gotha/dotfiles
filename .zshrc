@@ -92,6 +92,11 @@ if [[ "$OSTYPE" =~ darwin ]]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
 fi
 
+if [ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
+  git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+    ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+fi
+
 if [ ! -d ~/.zsh-syntax-highlighting ]; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh-syntax-highlighting
 fi

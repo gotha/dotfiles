@@ -64,16 +64,10 @@ stow -t ~ .
 
 ### neovim
 
-Install [packer](https://github.com/wbthomason/packer.nvim)
-```sh
-git clone --depth 1 https://github.com/wbthomason/packer.nvim\
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-```
-
 Install all plugins
 
 ```
-nvim +PackerSync +qall
+nvim +PackerSync
 ```
 
 ### tmux
