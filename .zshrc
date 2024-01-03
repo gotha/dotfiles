@@ -93,6 +93,6 @@ if [[ "$OSTYPE" =~ darwin ]]; then
 fi
 
 if [ ! -d ~/.zsh-syntax-highlighting ]; then
-  git clone htps://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh-syntax-highlighting
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh-syntax-highlighting
 fi
 source $HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
