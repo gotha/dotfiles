@@ -2,8 +2,8 @@ if [ -f /etc/zshenv ]; then
   source /etc/zshenv
 fi
 
-if [ ! -d ~/powerlevel10k ]; then
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+if [ ! -d ~/.powerlevel10k ]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k
 fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -12,7 +12,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+source ~/.powerlevel10k/powerlevel10k.zsh-theme
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
