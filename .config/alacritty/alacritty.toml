@@ -23,16 +23,25 @@ size = 12.0
 
 [colors]
   # Default colors
-  primary.background = '0x002635'
-  primary.foreground = '0xe6e6dc'
+  #primary.background = '0x002635'
+  primary.background = '0x262626'
+  #primary.foreground = '0xe6e6dc'
+  primary.foreground = '0xe4e4e4'
 
   # Normal colors
-  normal.black = '0x00384d'
-  normal.red = '0xc43061'
-  normal.green = '0x7fc06e'
+  #normal.black = '0x00384d'
+  normal.black = '0x262626'
+  #normal.red = '0xc43061'
+  normal.red = '0xff875f'
+  #normal.green = '0x7fc06e'
+  normal.green = '0xaeff87'
+  #normal.yellow = '0xf08e48'
   normal.yellow = '0xf08e48'
+  #normal.blue = '0x1c8db2'
   normal.blue = '0x1c8db2'
+  #normal.magenta = '0xc694ff'
   normal.magenta = '0xc694ff'
+  #normal.cyan = '0x00cccc'
   normal.cyan = '0x00cccc'
   normal.white = '0x77929e'
 
