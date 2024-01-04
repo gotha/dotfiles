@@ -19,9 +19,14 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# setting path NPM_PACKAGES="${HOME}/.npm-packages" if [ ! -d $NPM_PACKAGES ]; then mdkdir -pv $NPM_PACKAGES fi
-export PATH="$PATH:$NPM_PACKAGES/bin"
+# setting path
 export PATH="$PATH:${HOME}/.local/bin"
+
+NPM_PACKAGES="${HOME}/.npm-packages"
+if [ ! -d $NPM_PACKAGES ]; then
+  mdkdir -pv $NPM_PACKAGES
+fi
+export PATH="$PATH:$NPM_PACKAGES/bin"
 
 if [ -f "$HOME/.volta" ]; then 
   export VOLTA_HOME="$HOME/.volta"
