@@ -20,3 +20,5 @@ require("config/clipboard")
 require("config/spellcheck")
 require("config/whitespaces")
 require("config/filetypes")
+
+require("misc/json-format")
