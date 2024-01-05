@@ -24,7 +24,7 @@ export PATH="$PATH:${HOME}/.local/bin"
 
 NPM_PACKAGES="${HOME}/.npm-packages"
 if [ ! -d $NPM_PACKAGES ]; then
-  mdkdir -pv $NPM_PACKAGES
+  mkdir -pv $NPM_PACKAGES
 fi
 export PATH="$PATH:$NPM_PACKAGES/bin"
 
