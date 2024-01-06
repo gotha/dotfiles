@@ -1,61 +1,14 @@
 # My dotfiles
 
-## Install dependencies
+## Install software
 
-### OSX
-
-Install tools:
-
-```sh
-xcode-select --install
-```
-
-install Nix:
-
-```sh
-sh <(curl -L https://nixos.org/nix/install)
-```
-
-install homebrew:
-
-```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-set computer name if needed
-
-```sh
-sudo scutil --set ComputerName platypus
-sudo scutil --set LocalHostName platypus
-sudo reboot
-```
-
-remove old config files if needed
-
-```sh
-sudo mv /etc/shells /etc/shells.before-nix-darwin
-```
-
-
-Start with:
-
-```sh
-cd ~/.config/nix
-nix --extra-experimental-features "nix-command flakes" build .#darwinConfigurations.platypus.system
-
-./result/sw/bin/darwin-rebuild switch --flake  .
-```
-
-from that point on, after every change run):
-
-```sh
-darwin-rebuild switch --flake .
-```
+Depending on your OS follow one of these guides:
+- [ArchLinux](./README-arch.md)
+- [Asahi Fedora 39](./README-asahi.md)
+- [OS X](./README-osx.md)
 
 
 ## Install configuration
-
-Install [stow](https://www.gnu.org/software/stow/) first.
 
 ```sh
 git clone git@github.com:gotha/dotfiles.git && cd dotfiles
