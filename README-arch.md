@@ -103,7 +103,9 @@ yay -S \
     firefox \
     google-chrome \
     noto-fonts-emoji \
+    pavucontrol \
     polkit \
+    pulseaudio \
     rofi \
     rofi-emoji \
     slack-desktop \
