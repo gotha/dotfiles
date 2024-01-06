@@ -85,12 +85,12 @@ to update vale styles
 ### Firefox
 
 to hide tab bar open `about:config` and enable `toolkit.legacyUserProfileCustomizations.stylesheets`
+while you are here you can disable Pocket by setting `extensions.pocket.enabled` to `false`.
 
 ```sh
-cd ~/.mozilla/firefox/$(ls -d *.default-*)
-mkdir -pv chrome
-cd chrome
-cp /path-to-dotfiles/.mozilla/firefox/xxx.profile-xxx/chrome/userChrome.css .
+cd ~/.mozilla/firefox/ && \
+cd $(ls -d *.default-*) && \
+ln -s ../xxx.profile-xxx/chrome .
 ```
 
 ## Usage
