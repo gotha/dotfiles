@@ -40,7 +40,8 @@ output eDP-1 {
     scale 1.25
     #bg ~/Pictures/wallpapers/asahi-rainbow.png fill
 }
- output HDMI-A-2 scale 1.0 {
+ output HDMI-A-2 {
+    scale 1.0
     #bg ~/Pictures/wallpapers/cyberpunk.jpg fill
 }
 
