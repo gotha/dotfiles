@@ -37,9 +37,11 @@ pacman -S \
     sudo \
     tmux \
     ttf-firacode-nerd \
+    unzip \
     vi \
     vim \
     wget \
+    zip \
     zsh
 ```
 
