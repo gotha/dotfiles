@@ -2,7 +2,7 @@
   fonts.fontconfig.enable = true;
   home.stateVersion = "24.05";
   home.packages = with pkgs; [
-    awscli
+    awscli2
     caddy
     checkstyle
     clang
