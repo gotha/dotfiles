@@ -21,6 +21,10 @@
     nodejs
     pandoc
     php
+    php.packages.composer
+    php.packages.phpstan
+    php.packages.php-cs-fixer
+    phpactor
     postgis
     pyright
     python3
@@ -29,6 +33,7 @@
     rustup
     shfmt
     stylua
+    symfony-cli
     tcptraceroute
     vale
     vault
