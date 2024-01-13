@@ -93,6 +93,11 @@ input "1046:291:Ducky_Ducky_One2_SF_RGB" {
     xkb_options "grp:win_space_toggle,caps:escape"
 }
 
+input "13364:608:Keychron_Keychron_K6_Pro" {
+    xkb_layout "keychron-k6",bg
+    xkb_options "grp:win_space_toggle,caps:escape"
+}
+
 input type:touchpad {
     tap enabled
     natural_scroll enabled
