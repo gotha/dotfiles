@@ -66,5 +66,7 @@ return require("packer").startup(function(use)
 
 	use("jparise/vim-graphql")
 
+	use("nelsyeung/twig.vim")
+
 	use("Rigellute/rigel")
 end)
