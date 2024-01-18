@@ -136,6 +136,20 @@ require("formatter").setup({
 			end,
 		},
 
+		twig = {
+			function()
+				return {
+					exe = "djlint",
+					args = {
+						"--quiet",
+						"--reformat",
+					},
+					stdin = false,
+					ignore_exitcode = true,
+				}
+			end,
+		},
+
 		-- Use the special "*" filetype for defining formatter configurations on
 		-- any filetype
 		["*"] = {
@@ -150,6 +164,6 @@ require("formatter").setup({
 vim.cmd([[
 augroup FormatAutogroup
 autocmd!
-autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go,*.graphql,*.gql,*.py,*.php FormatWrite
+autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go,*.graphql,*.gql,*.py,*.php,*.twig FormatWrite
 augroup END
 ]])
