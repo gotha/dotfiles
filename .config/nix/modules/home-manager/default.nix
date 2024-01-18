@@ -20,7 +20,14 @@
     ( nerdfonts.override { fonts = [ "FiraCode" ]; })
     nodejs
     pandoc
-    php
+    (php.buildEnv {
+      extensions = ({ enabled, all }: enabled ++ (with all; [
+        xdebug
+      ]));
+      extraConfig = ''
+	xdebug.mode=debug
+      '';
+    })
     php.packages.composer
     php.packages.phpstan
     php.packages.php-cs-fixer
