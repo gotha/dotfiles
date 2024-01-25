@@ -10,6 +10,7 @@ lspconfig.rust_analyzer.setup({
 lspconfig.gopls.setup({})
 lspconfig.clangd.setup({})
 lspconfig.phpactor.setup({})
+lspconfig.terraformls.setup({})
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
