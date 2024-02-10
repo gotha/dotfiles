@@ -43,7 +43,6 @@
     symfony-cli
     tcptraceroute
     vale
-    vault
     volta
     watch
   ];
