@@ -66,11 +66,10 @@
       "firefox"
       "gimp"
       "hammerspoon"
-      "iterm2"
+      "inkscape"
       "karabiner-elements"
       "keka"
       "keycastr"
-      "postman"
       "rar"
       "raycast"
       #"slack"
@@ -83,6 +82,9 @@
       "autopep8"
       "cookiecutter"
       "cfn-lint"
+      "go"
+      "gofumpt"
+      "gopls"
       "trippy" 
     ];
   };
