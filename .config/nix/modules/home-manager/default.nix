@@ -5,13 +5,8 @@
     awscli2
     caddy
     checkstyle
-    clang
-    clang-tools
     docker
     ffmpeg
-    go
-    gofumpt
-    gopls
     httpie
     lua
     ncdu
