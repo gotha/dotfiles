@@ -7,7 +7,23 @@ lspconfig.rust_analyzer.setup({
 		["rust-analyzer"] = {},
 	},
 })
-lspconfig.gopls.setup({})
+lspconfig.gopls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	filetypes = { "go", "gomod" },
+	root_dir = lspconfig.util.root_pattern("go.mod", ".git"),
+	settings = {
+		gopls = {
+			usePlaceholders = false,
+			buildFlags = { "-tags=integration" },
+			gofumpt = true,
+			["local"] = "<repo>",
+		},
+	},
+	init_options = {
+		buildFlags = { "-tags=integration" },
+	},
+})
 lspconfig.clangd.setup({})
 lspconfig.phpactor.setup({})
 lspconfig.terraformls.setup({})
