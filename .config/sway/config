@@ -50,6 +50,7 @@ output eDP-1 {
 # Example configuration:
 #
 exec swayidle -w \
+         timeout 299 'swaymsg "input '*' xkb_switch_layout 0"' \
          timeout 300 'swaylock -f -c 000000' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f -c 000000'
