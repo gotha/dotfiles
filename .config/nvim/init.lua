@@ -22,3 +22,4 @@ require("config/whitespaces")
 require("config/filetypes")
 
 require("misc/json-format")
+require("misc/save-files")
