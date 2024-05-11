@@ -1,5 +1,9 @@
 # ArchLinux config guide
 
+Update: There is automated install on [gotha/workstation](https://github.com/gotha/workstation/) that can be used instead of this guide.
+
+If you want manual install, keep reading.
+
 ## Install
 
 Install as per usual following the [official install guide](https://wiki.archlinux.org/title/installation_guide) and then inside the chroot environment:
