@@ -4,7 +4,11 @@ lspconfig.tsserver.setup({})
 lspconfig.rust_analyzer.setup({
 	-- Server-specific settings. See `:help lspconfig-setup`
 	settings = {
-		["rust-analyzer"] = {},
+		["rust-analyzer"] = {
+			rustfmt = {
+				extraArgs = { "--edition 2021" },
+			},
+		},
 	},
 })
 lspconfig.gopls.setup({
