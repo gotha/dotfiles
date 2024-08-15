@@ -34,8 +34,6 @@ fi
 export PATH="$PATH:$NPM_PACKAGES/bin"
 
 if [ -f "$HOME/.volta" ]; then 
-  export VOLTA_HOME="$HOME/.volta"
-  export PATH="$VOLTA_HOME/bin:$PATH"
 fi
 
 if [ -d "$HOME/Library/Python/3.9/bin" ]; then
@@ -111,3 +109,14 @@ if [ ! -d ~/.zsh-syntax-highlighting ]; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh-syntax-highlighting
 fi
 source $HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+export PATH="$PATH:$HOME/go/bin"
