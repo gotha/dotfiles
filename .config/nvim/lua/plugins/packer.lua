@@ -3,14 +3,7 @@ vim.cmd([[packadd packer.nvim]])
 return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim")
 
-	use({
-		"preservim/nerdtree",
-		requires = {
-			{ "ryanoasis/vim-devicons" },
-			{ "tiagofumo/vim-nerdtree-syntax-highlight" },
-			{ "Xuyuanp/nerdtree-git-plugin" },
-		},
-	})
+	use({ "preservim/nerdtree" })
 
 	use("jlanzarotta/bufexplorer")
 	use("zefei/vim-wintabs")
