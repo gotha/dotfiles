@@ -282,5 +282,13 @@ bar {
 default_border none
 default_floating_border none
 
+# Startup apps
+exec 1password
+exec alacritty
+exec discord
+exec firefox
+exec slack
+exec spotify
+exec transmission-gtk
 
 include /etc/sway/config.d/*
