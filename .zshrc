@@ -43,6 +43,10 @@ fi
 export MANPATH="/usr/local/man:$MANPATH"
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
+if [ -d "$HOME/go/bin" ]; then
+  export PATH="$HOME/go/bin:$PATH"
+fi
+
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
@@ -96,8 +100,12 @@ if [ $OSTYPE = "linux-gnu" ]; then
   fi
 fi
 
+alias kbc=kubectl
+
 if [[ "$OSTYPE" =~ darwin ]]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
+  export PATH="/opt/homebrew/bin:$PATH"
+  export PATH="/opt/homebrew/sbin:$PATH"
 fi
 
 if [ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
@@ -109,14 +117,27 @@ if [ ! -d ~/.zsh-syntax-highlighting ]; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh-syntax-highlighting
 fi
 source $HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/sbin:$PATH"
 
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+if [ -d ~/.pyenv ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi 
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+if [ -d ~/.volta ]; then
+  export VOLTA_HOME="$HOME/.volta"
+  export PATH="$VOLTA_HOME/bin:$PATH"
+fi
 
 export PATH="$PATH:$HOME/go/bin"
+
+if [ -d /opt/libtorch ]; then
+  export LIBTORCH=/opt/libtorch
+  export LD_LIBRARY_PATH=${LIBTORCH}/lib:$LD_LIBRARY_PATH
+fi
+
+fpath=(~/.zsh/completion $fpath)
+autoload -U compinit
+compinit
+
