@@ -114,3 +114,25 @@ outer.left =       5
 outer.bottom =     5
 outer.top =        5
 outer.right =      5
+
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = 'main'
+7 = 'main'
+8 = 'main'
+9 = 'main'
+10 = 'main'
+11 = '^built-in retina display$'
+12 = '^built-in retina display$'
+13 = '^built-in retina display$'
+14 = '^built-in retina display$'
+15 = '^built-in retina display$'
+16 = '^built-in retina display$'
+17 = '^built-in retina display$'
+18 = '^built-in retina display$'
+19 = '^built-in retina display$'
+20 = '^built-in retina display$'
