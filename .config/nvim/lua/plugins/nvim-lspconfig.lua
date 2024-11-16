@@ -31,6 +31,7 @@ lspconfig.gopls.setup({
 lspconfig.clangd.setup({})
 lspconfig.phpactor.setup({})
 lspconfig.terraformls.setup({})
+lspconfig.pyright.setup({})
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
