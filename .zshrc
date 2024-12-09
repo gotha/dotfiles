@@ -143,3 +143,6 @@ fpath=(~/.zsh/completion $fpath)
 autoload -U compinit
 compinit
 
+if [ -d  /run/current-system/sw/bin ]; then
+  export PATH="/run/current-system/sw/bin:$PATH"
+fi
