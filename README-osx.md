@@ -1,15 +1,36 @@
 # OSX
 
+## Prepare
+
+### set computer name if needed
+
+```sh
+sudo scutil --set ComputerName platypus
+sudo scutil --set LocalHostName platypus
+sudo reboot
+```
+
+### remove old config files (if needed)
+
+```sh
+sudo mv /etc/shells /etc/shells.before-nix-darwin
+```
+
+
 ## install tools
 
 ```sh
 xcode-select --install
+softwareupdate --install-rosetta --agree-to-license
 ```
 
 ## install Nix:
 
+[Determinate Systems' installer](https://github.com/DeterminateSystems/nix-installer?tab=readme-ov-file):
+
 ```sh
-sh <(curl -L https://nixos.org/nix/install)
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
+  sh -s -- install
 ```
 
 ## install homebrew:
@@ -18,25 +39,10 @@ sh <(curl -L https://nixos.org/nix/install)
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-## Prepare config
-set computer name if needed
-
-```sh
-sudo scutil --set ComputerName platypus
-sudo scutil --set LocalHostName platypus
-sudo reboot
-```
-
-remove old config files if needed
-
-```sh
-sudo mv /etc/shells /etc/shells.before-nix-darwin
-```
 
 ## Build nix flake
 
 ```sh
-cd ~/.config/nix
 nix --extra-experimental-features "nix-command flakes" build .#darwinConfigurations.platypus.system
 
 ./result/sw/bin/darwin-rebuild switch --flake  .
@@ -47,3 +53,13 @@ from that point on, after every change run):
 ```sh
 darwin-rebuild switch --flake ~/.config/nix/
 ```
+
+## add nix binaries to path
+
+```sh
+export PATH="/run/current-system/sw/bin:$PATH"
+```
+
+## install dotfiles as per usual
+
+look at the [README](./README.md) for instructions on installing the dotfiles

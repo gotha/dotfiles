@@ -15,10 +15,41 @@
       git
       gnumake
       htop
+      httpie
       jq
       less
+      lua
+      ncdu
+      neofetch
+      neovim
+      ( nerdfonts.override { fonts = [ "FiraCode" ]; })
+      nodejs
+      pandoc
+      (php.buildEnv {
+        extensions = ({ enabled, all }: enabled ++ (with all; [
+          xdebug
+        ]));
+        extraConfig = ''
+          xdebug.mode=debug
+        '';
+      })
+      php.packages.composer
+      php.packages.phpstan
+      php.packages.php-cs-fixer
+      phpactor
+      pyright
+      python3
+      qemu
+      ripgrep
+      rustup
+      shfmt
       stow
+      stylua
+      symfony-cli
+      tcptraceroute
       tmux
+      vale
+      watch
       wget
     ];
     systemPath = [ "/opt/homebrew/bin" ];
@@ -60,24 +91,33 @@
     masApps = { };
     casks = [ 
       "1password"
+      "aerospace"
       "alacritty"
+      "audacity"
+      "borders"
+      "chromium"
       "dbeaver-community"
       "discord"
       "firefox"
       "gimp"
-      "hammerspoon"
       "inkscape"
       "karabiner-elements"
       "keka"
       "keycastr"
       "rar"
       "raycast"
-      #"slack"
+      "slack"
       "spotify"
-      "vlc" 
+      "transmission"
       "utm"
+      "viber"
+      "vlc"
     ];
-    taps = [ "fujiapple852/trippy" ];
+    taps = [
+      "fujiapple852/trippy"
+      "nikitabobko/aerospace"
+      "FelixKratz/formulae"
+    ];
     brews = [ 
       "autopep8"
       "cookiecutter"
