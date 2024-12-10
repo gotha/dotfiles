@@ -14,7 +14,6 @@ sudo reboot
 
 ```sh
 sudo mv /etc/shells /etc/shells.before-nix-darwin
-sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 ```
 
 
@@ -37,17 +36,34 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ## install homebrew:
 
 ```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+sudo echo "homebrew needs sudo session" && \
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 
 ## apply nix config
+
+get the config
+
+```sh
+git clone https://github.com/gotha/dotfiles.git && cd dotfiles
+```
+
+backup config:
+
+```sh
+sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
+```
+
+apply:
 
 ```sh
 nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .config/nix
 ```
 
 ## add nix binaries to path
+
+this is needed only during installation, later .zshrc will take care of this
 
 ```sh
 export PATH="/run/current-system/sw/bin:$PATH"

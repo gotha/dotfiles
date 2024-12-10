@@ -10,8 +10,15 @@ Depending on your OS follow one of these guides:
 
 ## Install configuration
 
+Get the config:
+
 ```sh
 git clone git@github.com:gotha/dotfiles.git && cd dotfiles
+```
+
+Install it:
+
+```sh
 stow -t ~ .
 ```
 
@@ -19,7 +26,7 @@ stow -t ~ .
 
 Install all plugins
 
-```
+```sh
 nvim +PackerSync
 ```
 
