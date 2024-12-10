@@ -69,12 +69,24 @@
     finder._FXShowPosixPathInTitle = true;
     finder.ShowPathbar = true;
     finder.ShowStatusBar = true;
-    dock.autohide = true;
-    dock.minimize-to-application = true;
-    dock.orientation = "left";
-    dock.show-process-indicators = true;
-    dock.show-recents = false;
-    dock.wvous-tl-corner = 2; # launch MissionControl on top left hot corner
+    dock = {
+      autohide = true;
+      minimize-to-application = true;
+      orientation = "left";
+      show-process-indicators = true;
+      show-recents = false;
+      wvous-tl-corner = 2; # launch MissionControl on top left hot corner
+      persistent-apps = [
+        "/System/Applications/System Settings.app"
+        "/Applications/Safari.app"
+        "/Applications/Alacritty.app"
+        "/Applications/Chromium.app"
+        "/Applications/Firefox.app"
+        "/Applications/Slack.app"
+        "/Applications/Spotify.app"
+        "/Applications/1Password.app"
+      ];
+    };
     NSGlobalDomain.AppleShowAllExtensions = true;
     NSGlobalDomain.InitialKeyRepeat = 14;
     NSGlobalDomain.KeyRepeat = 1;
