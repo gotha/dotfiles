@@ -14,6 +14,7 @@ sudo reboot
 
 ```sh
 sudo mv /etc/shells /etc/shells.before-nix-darwin
+sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 ```
 
 
@@ -40,18 +41,10 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ```
 
 
-## Build nix flake
+## apply nix config
 
 ```sh
-nix --extra-experimental-features "nix-command flakes" build .#darwinConfigurations.platypus.system
-
-./result/sw/bin/darwin-rebuild switch --flake  .
-```
-
-from that point on, after every change run):
-
-```sh
-darwin-rebuild switch --flake ~/.config/nix/
+nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .config/nix
 ```
 
 ## add nix binaries to path

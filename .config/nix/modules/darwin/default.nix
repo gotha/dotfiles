@@ -94,7 +94,6 @@
       "aerospace"
       "alacritty"
       "audacity"
-      "borders"
       "chromium"
       "dbeaver-community"
       "discord"
@@ -116,7 +115,6 @@
     taps = [
       "fujiapple852/trippy"
       "nikitabobko/aerospace"
-      "FelixKratz/formulae"
     ];
     brews = [ 
       "autopep8"
