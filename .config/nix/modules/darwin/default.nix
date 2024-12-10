@@ -64,11 +64,13 @@
   system.keyboard.nonUS.remapTilde = true; # remap tilde to non-us
   services.nix-daemon.enable = true;
   system.defaults = {
-    finder.AppleShowAllExtensions = true;
-    finder.AppleShowAllFiles = true;
-    finder._FXShowPosixPathInTitle = true;
-    finder.ShowPathbar = true;
-    finder.ShowStatusBar = true;
+    finder = {
+      AppleShowAllExtensions = true;
+      AppleShowAllFiles = true;
+      _FXShowPosixPathInTitle = true;
+      ShowPathbar = true;
+      ShowStatusBar = true;
+    };
     dock = {
       autohide = true;
       minimize-to-application = true;
@@ -87,12 +89,16 @@
         "/Applications/1Password.app"
       ];
     };
-    NSGlobalDomain.AppleShowAllExtensions = true;
-    NSGlobalDomain.InitialKeyRepeat = 14;
-    NSGlobalDomain.KeyRepeat = 1;
-    trackpad.Clicking = true; # tap to cick
-    trackpad.TrackpadRightClick = true;
-    trackpad.TrackpadThreeFingerDrag = true;
+    NSGlobalDomain = {
+      AppleShowAllExtensions = true;
+      InitialKeyRepeat = 14;
+      KeyRepeat = 1;
+    };
+    trackpad = {
+      Clicking = true; # tap to cick
+      TrackpadRightClick = true;
+      TrackpadThreeFingerDrag = true;
+    };
   };
   # backwards compat; don't change
   system.stateVersion = 4;
