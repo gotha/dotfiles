@@ -13,7 +13,7 @@ Depending on your OS follow one of these guides:
 Get the config:
 
 ```sh
-git clone git@github.com:gotha/dotfiles.git && cd dotfiles
+git clone https://github.com/gotha/dotfiles.git && cd dotfiles
 ```
 
 Install it:
@@ -53,3 +53,9 @@ cd $(ls -d *.default-*) && \
 ln -s ../xxx.profile-xxx/chrome .
 ```
 
+
+## Get ready to contribute
+
+```sh
+git remote set-url origin git@github.com:gotha/dotfiles.git
+```
