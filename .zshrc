@@ -108,6 +108,10 @@ if [[ "$OSTYPE" =~ darwin ]]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
   export PATH="/opt/homebrew/bin:$PATH"
   export PATH="/opt/homebrew/sbin:$PATH"
+
+  if [ -d  /run/current-system/sw/bin ]; then
+    export PATH="/run/current-system/sw/bin:$PATH"
+  fi
 fi
 
 if [ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
@@ -142,7 +146,3 @@ fi
 fpath=(~/.zsh/completion $fpath)
 autoload -U compinit
 compinit
-
-if [ -d  /run/current-system/sw/bin ]; then
-  export PATH="/run/current-system/sw/bin:$PATH"
-fi
