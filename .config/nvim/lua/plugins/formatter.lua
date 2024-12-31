@@ -160,6 +160,16 @@ require("formatter").setup({
 			end,
 		},
 
+		nix = {
+			function()
+				return {
+					exe = "nixfmt",
+					stdin = false,
+					ignore_exitcode = true,
+				}
+			end,
+		},
+
 		-- Use the special "*" filetype for defining formatter configurations on
 		-- any filetype
 		["*"] = {
@@ -174,6 +184,6 @@ require("formatter").setup({
 vim.cmd([[
 augroup FormatAutogroup
 autocmd!
-autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go,*.graphql,*.gql,*.py,*.php,*.twig FormatWrite
+autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go,*.graphql,*.gql,*.py,*.php,*.twig,*.nix FormatWrite
 augroup END
 ]])

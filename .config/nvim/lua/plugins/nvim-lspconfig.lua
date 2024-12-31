@@ -32,6 +32,7 @@ lspconfig.clangd.setup({})
 lspconfig.phpactor.setup({})
 lspconfig.terraformls.setup({})
 lspconfig.pyright.setup({})
+lspconfig.nil_ls.setup({})
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

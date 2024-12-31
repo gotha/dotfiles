@@ -5,10 +5,9 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -21,7 +20,8 @@
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.^
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Sofia";
@@ -41,9 +41,6 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-
-  
-
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
@@ -62,19 +59,17 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "1password"
-    "spotify"
-  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [ "1password" "spotify" ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.gotha = {
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [
-        "wheel"  # Enable ‘sudo’ for the user.
-        "networkmanager"
-        "docker"
+      "wheel" # Enable ‘sudo’ for the user.
+      "networkmanager"
+      "docker"
     ];
     packages = with pkgs; [
       bc
@@ -95,7 +90,10 @@
       ncdu
       neovim
       nerdfonts
+      nixfmt
+      nil
       nodejs
+      ripgrep
       rofi-wayland
       rofi-emoji-wayland
       shfmt
@@ -137,9 +135,7 @@
 
   programs.zsh.enable = true;
 
-  fonts.packages = with pkgs; [
-    nerdfonts
-  ];
+  fonts.packages = with pkgs; [ nerdfonts ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -185,4 +181,3 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
-
