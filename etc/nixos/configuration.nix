@@ -74,12 +74,14 @@
     packages = with pkgs; [
       bc
       _1password-gui
+      adwaita-icon-theme
       alacritty
       bison
       clang
       clang-tools
       cloc
       chromium
+      dbeaver-bin
       go
       gofumpt
       gopls
@@ -108,6 +110,7 @@
       waybar
       wob
       wl-clipboard
+      xfce.thunar
     ];
   };
 
