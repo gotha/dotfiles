@@ -3,8 +3,8 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 { config, lib, pkgs, ... }:
-
-{
+let username = "gotha";
+in {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
@@ -60,10 +60,10 @@
   services.libinput.enable = true;
 
   nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "1password" "spotify" ];
+    builtins.elem (lib.getName pkg) [ "1password" "1password-cli" "spotify" ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.gotha = {
+  users.users."${username}" = {
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [
@@ -120,9 +120,6 @@
     setSocketVariable = true;
   };
 
-  programs.firefox.enable = true;
-  programs.sway.enable = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -136,6 +133,13 @@
     zsh
   ];
 
+  programs._1password.enable = true;
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ "${username}" ];
+  };
+  programs.firefox.enable = true;
+  programs.sway.enable = true;
   programs.zsh.enable = true;
 
   fonts.packages = with pkgs; [ nerdfonts ];
