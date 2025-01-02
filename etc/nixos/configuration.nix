@@ -59,8 +59,11 @@ in {
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "1password" "1password-cli" "spotify" ];
+  nixpkgs.config = {
+    allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [ "1password" "1password-cli" "spotify" ];
+    permittedInsecurePackages = [ "olm-3.2.16" ];
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."${username}" = {
@@ -93,6 +96,7 @@ in {
       neovim
       nerdfonts
       nixfmt
+      nheko
       nil
       nodejs
       ripgrep
@@ -156,6 +160,7 @@ in {
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.gnome.gnome-keyring.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
