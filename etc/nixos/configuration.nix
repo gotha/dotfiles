@@ -88,6 +88,7 @@ in {
       go
       gofumpt
       gopls
+      grim
       htop
       less
       lua
@@ -103,6 +104,7 @@ in {
       rofi-wayland
       rofi-emoji-wayland
       shfmt
+      slurp
       spotify
       stow
       stylua
