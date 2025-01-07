@@ -34,6 +34,16 @@ nvim +PackerSync
 
 Start `tmux` and press `prefix` + `I` (shift + i) to install the required plugins.
 
+or manually:
+
+```sh
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+killall tmux
+tmux
+~/.tmux/plugins/tpm/bin/install_plugins
+```
+
+
 ### Vale
 
 ```sh
