@@ -7,6 +7,7 @@
       cloc
       coreutils
       curl
+      eslint
       git
       gnumake
       htop
@@ -20,6 +21,7 @@
       nil
       nixfmt
       nodejs
+      nodePackages.prettier
       pandoc
       (php.buildEnv {
         extensions = ({ enabled, all }: enabled ++ (with all; [ xdebug ]));
@@ -41,6 +43,8 @@
       stylua
       symfony-cli
       tcptraceroute
+      typescript
+      typescript-language-server
       tmux
       vale
       watch
