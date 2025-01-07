@@ -72,11 +72,14 @@
     };
     dock = {
       autohide = true;
+      autohide-delay =
+        5.0; # super slow to show dock; close to disabling it; default is 0.24
       minimize-to-application = true;
       orientation = "left";
       show-process-indicators = true;
       show-recents = false;
-      wvous-tl-corner = 2; # launch MissionControl on top left hot corner
+      wvous-tl-corner = 1; # disable top left hot corner
+      wvous-br-corner = 1; # disable bottom right hot corner
       persistent-apps = [
         "/System/Applications/System Settings.app"
         "/Applications/Safari.app"
