@@ -61,13 +61,18 @@ apply:
 nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .config/nix
 ```
 
-## add nix binaries to path
-
-this is needed only during installation, later .zshrc will take care of this
+then after each change
 
 ```sh
-export PATH="/run/current-system/sw/bin:$PATH"
+nix run nix-darwin -- switch --flake .config/nix
 ```
+
+to update the flake:
+
+```sh
+nix flake update .config/nix
+```
+
 
 ## install dotfiles as per usual
 

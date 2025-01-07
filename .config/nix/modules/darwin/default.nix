@@ -1,12 +1,7 @@
 { pkgs, ... }: {
-  # here go the darwin preferences and config items
   programs.zsh.enable = true;
   environment = {
-    shells = with pkgs; [
-      bash
-      zsh
-    ];
-    loginShell = pkgs.zsh;
+    shells = with pkgs; [ bash zsh ];
     systemPackages = with pkgs; [
       bison
       cloc
@@ -22,13 +17,12 @@
       ncdu
       neofetch
       neovim
-      ( nerdfonts.override { fonts = [ "FiraCode" ]; })
+      nil
+      nixfmt
       nodejs
       pandoc
       (php.buildEnv {
-        extensions = ({ enabled, all }: enabled ++ (with all; [
-          xdebug
-        ]));
+        extensions = ({ enabled, all }: enabled ++ (with all; [ xdebug ]));
         extraConfig = ''
           xdebug.mode=debug
         '';
@@ -55,6 +49,7 @@
     systemPath = [ "/opt/homebrew/bin" ];
     pathsToLink = [ "/Applications" ];
   };
+  fonts.packages = with pkgs; [ nerd-fonts.fira-code ];
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
@@ -62,7 +57,7 @@
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = true;
   system.keyboard.nonUS.remapTilde = true; # remap tilde to non-us
-  services.nix-daemon.enable = true;
+  #system.keyboard.swapLeftCtrlAndFn = true;
   system.defaults = {
     finder = {
       AppleShowAllExtensions = true;
@@ -102,12 +97,13 @@
   };
   # backwards compat; don't change
   system.stateVersion = 4;
+  services.nix-daemon.enable = true;
   homebrew = {
     enable = true;
     caskArgs.no_quarantine = true;
     global.brewfile = true;
     masApps = { };
-    casks = [ 
+    casks = [
       "1password"
       "aerospace"
       "alacritty"
@@ -130,18 +126,8 @@
       "viber"
       "vlc"
     ];
-    taps = [
-      "fujiapple852/trippy"
-      "nikitabobko/aerospace"
-    ];
-    brews = [ 
-      "autopep8"
-      "cookiecutter"
-      "cfn-lint"
-      "go"
-      "gofumpt"
-      "gopls"
-      "trippy" 
-    ];
+    taps = [ "fujiapple852/trippy" "nikitabobko/aerospace" ];
+    brews =
+      [ "autopep8" "cookiecutter" "cfn-lint" "go" "gofumpt" "gopls" "trippy" ];
   };
 }
