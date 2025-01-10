@@ -85,21 +85,25 @@ in {
       cloc
       chromium
       dbeaver-bin
+      gimp
       go
       gofumpt
       gopls
+      gnumake
       grim
       htop
+      killall
       less
       lua
       mako
       ncdu
       neovim
-      nerdfonts
-      nixfmt
       nheko
       nil
+      nixfmt-classic
+      nix-search-cli
       nodejs
+      pyright
       ripgrep
       rofi-wayland
       rofi-emoji-wayland
@@ -114,9 +118,11 @@ in {
       vale
       watch
       waybar
+      waypipe
       wob
       wl-clipboard
       xfce.thunar
+      xwayland
     ];
   };
 
@@ -134,6 +140,7 @@ in {
     git
     jq
     links2
+    tree
     vim
     wget
     zsh
@@ -148,7 +155,12 @@ in {
   programs.sway.enable = true;
   programs.zsh.enable = true;
 
-  fonts.packages = with pkgs; [ nerdfonts ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.fira-code
+    nerd-fonts.fira-mono
+    nerd-fonts.noto
+    nerd-fonts.ubuntu
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -173,7 +185,7 @@ in {
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
-  system.copySystemConfiguration = true;
+  # system.copySystemConfiguration = true;
 
   system.autoUpgrade = {
     enable = true;
