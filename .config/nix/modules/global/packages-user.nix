@@ -1,0 +1,33 @@
+{ pkgs, ... }:
+with pkgs; [
+  bc
+  bison
+  clang
+  clang-tools
+  cloc
+  go
+  gofumpt
+  gopls
+  gnumake
+  grim
+  htop
+  killall
+  less
+  lua
+  ncdu
+  neovim
+  nil
+  nixfmt-classic
+  nix-search-cli
+  nodejs
+  pyright
+  ripgrep
+  shfmt
+  stow
+  stylua
+  tmux
+  tree
+  unzip
+  vale
+  watch
+]
