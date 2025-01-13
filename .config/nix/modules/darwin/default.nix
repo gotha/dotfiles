@@ -1,12 +1,15 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   cfg = import ../global/conf.nix;
-  userPackages = import ../global/packages-user.nix;
+  globalUserPackages = import ../global/packages-user.nix { pkgs = pkgs; };
+  osxUserPackages = import ./packages-user.nix { pkgs = pkgs; };
   systemPackages = import ../global/packages.nix;
   fonts = import ../global/fonts.nix;
 in {
   programs.zsh.enable = true;
-  users.users."${cfg.username}".packages = userPackages { pkgs = pkgs; };
+  users.users."${cfg.username}".packages =
+    (globalUserPackages ++ osxUserPackages);
+
   environment = {
     shells = with pkgs; [ bash zsh ];
     systemPackages = systemPackages { pkgs = pkgs; };
@@ -82,6 +85,7 @@ in {
       "firefox"
       "gimp"
       "inkscape"
+      "intellij-idea"
       "karabiner-elements"
       "keka"
       "keycastr"
