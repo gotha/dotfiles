@@ -9,7 +9,6 @@ with pkgs; [
   gofumpt
   gopls
   gnumake
-  grim
   htop
   killall
   less

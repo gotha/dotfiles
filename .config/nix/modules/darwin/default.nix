@@ -1,67 +1,28 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let
+  cfg = import ../global/conf.nix;
+  userPackages = import ../global/packages-user.nix;
+  systemPackages = import ../global/packages.nix;
+  fonts = import ../global/fonts.nix;
+in {
   programs.zsh.enable = true;
+  users.users."${cfg.username}".packages = userPackages { pkgs = pkgs; };
   environment = {
     shells = with pkgs; [ bash zsh ];
-    systemPackages = with pkgs; [
-      bison
-      cloc
-      coreutils
-      curl
-      eslint
-      git
-      gnumake
-      htop
-      httpie
-      jq
-      less
-      lua
-      ncdu
-      neofetch
-      neovim
-      nil
-      nixfmt
-      nodejs
-      nodePackages.prettier
-      pandoc
-      (php.buildEnv {
-        extensions = ({ enabled, all }: enabled ++ (with all; [ xdebug ]));
-        extraConfig = ''
-          xdebug.mode=debug
-        '';
-      })
-      php.packages.composer
-      php.packages.phpstan
-      php.packages.php-cs-fixer
-      phpactor
-      pyright
-      python3
-      qemu
-      ripgrep
-      rustup
-      shfmt
-      stow
-      stylua
-      symfony-cli
-      tcptraceroute
-      typescript
-      typescript-language-server
-      tmux
-      vale
-      watch
-      wget
-    ];
+    systemPackages = systemPackages { pkgs = pkgs; };
     systemPath = [ "/opt/homebrew/bin" ];
     pathsToLink = [ "/Applications" ];
   };
-  fonts.packages = with pkgs; [ nerd-fonts.fira-code ];
+  fonts.packages = fonts { pkgs = pkgs; };
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
-  time.timeZone = "Europe/Sofia";
+  time.timeZone = cfg.timeZone;
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = true;
   system.keyboard.nonUS.remapTilde = true; # remap tilde to non-us
   #system.keyboard.swapLeftCtrlAndFn = true;
+  security.pam.enableSudoTouchIdAuth = true;
   system.defaults = {
     finder = {
       AppleShowAllExtensions = true;
