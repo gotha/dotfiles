@@ -7,6 +7,7 @@ with pkgs; [
   dbeaver-bin
   firefox
   gimp
+  grim
   mako
   nheko
   rofi-wayland
