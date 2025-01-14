@@ -1,18 +1,20 @@
 { lib, pkgs, ... }:
 let
   cfg = import ../global/conf.nix;
-  globalUserPackages = import ../global/packages-user.nix { pkgs = pkgs; };
-  osxUserPackages = import ./packages-user.nix { pkgs = pkgs; };
+  globalUserPackages = import ../global/packages-user.nix;
+  osxUserPackages = import ./packages-user.nix;
   systemPackages = import ../global/packages.nix;
   fonts = import ../global/fonts.nix;
 in {
   programs.zsh.enable = true;
-  users.users."${cfg.username}".packages =
-    (globalUserPackages ++ osxUserPackages);
+  #users.users."${cfg.username}".packages =
+  #  (globalUserPackages {pkgs = pkgs;} ++ osxUserPackages {pkgs = pkgs;});
 
   environment = {
     shells = with pkgs; [ bash zsh ];
-    systemPackages = systemPackages { pkgs = pkgs; };
+    systemPackages = systemPackages { pkgs = pkgs; }
+      ++ globalUserPackages { pkgs = pkgs; }
+      ++ osxUserPackages { pkgs = pkgs; };
     systemPath = [ "/opt/homebrew/bin" ];
     pathsToLink = [ "/Applications" ];
     variables = { EDITOR = "vi"; };
