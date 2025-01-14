@@ -5,6 +5,7 @@ with pkgs; [
   clang
   clang-tools
   cloc
+  direnv
   go
   gofumpt
   gopls
