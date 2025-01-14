@@ -18,7 +18,10 @@ in {
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  environment.systemPackages = systemPackages { pkgs = pkgs; };
+  environment = {
+    systemPackages = systemPackages { pkgs = pkgs; };
+    variables = { EDITOR = "vi"; };
+  };
 
   nixpkgs.config = {
     allowUnfreePredicate = pkg:
