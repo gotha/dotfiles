@@ -15,6 +15,7 @@ in {
     systemPackages = systemPackages { pkgs = pkgs; };
     systemPath = [ "/opt/homebrew/bin" ];
     pathsToLink = [ "/Applications" ];
+    variables = { EDITOR = "vi"; };
   };
   fonts.packages = fonts { pkgs = pkgs; };
   nix.extraOptions = ''
