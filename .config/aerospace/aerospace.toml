@@ -137,6 +137,40 @@ outer.right =      5
 19 = '^built-in retina display$'
 20 = '^built-in retina display$'
 
-after-startup-command = [
-  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'
-]
+[[on-window-detected]]
+  if.app-id = 'org.alacritty'
+  run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+  if.app-id = 'com.tinyspeck.slackmacgap'
+  run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+  if.app-id = 'com.hnc.Discord'
+  run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+  if.app-id = 'us.zoom.xos'
+  run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+  if.app-id = 'com.spotify.client'
+  run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+  if.app-id = 'com.1password.1password'
+  run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+  if.app-id = 'com.jetbrains.intellij'
+  run = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+  if.app-id = 'com.electron.dockerdesktop'
+  run = 'move-node-to-workspace 6'
+
+
+#after-startup-command = [
+#  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'
+##  'exec-and-forget aerospace list-windows --all --json | jq \'.[] | select(."app-name"=="Discord") | ."window-id"\' | xargs -I {} aerospace move-node-to-workspace --window-id {} 3'
+#]
