@@ -47,6 +47,7 @@ in {
       show-recents = false;
       wvous-tl-corner = 1; # disable top left hot corner
       wvous-br-corner = 1; # disable bottom right hot corner
+      expose-group-apps = true; # fixes issue with small windows in Expose
       persistent-apps = [
         "/System/Applications/System Settings.app"
         "/Applications/Safari.app"
