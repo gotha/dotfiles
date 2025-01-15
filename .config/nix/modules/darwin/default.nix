@@ -103,7 +103,15 @@ in {
       "vlc"
     ];
     taps = [ "fujiapple852/trippy" "nikitabobko/aerospace" ];
-    brews =
-      [ "autopep8" "cookiecutter" "cfn-lint" "go" "gofumpt" "gopls" "trippy" ];
+    brews = [
+      "autopep8"
+      "cookiecutter"
+      "cfn-lint"
+      "go"
+      "gofumpt"
+      "gopls"
+      "helm"
+      "trippy"
+    ];
   };
 }
