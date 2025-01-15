@@ -70,7 +70,7 @@ nix run nix-darwin -- switch --flake .config/nix
 to update the flake:
 
 ```sh
-nix flake update .config/nix
+nix flake update --flake .config/nix
 ```
 
 
