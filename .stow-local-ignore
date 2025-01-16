@@ -1,7 +1,7 @@
 docs
 etc
+firefox
 README.md
-README-arch.md
-README-asahi.md
-README-osx.md
+README-*.md
 .git
+.gitignore
