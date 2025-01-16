@@ -6,6 +6,7 @@ with pkgs; [
   clang-tools
   cloc
   direnv
+  git-lfs
   go
   gofumpt
   gopls
