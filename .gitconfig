@@ -13,6 +13,7 @@
 	autoSetupRemote = true
 [core]
 	editor = nvim
+	excludesfile = ~/.config/git/ignore
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
