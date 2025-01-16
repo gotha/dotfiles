@@ -103,6 +103,9 @@ if [ $OSTYPE = "linux-gnu" ]; then
 fi
 
 alias kbc=kubectl
+if [ -f "$HOME/.config/zsh/kubectl.zsh" ]; then
+  source $HOME/.config/zsh/kubectl.zsh
+fi
 
 if [[ "$OSTYPE" =~ darwin ]]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
