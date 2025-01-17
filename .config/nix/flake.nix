@@ -12,14 +12,12 @@
   outputs = inputs@{ nixpkgs, darwin, nix-index-database, ... }: {
     darwinConfigurations.platypus = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
-      pkgs = import nixpkgs { system = "aarch64-darwin"; };
       modules = [ ./modules/darwin ];
     };
 
     darwinConfigurations."D2Y6PH4TGJ-Hristo-Georgiev" =
       darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        pkgs = import nixpkgs { system = "aarch64-darwin"; };
         modules = [ ./modules/darwin ];
       };
 

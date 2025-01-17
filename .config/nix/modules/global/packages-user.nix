@@ -1,5 +1,6 @@
 { pkgs, ... }:
 with pkgs; [
+  _1password-cli
   bc
   bison
   clang

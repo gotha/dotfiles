@@ -7,6 +7,9 @@ let
   fonts = import ../global/fonts.nix;
 in {
   programs.zsh.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
+
   #users.users."${cfg.username}".packages =
   #  (globalUserPackages {pkgs = pkgs;} ++ osxUserPackages {pkgs = pkgs;});
 
