@@ -102,11 +102,6 @@ if [ $OSTYPE = "linux-gnu" ]; then
   fi
 fi
 
-alias kbc=kubectl
-if [ -f "$HOME/.config/zsh/kubectl.zsh" ]; then
-  source $HOME/.config/zsh/kubectl.zsh
-fi
-
 if [[ "$OSTYPE" =~ darwin ]]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
   export PATH="/opt/homebrew/bin:$PATH"
@@ -149,6 +144,12 @@ fi
 fpath=(~/.zsh/completion $fpath)
 autoload -U compinit
 compinit
+
+
+alias kbc=kubectl
+if [ -f "$HOME/.config/zsh/kubectl.zsh" ]; then
+  source $HOME/.config/zsh/kubectl.zsh
+fi
 
 if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook zsh)"
