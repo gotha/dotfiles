@@ -29,6 +29,8 @@ with pkgs; [
   stylua
   tmux
   tree
+  typescript
+  typescript-language-server
   unzip
   vale
   watch
