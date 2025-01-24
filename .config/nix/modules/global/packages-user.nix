@@ -7,6 +7,7 @@ with pkgs; [
   clang-tools
   cloc
   direnv
+  eslint
   git-lfs
   go
   gofumpt
@@ -22,6 +23,7 @@ with pkgs; [
   nixfmt-classic
   nix-search-cli
   nodejs
+  nodePackages_latest.prettier
   pyright
   ripgrep
   shfmt
