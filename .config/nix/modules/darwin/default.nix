@@ -100,6 +100,7 @@ in {
       "keycastr"
       "rar"
       "raycast"
+      "redis-insight"
       "slack"
       "spotify"
       "transmission"
