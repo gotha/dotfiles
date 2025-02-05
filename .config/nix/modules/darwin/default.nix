@@ -25,6 +25,8 @@ in {
   fonts.packages = fonts { pkgs = pkgs; };
   nix.extraOptions = ''
     experimental-features = nix-command flakes
+  '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
+    extra-platforms = x86_64-darwin aarch64-darwin
   '';
   time.timeZone = cfg.timeZone;
   system.keyboard.enableKeyMapping = true;
@@ -105,7 +107,8 @@ in {
       "viber"
       "vlc"
     ];
-    taps = [ "fujiapple852/trippy" "nikitabobko/aerospace" ];
+    taps =
+      [ "fujiapple852/trippy" "nikitabobko/aerospace" "FelixKratz/formulae" ];
     brews = [
       "autopep8"
       "cookiecutter"
@@ -114,6 +117,7 @@ in {
       "gofumpt"
       "gopls"
       "helm"
+      "sketchybar"
       "trippy"
     ];
   };
