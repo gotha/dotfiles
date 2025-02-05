@@ -25,6 +25,7 @@ with pkgs; [
   nodejs
   nodePackages_latest.prettier
   pyright
+  python3Full
   ripgrep
   shfmt
   stow
