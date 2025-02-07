@@ -33,6 +33,9 @@ lspconfig.phpactor.setup({})
 lspconfig.terraformls.setup({})
 lspconfig.pyright.setup({})
 lspconfig.nil_ls.setup({})
+lspconfig.kotlin_language_server.setup({
+	filetypes = { "kotlin", "kt", "kts" },
+})
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

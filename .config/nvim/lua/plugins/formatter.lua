@@ -170,6 +170,21 @@ require("formatter").setup({
 			end,
 		},
 
+		kotlin = {
+			function()
+				return {
+					exe = "ktlint",
+					args = {
+						"-F",
+						"--stdin",
+						"--log-level",
+						"error",
+					},
+					stdin = true,
+				}
+			end,
+		},
+
 		-- Use the special "*" filetype for defining formatter configurations on
 		-- any filetype
 		["*"] = {
@@ -184,6 +199,6 @@ require("formatter").setup({
 vim.cmd([[
 augroup FormatAutogroup
 autocmd!
-autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go,*.graphql,*.gql,*.py,*.php,*.twig,*.nix FormatWrite
+autocmd BufWritePost *.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.c,*.go,*.graphql,*.gql,*.py,*.php,*.twig,*.nix,*.kt FormatWrite
 augroup END
 ]])

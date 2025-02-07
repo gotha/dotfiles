@@ -15,6 +15,8 @@ with pkgs; [
   gnumake
   htop
   killall
+  kotlin-language-server
+  ktlint
   less
   lua
   ncdu
