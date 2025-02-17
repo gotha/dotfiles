@@ -77,7 +77,9 @@ in {
   };
   # backwards compat; don't change
   system.stateVersion = 4;
-  services.nix-daemon.enable = true;
+  # configured group ID to match the current value because nix-darwin change
+  # that would otherwise make me re-install
+  ids.gids.nixbld = 350;
   homebrew = {
     enable = true;
     caskArgs.no_quarantine = true;
