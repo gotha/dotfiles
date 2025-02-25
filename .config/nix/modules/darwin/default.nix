@@ -33,7 +33,7 @@ in {
   system.keyboard.remapCapsLockToEscape = true;
   system.keyboard.nonUS.remapTilde = true; # remap tilde to non-us
   #system.keyboard.swapLeftCtrlAndFn = true;
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
   system.defaults = {
     finder = {
       AppleShowAllExtensions = true;
