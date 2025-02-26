@@ -82,6 +82,10 @@ in {
   ids.gids.nixbld = 350;
   homebrew = {
     enable = true;
+    onActivation = {
+      autoUpdate = true;
+      upgrade = true;
+    };
     caskArgs.no_quarantine = true;
     global.brewfile = true;
     masApps = { };
