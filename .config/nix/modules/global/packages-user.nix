@@ -1,5 +1,9 @@
 { pkgs, ... }:
-with pkgs; [
+with pkgs;
+let
+  gcloud = pkgs.google-cloud-sdk.withExtraComponents
+    [ pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin ];
+in [
   _1password-cli
   bc
   bison
@@ -8,6 +12,7 @@ with pkgs; [
   cloc
   direnv
   eslint
+  gcloud
   git-lfs
   go
   gofumpt
