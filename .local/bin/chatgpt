@@ -16,12 +16,16 @@ add_history() {
     echo "$question: $answer" >> $HOME/.bashgpt_history
 }
 
-if [[ "$1" == "" ]]; then
+question="$1"
+if [[ "$question" == "" ]]; then
+  read question
+fi
+
+if [[ "$question" == "" ]]; then
   echo "you must ask a question"
   exit 1
 fi
 
-question="$1"
 payload=$(jq -n \
   --arg model "$model" \
   --arg content "$question" \
