@@ -35,6 +35,7 @@ in [
   python3Full
   ripgrep
   shfmt
+  sops
   stow
   stylua
   tmux
