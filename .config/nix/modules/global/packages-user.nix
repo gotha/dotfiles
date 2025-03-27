@@ -18,6 +18,7 @@ in [
   gofumpt
   gopls
   gnumake
+  gnupg
   htop
   killall
   kotlin-language-server
