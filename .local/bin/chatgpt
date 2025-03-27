@@ -41,5 +41,8 @@ answer=$(curl -s https://api.openai.com/v1/chat/completions \
 answer=$(echo "$answer" | sed 's/\\n/\
 /g')  # Replaces escaped \n with literal newline
 
+answer=$(echo "$answer" | sed 's/\\t/\	/g')  # Replaces escaped \t with tab char
+answer=$(echo "$answer" | sed 's/\"/\"/g')  # Replaces escaped quote with real quote
+
 add_history "$question" "$answer"
 echo -n "$answer"
