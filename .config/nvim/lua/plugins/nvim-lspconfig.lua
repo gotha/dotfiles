@@ -31,7 +31,19 @@ lspconfig.gopls.setup({
 lspconfig.clangd.setup({})
 lspconfig.phpactor.setup({})
 lspconfig.terraformls.setup({})
-lspconfig.pyright.setup({})
+lspconfig.pyright.setup({
+	capabilities = capabilities,
+	settings = {
+		python = {
+			analysis = {
+				autoSearchPaths = true,
+				diagnosticMode = "workspace",
+				useLibraryCodeForTypes = true,
+				typeCheckingMode = "basic",
+			},
+		},
+	},
+})
 lspconfig.nil_ls.setup({})
 lspconfig.kotlin_language_server.setup({
 	filetypes = { "kotlin", "kt", "kts" },
