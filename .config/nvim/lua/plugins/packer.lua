@@ -61,5 +61,7 @@ return require("packer").startup(function(use)
 
 	use("nelsyeung/twig.vim")
 
+	use("augmentcode/augment.vim")
+
 	use("Rigellute/rigel")
 end)
