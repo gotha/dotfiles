@@ -41,6 +41,7 @@ in {
       _FXShowPosixPathInTitle = true;
       ShowPathbar = true;
       ShowStatusBar = true;
+      CreateDesktop = false;
     };
     dock = {
       autohide = true;
