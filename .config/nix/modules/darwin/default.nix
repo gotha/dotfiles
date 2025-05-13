@@ -22,6 +22,9 @@ in {
     pathsToLink = [ "/Applications" ];
     variables = { EDITOR = "vi"; };
   };
+
+  services.sketchybar = { enable = true; };
+
   fonts.packages = fonts { pkgs = pkgs; };
   nix.extraOptions = ''
     experimental-features = nix-command flakes
@@ -69,6 +72,7 @@ in {
       AppleShowAllExtensions = true;
       InitialKeyRepeat = 14;
       KeyRepeat = 1;
+      _HIHideMenuBar = true;
     };
     trackpad = {
       Clicking = true; # tap to cick
@@ -125,7 +129,6 @@ in {
       "gofumpt"
       "gopls"
       "helm"
-      "sketchybar"
       "trippy"
     ];
   };
