@@ -64,7 +64,6 @@ sketchybar --add item battery right \
                         background.color=$TRANSPARENT \
                         background.corner_radius=9 \
                         background.padding_right=5 \
-                        label.drawing=off \
                         icon.padding_right=2 \
                         icon.padding_left=10
 
