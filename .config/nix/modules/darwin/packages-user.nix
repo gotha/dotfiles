@@ -1,1 +1,1 @@
-{ pkgs, ... }: with pkgs; [ docker lima ]
+{ pkgs, ... }: with pkgs; [ aerospace docker lima ]

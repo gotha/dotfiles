@@ -96,7 +96,6 @@ in {
     masApps = { };
     casks = [
       "1password"
-      "aerospace"
       "alacritty"
       "audacity"
       "chromium"
@@ -119,8 +118,7 @@ in {
       "viber"
       "vlc"
     ];
-    taps =
-      [ "fujiapple852/trippy" "nikitabobko/aerospace" "FelixKratz/formulae" ];
+    taps = [ "fujiapple852/trippy" "FelixKratz/formulae" ];
     brews = [
       "autopep8"
       "cookiecutter"
