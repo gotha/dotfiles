@@ -2,7 +2,7 @@
 
 # Get the current date and time
 DATE=$(date '+%a %d %b')
-TIME=$(date '+%I:%M')
+TIME=$(date '+%H:%M')
 
 # Set the clock item with date and time
 sketchybar --set $NAME \
