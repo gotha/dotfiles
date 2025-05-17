@@ -58,11 +58,16 @@ for sid in $(aerospace list-workspaces --all); do
   fi
 
   LABEL="${sid}"
+
   sketchybar --add item space.$sid left \
       --subscribe space.$sid aerospace_workspace_change \
       --set space.$sid \
-      icon.font="$FONT:Bold:14.0" \
+      icon.font="$FONT:Bolder:14.0" \
       icon.color=$ICON_COLOR \
+      background.color=0x44ffffff \
+      background.corner_radius=3 \
+      background.height=20 \
+      background.drawing=off \
       label="$LABEL" \
       click_script="aerospace workspace $sid" \
       script="$CONFIG_DIR/plugins/aerospace.sh $sid"
