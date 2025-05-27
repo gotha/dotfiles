@@ -26,8 +26,8 @@ sketchybar --remove '/.*/'
 # General bar appearance
 sketchybar --bar height=42 \
                  position=top \
-                 padding_left=10 \
-                 padding_right=10 \
+                 padding_left=20 \
+                 padding_right=20 \
                  color=$BAR_COLOR \
                  corner_radius=0 \
                  y_offset=0 \
