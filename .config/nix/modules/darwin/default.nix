@@ -32,6 +32,8 @@ in {
     extra-platforms = x86_64-darwin aarch64-darwin
   '';
   time.timeZone = cfg.timeZone;
+
+  system.primaryUser = "gotha";
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = true;
   system.keyboard.nonUS.remapTilde = true; # remap tilde to non-us
