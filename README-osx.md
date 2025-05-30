@@ -64,7 +64,7 @@ nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch 
 then after each change
 
 ```sh
-nix run nix-darwin -- switch --flake .config/nix
+sudo nix run nix-darwin -- switch --flake .config/nix
 ```
 
 to update the flake:
