@@ -19,13 +19,13 @@ lspconfig.gopls.setup({
 	settings = {
 		gopls = {
 			usePlaceholders = false,
-			buildFlags = { "-tags=integration" },
+			buildFlags = { "-tags=integration,load" },
 			gofumpt = true,
 			["local"] = "<repo>",
 		},
 	},
 	init_options = {
-		buildFlags = { "-tags=integration" },
+		buildFlags = { "-tags=integration,load" },
 	},
 })
 lspconfig.clangd.setup({})
