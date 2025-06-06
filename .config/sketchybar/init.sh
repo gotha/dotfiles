@@ -33,6 +33,7 @@ sketchybar --bar height=42 \
                  y_offset=0 \
                  margin=0 \
                  notch_width=200 \
+                 font_smoothing=on \
                  display=all
 
 # Default values for all further items
