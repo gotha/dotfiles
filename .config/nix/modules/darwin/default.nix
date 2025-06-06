@@ -56,7 +56,7 @@ in {
       orientation = "left";
       show-process-indicators = true;
       show-recents = false;
-      wvous-tl-corner = 1; # disable top left hot corner
+      wvous-tl-corner = 2; # top left hot corner - mission control
       wvous-br-corner = 1; # disable bottom right hot corner
       expose-group-apps = true; # fixes issue with small windows in Expose
       persistent-apps = [
