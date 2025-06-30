@@ -291,4 +291,6 @@ exec slack
 exec spotify
 exec transmission-gtk
 
+exec ~/.local/bin/bin/wallpaper.sh
+
 include /etc/sway/config.d/*
