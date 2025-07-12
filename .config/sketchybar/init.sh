@@ -34,6 +34,7 @@ sketchybar --bar height=42 \
                  margin=0 \
                  notch_width=200 \
                  font_smoothing=on \
+                 blur_radius=10 \
                  display=all
 
 # Default values for all further items

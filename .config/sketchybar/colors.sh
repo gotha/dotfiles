@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Bar background
-export BAR_COLOR="0xff1e1e2e"
+#export BAR_COLOR="0xff1e1e2e"
+export BAR_COLOR="0x80000000"  # 50% transparent black
 
 # Text and icon colors
 export ICON_COLOR="0xffd9e0ee"
