@@ -11,7 +11,7 @@
     "modules-right": ["network", "custom/headset-battery", "custom/mouse-battery", "pulseaudio", "cpu", "memory", "temperature", "battery", "sway/language", "clock", "tray"],
     "custom/os": {
         //"format": " "
-	"format": " "
+        "format": " "
     },
     // Modules configuration
     "sway/workspaces": {
@@ -143,18 +143,18 @@
         // "scroll-step": 1, // %, can be a float
         //"format": "{volume}% {icon} {format_source}",
         "format": "{volume}% {icon}",
-        "format-bluetooth": "  {volume}%  {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
+        //"format-bluetooth": "{volume}% {icon} {format_source}",
+        //"format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
+            //"headphone": "",
+            //"hands-free": "",
+            //"headset": "",
+            //"phone": "",
+            //"portable": "",
+            //"car": "",
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
@@ -165,11 +165,18 @@
         "max-length": 40,
         "format-icons": {
             "spotify": "",
-            "default": ""
+            "default": "🎜"
         },
         "escape": true,
         "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
         // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    },
+    "custom/headset-battery" : {
+        "format": "{} {icon} ",
+        "format-icons": {
+            "default": ""
+        },
+        "exec": "upower -i /org/freedesktop/UPower/devices/headset_dev_CC_98_8B_C1_67_A6 | grep percentage | awk '{print $2}'"
     },
     "custom/mouse-battery" : {
         "format": "{} {icon} ",
