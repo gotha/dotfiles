@@ -40,7 +40,8 @@ output eDP-1 {
     scale 1.25
     #bg ~/Pictures/wallpapers/asahi-rainbow.png fill
 }
- output HDMI-A-2 {
+
+output HDMI-A-2 {
     scale 1.0
     #bg ~/Pictures/wallpapers/cyberpunk.jpg fill
 }
@@ -97,6 +98,17 @@ input "1046:291:Ducky_Ducky_One2_SF_RGB" {
 input "13364:608:Keychron_Keychron_K6_Pro" {
     xkb_layout "keychron-k6",bg
     xkb_options "grp:win_space_toggle,caps:escape"
+
+    repeat_delay 250
+    repeat_rate 45
+}
+
+input "13364:608:Keychron_K6_Pro_Keyboard" {
+    xkb_layout "keychron-k6",bg
+    xkb_options "grp:win_space_toggle,caps:escape"
+
+    repeat_delay 250
+    repeat_rate 45
 }
 
 input type:touchpad {
