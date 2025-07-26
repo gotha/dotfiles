@@ -5,8 +5,8 @@
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["custom/os", "sway/workspaces", "sway/mode", "sway/scratchpad"],
-    "modules-center": ["sway/window"],
+    "modules-left": ["custom/os", "sway/workspaces", "sway/mode", "sway/scratchpad", "sway/window"],
+    "modules-center": ["custom/waybar-mpris"],
     //"modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "sway/language", "battery", "battery#bat2", "clock", "tray"],
     "modules-right": ["network", "custom/headset-battery", "custom/mouse-battery", "pulseaudio", "cpu", "memory", "temperature", "battery", "sway/language", "clock", "tray"],
     "custom/os": {
@@ -159,20 +159,9 @@
         },
         "on-click": "pavucontrol"
     },
-    "custom/media": {
-        "format": "{icon} {}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
-    },
     "custom/headset-battery" : {
         "format": "{} {icon} ",
+	"interval": 10,
         "format-icons": {
             "default": ""
         },
@@ -180,10 +169,18 @@
     },
     "custom/mouse-battery" : {
         "format": "{} {icon} ",
+	"interval": 60,
         "format-icons": {
             "default": "󰍽"
         },
         "exec": "upower -i /org/freedesktop/UPower/devices/battery_hidpp_battery_0 | grep percentage | awk '{print $2}'"
+    },
+    "custom/waybar-mpris": {
+        "return-type": "json",
+        "exec": "waybar-mpris --position --autofocus --pause ' ' --play ' '",
+        "on-click": "waybar-mpris --send toggle",
+        "on-click-right": "waybar-mpris --send player-next",
+        "escape": true
     }
 }
 
