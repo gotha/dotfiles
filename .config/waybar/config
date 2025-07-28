@@ -173,7 +173,8 @@
         "format-icons": {
             "default": "󰍽"
         },
-        "exec": "upower -i /org/freedesktop/UPower/devices/battery_hidpp_battery_0 | grep percentage | awk '{print $2}'"
+        //"exec": "upower -i /org/freedesktop/UPower/devices/battery_hidpp_battery_0 | grep percentage | awk '{print $2}'"
+	"exec": "upower -i /org/freedesktop/UPower/devices/mouse_dev_C1_17_DD_26_66_5D | grep percentage | awk '{print $2}'"
     },
     "custom/waybar-mpris": {
         "return-type": "json",
