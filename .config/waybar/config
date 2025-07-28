@@ -160,12 +160,12 @@
         "on-click": "pavucontrol"
     },
     "custom/headset-battery" : {
-        "format": "{} {icon} ",
+        "format": "{}% {icon} ",
 	"interval": 10,
         "format-icons": {
             "default": ""
         },
-        "exec": "upower -i /org/freedesktop/UPower/devices/headset_dev_CC_98_8B_C1_67_A6 | grep percentage | awk '{print $2}'"
+        "exec": "device=\"/org/freedesktop/UPower/devices/headset_dev_CC_98_8B_C1_67_A6\"; percentage=$(upower -i $device  | grep percentage | awk '{print $2}' | tr -d '%'); if [ \"$percentage\" -gt 0 ]; then echo \"$percentage\"; else echo \"\"; fi"
     },
     "custom/mouse-battery" : {
         "format": "{} {icon} ",
@@ -173,8 +173,7 @@
         "format-icons": {
             "default": "󰍽"
         },
-        //"exec": "upower -i /org/freedesktop/UPower/devices/battery_hidpp_battery_0 | grep percentage | awk '{print $2}'"
-	"exec": "upower -i /org/freedesktop/UPower/devices/mouse_dev_C1_17_DD_26_66_5D | grep percentage | awk '{print $2}'"
+        "exec": "device=\"/org/freedesktop/UPower/devices/mouse_dev_C1_17_DD_26_66_5D\"; percentage=$(upower -i $device  | grep percentage | awk '{print $2}' | tr -d '%'); if [ \"$percentage\" -gt 0 ]; then echo \"$percentage\"; else echo \"\"; fi"
     },
     "custom/waybar-mpris": {
         "return-type": "json",
