@@ -5,7 +5,7 @@
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["custom/os", "sway/workspaces", "sway/mode", "sway/scratchpad", "sway/window"],
+    "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad", "sway/window"],
     "modules-center": ["custom/waybar-mpris"],
     //"modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "sway/language", "battery", "battery#bat2", "clock", "tray"],
     "modules-right": ["network", "custom/headset-battery", "custom/mouse-battery", "pulseaudio", "cpu", "memory", "temperature", "battery", "sway/language", "clock", "tray"],
@@ -18,14 +18,19 @@
         "disable-scroll": false,
         "all-outputs": true,
         "warp-on-scroll": false,
-        //"format": "{name}: {icon}",
-        "format": "{icon}",
+        "format": "{index}: {icon} ",
+        //"format": "{icon}",
         "format-icons": {
             "1": "",
             "2": "",
             "3": "",
-            "4": "",
+            "4": "",
             "5": "",
+            "6": "󱄅",
+            "7": "",
+            "8": "",
+            "9": "",
+            "10": "",
             "urgent": "",
             //"focused": "",
             //"default": ""
