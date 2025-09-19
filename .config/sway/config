@@ -41,9 +41,15 @@ output eDP-1 {
     #bg ~/Pictures/wallpapers/asahi-rainbow.png fill
 }
 
+output HDMI-A-1 {
+    scale 1.0
+    bg ~/Pictures/wallpapers/nix-wallpaper-nineish-solarized-dark.png fill
+}
+
 output HDMI-A-2 {
     scale 1.0
     #bg ~/Pictures/wallpapers/cyberpunk.jpg fill
+    bg ~/Pictures/wallpapers/nix-wallpaper-nineish-solarized-dark.png fill
 }
 
 ### Idle configuration
@@ -291,18 +297,64 @@ bar {
     #}
 }
 
+
 default_border none
 default_floating_border none
 
 # Startup apps
 exec 1password
 exec alacritty
-exec discord
+#exec discord
 exec firefox
 exec slack
 exec spotify
 exec transmission-gtk
 
-exec ~/.local/bin/bin/wallpaper.sh
+#exec ~/.local/bin/bin/wallpaper.sh
 
 include /etc/sway/config.d/*
+
+
+## Eyecandy
+
+gaps inner 5
+gaps outer 5
+
+# swayfx
+
+#blur enable
+#blur_passes 1
+#blur_radius 5
+#blur_saturation 1.2
+
+# Apply rounded corners
+corner_radius 10
+
+# Window shadows
+shadows enable
+shadows_on_csd disable
+shadow_blur_radius 20
+shadow_color #0000007F
+shadow_inactive_color #0000004F
+shadow_offset 2 2
+
+# Dim unfocused windows slightly
+#default_dim_inactive 0.1
+#dim_inactive_colors.unfocused #888888FF
+#dim_inactive_colors.urgent #FF8888FF
+
+# Apply effects to Waybar (as an example)
+layer_effects "waybar" {
+  #blur enable;
+  shadows enable;
+  corner_radius 6;
+}
+
+# check the three first 
+# swaymsg -t get_tree
+assign [app_id="firefox"] workspace number 1
+assign [app_id="Alacritty"] workspace number 2
+assign [instance="slack"] workspace number 3
+assign [instance="1password"] workspace number 4
+assign [app_id="transmission-gtk"] workspace number 4
+assign [instance="spotify"] workspace number 4

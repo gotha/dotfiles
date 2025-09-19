@@ -1,0 +1,1 @@
+{ ... }: { services.sketchybar = { enable = true; }; }

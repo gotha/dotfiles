@@ -44,12 +44,75 @@ lspconfig.pyright.setup({
 		},
 	},
 })
-lspconfig.nil_ls.setup({})
+lspconfig.nil_ls.setup( {
+  autostart = true,
+  capabilities = capabilities,
+  settings = {
+    ['nil'] = {
+      formatting = {
+        command = { "nixfmt" },
+      },
+    },
+  },
+})
 lspconfig.kotlin_language_server.setup({
 	filetypes = { "kotlin", "kt", "kts" },
 })
 
 lspconfig.regols.setup({})
+
+lspconfig.jdtls.setup({
+	cmd = {
+		"java",
+		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
+		"-Dosgi.bundles.defaultStartLevel=4",
+		"-Declipse.product=org.eclipse.jdt.ls.core.product",
+		"-Dlog.protocol=true",
+		"-Dlog.level=ALL",
+		"-Xms1g",
+		"--add-modules=ALL-SYSTEM",
+		"--add-opens",
+		"java.base/java.util=ALL-UNNAMED",
+		"--add-opens",
+		"java.base/java.lang=ALL-UNNAMED",
+		"-jar",
+		vim.fn.glob("/path/to/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
+		"-configuration",
+		"/path/to/jdtls/config_linux", -- or config_mac/config_win
+		"-data",
+		vim.fn.expand("~/.cache/jdtls/workspace"),
+	},
+	root_dir = lspconfig.util.root_pattern(".git", "mvnw", "gradlew", "pom.xml", "build.gradle"),
+	settings = {
+		java = {
+			eclipse = {
+				downloadSources = true,
+			},
+			configuration = {
+				updateBuildConfiguration = "interactive",
+			},
+			maven = {
+				downloadSources = true,
+			},
+			implementationsCodeLens = {
+				enabled = true,
+			},
+			referencesCodeLens = {
+				enabled = true,
+			},
+			references = {
+				includeDecompiledSources = true,
+			},
+			signatureHelp = { enabled = true },
+			format = {
+				enabled = true,
+			},
+		},
+	},
+	init_options = {
+		bundles = {},
+	},
+})
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
