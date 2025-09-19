@@ -6,6 +6,7 @@ let
   systemPackages = import ../global/packages.nix;
   fonts = import ../global/fonts.nix;
 in {
+
   programs.zsh.enable = true;
 
   nixpkgs.config.allowUnfree = true;
@@ -26,6 +27,8 @@ in {
   services.sketchybar = { enable = true; };
 
   fonts.packages = fonts { pkgs = pkgs; };
+
+  nix.settings.trusted-users = [ cfg.username ];
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
