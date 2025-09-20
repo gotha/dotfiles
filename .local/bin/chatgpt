@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 OPEN_AI_API_KEY=$(op item get "ChatGPT" --fields apikey --reveal)
 if [ -z "$OPEN_AI_API_KEY" ]; then

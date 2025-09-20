@@ -147,6 +147,7 @@ alias kgnosl='kubectl get nodes --show-labels'
 alias keno='kubectl edit node'
 alias kdno='kubectl describe node'
 alias kdelno='kubectl delete node'
+alias kgpon=''
 
 # PVC management.
 alias kgpvc='kubectl get pvc'

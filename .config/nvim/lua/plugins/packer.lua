@@ -37,6 +37,12 @@ return require("packer").startup(function(use)
 
 	use("mfussenegger/nvim-lint")
 	use("mhartington/formatter.nvim")
+	--use({
+	--	"stevearc/conform.nvim",
+	--	config = function()
+	--		require("conform").setup()
+	--	end,
+	--})
 
 	use("tpope/vim-fugitive")
 
@@ -62,6 +68,8 @@ return require("packer").startup(function(use)
 	use("nelsyeung/twig.vim")
 
 	use("augmentcode/augment.vim")
+
+	use("ktklin/confluence-cloud-vim")
 
 	use("Rigellute/rigel")
 end)
