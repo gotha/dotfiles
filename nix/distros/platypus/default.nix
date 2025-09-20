@@ -39,6 +39,8 @@ in {
           programs.alacritty.custom.fontSize = 11.0;
         };
       };
+
     }
   ];
+
 }

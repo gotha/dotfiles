@@ -1,6 +1,4 @@
-
 # Docs at: https://alacritty.org/config-alacritty.html
-
 [window]
 
 opacity = 0.98
@@ -19,7 +17,7 @@ bold.family = "FiraCode Nerd Font"
 italic.family = "FiraCode Nerd Font"
 bold_italic.family = "FiraCode Nerd Font"
 
-size = 10.0
+size = {{FONT_SIZE}}
 
 [colors]
   # Default colors
