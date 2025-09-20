@@ -29,8 +29,15 @@ in {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        users.${cfg.username}.imports =
-          [ ../../home-manager ../../home-manager/vscode.nix ];
+        users.${cfg.username} = {
+          imports = [
+            ../../home-manager
+            ../../home-manager/aerospace
+            ../../home-manager/alacritty
+            ../../home-manager/vscode.nix
+          ];
+          programs.alacritty.custom.fontSize = 11.0;
+        };
       };
     }
   ];

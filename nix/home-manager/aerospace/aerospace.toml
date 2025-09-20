@@ -147,7 +147,6 @@ outer.right =      5
 19 = '^(built-in retina display|.*Airplay.*)$'
 20 = '^(built-in retina display|.*Airplay.*)$'
 
-
 [[on-window-detected]]
   if.app-id = 'org.alacritty'
   run = 'move-node-to-workspace 2'
@@ -179,7 +178,6 @@ outer.right =      5
 [[on-window-detected]]
   if.app-id = 'com.electron.dockerdesktop'
   run = 'move-node-to-workspace 6'
-
 
 #after-startup-command = [
 #  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'

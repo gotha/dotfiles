@@ -1,1 +1,1 @@
-{ pkgs, ... }: with pkgs; [ aerospace docker gimp lima ]
+{ pkgs, ... }: with pkgs; [ docker gimp lima ]
