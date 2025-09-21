@@ -30,6 +30,7 @@ in {
           ../../home-manager/sway
           ../../home-manager/tmux
           ../../home-manager/waybar
+          ../../home-manager/zsh
         ];
       };
     }
