@@ -82,8 +82,17 @@ in {
       pulse.enable = true;
       wireplumber.enable = true;
     };
+    plex = {
+      enable = true;
+      openFirewall = true;
+      user = cfg.username;
+    };
     upower.enable = true;
   };
+
+  # Enable lingering for the ${cfg.username} user so the service starts at boot
+  # even when the user is not logged in
+  systemd.user.services."user@${cfg.username}".enable = true;
 
   xdg.portal.enable = true;
 
