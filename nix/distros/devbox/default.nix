@@ -27,6 +27,7 @@ in {
           ../../home-manager
           ../../home-manager/alacritty
           ../../home-manager/sway
+          ../../home-manager/tmux
           ../../home-manager/waybar
         ];
       };
