@@ -82,11 +82,11 @@ in {
       pulse.enable = true;
       wireplumber.enable = true;
     };
-    plex = {
-      enable = true;
-      openFirewall = true;
-      user = cfg.username;
-    };
+    #plex = {
+    #  enable = true;
+    #  openFirewall = true;
+    #  user = cfg.username;
+    #};
     upower.enable = true;
   };
 
