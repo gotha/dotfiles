@@ -17,7 +17,6 @@ in {
   imports = [
     ../../os/default.nix
     ../../os/darwin/homebrew.nix
-    ../../os/darwin/services.nix
     ../../os/darwin/system.nix
     {
       users.users.${cfg.username} = {
@@ -34,6 +33,7 @@ in {
             ../../home-manager
             ../../home-manager/aerospace
             ../../home-manager/alacritty
+            ../../home-manager/sketchybar
             ../../home-manager/vscode
           ];
           programs.alacritty.custom.fontSize = 11.0;

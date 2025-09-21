@@ -2,12 +2,12 @@
 
   home.packages = with pkgs; [ aerospace ];
 
-  # Add launchd service for AeroSpace (macOS specific)
-  # This is an alternative to the start-at-login setting in the config
   launchd.agents.aerospace = {
     enable = true;
     config = {
-      ProgramArguments = [ "${pkgs.aerospace}/bin/aerospace" ];
+      ProgramArguments = [
+        "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace"
+      ];
       KeepAlive = true;
       RunAtLoad = true;
     };

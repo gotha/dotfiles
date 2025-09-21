@@ -6,7 +6,6 @@
 # Set the config directory
 CONFIG_DIR="$HOME/.config/sketchybar"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
-ITEM_DIR="$CONFIG_DIR/plugins"
 
 # Load colors
 source "$CONFIG_DIR/colors.sh"
@@ -53,12 +52,15 @@ sketchybar --default updates=when_shown \
 #
 sketchybar --add event aerospace_workspace_change
 
-for sid in $(aerospace list-workspaces --all); do
-  if [ $sid -gt 10 ]; then
-    # I want to see only the first 10 spaces
-    continue
-  fi
+#for sid in $(aerospace list-workspaces --all); do
+#  echo $sid
+#  if [ $sid -gt 10 ]; then
+#    # I want to see only the first 10 spaces
+#    continue
+#  fi
 
+# temporarily switching to hardcoded workspaces
+for sid in {1..10}; do
   LABEL="${sid}"
 
   sketchybar --add item space.$sid left \
