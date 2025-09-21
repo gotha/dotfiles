@@ -25,6 +25,7 @@ in {
       home-manager = {
         users.${cfg.username}.imports = [
           ../../home-manager
+          ../../home-manager/alacritty
           ../../home-manager/sway
           ../../home-manager/waybar
         ];
