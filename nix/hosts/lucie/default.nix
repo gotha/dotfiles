@@ -8,6 +8,9 @@ in {
 
   networking.hostName = "lucie";
 
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
+
   services = { xserver.videoDrivers = [ "nvidia" ]; };
 
   systemd.services.hg-tunnel = {
