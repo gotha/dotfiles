@@ -25,7 +25,7 @@ in {
       home-manager = {
         users.${cfg.username}.imports = [
           ../../home-manager
-          ../../home-manager/sway.nix
+          ../../home-manager/sway
           ../../home-manager/waybar
         ];
       };
