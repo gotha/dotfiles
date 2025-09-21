@@ -87,5 +87,16 @@
         };
       };
 
+      apps.x86_64-linux = {
+        deploy-devbox-qemu = {
+          type = "app";
+          program = toString (nixpkgs.legacyPackages.x86_64-linux.writeScript
+            "deploy-devbox-qemu" ''
+              #!/usr/bin/env bash
+              nixos-rebuild switch --flake .#devbox --target-host devbox.qemu --use-remote-sudo
+            '');
+        };
+      };
+
     };
 }

@@ -8,4 +8,6 @@
       packages = userPackages;
     };
   };
+
+  security.sudo.wheelNeedsPassword = false;
 }

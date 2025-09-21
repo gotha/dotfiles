@@ -17,13 +17,17 @@ in {
     ../../os/default.nix
     ../../os/nixos/bootloader.nix
     ../../os/nixos/gc.nix
+    ../../os/nixos/trustme.nix
     ../../os/nixos/unfree.nix
     ../../os/linux/virt.nix
     ../../os/linux/user.nix
     {
       home-manager = {
-        users.${cfg.username}.imports =
-          [ ../../home-manager ../../home-manager/sway.nix ];
+        users.${cfg.username}.imports = [
+          ../../home-manager
+          ../../home-manager/sway.nix
+          ../../home-manager/waybar
+        ];
       };
     }
   ];

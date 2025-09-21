@@ -28,10 +28,13 @@ if [ ! -f "${SCRIPT_DIR}/result/nixos.img" ]; then
   exit 1
 fi
 
+# if file nixos image does not exist or forced with -f copy the files 
+if [[ ! -f "${QEMU_DIR}/nixos.img" ]] || [[ $# -ge 1 && "$1" = "-f" ]]; then
   echo "Copying files to $QEMU_DIR"
   cp -r "${SCRIPT_DIR}/result-fd/FV/OVMF_CODE.fd" "$OVMF_DIR/OVMF_CODE.fd"
   cp -r "${SCRIPT_DIR}/result-fd/FV/OVMF_VARS.fd" "$OVMF_DIR/OVMF_VARS.fd"
   cp -r "${SCRIPT_DIR}/result/nixos.img" "$QEMU_DIR/nixos.img"
+fi
 
 sudo chown -R ${USER}:users "$QEMU_DIR"
 sudo chmod -R 0766 "$QEMU_DIR"
@@ -54,5 +57,5 @@ qemu-system-x86_64 \
   -drive file=$IMG,format=raw,if=virtio \
   -m 8G \
   -enable-kvm \
-  -netdev user,id=net0 \
+  -netdev user,id=net0,hostfwd=tcp::2222-:22 \
   -device virtio-net-pci,netdev=net0

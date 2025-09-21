@@ -9,16 +9,14 @@ in {
     alacritty
     brightnessctl
     firefox
-    grim
-    playerctl
+    grim # screenshots
     pulseaudio # pactl comes from pulseaudio
     rofi-wayland
     swaylock
     swayidle
-    slurp
+    slurp # select region in a waylad compositor and print it to stdout
     wl-clipboard
     wob
-    waybar
   ];
 
   home.file.".zprofile".text = ''
