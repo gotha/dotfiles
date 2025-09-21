@@ -3,6 +3,24 @@ let
   mod = "Mod4";
   term = "alacritty";
   menu = "rofi -show combi -show-icons";
+  keyboard = {
+    repeat_delay = "250";
+    repeat_rate = "45";
+  };
+
+  sway-user-data = pkgs.stdenvNoCC.mkDerivation {
+    name = "sway-user-data";
+    meta.description = "Extra user files for sway";
+    src = ./data;
+    buildInputs = [ pkgs.coreutils ];
+    phases = [ "unpackPhase" "installPhase" ];
+    installPhase = ''
+      mkdir -p $out
+      ls -lash
+      cp -Rvf * $out/
+      ls -lash $out
+    '';
+  };
 in {
 
   home.packages = with pkgs; [
@@ -28,15 +46,39 @@ in {
 
   wayland.windowManager.sway = {
     enable = true;
+    #package = pkgs.swayfx;
 
     config = {
       modifier = "${mod}";
 
       terminal = "alacritty";
+
       bars = [{
         command = "${pkgs.waybar}/bin/waybar";
         # position = "top";
       }];
+
+      menu = "rofi -show combi -show-icons";
+
+      output."*" = {
+        background =
+          "${sway-user-data}/wallpapers/nix-wallpaper-nineish-solarized-dark.png fill";
+      };
+
+      # Input configuration
+      input = {
+        "type:keyboard" = {
+          xkb_layout = "us,bg";
+          xkb_options = "grp:win_space_toggle,caps:escape";
+          repeat_delay = keyboard.repeat_delay;
+          repeat_rate = keyboard.repeat_rate;
+        };
+
+        "type:touchpad" = {
+          tap = "enabled";
+          natural_scroll = "enabled";
+        };
+      };
 
       startup = [
         { command = "${pkgs.alacritty}/bin/alacritty"; }
@@ -46,6 +88,17 @@ in {
       assigns = {
         "1" = [{ app_id = "firefox"; }];
         "2" = [{ app_id = "Alacritty"; }];
+      };
+
+      # Borders and gaps
+      window = {
+        border = 0;
+        hideEdgeBorders = "none";
+      };
+
+      gaps = {
+        inner = 5;
+        outer = 5;
       };
 
       keybindings = {
@@ -119,5 +172,27 @@ in {
         "${mod}+Shift+0" = "move container to workspace number 10";
       };
     };
+
+    # Additional Sway configuration for swayfx effects
+    #extraConfig = ''
+    #  # SwayFX specific configuration
+    #  corner_radius 10
+
+    #  shadows enable
+    #  shadows_on_csd disable
+    #  shadow_blur_radius 20
+    #  shadow_color #0000007F
+    #  shadow_inactive_color #0000004F
+    #  shadow_offset 2 2
+
+    #  # Layer effects for waybar
+    #  layer_effects "waybar" {
+    #    shadows enable;
+    #    corner_radius 6;
+    #  }
+
+    #  # Environment variable for wob
+    #  set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
+    #'';
   };
 }

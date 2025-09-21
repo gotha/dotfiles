@@ -64,7 +64,7 @@
         };
         devbox = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = distro.devbox ++ [ ./hosts/qemu1 ];
+          modules = distro.devbox ++ [ ./hosts/qemu1 ./os/linux/virtio.nix ];
         };
         lucie = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
