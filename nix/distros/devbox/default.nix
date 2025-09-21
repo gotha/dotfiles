@@ -26,6 +26,7 @@ in {
         users.${cfg.username}.imports = [
           ../../home-manager
           ../../home-manager/alacritty
+          ../../home-manager/rofi
           ../../home-manager/sway
           ../../home-manager/tmux
           ../../home-manager/waybar
