@@ -34,7 +34,7 @@ in {
             ../../home-manager
             ../../home-manager/aerospace
             ../../home-manager/alacritty
-            ../../home-manager/vscode.nix
+            ../../home-manager/vscode
           ];
           programs.alacritty.custom.fontSize = 11.0;
         };
