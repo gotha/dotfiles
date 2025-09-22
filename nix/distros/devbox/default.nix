@@ -3,14 +3,14 @@ let
   cfg = import ../../config/default.nix;
   userPackages = import ../../config/packages-user.nix { inherit pkgs; };
   systemPackages = import ../../config/packages.nix { inherit pkgs; };
-  wallpaperPkg = pkgs.callPackage ../../wallpaper { };
+  #wallpaperPkg = pkgs.callPackage ../../wallpaper { };
 in {
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   _module.args = {
     username = cfg.username;
-    userPackages = userPackages;
+    userPackages = userPackages ++ [ pkgs.spotify ];
   };
 
   # @todo - maybe split nixos config into a separate distro
