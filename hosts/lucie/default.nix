@@ -20,8 +20,21 @@ in {
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
+    transmission_4-gtk
   ];
 
-  services = { xserver.videoDrivers = [ "nvidia" ]; };
+  services = {
+    #plex = {
+    #  enable = true;
+    #  openFirewall = true;
+    #  user = username;
+    #};
+
+    jellyfin = {
+      enable = true;
+      openFirewall = true;
+    };
+    xserver.videoDrivers = [ "nvidia" ];
+  };
 
 }

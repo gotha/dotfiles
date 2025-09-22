@@ -10,7 +10,7 @@ in {
 
   _module.args = {
     username = cfg.username;
-    userPackages = userPackages ++ [ pkgs.spotify ];
+    userPackages = userPackages ++ [ pkgs.spotify pkgs.slack ];
   };
 
   # @todo - maybe split nixos config into a separate distro
@@ -99,11 +99,6 @@ in {
       pulse.enable = true;
       wireplumber.enable = true;
     };
-    #plex = {
-    #  enable = true;
-    #  openFirewall = true;
-    #  user = cfg.username;
-    #};
     greetd = {
       enable = true;
       settings = {
