@@ -43,12 +43,6 @@ NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ho
 
 ## apply nix config
 
-get the config
-
-```sh
-git clone https://github.com/gotha/dotfiles.git && cd dotfiles
-```
-
 backup config:
 
 ```sh
@@ -58,22 +52,17 @@ sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 apply:
 
 ```sh
-nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .config/nix
+nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .
 ```
 
 then after each change
 
 ```sh
-sudo nix run nix-darwin -- switch --flake .config/nix
+sudo nix run nix-darwin -- switch --flake .
 ```
 
 to update the flake:
 
 ```sh
-nix flake update --flake .config/nix
+nix flake update --flake .
 ```
-
-
-## install dotfiles as per usual
-
-look at the [README](./README.md) for instructions on installing the dotfiles

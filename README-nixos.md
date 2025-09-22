@@ -1,4 +1,4 @@
-# Nix Configurations
+# NixOS
 
 ## Install via NixOS installer
 
@@ -60,31 +60,8 @@ exit
 reboot
 ```
 
-## Apply configuration to already installed system
-
-### On NixOS
+## Apply on a linux system
 
 ```sh
 nixos-rebuild switch --flake .
-```
-
-### On OSX
-
-```sh
-nix run nix-darwin -- switch --flake .
-```
-
-## Install on QEMU
-
-### Generate and boot disk image
-
-```sh
-nix build .#packages.x86_64-linux.devbox-qemu
-./run-qemu.sh
-```
-
-### Update configuration over ssh
-
-```sh
-nix run .#deploy-devbox-qemu
 ```
