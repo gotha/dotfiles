@@ -62,9 +62,8 @@ reboot
 
 ## Apply configuration to running system
 
-
 ```sh
-nix build .#nixosConfigurations.lucie.config.system.build.toplevel
+nixos-rebuild switch --flake .#lucie
 ```
 
 @todo - doc this
