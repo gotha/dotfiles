@@ -60,13 +60,19 @@ exit
 reboot
 ```
 
-## Apply configuration to running system
+## Apply configuration to already installed system
+
+### On NixOS
 
 ```sh
-nixos-rebuild switch --flake .#lucie
+nixos-rebuild switch --flake .
 ```
 
-@todo - doc this
+### On OSX
+
+```sh
+nix run nix-darwin -- switch --flake .
+```
 
 ## Install on QEMU
 
@@ -82,10 +88,3 @@ nix build .#packages.x86_64-linux.devbox-qemu
 ```sh
 nix run .#deploy-devbox-qemu
 ```
-
-## Install on Darwin
-
-```sh
-sudo nix run nix-darwin -- switch --flake ./nix
-```
-
