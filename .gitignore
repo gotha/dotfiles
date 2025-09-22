@@ -1,5 +1,3 @@
-.config/nvim/plugin
-.config/nix/result
-styles/
-.mozilla/firefox/*
-.mozilla/*
+result
+result-fd
+qemu

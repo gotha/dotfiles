@@ -1,26 +1,15 @@
 # My dotfiles
 
-## Install software
-
-Depending on your OS follow one of these guides:
-- [ArchLinux](./README-arch.md)
-- [Asahi Fedora 39](./README-asahi.md)
-- [OS X](./README-osx.md)
-
-
-## Install configuration
-
-Get the config:
+## Install
 
 ```sh
 git clone https://github.com/gotha/dotfiles.git && cd dotfiles
 ```
 
-Install it:
+Depending on your OS follow one of these guides:
+- [NixOS](./README-nixos.md)
+- [OS X](./README-darwin.md)
 
-```sh
-stow -t ~ .
-```
 
 ### neovim
 
@@ -43,7 +32,6 @@ tmux
 ~/.tmux/plugins/tpm/bin/install_plugins
 ```
 
-
 ### Vale
 
 ```sh
@@ -52,10 +40,19 @@ vale sync
 
 to update vale styles
 
-### Firefox
+## Install on QEMU
+
+### Generate and boot disk image
 
 ```sh
-./firefox/install.sh
+nix build .#packages.x86_64-linux.devbox-qemu
+./run-qemu.sh
+```
+
+### Update configuration over ssh
+
+```sh
+nix run .#deploy-devbox-qemu
 ```
 
 ## Get ready to contribute
