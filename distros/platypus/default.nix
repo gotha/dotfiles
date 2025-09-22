@@ -33,8 +33,14 @@ in {
             ../../home-manager
             ../../home-manager/aerospace
             ../../home-manager/alacritty
+            ../../home-manager/git
+            ../../home-manager/nvim
             ../../home-manager/sketchybar
+            ../../home-manager/sops
             ../../home-manager/vscode
+            ../../home-manager/vale
+            ../../home-manager/tmux
+            ../../home-manager/zsh
           ];
           programs.alacritty.custom.fontSize = 11.0;
         };
