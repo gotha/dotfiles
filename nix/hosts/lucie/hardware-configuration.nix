@@ -18,7 +18,6 @@
 
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
-
   boot.blacklistedKernelModules = [ "nouveau" ];
 
   hardware.graphics.enable = true;
@@ -58,6 +57,12 @@
 
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+
+  boot.extraModprobeConfig = ''
+    options snd_hda_intel power_save=0 power_save_controller=N
+    options snd_hda_codec_hdmi enable_silent_stream=1
+    options btusb enable_autosuspend=0
+  '';
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";

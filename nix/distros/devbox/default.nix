@@ -65,18 +65,18 @@ in {
         obs-vkcapture
       ];
     };
-    regreet = {
-      enable = true;
-      settings = {
-        background = {
-          path =
-            "${wallpaperPkg}/nix-wallpaper-nineish-catppuccin-macchiato.png";
-          fit = "Cover";
-        };
-        GTK = { application_prefer_dark_theme = true; };
-        appearance = { greeting_msg = "Mr. Anderson, Welcome back!"; };
-      };
-    };
+    #regreet = {
+    #  enable = true;
+    #  settings = {
+    #    background = {
+    #      path =
+    #        "${wallpaperPkg}/nix-wallpaper-nineish-catppuccin-macchiato.png";
+    #      fit = "Cover";
+    #    };
+    #    GTK = { application_prefer_dark_theme = true; };
+    #    appearance = { greeting_msg = "Mr. Anderson, Welcome back!"; };
+    #  };
+    #};
     steam.enable = true;
     sway.enable = true;
     virt-manager.enable = true;
@@ -103,6 +103,16 @@ in {
     #  openFirewall = true;
     #  user = cfg.username;
     #};
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command =
+            "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
+          user = "${cfg.username}";
+        };
+      };
+    };
     upower.enable = true;
   };
 

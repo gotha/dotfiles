@@ -27,7 +27,8 @@ in {
 
   wayland.windowManager.sway = {
     enable = true;
-    extraOptions = [ "--unsupported-gpu" ];
+    #extraOptions = [ "--unsupported-gpu" ];
+    # swayfx just doesnt work with nvidia
     #package = pkgs.swayfx;
 
     config = {
@@ -72,6 +73,7 @@ in {
         "2" = [{ app_id = "Alacritty"; }];
       };
 
+      # this is buggy and does not work - @todo - figure out how to fix it
       # Borders and gaps
       window = {
         border = 0;

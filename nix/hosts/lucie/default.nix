@@ -1,37 +1,27 @@
-{ pkgs, ... }:
-let
-  cfg = import ../../config/default.nix;
-  username = cfg.username;
+{ pkgs, username, ... }:
+let wireguard = import ../../config/wireguard.nix;
 in {
 
-  imports = [ ./hardware-configuration.nix ../../os/linux/efi.nix ];
+  _module.args = { wireguard = wireguard; };
+
+  imports = [
+    ./hardware-configuration.nix
+    ./tunnels.nix
+    ./wireguard.nix
+    ../../os/linux/efi.nix
+  ];
 
   networking.hostName = "lucie";
 
   networking.networkmanager.enable =
     true; # Easiest to use and most distros use this by default.
 
+  users.users.${username}.packages = with pkgs; [
+    jellyfin
+    jellyfin-web
+    jellyfin-ffmpeg
+  ];
+
   services = { xserver.videoDrivers = [ "nvidia" ]; };
-
-  systemd.services.hg-tunnel = {
-    enable = true;
-    description = "Setup a secure tunnel to hgeorgiev.com";
-    after = [ "network.target" ];
-    wants = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-
-    serviceConfig = {
-      User = username;
-      ExecStart =
-        "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 2224:localhost:22 gotha@hgeorgiev.com";
-
-      RestartSec = 5;
-      Restart = "always";
-
-      Type = "simple";
-    };
-
-    environment = { HOME = "/home/${username}"; };
-  };
 
 }
