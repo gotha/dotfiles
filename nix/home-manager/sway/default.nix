@@ -7,20 +7,8 @@ let
     repeat_delay = "250";
     repeat_rate = "45";
   };
+  wallpaperPkg = pkgs.callPackage ../../wallpaper { };
 
-  sway-user-data = pkgs.stdenvNoCC.mkDerivation {
-    name = "sway-user-data";
-    meta.description = "Extra user files for sway";
-    src = ./data;
-    buildInputs = [ pkgs.coreutils ];
-    phases = [ "unpackPhase" "installPhase" ];
-    installPhase = ''
-      mkdir -p $out
-      ls -lash
-      cp -Rvf * $out/
-      ls -lash $out
-    '';
-  };
 in {
 
   home.packages = with pkgs; [
@@ -37,15 +25,9 @@ in {
     wob
   ];
 
-  home.file.".zprofile".text = ''
-    # Auto-start sway on first VT if not already under Wayland
-    if [ -z "''${WAYLAND_DISPLAY}" ] && [ "''${XDG_VTNR: -0}" -eq 1 ]; then
-      exec sway --unsupported-gpu
-    fi
-  '';
-
   wayland.windowManager.sway = {
     enable = true;
+    extraOptions = [ "--unsupported-gpu" ];
     #package = pkgs.swayfx;
 
     config = {
@@ -62,7 +44,7 @@ in {
 
       output."*" = {
         background =
-          "${sway-user-data}/wallpapers/nix-wallpaper-nineish-solarized-dark.png fill";
+          "${wallpaperPkg}/nix-wallpaper-nineish-solarized-dark.png fill";
       };
 
       # Input configuration

@@ -1,8 +1,9 @@
 { pkgs, ... }:
 let
   cfg = import ../../config/default.nix;
-  userPackages = import ../../config/packages-user.nix { pkgs = pkgs; };
-  systemPackages = import ../../config/packages.nix { pkgs = pkgs; };
+  userPackages = import ../../config/packages-user.nix { inherit pkgs; };
+  systemPackages = import ../../config/packages.nix { inherit pkgs; };
+  wallpaperPkg = pkgs.callPackage ../../wallpaper { };
 in {
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -63,6 +64,18 @@ in {
         obs-gstreamer
         obs-vkcapture
       ];
+    };
+    regreet = {
+      enable = true;
+      settings = {
+        background = {
+          path =
+            "${wallpaperPkg}/nix-wallpaper-nineish-catppuccin-macchiato.png";
+          fit = "Cover";
+        };
+        GTK = { application_prefer_dark_theme = true; };
+        appearance = { greeting_msg = "Mr. Anderson, Welcome back!"; };
+      };
     };
     steam.enable = true;
     sway.enable = true;
