@@ -23,10 +23,12 @@ in {
     ../../os/linux/user.nix
     {
       home-manager = {
+        # @todo - maybe make waybar, mako, rofi, etc become deps of sway
         users.${cfg.username}.imports = [
           ../../home-manager
           ../../home-manager/alacritty
           ../../home-manager/git
+          ../../home-manager/mako
           ../../home-manager/rofi
           ../../home-manager/sops
           ../../home-manager/sway
