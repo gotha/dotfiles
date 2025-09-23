@@ -2,13 +2,13 @@
 let wallpaperPkg = pkgs.callPackage ../../wallpaper { };
 in {
 
+  # @todo -  add dependency on rofi and waybar modules
+  # without adding them as packages here
+  # also - browser (firefox) and terminal (alacritty)
   home.packages = with pkgs; [
-    alacritty
     brightnessctl
-    firefox
     grim # screenshots
     pulseaudio # pactl comes from pulseaudio
-    rofi-wayland
     sway
     swaylock
     swayidle

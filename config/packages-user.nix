@@ -29,7 +29,7 @@ in [
   nodejs
   nodePackages_latest.prettier
   pyright
-  python3Full
+  python314
   ripgrep
   shfmt
   sops
