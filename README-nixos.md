@@ -36,7 +36,7 @@ Get the code:
 
 ```sh
 git clone https://github.com/gotha/dotfiles.git /tmp/dotfiles
-cd /tmp/dotfiles/nix
+cd /tmp/dotfiles
 ```
 
 Enable flakes for the installer if needed
