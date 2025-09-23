@@ -21,7 +21,18 @@ sudo wpa_cli
 
 ### Partition
 
-Follow the official instructions, Importantly, you must set the correct labels like:
+Follow the official instructions, but it should be something like:
+
+```sh
+parted /dev/sda -- mklabel gpt
+parted /dev/sda -- mkpart root ext4 512MB -8GB
+parted /dev/sda -- mkpart swap linux-swap -8GB 100%
+parted /dev/sda -- mkpart ESP fat32 1MB 512MB
+parted /dev/sda -- set 3 esp on
+
+```
+
+Most importantly, you must set the correct labels like:
 
 ```sh
 mkfs.ext4 -L nixos /dev/sda1
@@ -48,14 +59,20 @@ export NIX_CONFIG="experimental-features = nix-command flakes"
 Install
 
 ```sh
-sudo nixos-install --flake .#lucie
+mount /dev/disk/by-label/nixos /mnt
+
+mkdir -p /mnt/boot
+mount -o umask=077 /dev/disk/by-label/boot /mnt/boot
+
+swapon /dev/sda2
+
+nixos-install --flake .#lucie
 ```
 
 post-install config
 
 ```sh
-sudo nixos-enter --root /mnt
-passwd root
+nixos-enter --root /mnt -c 'passwd root'
 exit
 reboot
 ```
