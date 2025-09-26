@@ -15,7 +15,7 @@
         [ "sway/workspaces" "sway/mode" "sway/scratchpad" "sway/window" ];
       "modules-center" = [ "custom/waybar-mpris" ];
       "modules-right" = [
-        "network"
+        #"network"
         "custom/headset-battery"
         "custom/mouse-battery"
         "pulseaudio"
