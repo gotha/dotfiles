@@ -22,6 +22,7 @@ in {
     jellyfin-web
     jellyfin-ffmpeg
     transmission_4-gtk
+    xterm
   ];
 
   services = {

@@ -1,4 +1,4 @@
-{ config, lib, ... }: {
+{ config, lib, pkgs, ... }: {
 
   options.programs.alacritty.custom = {
     fontSize = lib.mkOption {
@@ -9,6 +9,9 @@
   };
 
   config = {
+
+    home.packages = with pkgs; [ alacritty ];
+
     xdg.configFile."alacritty/alacritty.toml".text = let
       baseConfig = builtins.readFile ./alacritty.toml;
       fontSize = toString config.programs.alacritty.custom.fontSize;
