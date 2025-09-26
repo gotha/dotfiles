@@ -15,7 +15,7 @@
         [ "sway/workspaces" "sway/mode" "sway/scratchpad" "sway/window" ];
       "modules-center" = [ "custom/waybar-mpris" ];
       "modules-right" = [
-        #"network"
+        "network"
         "custom/headset-battery"
         "custom/mouse-battery"
         "pulseaudio"
@@ -148,7 +148,7 @@
       "battery#bat2" = { bat = "BAT2"; };
 
       network = {
-        interface = "wlp2s0f0"; # adjust to your interface
+        #interface = "enp6s0"; # adjust to your interface
         "format-wifi" = "({signalStrength}%) ";
         "format-ethernet" = "{ipaddr}/{cidr} 󰈀";
         "tooltip-format" = "{ifname} via {gwaddr} ";
