@@ -1,8 +1,8 @@
 -- Setup language servers.
-local lspconfig = require("lspconfig")
-lspconfig.ts_ls.setup({})
-lspconfig.rust_analyzer.setup({
-	-- Server-specific settings. See `:help lspconfig-setup`
+vim.lsp.enable("ts_ls")
+
+vim.lsp.config.rust_analyzer = {
+	-- Server-specific settings. See `:help vim.lsp.config-setup`
 	settings = {
 		["rust-analyzer"] = {
 			rustfmt = {
@@ -10,12 +10,14 @@ lspconfig.rust_analyzer.setup({
 			},
 		},
 	},
-})
-lspconfig.gopls.setup({
+}
+vim.lsp.enable("rust_analyzer")
+
+vim.lsp.config.gopls = {
 	on_attach = on_attach,
 	capabilities = capabilities,
 	filetypes = { "go", "gomod" },
-	root_dir = lspconfig.util.root_pattern("go.mod", ".git"),
+	root_markers = { "go.mod", ".git" },
 	settings = {
 		gopls = {
 			usePlaceholders = false,
@@ -27,11 +29,14 @@ lspconfig.gopls.setup({
 	init_options = {
 		buildFlags = { "-tags=integration,load" },
 	},
-})
-lspconfig.clangd.setup({})
-lspconfig.phpactor.setup({})
-lspconfig.terraformls.setup({})
-lspconfig.pyright.setup({
+}
+vim.lsp.enable("gopls")
+
+vim.lsp.enable("clangd")
+vim.lsp.enable("phpactor")
+vim.lsp.enable("terraformls")
+
+vim.lsp.config.pyright = {
 	capabilities = capabilities,
 	settings = {
 		python = {
@@ -43,25 +48,25 @@ lspconfig.pyright.setup({
 			},
 		},
 	},
-})
-lspconfig.nil_ls.setup( {
-  autostart = true,
-  capabilities = capabilities,
-  settings = {
-    ['nil'] = {
-      formatting = {
-        command = { "nixfmt" },
-      },
-    },
-  },
-})
-lspconfig.kotlin_language_server.setup({
-	filetypes = { "kotlin", "kt", "kts" },
-})
+}
+vim.lsp.enable("pyright")
 
-lspconfig.regols.setup({})
+vim.lsp.config.nil_ls = {
+	autostart = true,
+	capabilities = capabilities,
+	settings = {
+		["nil"] = {
+			formatting = {
+				command = { "nixfmt" },
+			},
+		},
+	},
+}
+vim.lsp.enable("nil_ls")
 
-lspconfig.jdtls.setup({
+vim.lsp.enable("regols")
+
+vim.lsp.config.jdtls = {
 	cmd = {
 		"java",
 		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -82,7 +87,7 @@ lspconfig.jdtls.setup({
 		"-data",
 		vim.fn.expand("~/.cache/jdtls/workspace"),
 	},
-	root_dir = lspconfig.util.root_pattern(".git", "mvnw", "gradlew", "pom.xml", "build.gradle"),
+	root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" },
 	settings = {
 		java = {
 			eclipse = {
@@ -112,7 +117,8 @@ lspconfig.jdtls.setup({
 	init_options = {
 		bundles = {},
 	},
-})
+}
+vim.lsp.enable("jdtls")
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
