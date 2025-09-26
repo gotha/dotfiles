@@ -1,7 +1,19 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }:
+let
+  marketplaceExts = pkgs.vscode-utils.extensionsFromVscodeMarketplace [{
+    name = "vscode-augment";
+    publisher = "augment";
+    version = "0.568.0";
+    sha256 = "sha256-rUFtZCu2y89XAA2B/i9Wn2a2lFEA77UxE5KlUj0VZPE=";
+  }];
+in {
 
   programs.vscode = {
     enable = true;
+    package = pkgs.vscodium;
+
+    # Lock extensions to what we declare here
+    mutableExtensionsDir = true;
     profiles = {
       default = {
         userSettings = {
@@ -15,17 +27,21 @@
           "workbench.settings.enableNaturalLanguageSearch" = false;
 
           "editor.formatOnSave" = true;
-          "workbench.colorTheme" = "Dracula Theme";
+          "workbench.colorTheme" = "Solarized Dark";
           "workbench.activityBar.visible" = false;
 
           "extensions.autoUpdate" = false;
 
           # Disable git
-          "git.enabled" = false;
-          "git.path" = null;
-          "git.autofetch" = false;
+          "git.enabled" = true;
+          #"git.path" = null;
+          #"git.autofetch" = false;
 
           "github.copilot.enable" = { "*" = false; };
+          "github.copilot.chat.enabled" = false;
+          "github.copilot.advanced" = {
+            "showCopilotStatusInStatusBar" = false;
+          };
 
           "nerdtree.hideSidebarWhenOpenFile" = true;
           "nerdtree.alwaysShowSidebar" = false;
@@ -57,18 +73,51 @@
               "commands" = [ "workbench.view.explorer" ];
             }
           ];
+
+          # Augment-specific settings
+          "augment.panel.location" = "bottom";
+          "augment.chat.panelPosition" = "bottom";
+
+          # General panel settings
+          "workbench.panel.defaultLocation" = "bottom";
+          "workbench.panel.opensMaximized" = "never";
+
+          # If Augment uses a custom view
+          "workbench.view.extension.augment-chat" = "bottom";
         };
 
-        extensions = with pkgs.vscode-marketplace; [
-          augment.vscode-augment
+        keybindings = [
+          # Map capslock to escape because vscodium does not behave under wayland
+          {
+            key = "capslock";
+            command = "extension.vim_escape";
+            when = "editorTextFocus && vim.active && !inDebugRepl";
+          }
+          {
+            key = "capslock";
+            command = "workbench.action.closeActiveEditor";
+            when = "!editorTextFocus";
+          }
+          {
+            key = "ctrl+shift+a";
+            command = "augment.openChat";
+          }
+          {
+            key = "ctrl+alt+a";
+            command = "augment.togglePanel";
+          }
+        ];
+
+        extensions = (with pkgs.vscode-extensions; [
           golang.go
           github.vscode-github-actions
           dracula-theme.theme-dracula
           jnoortheen.nix-ide
           vscodevim.vim
-          llam4u.nerdtree
-        ];
+          #llam4u.nerdtree
+        ]) ++ marketplaceExts;
       };
     };
+
   };
 }

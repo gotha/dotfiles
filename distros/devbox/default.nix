@@ -36,6 +36,7 @@ in {
           ../../home-manager/sway
           ../../home-manager/tmux
           ../../home-manager/vale
+          ../../home-manager/vscode
           ../../home-manager/waybar
           ../../home-manager/zsh
         ];
