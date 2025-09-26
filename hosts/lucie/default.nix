@@ -24,11 +24,11 @@ in {
   ];
 
   services = {
-    #plex = {
-    #  enable = true;
-    #  openFirewall = true;
-    #  user = username;
-    #};
+    plex = {
+      enable = true;
+      openFirewall = true;
+      user = username;
+    };
 
     jellyfin = {
       enable = true;
