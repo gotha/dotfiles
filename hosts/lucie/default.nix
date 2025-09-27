@@ -21,21 +21,35 @@ in {
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
+    ollama
     transmission_4-gtk
     xterm
   ];
 
   services = {
+
+    jellyfin = {
+      enable = true;
+      openFirewall = true;
+    };
+
+    ollama = {
+      enable = true;
+      acceleration = "cuda";
+      # Optional: specify which GPU to use (default is all available)
+      # environmentVariables = {
+      #   CUDA_VISIBLE_DEVICES = "0";
+      # };
+      host = "0.0.0.0";
+      port = 11434;
+    };
+
     plex = {
       enable = true;
       openFirewall = true;
       user = username;
     };
 
-    jellyfin = {
-      enable = true;
-      openFirewall = true;
-    };
     xserver.videoDrivers = [ "nvidia" ];
   };
 
