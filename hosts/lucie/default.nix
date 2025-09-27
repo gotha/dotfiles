@@ -21,7 +21,7 @@ in {
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
-    ollama
+    ollama-cuda
     transmission_4-gtk
     xterm
   ];
