@@ -72,4 +72,38 @@ return require("packer").startup(function(use)
 	use("ktklin/confluence-cloud-vim")
 
 	use("Rigellute/rigel")
+
+	use({
+		"olimorris/codecompanion.nvim",
+		requires = {
+			{ "nvim-lua/plenary.nvim" },
+		},
+		config = function()
+			require("codecompanion").setup({
+				adapters = {
+					http = {
+						ollama = function()
+							return require("codecompanion.adapters").extend("ollama", {
+								env = { url = "http://127.0.0.1:11434" },
+								model = "qwen2.5-coder:7b", -- default model
+								-- num_ctx = 32768,                        -- optionally raise context
+								-- temperature = 0.2,
+							})
+						end,
+					},
+				},
+
+				strategies = {
+					chat = { adapter = "ollama", model = "qwen2.5-coder:32b-instruct" },
+					inline = { adapter = "ollama", model = "qwen2.5-coder:7b" },
+				},
+
+				mappings = {
+					open_chat = "<leader>cc",
+					clear_chat = "<leader>cn",
+					send_selection = "<leader>cs",
+				},
+			})
+		end,
+	})
 end)
