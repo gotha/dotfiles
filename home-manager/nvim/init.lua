@@ -15,7 +15,7 @@ require("plugins/packer")
 require("plugins/telescope")
 require("plugins/vim-wintabs")
 
-require("plugins/augment-code")
+--require("plugins/augment-code")
 
 vim.cmd("set nu")
 vim.cmd("colorscheme rigel")
