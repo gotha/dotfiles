@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = import ../../config/default.nix;
   userPackages = import ../../config/packages-user.nix { inherit pkgs; };
@@ -41,6 +41,7 @@ in {
             ../../home-manager/vale
             ../../home-manager/tmux
             ../../home-manager/zsh
+            ../../os/darwin/home-manager/ollama
           ];
           programs.alacritty.custom.fontSize = 11.0;
         };
