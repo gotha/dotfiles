@@ -10,7 +10,7 @@ in {
 
   _module.args = {
     username = cfg.username;
-    userPackages = userPackages ++ [ pkgs.spotify pkgs.slack ];
+    userPackages = userPackages ++ [ pkgs.spotify pkgs.slack pkgs.vlc ];
   };
 
   # @todo - maybe split nixos config into a separate distro
