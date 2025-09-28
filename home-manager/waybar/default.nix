@@ -198,7 +198,7 @@
 
       "custom/waybar-mpris" = {
         "return-type" = "json";
-        exec = "waybar-mpris --position --autofocus --pause ' ' --play ' ";
+        exec = "waybar-mpris --position --autofocus --pause ' ' --play ' '";
         "on-click" = "waybar-mpris --send toggle";
         "on-click-right" = "playerctl next";
         escape = true;
