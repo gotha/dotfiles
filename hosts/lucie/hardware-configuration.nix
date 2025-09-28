@@ -96,6 +96,22 @@
     ];
   };
 
+  fileSystems."/mnt/oldroot" = {
+    # Replace with your actual device path (e.g., /dev/sdb1, /dev/nvme1n1p1, etc.)
+    device = "/dev/disk/by-uuid/d60638da-35b9-4793-9bb5-db1ee4781f95";
+
+    # Specify the filesystem type (ext4, ntfs, xfs, btrfs, etc.)
+    fsType = "ext4";
+
+    # Mount options
+    options = [
+      "defaults"
+      "nofail" # Don't fail boot if drive is missing
+      "user" # Allow users to mount/unmount
+      "exec" # Allow execution of binaries
+    ];
+  };
+
   swapDevices = [{ device = "/dev/disk/by-label/swap"; }];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
