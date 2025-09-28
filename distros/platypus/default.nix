@@ -34,6 +34,7 @@ in {
             ../../home-manager/aerospace
             ../../home-manager/alacritty
             ../../home-manager/git
+            ../../home-manager/npm
             ../../home-manager/nvim
             ../../home-manager/sketchybar
             ../../home-manager/sops
