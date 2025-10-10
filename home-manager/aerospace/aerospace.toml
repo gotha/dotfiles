@@ -10,6 +10,8 @@ enable-normalization-opposite-orientation-for-nested-containers = false
 # Start AeroSpace at login
 start-at-login = true
 
+accordion-padding = 0
+
 # Mouse follows focus when focused monitor changes
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
