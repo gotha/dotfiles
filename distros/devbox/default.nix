@@ -30,6 +30,7 @@ in {
           ../../home-manager/alacritty
           ../../home-manager/git
           ../../home-manager/mako
+          ../../home-manager/npm
           ../../home-manager/nvim
           ../../home-manager/rofi
           ../../home-manager/sops
