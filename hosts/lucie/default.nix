@@ -17,13 +17,11 @@ in {
     true; # Easiest to use and most distros use this by default.
 
   users.users.${username}.packages = with pkgs; [
-    chromium
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
     ollama-cuda
     transmission_4-gtk
-    xterm
   ];
 
   services = {

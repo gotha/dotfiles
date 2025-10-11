@@ -2,6 +2,7 @@
 let
   cfg = import ../../config/default.nix;
   userPackages = import ../../config/packages-user.nix { inherit pkgs; };
+  linuxUserPackages = import ../../os/linux/packages-user.nix { inherit pkgs; };
   systemPackages = import ../../config/packages.nix { inherit pkgs; };
   #wallpaperPkg = pkgs.callPackage ../../wallpaper { };
 in {
@@ -10,7 +11,7 @@ in {
 
   _module.args = {
     username = cfg.username;
-    userPackages = userPackages ++ [ pkgs.spotify pkgs.slack pkgs.vlc ];
+    userPackages = userPackages ++ linuxUserPackages;
   };
 
   # @todo - maybe split nixos config into a separate distro
