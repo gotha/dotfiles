@@ -49,6 +49,13 @@ in {
     };
 
     xserver.videoDrivers = [ "nvidia" ];
+
+    nix-serve = {
+      enable = true;
+      package = pkgs.nix-serve-ng;
+      secretKeyFile = "/var/secrets/cache-private-key.pem";
+      openFirewall = true;
+    };
   };
 
 }
