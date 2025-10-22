@@ -8,7 +8,7 @@
       ProgramArguments = [
         "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace"
       ];
-      KeepAlive = true;
+      KeepAlive = false;
       RunAtLoad = true;
     };
   };
