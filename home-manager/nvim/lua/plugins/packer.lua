@@ -69,7 +69,5 @@ return require("packer").startup(function(use)
 
 	use("augmentcode/augment.vim")
 
-	use("ktklin/confluence-cloud-vim")
-
 	use("Rigellute/rigel")
 end)
