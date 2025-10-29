@@ -7,8 +7,12 @@
   programs.git = {
     enable = true;
 
-    userName = "gotha";
-    userEmail = "h.georgiev@hotmail.com";
+    settings = {
+      user = {
+        name = "gotha";
+        email = "h.georgiev@hotmail.com";
+      };
+    };
 
     signing = {
       key = "C3AB3AC0115DD07B5ACA476E8D8E74E4033D192C";
