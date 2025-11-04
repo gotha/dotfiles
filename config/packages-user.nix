@@ -5,6 +5,7 @@ let
     [ pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin ];
 in [
   _1password-cli
+  awscli2
   bc
   bison
   clang
