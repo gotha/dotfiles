@@ -12,14 +12,7 @@
         name = "gotha";
         email = "h.georgiev@hotmail.com";
       };
-    };
 
-    signing = {
-      key = "C3AB3AC0115DD07B5ACA476E8D8E74E4033D192C";
-      signByDefault = true;
-    };
-
-    extraConfig = {
       init = { defaultBranch = "main"; };
 
       push = { autoSetupRemote = true; };
@@ -40,5 +33,11 @@
 
       pull = { rebase = true; };
     };
+
+    signing = {
+      key = "C3AB3AC0115DD07B5ACA476E8D8E74E4033D192C";
+      signByDefault = true;
+    };
+
   };
 }
