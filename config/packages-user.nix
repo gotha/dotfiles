@@ -41,6 +41,7 @@ in [
   typescript
   typescript-language-server
   unzip
+  uv
   vale
   watch
 ]
