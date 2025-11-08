@@ -24,9 +24,14 @@
     };
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = { nixpkgs, darwin, nix-index-database, nixos-generators
-    , home-manager, nix-vscode-extensions, ... }:
+    , home-manager, nix-vscode-extensions, sops-nix, ... }:
     let
       configuration = { pkgs, ... }: {
         nixpkgs.overlays = [ nix-vscode-extensions.overlays.default ];
@@ -41,11 +46,13 @@
           ./distros/devbox
           nix-index-database.nixosModules.nix-index
           home-manager.nixosModules.home-manager
+          sops-nix.nixosModules.sops
         ];
         platypus = [
           configuration
           ./distros/platypus
           home-manager.darwinModules.home-manager
+          sops-nix.darwinModules.sops
         ];
       };
     in {
@@ -54,6 +61,7 @@
         "D2Y6PH4TGJ-Hristo-Georgiev" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = distro.platypus;
+          specialArgs = { inherit sops-nix; };
         };
       };
 
@@ -61,14 +69,17 @@
         bae = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = distro.bae ++ [ ./hosts/qemu1 ];
+          specialArgs = { inherit sops-nix; };
         };
         devbox = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = distro.devbox ++ [ ./hosts/qemu1 ./os/linux/virtio.nix ];
+          specialArgs = { inherit sops-nix; };
         };
         lucie = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = distro.devbox ++ [ ./hosts/lucie ];
+          specialArgs = { inherit sops-nix; };
         };
       };
 
@@ -78,11 +89,13 @@
             system = "x86_64-linux";
             format = "raw";
             modules = distro.bae ++ [ ./hosts/qemu1 ./os/linux/virtio.nix ];
+            specialArgs = { inherit sops-nix; };
           };
           devbox-qemu = nixos-generators.nixosGenerate {
             system = "x86_64-linux";
             format = "raw";
             modules = distro.devbox ++ [ ./hosts/qemu1 ./os/linux/virtio.nix ];
+            specialArgs = { inherit sops-nix; };
           };
         };
       };

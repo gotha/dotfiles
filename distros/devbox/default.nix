@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, sops-nix, ... }:
 let
   cfg = import ../../config/default.nix;
   userPackages = import ../../config/packages-user.nix { inherit pkgs; };
@@ -26,6 +26,7 @@ in {
     {
       home-manager = {
         # @todo - maybe make waybar, mako, rofi, etc become deps of sway
+        extraSpecialArgs = { inputs = { inherit sops-nix; }; };
         users.${cfg.username}.imports = [
           ../../home-manager
           ../../home-manager/alacritty

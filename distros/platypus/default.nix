@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, sops-nix, ... }:
 let
   cfg = import ../../config/default.nix;
   userPackages = import ../../config/packages-user.nix { inherit pkgs; };
@@ -28,6 +28,7 @@ in {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
+        extraSpecialArgs = { inputs = { inherit sops-nix; }; };
         users.${cfg.username} = {
           imports = [
             ../../home-manager
