@@ -156,3 +156,5 @@ if command -v direnv >/dev/null 2>&1; then
 fi
 
 alias ask="chatgpt"
+
+alias auggie="auggie --mcp-config ~/.config/mcp/mcp.json"
