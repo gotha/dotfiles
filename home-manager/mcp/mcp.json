@@ -2,10 +2,7 @@
   "$schema": "https://modelcontextprotocol.io/schema/mcp.json",
   "mcpServers": {
     "git": {
-      "command": "uvx",
-      "args": [
-        "mcp-server-git"
-      ],
+      "command": "mcp-server-git",
       "description": "Git operations for the langcache repository including status, diff, log, and branch management"
     },
     "github": {

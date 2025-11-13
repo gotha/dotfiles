@@ -22,6 +22,8 @@ in [
   gnupg
   less
   lua
+  mcp-atlassian
+  mcp-server-git
   ncdu
   neovim
   nil
@@ -44,5 +46,4 @@ in [
   uv
   vale
   watch
-  mcp-atlassian
 ]
