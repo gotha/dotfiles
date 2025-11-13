@@ -22,8 +22,6 @@ in [
   gnupg
   less
   lua
-  mcp-atlassian
-  mcp-server-git
   ncdu
   neovim
   nil
