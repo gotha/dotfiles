@@ -30,7 +30,7 @@ in {
     enable = true;
     config = {
       ProgramArguments = [ "${pkgs.sketchybar}/bin/sketchybar" ];
-      KeepAlive = true;
+      KeepAlive = false;
       RunAtLoad = true;
     };
   };
