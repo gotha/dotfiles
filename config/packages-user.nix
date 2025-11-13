@@ -44,4 +44,5 @@ in [
   uv
   vale
   watch
+  mcp-atlassian
 ]

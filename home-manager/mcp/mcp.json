@@ -41,14 +41,10 @@
       "description": "Context 7 MCP server for enhanced context management and analysis"
     },
     "atlassian": {
-      "command": "docker",
+      "command": "mcp-atlassian",
       "args": [
-        "run",
-        "-i",
-        "--rm",
         "--env-file",
-        "~/.env",
-        "ghcr.io/sooperset/mcp-atlassian:latest"
+        "~/.env"
       ],
       "description": "Atlassian MCP server for managing JIRA projects and issues, and Confluence content"
     }

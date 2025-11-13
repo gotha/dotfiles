@@ -29,12 +29,15 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    gotha.url = "github:gotha/nixpkgs?ref=main";
   };
   outputs = { nixpkgs, darwin, nix-index-database, nixos-generators
-    , home-manager, nix-vscode-extensions, sops-nix, ... }:
+    , home-manager, nix-vscode-extensions, sops-nix, gotha, ... }:
     let
       configuration = { pkgs, ... }: {
-        nixpkgs.overlays = [ nix-vscode-extensions.overlays.default ];
+        nixpkgs.overlays =
+          [ nix-vscode-extensions.overlays.default gotha.overlays.default ];
       };
       distro = {
         bae = [
