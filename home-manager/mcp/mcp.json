@@ -23,7 +23,7 @@
         "-y",
         "@google-cloud/gcloud-mcp"
       ]
-    }
+    },
     "git": {
       "command": "mcp-server-git",
       "description": "Git operations for the langcache repository including status, diff, log, and branch management"
@@ -35,6 +35,10 @@
         "@modelcontextprotocol/server-github"
       ],
       "description": "GitHub integration for managing issues, pull requests, and repository operations for redislabsdev/langcache"
+    },
+    "kubectl": {
+      "command": "kubectl-mcp-server",
+      "description": "kubectl for managing and debugging Kubernetes clusters"
     },
     "memory": {
       "command": "npx",
@@ -51,6 +55,6 @@
         "@modelcontextprotocol/server-sequential-thinking"
       ],
       "description": "Enhanced reasoning capabilities for complex architectural and debugging tasks"
-    },
+    }
   }
 }
