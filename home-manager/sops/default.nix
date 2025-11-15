@@ -16,6 +16,12 @@
       path = "${config.home.homeDirectory}/.env";
       mode = "0600";
     };
+
+    secrets."mcp_server_github_pac" = {
+      sopsFile = ../../secrets/github.env.enc;
+      format = "dotenv";
+      key = "GITHUB_PERSONAL_ACCESS_TOKEN_MCP_SERVER";
+    };
   };
 
 }

@@ -1,10 +1,16 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }:
+let
+  mcp-server-github-wrapper =
+    pkgs.callPackage ./mcp-server-github-wrapper.nix { inherit config; };
+in {
 
   home.packages = with pkgs; [
     context7-mcp
+    gcloud-mcp
     kubectl-mcp-server
     mcp-atlassian
     mcp-server-git
+    mcp-server-github-wrapper
   ];
 
   xdg.configFile."mcp/mcp.json".text = builtins.toJSON {
@@ -22,8 +28,9 @@
           "Context 7 MCP server for enhanced context management and analysis";
       };
       gcloud = {
-        command = "npx";
-        args = [ "-y" "@google-cloud/gcloud-mcp" ];
+        command = "${pkgs.gcloud-mcp}/bin/gcloud-mcp";
+        description =
+          "Google Cloud Platform (GCP) integration for managing resources and services";
       };
       git = {
         command = "${pkgs.mcp-server-git}/bin/mcp-server-git";
@@ -31,8 +38,7 @@
           "Git operations for the repository including status, diff, log, and branch management";
       };
       github = {
-        command = "npx";
-        args = [ "-y" "@modelcontextprotocol/server-github" ];
+        command = "${mcp-server-github-wrapper}/bin/mcp-server-github-wrapper";
         description =
           "GitHub integration for managing issues, pull requests, and repository operations";
       };
