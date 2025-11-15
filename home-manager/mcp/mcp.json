@@ -26,7 +26,7 @@
     },
     "git": {
       "command": "mcp-server-git",
-      "description": "Git operations for the langcache repository including status, diff, log, and branch management"
+      "description": "Git operations for the repository including status, diff, log, and branch management"
     },
     "github": {
       "command": "npx",
@@ -34,7 +34,7 @@
         "-y",
         "@modelcontextprotocol/server-github"
       ],
-      "description": "GitHub integration for managing issues, pull requests, and repository operations for redislabsdev/langcache"
+      "description": "GitHub integration for managing issues, pull requests, and repository operations"
     },
     "kubectl": {
       "command": "kubectl-mcp-server",
@@ -46,7 +46,7 @@
         "-y",
         "@modelcontextprotocol/server-memory"
       ],
-      "description": "Persistent memory for storing context about the langcache project across sessions"
+      "description": "Persistent memory for storing context about the project across sessions"
     },
     "sequential-thinking": {
       "command": "npx",
