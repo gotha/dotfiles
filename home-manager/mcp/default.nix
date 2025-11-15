@@ -12,6 +12,7 @@ in {
     mcp-server-git
     mcp-server-github-wrapper
     mcp-server-memory
+    mcp-server-sequential-thinking
   ];
 
   xdg.configFile."mcp/mcp.json".text = builtins.toJSON {
@@ -53,8 +54,8 @@ in {
           "Persistent memory for storing context about the project across sessions";
       };
       "sequential-thinking" = {
-        command = "npx";
-        args = [ "-y" "@modelcontextprotocol/server-sequential-thinking" ];
+        command =
+          "${pkgs.mcp-server-sequential-thinking}/bin/mcp-server-sequential-thinking";
         description =
           "Enhanced reasoning capabilities for complex architectural and debugging tasks";
       };
