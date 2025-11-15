@@ -69,5 +69,10 @@ return require("packer").startup(function(use)
 
 	use("augmentcode/augment.vim")
 
+	use({
+		"ravitemer/mcphub.nvim",
+		requires = { "nvim-lua/plenary.nvim" },
+	})
+
 	use("Rigellute/rigel")
 end)
