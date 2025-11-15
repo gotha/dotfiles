@@ -74,13 +74,13 @@ return require("packer").startup(function(use)
 		requires = { "nvim-lua/plenary.nvim" },
 	})
 
-	use({
-		"olimorris/codecompanion.nvim",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-		},
-	})
+	--use({
+	--	"olimorris/codecompanion.nvim",
+	--	requires = {
+	--		"nvim-lua/plenary.nvim",
+	--		"nvim-treesitter/nvim-treesitter",
+	--	},
+	--})
 
 	use("Rigellute/rigel")
 end)
