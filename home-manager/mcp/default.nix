@@ -11,6 +11,7 @@ in {
     mcp-atlassian
     mcp-server-git
     mcp-server-github-wrapper
+    mcp-server-memory
   ];
 
   xdg.configFile."mcp/mcp.json".text = builtins.toJSON {
@@ -47,8 +48,7 @@ in {
         description = "kubectl for managing and debugging Kubernetes clusters";
       };
       memory = {
-        command = "npx";
-        args = [ "-y" "@modelcontextprotocol/server-memory" ];
+        command = "${pkgs.mcp-server-memory}/bin/mcp-server-memory";
         description =
           "Persistent memory for storing context about the project across sessions";
       };
