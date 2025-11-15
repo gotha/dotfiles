@@ -1,6 +1,7 @@
 { pkgs, ... }: {
 
   home.packages = with pkgs; [
+    context7-mcp
     kubectl-mcp-server
     mcp-atlassian
     mcp-server-git

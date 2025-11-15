@@ -10,11 +10,7 @@
       "description": "Atlassian MCP server for managing JIRA projects and issues, and Confluence content"
     },
     "context-7": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@upstash/context7-mcp"
-      ],
+      "command": "context7-mcp",
       "description": "Context 7 MCP server for enhanced context management and analysis"
     },
     "gcloud": {
