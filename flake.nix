@@ -24,9 +24,28 @@
     };
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
+    hipy.url = "github:gotha/hipy?ref=main";
+    #hipy = {
+    #  type = "path";
+    #  path = "/home/gotha/Projects/github.com/gotha/hipy";
+    #  flake = true;
+    #};
+
+    dissona = {
+      type = "path";
+      path = "/home/gotha/Projects/github.com/gotha/dissona";
+      flake = true;
+    };
+
+    dissona-web = {
+      type = "path";
+      path = "/home/gotha/Projects/github.com/gotha/dissona-app";
+      flake = true;
+    };
   };
   outputs = { nixpkgs, darwin, nix-index-database, nixos-generators
-    , home-manager, nix-vscode-extensions, ... }:
+    , home-manager, nix-vscode-extensions, hipy, dissona, dissona-web, ... }:
     let
       configuration = { pkgs, ... }: {
         nixpkgs.overlays = [ nix-vscode-extensions.overlays.default ];
@@ -41,6 +60,31 @@
           ./distros/devbox
           nix-index-database.nixosModules.nix-index
           home-manager.nixosModules.home-manager
+          hipy.nixosModules.hipy
+          dissona.nixosModules.dissona
+          dissona-web.nixosModules.dissona-web
+          {
+            services = {
+              hipy = {
+                enable = true;
+                port = 1237;
+              };
+              dissona = {
+                enable = true;
+                api = {
+                  enable = true;
+                  port = 8761;
+                };
+                file-processor.enable = false;
+                audio-generator.enable = false;
+              };
+              dissona-web = {
+                enable = true;
+                port = 8762;
+                environment = { API_BASE_URL = "http://localhost:8761"; };
+              };
+            };
+          }
         ];
         platypus = [
           configuration
