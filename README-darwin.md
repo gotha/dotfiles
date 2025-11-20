@@ -58,11 +58,17 @@ nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch 
 then after each change
 
 ```sh
-sudo nix run nix-darwin -- switch --flake .
+sudo darwin-rebuild switch --flake .
 ```
 
 to update the flake:
 
 ```sh
 nix flake update --flake .
+```
+
+to update single input of a flake
+
+```sh
+nix flake update gotha
 ```
