@@ -46,6 +46,7 @@
           home-manager.nixosModules.home-manager
         ];
         devbox = [
+          configuration
           ./distros/devbox
           nix-index-database.nixosModules.nix-index
           home-manager.nixosModules.home-manager

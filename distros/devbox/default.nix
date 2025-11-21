@@ -26,12 +26,15 @@ in {
     {
       home-manager = {
         # @todo - maybe make waybar, mako, rofi, etc become deps of sway
+        useGlobalPkgs = true;
+        useUserPackages = true;
         extraSpecialArgs = { inputs = { inherit sops-nix; }; };
         users.${cfg.username}.imports = [
           ../../home-manager
           ../../home-manager/alacritty
           ../../home-manager/git
           ../../home-manager/mako
+          ../../home-manager/mcp
           ../../home-manager/npm
           ../../home-manager/nvim
           ../../home-manager/rofi
