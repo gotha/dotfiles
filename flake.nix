@@ -57,6 +57,7 @@
           ./distros/platypus
           home-manager.darwinModules.home-manager
           sops-nix.darwinModules.sops
+          ({ ... }: { nix.enable = false; })
         ];
       };
     in {
