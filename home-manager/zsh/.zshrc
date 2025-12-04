@@ -2,6 +2,12 @@ if [ -f /etc/zshenv ]; then
   source /etc/zshenv
 fi
 
+# nix-index command-not-found integration
+# Source the system zshrc which includes command-not-found
+if [ -f /etc/static/zshrc ]; then
+  source /etc/static/zshrc
+fi
+
 if [ ! -d ~/.zsh-autosuggestions ]; then
   git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh-autosuggestions
 fi

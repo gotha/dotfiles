@@ -55,6 +55,7 @@
         platypus = [
           configuration
           ./distros/platypus
+          nix-index-database.darwinModules.nix-index
           home-manager.darwinModules.home-manager
           sops-nix.darwinModules.sops
           ({ ... }: { nix.enable = false; })
