@@ -33,7 +33,7 @@ in {
 
     ollama = {
       enable = true;
-      acceleration = "cuda";
+      package = pkgs.ollama-cuda;
       # Optional: specify which GPU to use (default is all available)
       # environmentVariables = {
       #   CUDA_VISIBLE_DEVICES = "0";

@@ -2,6 +2,7 @@
   description = "my minimal flake";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
 
     darwin = {
       url = "github:lnl7/nix-darwin";
@@ -32,12 +33,17 @@
 
     gotha.url = "github:gotha/nixpkgs?ref=main";
   };
-  outputs = { nixpkgs, darwin, nix-index-database, nixos-generators
-    , home-manager, nix-vscode-extensions, sops-nix, gotha, ... }:
+  outputs = { nixpkgs, nixpkgs-stable, darwin, nix-index-database
+    , nixos-generators, home-manager, nix-vscode-extensions, sops-nix, gotha
+    , ... }:
     let
       configuration = { pkgs, ... }: {
         nixpkgs.overlays =
           [ nix-vscode-extensions.overlays.default gotha.overlays.default ];
+        _module.args.stablePkgs = import nixpkgs-stable {
+          system = pkgs.system;
+          config.allowUnfree = true;
+        };
       };
       distro = {
         bae = [
@@ -67,7 +73,13 @@
         "D2Y6PH4TGJ-Hristo-Georgiev" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = distro.platypus;
-          specialArgs = { inherit sops-nix; };
+          specialArgs = {
+            inherit sops-nix;
+            stablePkgs = import nixpkgs-stable {
+              system = "aarch64-darwin";
+              config.allowUnfree = true;
+            };
+          };
         };
       };
 
@@ -75,17 +87,35 @@
         bae = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = distro.bae ++ [ ./hosts/qemu1 ];
-          specialArgs = { inherit sops-nix; };
+          specialArgs = {
+            inherit sops-nix;
+            stablePkgs = import nixpkgs-stable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
         };
         devbox = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = distro.devbox ++ [ ./hosts/qemu1 ./os/linux/virtio.nix ];
-          specialArgs = { inherit sops-nix; };
+          specialArgs = {
+            inherit sops-nix;
+            stablePkgs = import nixpkgs-stable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
         };
         lucie = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = distro.devbox ++ [ ./hosts/lucie ];
-          specialArgs = { inherit sops-nix; };
+          specialArgs = {
+            inherit sops-nix;
+            stablePkgs = import nixpkgs-stable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
         };
       };
 

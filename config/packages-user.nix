@@ -1,8 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, stablePkgs, ... }:
 with pkgs;
 let
-  gcloud = pkgs.google-cloud-sdk.withExtraComponents
-    [ pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin ];
+  # Use stable version of gcloud to avoid Tkinter issues in latest unstable
+  gcloud = stablePkgs.google-cloud-sdk.withExtraComponents
+    [ stablePkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin ];
 in [
   _1password-cli
   awscli2

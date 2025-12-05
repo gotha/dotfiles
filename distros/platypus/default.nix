@@ -1,7 +1,7 @@
-{ config, lib, pkgs, sops-nix, ... }:
+{ config, lib, pkgs, sops-nix, stablePkgs, ... }:
 let
   cfg = import ../../config/default.nix;
-  userPackages = import ../../config/packages-user.nix { inherit pkgs; };
+  userPackages = import ../../config/packages-user.nix { inherit pkgs stablePkgs; };
   systemPackages = import ../../config/packages.nix { inherit pkgs; };
   darwinUserPackages =
     import ../../os/darwin/packages-user.nix { inherit pkgs; };

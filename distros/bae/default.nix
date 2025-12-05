@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, stablePkgs, ... }:
 let
   cfg = import ../../config/default.nix;
-  userPackages = import ../../config/packages-user.nix { pkgs = pkgs; };
+  userPackages = import ../../config/packages-user.nix { inherit pkgs stablePkgs; };
   systemPackages = import ../../config/packages.nix { pkgs = pkgs; };
 in {
 
