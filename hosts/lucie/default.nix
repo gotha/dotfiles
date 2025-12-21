@@ -6,6 +6,7 @@ in {
 
   imports = [
     ./hardware-configuration.nix
+    ./k3s.nix
     ./tunnels.nix
     ./wireguard.nix
     ../../os/linux/efi.nix
