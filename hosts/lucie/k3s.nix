@@ -69,6 +69,68 @@ let
                 port:
                   number: 80
   '';
+
+  # Harbor HelmChart manifest for k3s auto-deployment
+  harborChart = pkgs.writeText "harbor-helmchart.yaml" ''
+    apiVersion: helm.cattle.io/v1
+    kind: HelmChart
+    metadata:
+      name: harbor
+      namespace: kube-system
+    spec:
+      chart: harbor
+      repo: https://helm.goharbor.io
+      targetNamespace: harbor
+      version: 1.16.1
+      createNamespace: true
+      valuesContent: |-
+        expose:
+          type: ingress
+          tls:
+            enabled: false
+          ingress:
+            hosts:
+              core: harbor.local
+            className: traefik
+            annotations:
+              traefik.ingress.kubernetes.io/router.entrypoints: web
+              ingress.kubernetes.io/ssl-redirect: "false"
+              ingress.kubernetes.io/proxy-body-size: "0"
+
+        externalURL: http://harbor.local
+
+        # Disable internal TLS for local development
+        internalTLS:
+          enabled: false
+
+        # Use default admin password (change in production!)
+        harborAdminPassword: "Harbor12345"
+
+        # Persistence configuration
+        persistence:
+          enabled: true
+          persistentVolumeClaim:
+            registry:
+              storageClass: "local-path"
+              size: 20Gi
+            database:
+              storageClass: "local-path"
+              size: 2Gi
+            redis:
+              storageClass: "local-path"
+              size: 2Gi
+            trivy:
+              storageClass: "local-path"
+              size: 5Gi
+
+        # Disable notary for simplicity
+        notary:
+          enabled: false
+
+        # Enable Trivy scanner
+        trivy:
+          enabled: true
+  '';
 in {
 
   # Enable k3s service
@@ -91,17 +153,16 @@ in {
     "d /var/lib/rancher/k3s/agent/etc/containerd 0755 root root -"
     "L+ /var/lib/rancher/k3s/agent/etc/containerd/config-v3.toml.tmpl - - - - ${containerdConfigTemplate}"
 
-    # Deploy ArgoCD via k3s auto-deploy manifests
+    # Deploy helm charts via k3s auto-deploy manifests
     # k3s automatically applies any manifests in this directory
     "d /var/lib/rancher/k3s/server/manifests 0755 root root -"
     "L+ /var/lib/rancher/k3s/server/manifests/argocd.yaml - - - - ${argoCDChart}"
     "L+ /var/lib/rancher/k3s/server/manifests/argocd-ingress.yaml - - - - ${argoCDIngress}"
+    "L+ /var/lib/rancher/k3s/server/manifests/harbor.yaml - - - - ${harborChart}"
   ];
 
-  # Add argocd.local to /etc/hosts for local access
-  networking.hosts = {
-    "127.0.0.1" = [ "argocd.local" ];
-  };
+  # Add local domains to /etc/hosts for local access
+  networking.hosts = { "127.0.0.1" = [ "argocd.local" "harbor.local" ]; };
 
   # Open firewall ports for k3s
   networking.firewall = {
@@ -124,7 +185,8 @@ in {
   };
 
   # Add nvidia-container-toolkit to system packages
-  environment.systemPackages = [ config.hardware.nvidia-container-toolkit.package ];
+  environment.systemPackages =
+    [ config.hardware.nvidia-container-toolkit.package ];
 
   # Generate NVIDIA CDI specs for container runtime
   systemd.services.nvidia-cdi-generate = {
