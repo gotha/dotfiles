@@ -161,8 +161,8 @@ in {
     "L+ /var/lib/rancher/k3s/server/manifests/harbor.yaml - - - - ${harborChart}"
   ];
 
-  # Add local domains to /etc/hosts for local access
-  networking.hosts = { "127.0.0.1" = [ "argocd.local" "harbor.local" ]; };
+  # DNS resolution is now handled by dnsmasq (see hosts/lucie/default.nix)
+  # networking.hosts = { "127.0.0.1" = [ "argocd.local" "harbor.local" ]; };
 
   # Open firewall ports for k3s
   networking.firewall = {
