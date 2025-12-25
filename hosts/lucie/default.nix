@@ -35,9 +35,15 @@ in {
     daemon.settings = {
       # Allow insecure registries for local development
       insecure-registries = [ "harbor.local" ];
+      # Enable CDI for GPU access (modern approach, replaces nvidia-docker)
       features = { cdi = true; };
     };
   };
+
+  systemd.services.docker = { path = with pkgs; [ runc libnvidia-container ]; };
+
+  # Make nvidia-container-cli available system-wide
+  environment.systemPackages = with pkgs; [ libnvidia-container ];
 
   services = {
     # Local DNS server for resolving k3s services
@@ -75,6 +81,7 @@ in {
       # };
       host = "0.0.0.0";
       port = 11434;
+      openFirewall = true;
     };
 
     plex = {
