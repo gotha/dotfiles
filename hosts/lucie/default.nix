@@ -100,4 +100,9 @@ in {
     };
   };
 
+  home-manager.users.${username} = {
+    # Disable GitHub MCP server for lucie because it does not currently work for linux
+    programs.mcp.enableGithub = false;
+  };
+
 }
