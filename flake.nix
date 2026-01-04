@@ -147,5 +147,19 @@
         };
       };
 
+      devShells = {
+        x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
+          packages = with nixpkgs.legacyPackages.x86_64-linux; [
+            nixd
+          ];
+        };
+
+        aarch64-darwin.default = nixpkgs.legacyPackages.aarch64-darwin.mkShell {
+          packages = with nixpkgs.legacyPackages.aarch64-darwin; [
+            nixd
+          ];
+        };
+      };
+
     };
 }

@@ -25,7 +25,7 @@ in [
   lua
   ncdu
   neovim
-  nil
+  nixd
   nixfmt-classic
   nix-search-cli
   nodejs

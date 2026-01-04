@@ -96,17 +96,28 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "nix" },
 	callback = function()
-		vim.lsp.config.nil_ls = {
+		vim.lsp.config.nixd = {
 			autostart = true,
 			settings = {
-				["nil"] = {
+				nixd = {
 					formatting = {
 						command = { "nixfmt" },
+					},
+					diagnostic = {
+						suppress = { "sema-escaping-with" },
+					},
+				},
+				nix = {
+					flake = {
+						-- Automatically archive flake inputs without prompting
+						autoArchive = true,
+						-- Automatically evaluate flake inputs
+						autoEvalInputs = true,
 					},
 				},
 			},
 		}
-		vim.lsp.enable("nil_ls")
+		vim.lsp.enable("nixd")
 	end,
 })
 
