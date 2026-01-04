@@ -166,16 +166,6 @@ require("lazy").setup({
 		end,
 	},
 
-	-- MCPHub
-	{
-		"ravitemer/mcphub.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		event = "VeryLazy",
-		config = function()
-			require("plugins/mcphub")
-		end,
-	},
-
 	-- Color scheme
 	{
 		"Rigellute/rigel",
