@@ -16,10 +16,6 @@ return require("packer").startup(function(use)
 
 	use({
 		"neovim/nvim-lspconfig",
-		requires = {
-			{ "williamboman/mason.nvim" },
-			{ "williamboman/mason-lspconfig.nvim" },
-		},
 	})
 
 	use({
