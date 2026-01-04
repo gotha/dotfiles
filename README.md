@@ -13,10 +13,12 @@ Depending on your OS follow one of these guides:
 
 ### neovim
 
-Install all plugins
+Plugins will be automatically installed by lazy.nvim on first run.
+
+To manually sync plugins:
 
 ```sh
-nvim +PackerSync
+nvim +Lazy sync
 ```
 
 ### tmux

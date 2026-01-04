@@ -1,70 +1,122 @@
--- Setup language servers.
-vim.lsp.enable("ts_ls")
+-- Setup language servers with lazy loading based on filetype
 
-vim.lsp.config.rust_analyzer = {
-	-- Server-specific settings. See `:help vim.lsp.config-setup`
-	settings = {
-		["rust-analyzer"] = {
-			rustfmt = {
-				extraArgs = { "--edition 2021" },
+-- TypeScript/JavaScript
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+	callback = function()
+		vim.lsp.enable("ts_ls")
+	end,
+})
+
+-- Rust
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "rust" },
+	callback = function()
+		vim.lsp.config.rust_analyzer = {
+			settings = {
+				["rust-analyzer"] = {
+					rustfmt = {
+						extraArgs = { "--edition 2021" },
+					},
+				},
 			},
-		},
-	},
-}
-vim.lsp.enable("rust_analyzer")
+		}
+		vim.lsp.enable("rust_analyzer")
+	end,
+})
 
-vim.lsp.config.gopls = {
-	on_attach = on_attach,
-	capabilities = capabilities,
-	filetypes = { "go", "gomod" },
-	root_markers = { "go.mod", ".git" },
-	settings = {
-		gopls = {
-			usePlaceholders = false,
-			buildFlags = { "-tags=integration,load" },
-			gofumpt = true,
-			["local"] = "<repo>",
-		},
-	},
-	init_options = {
-		buildFlags = { "-tags=integration,load" },
-	},
-}
-vim.lsp.enable("gopls")
-
-vim.lsp.enable("clangd")
-vim.lsp.enable("phpactor")
-vim.lsp.enable("terraformls")
-
-vim.lsp.config.pyright = {
-	capabilities = capabilities,
-	settings = {
-		python = {
-			analysis = {
-				autoSearchPaths = true,
-				diagnosticMode = "workspace",
-				useLibraryCodeForTypes = true,
-				typeCheckingMode = "basic",
+-- Go
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "go", "gomod" },
+	callback = function()
+		vim.lsp.config.gopls = {
+			filetypes = { "go", "gomod" },
+			root_markers = { "go.mod", ".git" },
+			settings = {
+				gopls = {
+					usePlaceholders = false,
+					buildFlags = { "-tags=integration,load" },
+					gofumpt = true,
+					["local"] = "<repo>",
+				},
 			},
-		},
-	},
-}
-vim.lsp.enable("pyright")
-
-vim.lsp.config.nil_ls = {
-	autostart = true,
-	capabilities = capabilities,
-	settings = {
-		["nil"] = {
-			formatting = {
-				command = { "nixfmt" },
+			init_options = {
+				buildFlags = { "-tags=integration,load" },
 			},
-		},
-	},
-}
-vim.lsp.enable("nil_ls")
+		}
+		vim.lsp.enable("gopls")
+	end,
+})
 
-vim.lsp.enable("regols")
+-- C/C++
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "c", "cpp", "objc", "objcpp" },
+	callback = function()
+		vim.lsp.enable("clangd")
+	end,
+})
+
+-- PHP
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "php" },
+	callback = function()
+		vim.lsp.enable("phpactor")
+	end,
+})
+
+-- Terraform
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "terraform", "tf" },
+	callback = function()
+		vim.lsp.enable("terraformls")
+	end,
+})
+
+-- Python
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "python" },
+	callback = function()
+		vim.lsp.config.pyright = {
+			settings = {
+				python = {
+					analysis = {
+						autoSearchPaths = true,
+						diagnosticMode = "workspace",
+						useLibraryCodeForTypes = true,
+						typeCheckingMode = "basic",
+					},
+				},
+			},
+		}
+		vim.lsp.enable("pyright")
+	end,
+})
+
+-- Nix
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "nix" },
+	callback = function()
+		vim.lsp.config.nil_ls = {
+			autostart = true,
+			settings = {
+				["nil"] = {
+					formatting = {
+						command = { "nixfmt" },
+					},
+				},
+			},
+		}
+		vim.lsp.enable("nil_ls")
+	end,
+})
+
+-- Rego
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "rego" },
+	callback = function()
+		vim.lsp.enable("regols")
+	end,
+})
 
 vim.lsp.config.jdtls = {
 	cmd = {

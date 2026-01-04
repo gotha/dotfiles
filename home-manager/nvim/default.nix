@@ -1,6 +1,10 @@
 { pkgs, ... }: {
 
-  home.packages = with pkgs; [ neovim ];
+  home.packages = with pkgs; [
+    neovim
+    # Required for lazy.nvim to work
+    git
+  ];
 
   xdg.configFile = {
     "nvim/init.lua".source = ./init.lua;
