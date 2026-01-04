@@ -6,7 +6,6 @@ in {
 
   imports = [
     ./hardware-configuration.nix
-    ./k3s.nix
     ./tunnels.nix
     ./wireguard.nix
     ../../os/linux/efi.nix
@@ -28,13 +27,9 @@ in {
     transmission_4-gtk
   ];
 
-  # Configure Docker for Harbor (local k3s registry)
-  # Use rootful Docker instead of rootless
-  # Harbor is accessible at harbor.local via dnsmasq DNS resolution
+  # Configure Docker
   virtualisation.docker = {
     daemon.settings = {
-      # Allow insecure registries for local development
-      insecure-registries = [ "harbor.local" ];
       # Enable CDI for GPU access (modern approach, replaces nvidia-docker)
       features = { cdi = true; };
     };
@@ -46,7 +41,7 @@ in {
   environment.systemPackages = with pkgs; [ libnvidia-container ];
 
   services = {
-    # Local DNS server for resolving k3s services
+    # Local DNS server
     dnsmasq = {
       enable = true;
       settings = {
@@ -62,8 +57,8 @@ in {
         # Forward all other queries to router and Google DNS
         server = [ "192.168.1.1" "8.8.8.8" ];
 
-        # Local domain resolution for k3s services
-        address = [ "/harbor.local/192.168.1.12" "/argocd.local/192.168.1.12" ];
+        # Local domain resolution
+        address = [ ];
       };
     };
 
