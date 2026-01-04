@@ -14,6 +14,7 @@ let
     ++ (lib.optionals cfg.enableGithub [ mcp-server-github-wrapper ])
     ++ (lib.optionals cfg.enableKubectl [ kubectl-mcp-server ])
     ++ (lib.optionals cfg.enableMemory [ mcp-server-memory ])
+    ++ (lib.optionals cfg.enablePlaywright [ mcp-server-playwright ])
     ++ (lib.optionals cfg.enableSequentialThinking [ mcp-server-sequential-thinking ]);
 
   # Conditionally build servers configuration
@@ -67,6 +68,13 @@ let
           "Persistent memory for storing context about the project across sessions";
       };
     })
+    // (lib.optionalAttrs cfg.enablePlaywright {
+      playwright = {
+        command = "${pkgs.mcp-server-playwright}/bin/mcp-server-playwright";
+        description =
+          "Playwright server for browser automation and web testing";
+      };
+    })
     // (lib.optionalAttrs cfg.enableSequentialThinking {
       "sequential-thinking" = {
         command =
@@ -118,6 +126,12 @@ in {
       type = lib.types.bool;
       default = true;
       description = "Enable MCP Memory server for persistent context storage";
+    };
+
+    enablePlaywright = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable MCP Playwright server for browser automation and web testing";
     };
 
     enableSequentialThinking = lib.mkOption {
