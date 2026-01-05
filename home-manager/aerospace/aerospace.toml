@@ -8,7 +8,8 @@ enable-normalization-flatten-containers = false
 enable-normalization-opposite-orientation-for-nested-containers = false
 
 # Start AeroSpace at login
-start-at-login = true
+# Disabled because we manage startup via nix home-manager launchd agent
+start-at-login = false
 
 accordion-padding = 0
 
@@ -16,9 +17,10 @@ accordion-padding = 0
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 # Run Sketchybar together with AeroSpace
+# Disabled because sketchybar is managed separately via nix home-manager launchd agent
 # sketchbar has a built-in detection of already running process,
 # so it won't be run twice on AeroSpace restart
-after-startup-command = ['exec-and-forget sketchybar']
+# after-startup-command = ['exec-and-forget sketchybar']
 
 # Notify Sketchybar about workspace change
 exec-on-workspace-change = ['/bin/bash', '-c',

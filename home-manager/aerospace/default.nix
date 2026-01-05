@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
 
   home.packages = with pkgs; [ aerospace ];
 
@@ -8,8 +8,11 @@
       ProgramArguments = [
         "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace"
       ];
-      KeepAlive = false;
+      KeepAlive = true;
       RunAtLoad = true;
+      ProcessType = "Interactive";
+      StandardOutPath = "${config.home.homeDirectory}/Library/Logs/aerospace.log";
+      StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/aerospace.log";
     };
   };
 

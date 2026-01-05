@@ -9,10 +9,29 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 
 # Load colors
 source "$CONFIG_DIR/colors.sh"
-source "$CONFIG_DIR/icons.sh"
+#source "$CONFIG_DIR/icons.sh"
 
 FONT="Hack Nerd Font" # Needs to have Regular, Bold, Semibold, Heavy and Black variants
 PADDINGS=3 # All paddings use this value (icon, label, background)
+
+# Wait for aerospace to be ready
+echo "Waiting for aerospace to be ready..."
+MAX_RETRIES=30
+RETRY_COUNT=0
+while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+  if aerospace list-workspaces --focused &>/dev/null; then
+    echo "Aerospace is ready!"
+    break
+  fi
+  echo "Aerospace not ready yet, retrying... ($((RETRY_COUNT + 1))/$MAX_RETRIES)"
+  sleep 5
+  RETRY_COUNT=$((RETRY_COUNT + 1))
+done
+
+if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
+  echo "ERROR: Aerospace failed to start after $MAX_RETRIES retries"
+  exit 1
+fi
 
 # aerospace setting
 AEROSPACE_FOCUSED_MONITOR_NO=$(aerospace list-workspaces --focused)

@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   pluginsDir = ./plugins;
   pluginFiles = builtins.readDir pluginsDir;
@@ -30,8 +30,16 @@ in {
     enable = true;
     config = {
       ProgramArguments = [ "${pkgs.sketchybar}/bin/sketchybar" ];
-      KeepAlive = false;
+      KeepAlive = true;
       RunAtLoad = true;
+      StandardOutPath =
+        "${config.home.homeDirectory}/Library/Logs/sketchybar.log";
+      StandardErrorPath =
+        "${config.home.homeDirectory}/Library/Logs/sketchybar.log";
+      EnvironmentVariables = {
+        PATH =
+          "${pkgs.sketchybar}/bin:${pkgs.aerospace}/bin:/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      };
     };
   };
 
