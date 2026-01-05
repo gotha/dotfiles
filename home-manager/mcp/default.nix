@@ -82,6 +82,13 @@ let
         description =
           "Enhanced reasoning capabilities for complex architectural and debugging tasks";
       };
+    })
+    // (lib.optionalAttrs cfg.enableTempo {
+      "tempo-mcp" = {
+        url =
+          "https://tempo-query-internal.qa-prometheus.qa.redislabs.com/api/mcp";
+        type = "http";
+      };
     });
 in {
 
@@ -138,6 +145,12 @@ in {
       type = lib.types.bool;
       default = true;
       description = "Enable MCP Sequential Thinking server for enhanced reasoning";
+    };
+
+    enableTempo = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable MCP Tempo server for querying metrics";
     };
   };
 
