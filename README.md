@@ -42,6 +42,12 @@ vale sync
 
 to update vale styles
 
+## Deploy remote host 
+
+```sh
+nix run github:serokell/deploy-rs -- .#bastion
+```
+
 ## Install on QEMU
 
 ### Generate and boot disk image

@@ -31,11 +31,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    deploy-rs.url = "github:serokell/deploy-rs";
+
     gotha.url = "github:gotha/nixpkgs?ref=main";
   };
-  outputs = { nixpkgs, nixpkgs-stable, darwin, nix-index-database
+  outputs = { self, nixpkgs, nixpkgs-stable, darwin, nix-index-database
     , nixos-generators, home-manager, nix-vscode-extensions, sops-nix, gotha
-    , ... }:
+    , deploy-rs, ... }:
     let
       configuration = { pkgs, ... }: {
         nixpkgs.overlays =
@@ -47,6 +49,7 @@
       };
       distro = {
         bae = [
+          configuration
           ./distros/bae
           nix-index-database.nixosModules.nix-index
           home-manager.nixosModules.home-manager
@@ -67,6 +70,7 @@
           ({ ... }: { nix.enable = false; })
         ];
       };
+      wireguard = import ./config/wireguard.nix;
     in {
 
       darwinConfigurations = {
@@ -87,6 +91,17 @@
         bae = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = distro.bae ++ [ ./hosts/qemu1 ];
+          specialArgs = {
+            inherit sops-nix;
+            stablePkgs = import nixpkgs-stable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
+        };
+        bastion = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = distro.bae ++ [ ./hosts/bastion ];
           specialArgs = {
             inherit sops-nix;
             stablePkgs = import nixpkgs-stable {
@@ -149,17 +164,29 @@
 
       devShells = {
         x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
-          packages = with nixpkgs.legacyPackages.x86_64-linux; [
-            nixd
-          ];
+          packages = with nixpkgs.legacyPackages.x86_64-linux; [ nixd ];
         };
 
         aarch64-darwin.default = nixpkgs.legacyPackages.aarch64-darwin.mkShell {
-          packages = with nixpkgs.legacyPackages.aarch64-darwin; [
-            nixd
-          ];
+          packages = with nixpkgs.legacyPackages.aarch64-darwin; [ nixd ];
         };
       };
 
+      deploy.nodes = {
+        bastion = {
+          hostname = wireguard.bastion.publicIP;
+          remoteBuild = true;
+          sshUser = wireguard.bastion.username;
+          profiles.system = {
+            user = "root";
+            path = deploy-rs.lib.x86_64-linux.activate.nixos
+              self.nixosConfigurations.bastion;
+          };
+        };
+      };
+
+      # This is highly advised, and will prevent many possible mistakes
+      checks = builtins.mapAttrs
+        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     };
 }

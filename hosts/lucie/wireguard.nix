@@ -21,7 +21,7 @@
 
           {
             # Public key of the bastion server (not a file path).
-            publicKey = wireguard.bastionPublicKey;
+            publicKey = wireguard.bastion.publicKey;
 
             # Forward all the traffic via VPN.
             #allowedIPs = [ "0.0.0.0/0" ];
@@ -35,7 +35,7 @@
             name = "bastion";
             # Set this to the server IP and port.
             endpoint =
-              "${wireguard.bastionPublicIp}:51820"; # ToDo: route to endpoint not automatically configured https://wiki.archlinux.org/index.php/WireGuard#Loop_routing https://discourse.nixos.org/t/solved-minimal-firewall-setup-for-wireguard-client/7577
+              "${wireguard.bastion.publicIP}:51820"; # ToDo: route to endpoint not automatically configured https://wiki.archlinux.org/index.php/WireGuard#Loop_routing https://discourse.nixos.org/t/solved-minimal-firewall-setup-for-wireguard-client/7577
 
             # Send keepalives every 25 seconds. Important to keep NAT tables alive.
             persistentKeepalive = 25;

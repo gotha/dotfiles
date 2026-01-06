@@ -1,0 +1,4 @@
+creation_rules:
+  - unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+    pgp: >-
+      7EFF0CECB200083C60EA2AA2C8DDF8A8BDF70670
