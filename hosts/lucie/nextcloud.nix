@@ -8,12 +8,20 @@
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud32;
-    hostName = "localhost";
+    hostName = "nextcloud.hgeorgiev.com";
 
     # Use SQLite as backend database
     config = {
       adminpassFile = "/etc/nextcloud-admin-pass";
       dbtype = "sqlite";
+    };
+
+    # Trust the reverse proxy
+    settings = {
+      trusted_domains = [ "nextcloud.hgeorgiev.com" "10.100.0.100" "localhost" ];
+      trusted_proxies = [ "10.100.0.1" ]; # bastion's WireGuard IP
+      overwriteprotocol = "https";
+      overwritehost = "nextcloud.hgeorgiev.com";
     };
 
     # Enable Redis for caching
