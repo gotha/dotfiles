@@ -76,7 +76,7 @@
       darwinConfigurations = {
         "D2Y6PH4TGJ-Hristo-Georgiev" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          modules = distro.platypus;
+          modules = distro.platypus ++ [ ./hosts/mucie ];
           specialArgs = {
             inherit sops-nix;
             stablePkgs = import nixpkgs-stable {
