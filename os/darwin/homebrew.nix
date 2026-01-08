@@ -24,6 +24,7 @@
       "karabiner-elements"
       "keka"
       "keycastr"
+      "nextcloud"
       "rar"
       "raycast"
       "redis-insight"
