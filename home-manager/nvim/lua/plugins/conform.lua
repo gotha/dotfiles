@@ -16,7 +16,7 @@ conform.setup({
 
     graphql = { "prettier_graphql" }, -- custom below
 
-    python = { "autopep8" },
+    python = { "ruff_format", "ruff_organize_imports" },
 
     php = { "php-cs-fixer" },
     twig = { "djlint" },
@@ -80,6 +80,31 @@ conform.setup({
 
     ktlint = {
       prepend_args = { "-F", "--stdin", "--log-level", "error" },
+    },
+
+    -- Ruff formatter with specific settings
+    ruff_format = {
+      command = "ruff",
+      args = {
+        "format",
+        "--line-length", "100",
+        "--stdin-filename", "$FILENAME",
+        "-",
+      },
+      stdin = true,
+    },
+
+    -- Ruff import organizer
+    ruff_organize_imports = {
+      command = "ruff",
+      args = {
+        "check",
+        "--select", "I",  -- Only run isort rules
+        "--fix",
+        "--stdin-filename", "$FILENAME",
+        "-",
+      },
+      stdin = true,
     },
   },
 

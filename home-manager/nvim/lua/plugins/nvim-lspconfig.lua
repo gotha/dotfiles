@@ -72,10 +72,57 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Python
+-- Python - Ruff LSP for linting and formatting
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "python" },
 	callback = function()
+		-- Ruff LSP for linting and formatting
+		vim.lsp.config.ruff = {
+			cmd = { "ruff", "server" },
+			filetypes = { "python" },
+			root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" },
+			settings = {
+				-- Ruff language server settings
+				-- Configuration is primarily done via ruff.toml
+				-- These settings override the config file if needed
+				lineLength = 100,
+				lint = {
+					-- Enable specific rule categories
+					select = {
+						"E",    -- pycodestyle errors
+						"W",    -- pycodestyle warnings
+						"F",    -- pyflakes
+						"I",    -- isort (import sorting)
+						"N",    -- pep8-naming
+						"UP",   -- pyupgrade
+						"B",    -- flake8-bugbear
+						"C4",   -- flake8-comprehensions
+						"SIM",  -- flake8-simplify
+						"TCH",  -- flake8-type-checking
+						"RUF",  -- Ruff-specific rules
+						"PT",   -- flake8-pytest-style
+						"Q",    -- flake8-quotes
+						"RET",  -- flake8-return
+						"ARG",  -- flake8-unused-arguments
+					},
+					ignore = {
+						"E501",   -- Line too long (handled by formatter)
+						"B008",   -- Do not perform function calls in argument defaults
+						"RET504", -- Unnecessary assignment before return
+						"ARG001", -- Unused function argument
+						"ARG002", -- Unused method argument
+					},
+				},
+				format = {
+					-- Format settings
+					quoteStyle = "double",
+					indentStyle = "space",
+				},
+			},
+		}
+		vim.lsp.enable("ruff")
+
+		-- Pyright for type checking (lenient mode)
 		vim.lsp.config.pyright = {
 			settings = {
 				python = {
@@ -83,7 +130,16 @@ vim.api.nvim_create_autocmd("FileType", {
 						autoSearchPaths = true,
 						diagnosticMode = "workspace",
 						useLibraryCodeForTypes = true,
-						typeCheckingMode = "basic",
+						typeCheckingMode = "basic", -- lenient mode
+						-- Mypy-like settings
+						reportUnusedImport = true,
+						reportUnusedVariable = true,
+						reportDuplicateImport = true,
+						reportOptionalMemberAccess = false, -- lenient
+						reportOptionalSubscript = false, -- lenient
+						reportOptionalCall = false, -- lenient
+						reportOptionalIterable = false, -- lenient
+						reportOptionalContextManager = false, -- lenient
 					},
 				},
 			},

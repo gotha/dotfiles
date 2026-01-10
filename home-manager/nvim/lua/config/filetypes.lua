@@ -16,6 +16,7 @@ vim.cmd("autocmd FileType xml setlocal ts=2 sts=2 sw=2 expandtab")
 vim.cmd("autocmd FileType java setlocal ts=2 sts=2 sw=2 expandtab")
 vim.cmd("autocmd FileType conf setlocal ts=4 sts=4 sw=4 expandtab")
 vim.cmd("autocmd FileType nix setlocal ts=2 sts=2 sw=2 expandtab")
+vim.cmd("autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab")
 
 vim.cmd("au BufNewFile,BufRead Jenkinsfile setf groovy")
 vim.cmd("autocmd FileType Jenkinsfile setlocal ts=2 sts=2 sw=2 noexpandtab")

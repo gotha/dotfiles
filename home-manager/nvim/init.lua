@@ -11,6 +11,7 @@ require("config/clipboard")
 require("config/filetypes")
 require("config/spellcheck")
 require("config/whitespaces")
+require("config/diagnostics")
 
 require("misc/json-format")
 require("misc/save-files")
