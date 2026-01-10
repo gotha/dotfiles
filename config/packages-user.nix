@@ -15,6 +15,7 @@ in [
   direnv
   eslint
   gcloud
+  gh
   git-lfs
   go
   gofumpt
