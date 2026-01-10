@@ -83,6 +83,12 @@ let
           "Enhanced reasoning capabilities for complex architectural and debugging tasks";
       };
     })
+    // (lib.optionalAttrs cfg.enableGrafana {
+      "Grafana" = {
+        url = "https://grafana-mcp-internal.qa-prometheus.qa.redislabs.com/sse";
+        type = "sse";
+      };
+    })
     // (lib.optionalAttrs cfg.enableTempo {
       "tempo-mcp" = {
         url =
@@ -123,6 +129,12 @@ in {
       description = "Enable MCP GitHub server integration";
     };
 
+    enableGrafana = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable MCP Grafana server for querying metrics and dashboards";
+    };
+
     enableKubectl = lib.mkOption {
       type = lib.types.bool;
       default = true;
@@ -149,7 +161,7 @@ in {
 
     enableTempo = lib.mkOption {
       type = lib.types.bool;
-      default = false;
+      default = true;
       description = "Enable MCP Tempo server for querying metrics";
     };
   };
