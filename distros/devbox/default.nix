@@ -34,6 +34,7 @@ in {
           ../../home-manager
           ../../home-manager/alacritty
           ../../home-manager/git
+          ../../home-manager/kde
           ../../home-manager/mako
           ../../home-manager/mcp
           ../../home-manager/npm
@@ -95,6 +96,10 @@ in {
   # recommended so PipeWire gets realtime priority
   security.rtkit.enable = true;
 
+  # NVIDIA settings for KDE/X11
+  hardware.nvidia.modesetting.enable = true;
+  hardware.graphics.enable = true;
+
   services = {
     blueman.enable = true;
     gnome.gnome-keyring.enable = true;
@@ -107,16 +112,21 @@ in {
       pulse.enable = true;
       wireplumber.enable = true;
     };
-    greetd = {
+    xserver = {
       enable = true;
-      settings = {
-        default_session = {
-          command =
-            "${pkgs.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
-          user = "${cfg.username}";
-        };
+      xkb = {
+        layout = "us,bg";
+        options = "grp:win_space_toggle,caps:escape";
       };
     };
+    displayManager = {
+      sddm = {
+        enable = true;
+        wayland.enable = false;  # Disable Wayland for NVIDIA compatibility
+      };
+      defaultSession = "plasma";  # Use X11 session for KDE
+    };
+    desktopManager.plasma6.enable = true;
     upower.enable = true;
   };
 

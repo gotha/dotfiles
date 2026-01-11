@@ -7,6 +7,7 @@ in {
   imports = [
     ./hardware-configuration.nix
     ./nextcloud.nix
+    ./nextcloud-client.nix
     ./tunnels.nix
     ./wireguard.nix
     ../../os/linux/efi.nix
