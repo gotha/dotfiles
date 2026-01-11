@@ -37,7 +37,6 @@
     ];
     taps = [ "fujiapple852/trippy" "FelixKratz/formulae" ];
     brews = [
-      "autopep8"
       "cookiecutter"
       "cfn-lint"
       "go"

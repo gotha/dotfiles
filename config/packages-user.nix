@@ -34,6 +34,7 @@ in [
   pyright
   python314
   ripgrep
+  ruff
   shfmt
   sops
   stow
