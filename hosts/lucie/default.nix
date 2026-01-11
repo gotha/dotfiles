@@ -105,8 +105,15 @@ in {
   };
 
   home-manager.users.${username} = {
-    # Disable GitHub MCP server for lucie because it does not currently work for linux
-    programs.mcp.enableGithub = false;
+    programs = {
+      mcp = {
+        # Disable GitHub MCP server for lucie because it does not currently work for linux
+        enableGithub = false;
+        # tempo and grafana servers require vpn that is not supported by this config yet
+        enableTempo = false;
+        enableGrafana = false;
+      };
+    };
   };
 
 }
