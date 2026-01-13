@@ -22,6 +22,7 @@ in [
   gopls
   gnumake
   gnupg
+  kubectl
   less
   lua
   ncdu
