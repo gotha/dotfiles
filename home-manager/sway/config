@@ -289,6 +289,13 @@ bar {
 default_border none
 default_floating_border none
 
+# Window assignments
+assign [app_id="Alacritty"] workspace number 2
+assign [app_id="Slack"] workspace number 3
+assign [class="Spotify"] workspace number 4
+assign [app_id="1password"] workspace number 4
+assign [app_id="transmission-gtk"] workspace number 4
+
 # Startup apps
 exec 1password
 exec alacritty
