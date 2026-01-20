@@ -17,8 +17,13 @@ in {
   networking.networkmanager.enable =
     true; # Easiest to use and most distros use this by default.
 
-  # Configure system to use dnsmasq for DNS resolution
-  networking.nameservers = [ "127.0.0.1" ];
+  # Configure firewall for Twingate
+  networking.firewall = {
+    # Twingate creates its own network interface and needs to bypass some firewall checks
+    checkReversePath = "loose";
+    # Allow Twingate to communicate (it uses dynamic ports)
+    trustedInterfaces = [ "tun-twingate" ];
+  };
 
   users.users.${username}.packages = with pkgs; [
     jellyfin
@@ -42,27 +47,6 @@ in {
   environment.systemPackages = with pkgs; [ libnvidia-container ];
 
   services = {
-    # Local DNS server
-    dnsmasq = {
-      enable = true;
-      settings = {
-        # Listen on localhost only
-        listen-address = "127.0.0.1";
-
-        # Only bind to specified interfaces (prevents conflict with libvirt dnsmasq)
-        bind-interfaces = true;
-
-        # Don't read /etc/resolv.conf (we'll specify upstream DNS manually)
-        no-resolv = true;
-
-        # Forward all other queries to router and Google DNS
-        server = [ "192.168.1.1" "8.8.8.8" ];
-
-        # Local domain resolution
-        address = [ ];
-      };
-    };
-
     jellyfin = {
       enable = true;
       openFirewall = true;
@@ -92,6 +76,10 @@ in {
       enable = true;
       openFirewall = true;
       user = username;
+    };
+
+    twingate = {
+      enable = true;
     };
 
     xserver.videoDrivers = [ "nvidia" ];
