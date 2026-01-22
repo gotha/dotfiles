@@ -67,26 +67,4 @@
     };
   };
 
-  systemd.services.dissona = {
-    enable = true;
-    description = "SSH tunnel for dissona to hgeorgiev.com";
-    after = [ "network.target" ];
-    wants = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-
-    serviceConfig = {
-      User = "${username}";
-      ExecStart = "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 7679:localhost:7679 ${username}@hgeorgiev.com";
-
-      RestartSec = 5;
-      Restart = "always";
-
-      Type = "simple";
-    };
-
-    environment = {
-      HOME = "/home/${username}";
-    };
-  };
-
 }
