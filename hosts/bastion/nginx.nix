@@ -47,6 +47,15 @@
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "upgrade";
 
+          # Allow large file uploads
+          client_max_body_size 1000M;
+
+          # Enable byte-range requests for media streaming
+          proxy_set_header Range $http_range;
+          proxy_set_header If-Range $http_if_range;
+          proxy_force_ranges on;
+
+          # Disable buffering for streaming
           proxy_buffering off;
         '';
       };
