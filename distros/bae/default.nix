@@ -1,8 +1,14 @@
 { pkgs, stablePkgs, sops-nix, ... }:
 let
   cfg = import ../../config/default.nix;
-  userPackages =
-    import ../../config/packages-user.nix { inherit pkgs stablePkgs; };
+  minimalUserPackages = with pkgs; [
+    bc
+    tmux
+    neovim
+    ncdu
+    nixd
+    sops
+  ];
   systemPackages = import ../../config/packages.nix { pkgs = pkgs; };
 in {
 
@@ -10,7 +16,7 @@ in {
 
   _module.args = {
     username = cfg.username;
-    userPackages = userPackages;
+    userPackages = minimalUserPackages;
   };
 
   # @todo - maybe split nixos config into a separate distro
@@ -19,10 +25,12 @@ in {
     ../../os/nixos/bootloader.nix
     ../../os/nixos/gc.nix
     ../../os/nixos/unfree.nix
-    ../../os/linux/virt.nix
     ../../os/linux/user.nix
     sops-nix.nixosModules.sops
   ];
+
+  # Override fonts to save disk space (bae doesn't need GUI fonts)
+  fonts.packages = [ ];
 
   environment = {
     shells = with pkgs; [ bash zsh ];
@@ -34,14 +42,8 @@ in {
     zsh.enable = true;
   };
 
-  # recommended so PipeWire gets realtime priority
-  security.rtkit.enable = true;
-
   services = {
-    gnome.gnome-keyring.enable = true;
-    libinput.enable = true;
     openssh.enable = true;
-    upower.enable = true;
   };
 
   system.stateVersion = "25.05";
