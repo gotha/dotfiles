@@ -17,12 +17,15 @@ in {
   networking.networkmanager.enable =
     true; # Easiest to use and most distros use this by default.
 
-  # Configure firewall for Twingate
+  # Configure firewall for Twingate and WireGuard
   networking.firewall = {
     # Twingate creates its own network interface and needs to bypass some firewall checks
     checkReversePath = "loose";
     # Allow Twingate to communicate (it uses dynamic ports)
-    trustedInterfaces = [ "tun-twingate" ];
+    # Allow WireGuard peers to access all ports
+    trustedInterfaces = [ "tun-twingate" "wg0" ];
+    # Allow WireGuard port from public internet
+    allowedUDPPorts = [ 51820 ];
   };
 
   users.users.${username}.packages = with pkgs; [
