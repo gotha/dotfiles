@@ -43,6 +43,7 @@ in
         users.${cfg.username}.imports = [
           ../../home-manager
           ../../home-manager/alacritty
+          ../../home-manager/firefox
           ../../home-manager/git
           ../../home-manager/mako
           ../../home-manager/mcp

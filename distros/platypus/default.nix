@@ -46,6 +46,7 @@ in
             ../../home-manager
             ../../home-manager/aerospace
             ../../home-manager/alacritty
+            ../../home-manager/firefox
             ../../home-manager/git
             ../../home-manager/mcp
             ../../home-manager/npm
