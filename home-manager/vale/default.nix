@@ -1,1 +1,4 @@
-{ ... }: { home.file.".vale.ini".source = ./vale.ini; }
+{ ... }:
+{
+  home.file.".vale.ini".source = ./vale.ini;
+}

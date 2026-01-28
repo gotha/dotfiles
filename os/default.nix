@@ -2,7 +2,8 @@
 let
   cfg = import ../config/default.nix;
   fontsPkgs = import ../config/fonts.nix { pkgs = pkgs; };
-in {
+in
+{
   fonts.packages = fontsPkgs;
 
   time.timeZone = cfg.timeZone;

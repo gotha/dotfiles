@@ -1,4 +1,10 @@
-{ config, wireguard, pkgs, ... }: {
+{
+  config,
+  wireguard,
+  pkgs,
+  ...
+}:
+{
 
   # Configure sops for secrets management
   sops = {
@@ -32,19 +38,21 @@
       #privateKeyFile = "/etc/wireguard/mucie-private.key";
       privateKeyFile = config.sops.secrets.mucie_private_key.path;
 
-      peers = [{
-        # Public key of the bastion server
-        publicKey = wireguard.bastion.publicKey;
+      peers = [
+        {
+          # Public key of the bastion server
+          publicKey = wireguard.bastion.publicKey;
 
-        # Allow traffic to the entire VPN network
-        allowedIPs = [ "10.100.0.0/24" ];
+          # Allow traffic to the entire VPN network
+          allowedIPs = [ "10.100.0.0/24" ];
 
-        # Bastion server endpoint
-        endpoint = "${wireguard.bastion.publicIP}:51820";
+          # Bastion server endpoint
+          endpoint = "${wireguard.bastion.publicIP}:51820";
 
-        # Send keepalives every 25 seconds to keep NAT tables alive
-        persistentKeepalive = 25;
-      }];
+          # Send keepalives every 25 seconds to keep NAT tables alive
+          persistentKeepalive = 25;
+        }
+      ];
     };
   };
 }

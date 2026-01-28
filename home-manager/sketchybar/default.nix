@@ -1,16 +1,25 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   pluginsDir = ./plugins;
   pluginFiles = builtins.readDir pluginsDir;
-  makePluginConfig = name: type:
-    if type == "regular" then {
-      "sketchybar/plugins/${name}" = {
-        source = pluginsDir + "/${name}";
-        executable = true;
-      };
-    } else
+  makePluginConfig =
+    name: type:
+    if type == "regular" then
+      {
+        "sketchybar/plugins/${name}" = {
+          source = pluginsDir + "/${name}";
+          executable = true;
+        };
+      }
+    else
       { };
-in {
+in
+{
 
   xdg.configFile = lib.mkMerge [
     (lib.mkMerge (lib.mapAttrsToList makePluginConfig pluginFiles))
@@ -32,13 +41,10 @@ in {
       ProgramArguments = [ "${pkgs.sketchybar}/bin/sketchybar" ];
       KeepAlive = true;
       RunAtLoad = true;
-      StandardOutPath =
-        "${config.home.homeDirectory}/Library/Logs/sketchybar.log";
-      StandardErrorPath =
-        "${config.home.homeDirectory}/Library/Logs/sketchybar.log";
+      StandardOutPath = "${config.home.homeDirectory}/Library/Logs/sketchybar.log";
+      StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/sketchybar.log";
       EnvironmentVariables = {
-        PATH =
-          "${pkgs.sketchybar}/bin:${pkgs.aerospace}/bin:/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        PATH = "${pkgs.sketchybar}/bin:${pkgs.aerospace}/bin:/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       };
     };
   };

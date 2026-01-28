@@ -1,8 +1,17 @@
-{ config, inputs, pkgs, ... }: {
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
+{
 
   imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
-  home.packages = with pkgs; [ sops gnupg ];
+  home.packages = with pkgs; [
+    sops
+    gnupg
+  ];
 
   home.file.".sops.yaml".source = ./.sops.yaml;
 

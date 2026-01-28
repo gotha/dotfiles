@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   environment.systemPath = [ "/opt/homebrew/bin" ];
 
   homebrew = {
@@ -35,7 +36,10 @@
       "viber"
       "vlc"
     ];
-    taps = [ "fujiapple852/trippy" "FelixKratz/formulae" ];
+    taps = [
+      "fujiapple852/trippy"
+      "FelixKratz/formulae"
+    ];
     brews = [
       "cookiecutter"
       "cfn-lint"

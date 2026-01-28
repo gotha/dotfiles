@@ -1,6 +1,10 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
-  home.packages = with pkgs; [ git git-lfs ];
+  home.packages = with pkgs; [
+    git
+    git-lfs
+  ];
 
   xdg.configFile."git/ignore".source = ./global_ignore;
 
@@ -13,16 +17,22 @@
         email = "h.georgiev@hotmail.com";
       };
 
-      init = { defaultBranch = "main"; };
+      init = {
+        defaultBranch = "main";
+      };
 
-      push = { autoSetupRemote = true; };
+      push = {
+        autoSetupRemote = true;
+      };
 
       core = {
         editor = "nvim";
         excludesfile = "~/.config/git/ignore";
       };
 
-      diff = { tool = "vimdiff"; };
+      diff = {
+        tool = "vimdiff";
+      };
 
       filter."lfs" = {
         process = "git-lfs filter-process";
@@ -31,7 +41,9 @@
         smudge = "git-lfs smudge -- %f";
       };
 
-      pull = { rebase = true; };
+      pull = {
+        rebase = true;
+      };
     };
 
     signing = {

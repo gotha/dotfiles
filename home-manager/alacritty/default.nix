@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
 
   options.programs.alacritty.custom = {
     fontSize = lib.mkOption {
@@ -12,9 +18,11 @@
 
     home.packages = with pkgs; [ alacritty ];
 
-    xdg.configFile."alacritty/alacritty.toml".text = let
-      baseConfig = builtins.readFile ./alacritty.toml;
-      fontSize = toString config.programs.alacritty.custom.fontSize;
-    in builtins.replaceStrings [ "{{FONT_SIZE}}" ] [ fontSize ] baseConfig;
+    xdg.configFile."alacritty/alacritty.toml".text =
+      let
+        baseConfig = builtins.readFile ./alacritty.toml;
+        fontSize = toString config.programs.alacritty.custom.fontSize;
+      in
+      builtins.replaceStrings [ "{{FONT_SIZE}}" ] [ fontSize ] baseConfig;
   };
 }

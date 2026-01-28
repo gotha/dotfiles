@@ -1,9 +1,11 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
 
   nixpkgs.config = {
     # @todo - fix this; it should not be allowUnfree = true
     allowUnfree = true;
-    allowUnfreePredicate = pkg:
+    allowUnfreePredicate =
+      pkg:
       builtins.elem (lib.getName pkg) [
         "1password"
         "1password-cli"

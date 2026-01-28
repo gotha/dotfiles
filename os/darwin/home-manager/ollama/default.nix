@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   # Install Ollama
@@ -8,12 +13,14 @@
   launchd.agents.ollama = lib.mkIf pkgs.stdenv.isDarwin {
     enable = true;
     config = {
-      ProgramArguments = [ "${pkgs.ollama}/bin/ollama" "serve" ];
+      ProgramArguments = [
+        "${pkgs.ollama}/bin/ollama"
+        "serve"
+      ];
       KeepAlive = true;
       RunAtLoad = true;
       StandardOutPath = "${config.home.homeDirectory}/Library/Logs/ollama.log";
-      StandardErrorPath =
-        "${config.home.homeDirectory}/Library/Logs/ollama.log";
+      StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/ollama.log";
 
       # Optional: Set environment variables
       EnvironmentVariables = {

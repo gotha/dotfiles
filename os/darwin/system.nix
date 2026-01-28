@@ -1,18 +1,35 @@
-{ pkgs, systemPackages, username, ... }: {
+{
+  pkgs,
+  systemPackages,
+  username,
+  ...
+}:
+{
   system.primaryUser = username;
 
-  nix.settings = { trusted-users = [ "root" "@admin" "${username}" ]; };
+  nix.settings = {
+    trusted-users = [
+      "root"
+      "@admin"
+      "${username}"
+    ];
+  };
 
   programs.zsh.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
   environment = {
-    shells = with pkgs; [ bash zsh ];
+    shells = with pkgs; [
+      bash
+      zsh
+    ];
     systemPackages = systemPackages;
     systemPath = [ "/opt/homebrew/bin" ];
     pathsToLink = [ "/Applications" ];
-    variables = { EDITOR = "vi"; };
+    variables = {
+      EDITOR = "vi";
+    };
   };
 
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -35,8 +52,7 @@
     };
     dock = {
       autohide = true;
-      autohide-delay =
-        5.0; # super slow to show dock; close to disabling it; default is 0.24
+      autohide-delay = 5.0; # super slow to show dock; close to disabling it; default is 0.24
       minimize-to-application = true;
       orientation = "left";
       show-process-indicators = true;

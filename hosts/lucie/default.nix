@@ -1,8 +1,17 @@
-{ pkgs, username, lib, ... }:
-let wireguard = import ../../config/wireguard.nix;
-in {
+{
+  pkgs,
+  username,
+  lib,
+  ...
+}:
+let
+  wireguard = import ../../config/wireguard.nix;
+in
+{
 
-  _module.args = { wireguard = wireguard; };
+  _module.args = {
+    wireguard = wireguard;
+  };
 
   imports = [
     ./hardware-configuration.nix
@@ -14,8 +23,7 @@ in {
 
   networking.hostName = "lucie";
 
-  networking.networkmanager.enable =
-    true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Configure firewall for Twingate and WireGuard
   networking.firewall = {
@@ -23,7 +31,10 @@ in {
     checkReversePath = "loose";
     # Allow Twingate to communicate (it uses dynamic ports)
     # Allow WireGuard peers to access all ports
-    trustedInterfaces = [ "tun-twingate" "wg0" ];
+    trustedInterfaces = [
+      "tun-twingate"
+      "wg0"
+    ];
     # Allow WireGuard port from public internet
     allowedUDPPorts = [ 51820 ];
   };
@@ -40,11 +51,18 @@ in {
   virtualisation.docker = {
     daemon.settings = {
       # Enable CDI for GPU access (modern approach, replaces nvidia-docker)
-      features = { cdi = true; };
+      features = {
+        cdi = true;
+      };
     };
   };
 
-  systemd.services.docker = { path = with pkgs; [ runc libnvidia-container ]; };
+  systemd.services.docker = {
+    path = with pkgs; [
+      runc
+      libnvidia-container
+    ];
+  };
 
   # Make nvidia-container-cli available system-wide
   environment.systemPackages = with pkgs; [ libnvidia-container ];

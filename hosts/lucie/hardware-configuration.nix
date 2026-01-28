@@ -1,4 +1,9 @@
-{ config, lib, modulesPath, ... }:
+{
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
@@ -10,14 +15,23 @@
       enable = true; # enables support for Bluetooth
       powerOnBoot = true; # powers up the default Bluetooth controller on boot
       settings = {
-        Policy = { AutoEnable = true; };
-        General = { Experimental = true; };
+        Policy = {
+          AutoEnable = true;
+        };
+        General = {
+          Experimental = true;
+        };
       };
     };
   };
 
-  boot.initrd.availableKernelModules =
-    [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ahci"
+    "usb_storage"
+    "usbhid"
+    "sd_mod"
+  ];
   boot.blacklistedKernelModules = [ "nouveau" ];
 
   hardware.graphics.enable = true;
@@ -72,7 +86,10 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/boot";
     fsType = "vfat";
-    options = [ "fmask=0077" "dmask=0077" ];
+    options = [
+      "fmask=0077"
+      "dmask=0077"
+    ];
   };
 
   # @todo - change name from gotha to variable username
@@ -112,10 +129,12 @@
     ];
   };
 
-  swapDevices = [{
-    device = "/var/lib/swapfile";
-    size = 65536; # Size in MB (64 GB)
-  }];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 65536; # Size in MB (64 GB)
+    }
+  ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -125,6 +144,5 @@
   # networking.interfaces.enp5s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

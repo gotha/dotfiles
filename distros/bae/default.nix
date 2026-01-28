@@ -1,4 +1,9 @@
-{ pkgs, stablePkgs, sops-nix, ... }:
+{
+  pkgs,
+  stablePkgs,
+  sops-nix,
+  ...
+}:
 let
   cfg = import ../../config/default.nix;
   minimalUserPackages = with pkgs; [
@@ -10,9 +15,13 @@ let
     sops
   ];
   systemPackages = import ../../config/packages.nix { pkgs = pkgs; };
-in {
+in
+{
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   _module.args = {
     username = cfg.username;
@@ -33,7 +42,10 @@ in {
   fonts.packages = [ ];
 
   environment = {
-    shells = with pkgs; [ bash zsh ];
+    shells = with pkgs; [
+      bash
+      zsh
+    ];
     systemPackages = systemPackages;
   };
 

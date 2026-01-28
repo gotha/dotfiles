@@ -1,4 +1,5 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, ... }:
+{
 
   # Create admin password file
   # WARNING: This password is stored in the Nix store and is world-readable!
@@ -18,7 +19,11 @@
 
     # Trust the reverse proxy
     settings = {
-      trusted_domains = [ "nextcloud.hgeorgiev.com" "10.100.0.100" "localhost" ];
+      trusted_domains = [
+        "nextcloud.hgeorgiev.com"
+        "10.100.0.100"
+        "localhost"
+      ];
       trusted_proxies = [ "10.100.0.1" ]; # bastion's WireGuard IP
       overwriteprotocol = "https";
       overwritehost = "nextcloud.hgeorgiev.com";

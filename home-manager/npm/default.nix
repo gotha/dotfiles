@@ -1,1 +1,4 @@
-{ ... }: { home.file.".npmrc".source = ./npmrc; }
+{ ... }:
+{
+  home.file.".npmrc".source = ./npmrc;
+}

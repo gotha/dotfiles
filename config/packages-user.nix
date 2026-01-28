@@ -2,9 +2,11 @@
 with pkgs;
 let
   # Use stable version of gcloud to avoid Tkinter issues in latest unstable
-  gcloud = stablePkgs.google-cloud-sdk.withExtraComponents
-    [ stablePkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin ];
-in [
+  gcloud = stablePkgs.google-cloud-sdk.withExtraComponents [
+    stablePkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin
+  ];
+in
+[
   _1password-cli
   awscli2
   bc
@@ -28,7 +30,7 @@ in [
   ncdu
   neovim
   nixd
-  nixfmt-classic
+  nixfmt
   nix-search-cli
   nodejs
   nodePackages_latest.prettier

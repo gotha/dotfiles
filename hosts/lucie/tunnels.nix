@@ -1,4 +1,5 @@
-{ pkgs, username, ... }: {
+{ pkgs, username, ... }:
+{
 
   systemd.services.hg-tunnel = {
     enable = true;
@@ -9,8 +10,7 @@
 
     serviceConfig = {
       User = username;
-      ExecStart =
-        "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 2224:localhost:22 ${username}@hgeorgiev.com";
+      ExecStart = "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 2224:localhost:22 ${username}@hgeorgiev.com";
 
       RestartSec = 5;
       Restart = "always";
@@ -18,7 +18,9 @@
       Type = "simple";
     };
 
-    environment = { HOME = "/home/${username}"; };
+    environment = {
+      HOME = "/home/${username}";
+    };
   };
 
   systemd.services.jellyfin-tunnel = {
@@ -30,8 +32,7 @@
 
     serviceConfig = {
       User = "${username}";
-      ExecStart =
-        "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 8096:localhost:8096 ${username}@hgeorgiev.com";
+      ExecStart = "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 8096:localhost:8096 ${username}@hgeorgiev.com";
 
       RestartSec = 5;
       Restart = "always";
@@ -39,7 +40,9 @@
       Type = "simple";
     };
 
-    environment = { HOME = "/home/${username}"; };
+    environment = {
+      HOME = "/home/${username}";
+    };
   };
 
   systemd.services.nix-serve-tunnel = {
@@ -51,8 +54,7 @@
 
     serviceConfig = {
       User = "${username}";
-      ExecStart =
-        "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 5000:localhost:5000 ${username}@hgeorgiev.com";
+      ExecStart = "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 5000:localhost:5000 ${username}@hgeorgiev.com";
 
       RestartSec = 5;
       Restart = "always";
@@ -60,7 +62,9 @@
       Type = "simple";
     };
 
-    environment = { HOME = "/home/${username}"; };
+    environment = {
+      HOME = "/home/${username}";
+    };
   };
 
   systemd.services.dissona = {
@@ -72,8 +76,7 @@
 
     serviceConfig = {
       User = "${username}";
-      ExecStart =
-        "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 7679:localhost:7679 ${username}@hgeorgiev.com";
+      ExecStart = "${pkgs.openssh}/bin/ssh -NT -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -R 7679:localhost:7679 ${username}@hgeorgiev.com";
 
       RestartSec = 5;
       Restart = "always";
@@ -81,7 +84,9 @@
       Type = "simple";
     };
 
-    environment = { HOME = "/home/${username}"; };
+    environment = {
+      HOME = "/home/${username}";
+    };
   };
 
 }

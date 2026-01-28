@@ -6,7 +6,8 @@ let
     publicKey = peer.publicKey;
     allowedIPs = [ "${peer.privateIP}/32" ];
   }) wireguard.peers;
-in {
+in
+{
 
   # Configure sops for secrets management
   sops = {

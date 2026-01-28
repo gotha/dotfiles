@@ -1,12 +1,18 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./digitalocean.nix ./nginx.nix ./wireguard.nix ];
+  imports = [
+    ./digitalocean.nix
+    ./nginx.nix
+    ./wireguard.nix
+  ];
 
-  swapDevices = [{
-    device = "/var/lib/swapfile";
-    size = 4096; # Size in MB
-  }];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 4096; # Size in MB
+    }
+  ];
 
   networking.useDHCP = true;
 

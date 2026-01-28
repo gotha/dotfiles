@@ -1,13 +1,23 @@
-{ config, lib, pkgs, sops-nix, stablePkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  sops-nix,
+  stablePkgs,
+  ...
+}:
 let
   cfg = import ../../config/default.nix;
   userPackages = import ../../config/packages-user.nix { inherit pkgs stablePkgs; };
   systemPackages = import ../../config/packages.nix { inherit pkgs; };
-  darwinUserPackages =
-    import ../../os/darwin/packages-user.nix { inherit pkgs; };
-in {
+  darwinUserPackages = import ../../os/darwin/packages-user.nix { inherit pkgs; };
+in
+{
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   _module.args = {
     username = cfg.username;
@@ -28,7 +38,9 @@ in {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        extraSpecialArgs = { inputs = { inherit sops-nix; }; };
+        extraSpecialArgs = {
+          inputs = { inherit sops-nix; };
+        };
         users.${cfg.username} = {
           imports = [
             ../../home-manager
@@ -44,7 +56,7 @@ in {
             ../../home-manager/vale
             ../../home-manager/tmux
             ../../home-manager/zsh
-          #../../os/darwin/home-manager/ollama
+            #../../os/darwin/home-manager/ollama
           ];
           programs.alacritty.custom.fontSize = 11.0;
         };

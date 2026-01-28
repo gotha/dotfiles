@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   programs.vscode = {
     enable = true;
@@ -25,7 +26,9 @@
           "git.path" = null;
           "git.autofetch" = false;
 
-          "github.copilot.enable" = { "*" = false; };
+          "github.copilot.enable" = {
+            "*" = false;
+          };
 
           "nerdtree.hideSidebarWhenOpenFile" = true;
           "nerdtree.alwaysShowSidebar" = false;
@@ -45,15 +48,24 @@
           # Configure key mappings for normal mode
           "vim.normalModeKeyBindingsNonRecursive" = [
             {
-              "before" = [ "<leader>" "a" ];
+              "before" = [
+                "<leader>"
+                "a"
+              ];
               "commands" = [ "workbench.action.previousEditor" ];
             }
             {
-              "before" = [ "<leader>" "f" ];
+              "before" = [
+                "<leader>"
+                "f"
+              ];
               "commands" = [ "workbench.action.nextEditor" ];
             }
             {
-              "before" = [ "<leader>" "e" ];
+              "before" = [
+                "<leader>"
+                "e"
+              ];
               "commands" = [ "workbench.view.explorer" ];
             }
           ];

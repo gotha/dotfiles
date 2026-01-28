@@ -35,18 +35,34 @@
 
     gotha.url = "github:gotha/nixpkgs?ref=main";
   };
-  outputs = { self, nixpkgs, nixpkgs-stable, darwin, nix-index-database
-    , nixos-generators, home-manager, nix-vscode-extensions, sops-nix, gotha
-    , deploy-rs, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-stable,
+      darwin,
+      nix-index-database,
+      nixos-generators,
+      home-manager,
+      nix-vscode-extensions,
+      sops-nix,
+      gotha,
+      deploy-rs,
+      ...
+    }:
     let
-      configuration = { pkgs, ... }: {
-        nixpkgs.overlays =
-          [ nix-vscode-extensions.overlays.default gotha.overlays.default ];
-        _module.args.stablePkgs = import nixpkgs-stable {
-          system = pkgs.system;
-          config.allowUnfree = true;
+      configuration =
+        { pkgs, ... }:
+        {
+          nixpkgs.overlays = [
+            nix-vscode-extensions.overlays.default
+            gotha.overlays.default
+          ];
+          _module.args.stablePkgs = import nixpkgs-stable {
+            system = pkgs.system;
+            config.allowUnfree = true;
+          };
         };
-      };
       distro = {
         bae = [
           configuration
@@ -67,11 +83,17 @@
           nix-index-database.darwinModules.nix-index
           home-manager.darwinModules.home-manager
           sops-nix.darwinModules.sops
-          ({ ... }: { nix.enable = false; })
+          (
+            { ... }:
+            {
+              nix.enable = false;
+            }
+          )
         ];
       };
       wireguard = import ./config/wireguard.nix;
-    in {
+    in
+    {
 
       darwinConfigurations = {
         "D2Y6PH4TGJ-Hristo-Georgiev" = darwin.lib.darwinSystem {
@@ -112,7 +134,10 @@
         };
         devbox = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = distro.devbox ++ [ ./hosts/qemu1 ./os/linux/virtio.nix ];
+          modules = distro.devbox ++ [
+            ./hosts/qemu1
+            ./os/linux/virtio.nix
+          ];
           specialArgs = {
             inherit sops-nix;
             stablePkgs = import nixpkgs-stable {
@@ -139,13 +164,19 @@
           bae-qemu = nixos-generators.nixosGenerate {
             system = "x86_64-linux";
             format = "raw";
-            modules = distro.bae ++ [ ./hosts/qemu1 ./os/linux/virtio.nix ];
+            modules = distro.bae ++ [
+              ./hosts/qemu1
+              ./os/linux/virtio.nix
+            ];
             specialArgs = { inherit sops-nix; };
           };
           devbox-qemu = nixos-generators.nixosGenerate {
             system = "x86_64-linux";
             format = "raw";
-            modules = distro.devbox ++ [ ./hosts/qemu1 ./os/linux/virtio.nix ];
+            modules = distro.devbox ++ [
+              ./hosts/qemu1
+              ./os/linux/virtio.nix
+            ];
             specialArgs = { inherit sops-nix; };
           };
         };
@@ -154,11 +185,31 @@
       apps.x86_64-linux = {
         deploy-devbox-qemu = {
           type = "app";
-          program = toString (nixpkgs.legacyPackages.x86_64-linux.writeScript
-            "deploy-devbox-qemu" ''
+          program = toString (
+            nixpkgs.legacyPackages.x86_64-linux.writeScript "deploy-devbox-qemu" ''
               #!/usr/bin/env bash
               nixos-rebuild switch --flake .#devbox --target-host devbox.qemu --use-remote-sudo
-            '');
+            ''
+          );
+        };
+        fmt = {
+          type = "app";
+          program = toString (
+            nixpkgs.legacyPackages.x86_64-linux.writeShellScript "nixfmt-all" ''
+              ${nixpkgs.legacyPackages.x86_64-linux.fd}/bin/fd -e nix -X ${nixpkgs.legacyPackages.x86_64-linux.nixfmt}/bin/nixfmt {}
+            ''
+          );
+        };
+      };
+
+      apps.aarch64-darwin = {
+        fmt = {
+          type = "app";
+          program = toString (
+            nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "nixfmt-all" ''
+              ${nixpkgs.legacyPackages.aarch64-darwin.fd}/bin/fd -e nix -X ${nixpkgs.legacyPackages.aarch64-darwin.nixfmt}/bin/nixfmt {}
+            ''
+          );
         };
       };
 
@@ -179,14 +230,12 @@
           sshUser = wireguard.bastion.username;
           profiles.system = {
             user = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos
-              self.nixosConfigurations.bastion;
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.bastion;
           };
         };
       };
 
       # This is highly advised, and will prevent many possible mistakes
-      checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     };
 }

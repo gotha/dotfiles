@@ -1,14 +1,22 @@
-{ pkgs, sops-nix, stablePkgs, ... }:
+{
+  pkgs,
+  sops-nix,
+  stablePkgs,
+  ...
+}:
 let
   cfg = import ../../config/default.nix;
-  userPackages =
-    import ../../config/packages-user.nix { inherit pkgs stablePkgs; };
+  userPackages = import ../../config/packages-user.nix { inherit pkgs stablePkgs; };
   linuxUserPackages = import ../../os/linux/packages-user.nix { inherit pkgs; };
   systemPackages = import ../../config/packages.nix { inherit pkgs; };
   #wallpaperPkg = pkgs.callPackage ../../wallpaper { };
-in {
+in
+{
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   _module.args = {
     username = cfg.username;
@@ -29,7 +37,9 @@ in {
         # @todo - maybe make waybar, mako, rofi, etc become deps of sway
         useGlobalPkgs = true;
         useUserPackages = true;
-        extraSpecialArgs = { inputs = { inherit sops-nix; }; };
+        extraSpecialArgs = {
+          inputs = { inherit sops-nix; };
+        };
         users.${cfg.username}.imports = [
           ../../home-manager
           ../../home-manager/alacritty
@@ -52,7 +62,10 @@ in {
   ];
 
   environment = {
-    shells = with pkgs; [ bash zsh ];
+    shells = with pkgs; [
+      bash
+      zsh
+    ];
     systemPackages = systemPackages;
   };
 
@@ -111,8 +124,7 @@ in {
       enable = true;
       settings = {
         default_session = {
-          command =
-            "${pkgs.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
           user = "${cfg.username}";
         };
       };

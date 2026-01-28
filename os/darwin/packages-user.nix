@@ -1,1 +1,6 @@
-{ pkgs, ... }: with pkgs; [ docker lima ]
+{ pkgs, ... }:
+with pkgs;
+[
+  docker
+  lima
+]

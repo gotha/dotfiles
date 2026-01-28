@@ -1,3 +1,9 @@
-{ username, ... }: {
-  nix.settings = { trusted-users = [ "root" "${username}" ]; };
+{ username, ... }:
+{
+  nix.settings = {
+    trusted-users = [
+      "root"
+      "${username}"
+    ];
+  };
 }

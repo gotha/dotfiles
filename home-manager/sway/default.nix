@@ -1,6 +1,8 @@
 { pkgs, ... }:
-let wallpaperPkg = pkgs.callPackage ../../wallpaper { };
-in {
+let
+  wallpaperPkg = pkgs.callPackage ../../wallpaper { };
+in
+{
 
   # @todo -  add dependency on rofi and waybar modules
   # without adding them as packages here
@@ -17,10 +19,12 @@ in {
     wob
   ];
 
-  xdg.configFile."sway/config".text = let
-    baseConfig = builtins.readFile ./config;
-    wallpaperImage = "${wallpaperPkg}/nix-wallpaper-nineish-solarized-dark.png";
-  in builtins.replaceStrings [ "{{WALLPAPER}}" ] [ wallpaperImage ] baseConfig;
+  xdg.configFile."sway/config".text =
+    let
+      baseConfig = builtins.readFile ./config;
+      wallpaperImage = "${wallpaperPkg}/nix-wallpaper-nineish-solarized-dark.png";
+    in
+    builtins.replaceStrings [ "{{WALLPAPER}}" ] [ wallpaperImage ] baseConfig;
 
   home.file.".xkb/symbols/keychron-k6".source = ./.xkb/symbols/keychron-k6;
   home.file.".xkb/symbols/ducky-one-2sf".source = ./.xkb/symbols/ducky-one-2sf;

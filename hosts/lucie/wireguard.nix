@@ -1,4 +1,5 @@
-{ wireguard, ... }: {
+{ wireguard, ... }:
+{
 
   networking.wireguard = {
     enable = true;
@@ -6,8 +7,7 @@
       wg0 = {
         # Determines the IP address and subnet of the client's end of the tunnel interface.
         ips = [ "10.100.0.100/24" ];
-        listenPort =
-          51820; # to match firewall allowedUDPPorts (without this wg uses random port numbers)
+        listenPort = 51820; # to match firewall allowedUDPPorts (without this wg uses random port numbers)
 
         # Path to the private key file.
         #
@@ -34,8 +34,7 @@
 
             name = "bastion";
             # Set this to the server IP and port.
-            endpoint =
-              "${wireguard.bastion.publicIP}:51820"; # ToDo: route to endpoint not automatically configured https://wiki.archlinux.org/index.php/WireGuard#Loop_routing https://discourse.nixos.org/t/solved-minimal-firewall-setup-for-wireguard-client/7577
+            endpoint = "${wireguard.bastion.publicIP}:51820"; # ToDo: route to endpoint not automatically configured https://wiki.archlinux.org/index.php/WireGuard#Loop_routing https://discourse.nixos.org/t/solved-minimal-firewall-setup-for-wireguard-client/7577
 
             # Send keepalives every 25 seconds. Important to keep NAT tables alive.
             persistentKeepalive = 25;
