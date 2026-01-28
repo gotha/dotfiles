@@ -91,8 +91,7 @@ let
     })
     // (lib.optionalAttrs cfg.enableTempo {
       "tempo-mcp" = {
-        url =
-          "https://tempo-query-internal.qa-prometheus.qa.redislabs.com/api/mcp";
+        url = "https://tempo-query-internal.qa-prometheus-extras.qa.redislabs.com/api/mcp";
         type = "http";
       };
     });
