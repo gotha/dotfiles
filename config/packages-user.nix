@@ -25,6 +25,7 @@ in
   gnumake
   gnupg
   kubectl
+  lazygit
   less
   lua
   ncdu
