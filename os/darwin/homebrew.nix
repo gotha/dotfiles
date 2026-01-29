@@ -18,7 +18,6 @@
       "chromium"
       "dbeaver-community"
       "discord"
-      "firefox"
       "gimp"
       "inkscape"
       "intellij-idea"
