@@ -65,7 +65,7 @@
         "/Applications/Safari.app"
         "/Users/gotha/Applications/Home Manager Apps/Alacritty.app"
         "/Applications/Chromium.app"
-        "/Users/gotha/Applications/Home Manager Apps/Firefox.app"
+        "/Applications/Firefox.app"
         "/Applications/Slack.app"
         "/Applications/Spotify.app"
         "/Applications/1Password.app"
