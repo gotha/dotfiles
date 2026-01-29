@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+echo "Checking nix formatting..."
+
+if ! nix run .#fmt-check; then
+    echo ""
+    echo "ERROR: Nix files are not properly formatted."
+    echo "Run 'nix run .#fmt' to fix formatting issues."
+    exit 1
+fi
+
+echo "Formatting check passed."
+

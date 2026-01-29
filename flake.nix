@@ -200,6 +200,14 @@
             ''
           );
         };
+        fmt-check = {
+          type = "app";
+          program = toString (
+            nixpkgs.legacyPackages.x86_64-linux.writeShellScript "nixfmt-check" ''
+              ${nixpkgs.legacyPackages.x86_64-linux.fd}/bin/fd -e nix -X ${nixpkgs.legacyPackages.x86_64-linux.nixfmt}/bin/nixfmt --check {}
+            ''
+          );
+        };
       };
 
       apps.aarch64-darwin = {
@@ -208,6 +216,14 @@
           program = toString (
             nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "nixfmt-all" ''
               ${nixpkgs.legacyPackages.aarch64-darwin.fd}/bin/fd -e nix -X ${nixpkgs.legacyPackages.aarch64-darwin.nixfmt}/bin/nixfmt {}
+            ''
+          );
+        };
+        fmt-check = {
+          type = "app";
+          program = toString (
+            nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "nixfmt-check" ''
+              ${nixpkgs.legacyPackages.aarch64-darwin.fd}/bin/fd -e nix -X ${nixpkgs.legacyPackages.aarch64-darwin.nixfmt}/bin/nixfmt --check {}
             ''
           );
         };

@@ -67,4 +67,5 @@ nix run .#deploy-devbox-qemu
 
 ```sh
 git remote set-url origin git@github.com:gotha/dotfiles.git
+git config --local core.hooksPath .githooks/
 ```
