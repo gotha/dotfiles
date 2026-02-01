@@ -77,7 +77,12 @@ in
       polkitPolicyOwners = [ "${cfg.username}" ];
     };
     firefox.enable = true;
-    gnupg.agent.enable = true;
+
+    gnupg.agent = {
+      enable = true;
+      pinentryPackage = pkgs.pinentry-curses;
+    };
+
     obs-studio = {
       enable = true;
       plugins = with pkgs.obs-studio-plugins; [
