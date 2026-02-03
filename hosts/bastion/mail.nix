@@ -64,11 +64,11 @@ in
     # Virtual mail directories
     "d /var/vmail 0750 vmail vmail -"
     "d /var/vmail/${domain} 0750 vmail vmail -"
-    "d /var/vmail/${domain}/gotha 0750 vmail vmail -"
-    "d /var/vmail/${domain}/gotha/Maildir 0750 vmail vmail -"
-    "d /var/vmail/${domain}/gotha/Maildir/new 0750 vmail vmail -"
-    "d /var/vmail/${domain}/gotha/Maildir/cur 0750 vmail vmail -"
-    "d /var/vmail/${domain}/gotha/Maildir/tmp 0750 vmail vmail -"
+    "d /var/vmail/${domain}/me 0750 vmail vmail -"
+    "d /var/vmail/${domain}/me/Maildir 0750 vmail vmail -"
+    "d /var/vmail/${domain}/me/Maildir/new 0750 vmail vmail -"
+    "d /var/vmail/${domain}/me/Maildir/cur 0750 vmail vmail -"
+    "d /var/vmail/${domain}/me/Maildir/tmp 0750 vmail vmail -"
   ];
 
   # ============================================================================
@@ -269,7 +269,7 @@ in
       # Add your mailboxes here, e.g.:
       postmaster@${domain}    ${domain}/postmaster/Maildir/
       admin@${domain}         ${domain}/admin/Maildir/
-      me@${domain}            ${domain}/gotha/Maildir/
+      me@${domain}            ${domain}/me/Maildir/
     '';
     virtual = pkgs.writeText "virtual" ''
       # Virtual aliases - format: alias@domain.com    target@domain.com

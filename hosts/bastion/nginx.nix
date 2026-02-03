@@ -20,6 +20,13 @@
       };
     };
 
+    # Roundcube webmail - SSL configuration
+    # The Roundcube module creates the virtual host, we just add SSL
+    virtualHosts."webmail.hgeorgiev.com" = {
+      forceSSL = true;
+      enableACME = true;
+    };
+
     virtualHosts."nextcloud.hgeorgiev.com" = {
       forceSSL = true;
       enableACME = true;

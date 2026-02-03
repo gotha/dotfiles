@@ -5,6 +5,7 @@
     ./digitalocean.nix
     ./mail.nix
     ./nginx.nix
+    ./roundcube.nix
     ./wireguard.nix
   ];
 
