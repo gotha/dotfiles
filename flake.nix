@@ -231,18 +231,26 @@
 
       devShells = {
         x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
-          packages = with nixpkgs.legacyPackages.x86_64-linux; [ nixd ];
+          packages = with nixpkgs.legacyPackages.x86_64-linux; [
+            dovecot
+            nixd
+            opendkim
+          ];
         };
 
         aarch64-darwin.default = nixpkgs.legacyPackages.aarch64-darwin.mkShell {
-          packages = with nixpkgs.legacyPackages.aarch64-darwin; [ nixd ];
+          packages = with nixpkgs.legacyPackages.aarch64-darwin; [
+            dovecot
+            nixd
+            opendkim
+          ];
         };
       };
 
       deploy.nodes = {
         bastion = {
           hostname = wireguard.bastion.publicIP;
-          remoteBuild = true;
+          remoteBuild = false;
           sshUser = wireguard.bastion.username;
           profiles.system = {
             user = "root";

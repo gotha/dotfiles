@@ -8,6 +8,18 @@
     recommendedOptimisation = true;
     recommendedGzipSettings = true;
 
+    # Mail server - just for ACME certificate generation
+    virtualHosts."mail.hgeorgiev.com" = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/" = {
+        return = "200 'Mail server - use IMAP/SMTP clients'";
+        extraConfig = ''
+          add_header Content-Type text/plain;
+        '';
+      };
+    };
+
     virtualHosts."nextcloud.hgeorgiev.com" = {
       forceSSL = true;
       enableACME = true;

@@ -3,6 +3,7 @@
 {
   imports = [
     ./digitalocean.nix
+    ./mail.nix
     ./nginx.nix
     ./wireguard.nix
   ];
