@@ -88,8 +88,6 @@ alias gd="git diff"
 alias ga="git add"
 alias gl="git log"
 
-alias docker-compose="docker compose"
-
 if which -a bat &> /dev/null ; then
   alias cat="bat"
 fi
