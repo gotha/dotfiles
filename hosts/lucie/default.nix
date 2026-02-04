@@ -64,8 +64,11 @@ in
     ];
   };
 
-  # Make nvidia-container-cli available system-wide
-  environment.systemPackages = with pkgs; [ libnvidia-container ];
+  # Make nvidia-container-cli and CUDA toolkit available system-wide
+  environment.systemPackages = with pkgs; [
+    libnvidia-container
+    cudaPackages.cudatoolkit
+  ];
 
   services = {
     jellyfin = {
@@ -121,6 +124,7 @@ in
         # tempo and grafana servers require vpn that is not supported by this config yet
         enableTempo = false;
         enableGrafana = false;
+        enableKubectl = false;
       };
     };
   };
