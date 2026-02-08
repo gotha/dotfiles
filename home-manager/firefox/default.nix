@@ -39,6 +39,14 @@
         "ui.systemUsesDarkTheme" = 1;
         "layout.css.prefers-color-scheme.content-override" = 0; # 0 = dark, 1 = light, 2 = system
 
+        # Smooth scrolling
+        "general.smoothScroll" = true;
+        "general.smoothScroll.msdPhysics.enabled" = true;
+
+        # Hardware acceleration
+        "gfx.webrender.all" = true;
+        "media.ffmpeg.vaapi.enabled" = true; # VA-API for video decoding on Linux
+
         # Search
         "browser.urlbar.placeholderName" = "Google";
         "browser.urlbar.placeholderName.private" = "Google";
