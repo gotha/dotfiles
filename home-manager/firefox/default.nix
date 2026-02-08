@@ -80,6 +80,10 @@
         "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
 
+        # Dark mode
+        "ui.systemUsesDarkTheme" = 1;
+        "layout.css.prefers-color-scheme.content-override" = 0; # 0 = dark, 1 = light, 2 = system
+
         # Search
         "browser.urlbar.placeholderName" = "Google";
         "browser.urlbar.placeholderName.private" = "Google";
