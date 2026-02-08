@@ -34,6 +34,8 @@
         "browser.ctrlTab.sortByRecentlyUsed" = true;
         "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
+        "browser.compactmode.show" = true;
+        "browser.uidensity" = 1; # 0 = normal, 1 = compact, 2 = touch
 
         # Dark mode
         "ui.systemUsesDarkTheme" = 1;
