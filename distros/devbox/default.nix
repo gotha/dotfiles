@@ -76,7 +76,51 @@ in
       enable = true;
       polkitPolicyOwners = [ "${cfg.username}" ];
     };
-    firefox.enable = true;
+    firefox = {
+      enable = true;
+      policies = {
+        DisableTelemetry = true;
+        DisableFirefoxStudies = true;
+        DisablePocket = true;
+        DisableFirefoxAccounts = false;
+        DisableFormHistory = false;
+        DontCheckDefaultBrowser = true;
+        OfferToSaveLogins = false;
+
+        ExtensionSettings = {
+          # uBlock Origin
+          "uBlock0@raymondhill.net" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # 1Password
+          "{d634138d-c276-4fc8-924b-40a0ea21d284}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Vimium
+          "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # SponsorBlock
+          "sponsorBlocker@ajay.app" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Facebook Container
+          "@contain-facebook" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/facebook-container/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Enhancer for YouTube
+          "enhancerforyoutube@maximerf.addons.mozilla.org" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/enhancer-for-youtube/latest.xpi";
+            installation_mode = "force_installed";
+          };
+        };
+      };
+    };
 
     gnupg.agent = {
       enable = true;
