@@ -180,7 +180,29 @@ in
       };
     };
     upower.enable = true;
+
+    transmission = {
+      enable = true;
+      package = pkgs.transmission_4;
+      user = "${cfg.username}";
+      group = "users";
+      webHome = pkgs.flood-for-transmission;
+      openRPCPort = true;
+      settings = {
+        rpc-bind-address = "0.0.0.0";
+        rpc-whitelist-enabled = false;
+        download-dir = "/home/${cfg.username}/Downloads";
+        incomplete-dir = "/home/${cfg.username}/Downloads/.incomplete";
+        incomplete-dir-enabled = true;
+      };
+    };
   };
+
+  # Create transmission download directories
+  systemd.tmpfiles.rules = [
+    "d /home/${cfg.username}/Downloads 0755 ${cfg.username} users -"
+    "d /home/${cfg.username}/Downloads/.incomplete 0755 ${cfg.username} users -"
+  ];
 
   # Enable lingering for the ${cfg.username} user so the service starts at boot
   # even when the user is not logged in
