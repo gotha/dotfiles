@@ -82,6 +82,9 @@ source $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 alias vim="nvim"
 
+# Force git to use English regardless of system locale
+alias git="LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 git"
+
 alias gs="git status"
 alias gc="git commit"
 alias gd="git diff"
