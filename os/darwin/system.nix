@@ -63,7 +63,7 @@
       persistent-apps = [
         "/System/Applications/System Settings.app"
         "/Applications/Safari.app"
-        "/Users/gotha/Applications/Home Manager Apps/Alacritty.app"
+        "/Users/${username}/Applications/Home Manager Apps/Alacritty.app"
         "/Applications/Chromium.app"
         "/Applications/Firefox.app"
         "/Applications/Slack.app"

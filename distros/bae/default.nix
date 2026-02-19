@@ -52,7 +52,7 @@ in
   # Allow user to push closures via deploy-rs
   nix.settings.trusted-users = [
     "root"
-    "gotha"
+    cfg.username
   ];
 
   environment = {

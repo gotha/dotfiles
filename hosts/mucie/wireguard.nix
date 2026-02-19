@@ -2,14 +2,15 @@
   config,
   wireguard,
   pkgs,
+  username,
   ...
 }:
 {
 
   # Configure sops for secrets management
   sops = {
-    # Use GPG keys from root's home directory
-    gnupg.home = "/Users/gotha/.gnupg";
+    # Use GPG keys from user's home directory
+    gnupg.home = "/Users/${username}/.gnupg";
     gnupg.sshKeyPaths = [ ];
 
     # Disable age

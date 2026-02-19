@@ -1,4 +1,7 @@
 { pkgs, ... }:
+let
+  cfg = import ../../config/default.nix;
+in
 {
 
   home.packages = with pkgs; [
@@ -13,7 +16,7 @@
 
     settings = {
       user = {
-        name = "gotha";
+        name = cfg.username;
         email = "h.georgiev@hotmail.com";
       };
 

@@ -2,6 +2,7 @@
   config,
   lib,
   modulesPath,
+  username,
   ...
 }:
 
@@ -92,9 +93,8 @@
     ];
   };
 
-  # @todo - change name from gotha to variable username
   # Create the mount point directory
-  systemd.tmpfiles.rules = [ "d /mnt/storage 0755 gotha gotha -" ];
+  systemd.tmpfiles.rules = [ "d /mnt/storage 0755 ${username} ${username} -" ];
 
   # Mount the second hard drive to /mnt/storage
   fileSystems."/mnt/storage" = {
