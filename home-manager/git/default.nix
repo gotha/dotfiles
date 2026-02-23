@@ -1,58 +1,67 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  config,
+  ...
+}:
 let
-  cfg = import ../../config/default.nix;
+  cfg = config.programs.gitUser;
 in
 {
-
-  home.packages = with pkgs; [
-    git
-    git-lfs
+  imports = [
+    ../../config/modules/git-user.nix
   ];
 
-  xdg.configFile."git/ignore".source = ./global_ignore;
+  config = {
+    home.packages = with pkgs; [
+      git
+      git-lfs
+    ];
 
-  programs.git = {
-    enable = true;
+    xdg.configFile."git/ignore".source = ./global_ignore;
 
-    settings = {
-      user = {
-        name = cfg.username;
-        email = "h.georgiev@hotmail.com";
+    programs.git = {
+      enable = true;
+
+      settings = {
+        user = {
+          name = cfg.name;
+          email = cfg.email;
+        };
+
+        init = {
+          defaultBranch = "main";
+        };
+
+        push = {
+          autoSetupRemote = true;
+        };
+
+        core = {
+          editor = "nvim";
+          excludesfile = "~/.config/git/ignore";
+        };
+
+        diff = {
+          tool = "vimdiff";
+        };
+
+        filter."lfs" = {
+          process = "git-lfs filter-process";
+          required = true;
+          clean = "git-lfs clean -- %f";
+          smudge = "git-lfs smudge -- %f";
+        };
+
+        pull = {
+          rebase = true;
+        };
       };
 
-      init = {
-        defaultBranch = "main";
+      signing = {
+        key = cfg.gpgSigningKey;
+        signByDefault = true;
       };
 
-      push = {
-        autoSetupRemote = true;
-      };
-
-      core = {
-        editor = "nvim";
-        excludesfile = "~/.config/git/ignore";
-      };
-
-      diff = {
-        tool = "vimdiff";
-      };
-
-      filter."lfs" = {
-        process = "git-lfs filter-process";
-        required = true;
-        clean = "git-lfs clean -- %f";
-        smudge = "git-lfs smudge -- %f";
-      };
-
-      pull = {
-        rebase = true;
-      };
     };
-
-    signing = {
-      key = "C3AB3AC0115DD07B5ACA476E8D8E74E4033D192C";
-      signByDefault = true;
-    };
-
   };
 }
