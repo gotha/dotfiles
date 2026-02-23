@@ -235,6 +235,7 @@
             dovecot
             nixd
             opendkim
+            qrencode
           ];
         };
 
@@ -243,6 +244,7 @@
             dovecot
             nixd
             opendkim
+            qrencode
           ];
         };
       };
