@@ -47,6 +47,7 @@ in
           ../../home-manager/git
           ../../home-manager/mako
           ../../home-manager/mcp
+          ../../home-manager/nextcloud-sync
           ../../home-manager/npm
           ../../home-manager/nvim
           ../../home-manager/rofi

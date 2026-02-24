@@ -31,6 +31,18 @@
       format = "dotenv";
       key = "GITHUB_PERSONAL_ACCESS_TOKEN_MCP_SERVER";
     };
+
+    secrets."nextcloud_username" = {
+      sopsFile = ../../secrets/nextcloud-credentials-lucie-sync.enc.json;
+      format = "json";
+      key = "username";
+    };
+
+    secrets."nextcloud_password" = {
+      sopsFile = ../../secrets/nextcloud-credentials-lucie-sync.enc.json;
+      format = "json";
+      key = "password";
+    };
   };
 
 }
