@@ -234,7 +234,6 @@
           packages = with nixpkgs.legacyPackages.x86_64-linux; [
             dovecot
             nixd
-            opendkim
             qrencode
           ];
         };
@@ -243,7 +242,6 @@
           packages = with nixpkgs.legacyPackages.aarch64-darwin; [
             dovecot
             nixd
-            opendkim
             qrencode
           ];
         };
