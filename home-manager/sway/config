@@ -15,7 +15,7 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 #set $term foot
-set $term alacritty
+set $term {{TERMINAL}}
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -290,6 +290,7 @@ default_border none
 default_floating_border none
 
 # Window assignments
+assign [app_id="kitty"] workspace number 2
 assign [app_id="Alacritty"] workspace number 2
 assign [app_id="Slack"] workspace number 3
 assign [class="Spotify"] workspace number 4
@@ -298,7 +299,7 @@ assign [app_id="transmission-gtk"] workspace number 4
 
 # Startup apps
 exec 1password
-exec alacritty
+exec {{TERMINAL}}
 exec discord
 exec firefox
 exec slack
