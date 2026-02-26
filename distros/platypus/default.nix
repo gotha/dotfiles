@@ -61,6 +61,7 @@ in
           ];
           programs.alacritty.custom.fontSize = 11.0;
           programs.kitty.custom.fontSize = 11.0;
+          programs.kitty.custom.fontFamily = "Iosevka Nerd Font";
         };
       };
 
