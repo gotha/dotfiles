@@ -47,6 +47,7 @@ in
             ../../home-manager/aerospace
             ../../home-manager/alacritty
             ../../home-manager/git
+            ../../home-manager/kitty
             ../../home-manager/mcp
             ../../home-manager/npm
             ../../home-manager/nvim
@@ -59,6 +60,7 @@ in
             #../../os/darwin/home-manager/ollama
           ];
           programs.alacritty.custom.fontSize = 11.0;
+          programs.kitty.custom.fontSize = 11.0;
         };
       };
 

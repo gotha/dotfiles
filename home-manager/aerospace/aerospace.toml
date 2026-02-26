@@ -30,7 +30,7 @@ exec-on-workspace-change = ['/bin/bash', '-c',
 [mode.main.binding]
 # See: https://nikitabobko.github.io/AeroSpace/goodness#open-a-new-window-with-applescript
 alt-enter = '''exec-and-forget osascript -e '
-tell application "Terminal" do script activate
+tell application "kitty" to activate
 end tell'
 '''
 
@@ -150,6 +150,10 @@ outer.right =      5
 18 = '^(built-in retina display|.*Airplay.*)$'
 19 = '^(built-in retina display|.*Airplay.*)$'
 20 = '^(built-in retina display|.*Airplay.*)$'
+
+[[on-window-detected]]
+  if.app-id = 'net.kovidgoyal.kitty'
+  run = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
   if.app-id = 'org.alacritty'
