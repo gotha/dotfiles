@@ -88,13 +88,14 @@ in
       openFirewall = true;
     };
 
-    open-webui = {
-      enable = true;
-      package = pkgs.open-webui;
-      host = "0.0.0.0";
-      port = 11435;
-      openFirewall = true;
-    };
+    # TODO: temporarily disabled due to flaky psycopg test in nixpkgs
+    # open-webui = {
+    #   enable = true;
+    #   package = pkgs.open-webui;
+    #   host = "0.0.0.0";
+    #   port = 11435;
+    #   openFirewall = true;
+    # };
 
     plex = {
       enable = true;
