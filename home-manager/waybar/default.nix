@@ -26,6 +26,7 @@
         ];
         "modules-center" = [ "custom/waybar-mpris" ];
         "modules-right" = [
+          "custom/gpu"
           "network"
           "custom/headset-battery"
           "custom/mouse-battery"
@@ -195,6 +196,24 @@
           "format-linked" = "{ifname} (No IP) ";
           "format-disconnected" = "Disconnected 󰌙";
           "format-alt" = "{ifname}: {ipaddr}/{cidr}";
+        };
+
+        "custom/gpu" = {
+          format = "{icon} {text}";
+          "format-icons" = [
+            ""
+            ""
+            ""
+          ];
+          "return-type" = "json";
+          interval = 5;
+          exec = pkgs.writeShellScript "gpu-status" ''
+            nvidia-smi --query-gpu=power.draw,utilization.gpu,memory.used,memory.total,temperature.gpu --format=csv,noheader,nounits | awk -F', ' '{
+              temp = $5
+              class = "normal"
+              printf "{\"text\": \"%.0fW %d%% %.1f/%.1fGB\", \"tooltip\": \"GPU Temp: %d°C | Power: %.0fW | Util: %d%% | VRAM: %.1f/%.1fGB\", \"class\": \"%s\", \"percentage\": %d}", $1, $2, $3/1024, $4/1024, temp, $1, $2, $3/1024, $4/1024, class, temp
+            }'
+          '';
         };
 
         pulseaudio = {
