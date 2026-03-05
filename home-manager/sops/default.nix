@@ -43,6 +43,24 @@
       format = "json";
       key = "password";
     };
+
+    secrets."linkedin_client_id" = {
+      sopsFile = ../../secrets/linkedin-app.enc.json;
+      format = "json";
+      key = "CLIENT_ID";
+    };
+
+    secrets."linkedin_client_secret" = {
+      sopsFile = ../../secrets/linkedin-app.enc.json;
+      format = "json";
+      key = "CLIENT_SECRET";
+    };
+
+    secrets."linkedin_access_token" = {
+      sopsFile = ../../secrets/linkedin-app.enc.json;
+      format = "json";
+      key = "ACCESS_TOKEN";
+    };
   };
 
 }
