@@ -6,6 +6,9 @@
 }:
 let
   mcp-server-github-wrapper = pkgs.callPackage ./mcp-server-github-wrapper.nix { inherit config; };
+  linkedin-mcp-server-wrapper = pkgs.callPackage ./linkedin-mcp-server-wrapper.nix {
+    inherit config;
+  };
 
   cfg = config.programs.mcp;
 
@@ -18,6 +21,7 @@ let
     ++ (lib.optionals cfg.enableGit [ mcp-server-git ])
     ++ (lib.optionals cfg.enableGithub [ mcp-server-github-wrapper ])
     ++ (lib.optionals cfg.enableKubectl [ kubectl-mcp-server ])
+    ++ (lib.optionals cfg.enableLinkedIn [ linkedin-mcp-server-wrapper ])
     ++ (lib.optionals cfg.enableMemory [ mcp-server-memory ])
     ++ (lib.optionals cfg.enablePlaywright [ mcp-server-playwright ])
     ++ (lib.optionals cfg.enableSequentialThinking [ mcp-server-sequential-thinking ]);
@@ -63,6 +67,12 @@ let
       kubectl = {
         command = "${pkgs.kubectl-mcp-server}/bin/kubectl-mcp-server";
         description = "kubectl for managing and debugging Kubernetes clusters";
+      };
+    })
+    // (lib.optionalAttrs cfg.enableLinkedIn {
+      linkedin = {
+        command = "${linkedin-mcp-server-wrapper}/bin/linkedin-mcp-server-wrapper";
+        description = "LinkedIn API integration for managing posts, profiles, and company pages";
       };
     })
     // (lib.optionalAttrs cfg.enableMemory {
@@ -139,6 +149,12 @@ in
       type = lib.types.bool;
       default = true;
       description = "Enable MCP kubectl server for Kubernetes cluster management";
+    };
+
+    enableLinkedIn = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable MCP LinkedIn server for managing posts, profiles, and company pages";
     };
 
     enableMemory = lib.mkOption {
