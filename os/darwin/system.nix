@@ -67,7 +67,8 @@
         "/Applications/Chromium.app"
         "/Applications/Firefox.app"
         "/Applications/Slack.app"
-        "/Applications/Spotify.app"
+        #"/Applications/Spotify.app"
+        "/System/Applications/Music.app"
         "/Applications/1Password.app"
       ];
     };
