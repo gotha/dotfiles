@@ -159,4 +159,6 @@ fi
 
 alias ask="chatgpt"
 
-alias auggie="auggie --mcp-config ~/.config/mcp/mcp.json"
+# Auggie CLI with MCP config
+alias auggie="auggie --mcp-config ~/.config/mcp/mcp.json --continue"  # Resume last session
+alias auggie-new="auggie --mcp-config ~/.config/mcp/mcp.json"         # Start fresh session
