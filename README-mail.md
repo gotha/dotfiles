@@ -1,23 +1,34 @@
 # Mail Server configuration
 
-1. Generate DKIM Keys
+The mail server uses:
+- **Postfix** - SMTP server
+- **Dovecot** - IMAP server
+- **rspamd** - DKIM signing (replaced OpenDKIM which is unmaintained)
+
+## 1. Generate DKIM Keys
 
 ```sh
-# On bastion or locally
-mkdir -p /tmp/dkim
-opendkim-genkey -b 2048 -d hgeorgiev.com -s mail -D /tmp/dkim
+# On bastion or locally using rspamd's tool
+rspamadm dkim_keygen -s mail -d hgeorgiev.com -b 2048 -k /tmp/mail.key > /tmp/mail.txt
+
+# Or using openssl directly
+openssl genrsa -out /tmp/mail.private 2048
+openssl rsa -in /tmp/mail.private -pubout -out /tmp/mail.pub
+
 # This creates:
-# - mail.private (private key - encrypt with sops)
-# - mail.txt (public key for DNS)
+# - mail.private / mail.key (private key - encrypt with sops)
+# - mail.txt / mail.pub (public key for DNS)
 ```
 
-2. Encrypt DKIM Private Key with SOPS
+## 2. Encrypt DKIM Private Key with SOPS
 
 ```sh
-sops -e /tmp/dkim/mail.private > secrets/dkim-key.enc
+sops -e /tmp/mail.private > secrets/dkim-key.enc
 ```
 
-3. Configure DNS Records
+The key will be deployed to `/var/lib/rspamd/dkim/hgeorgiev.com.mail.key` on bastion.
+
+## 3. Configure DNS Records
 
 ```zonefile
 ; A records
@@ -34,10 +45,23 @@ mail._domainkey	60	IN	TXT	"<content of mail.txt>" ; ----- DKIM key mail for hgeo
 
 To configure PTR (reverse DNS) set the name of the droplet in Digitalocean to mail.hgeorgiev.com.
 
-4. Add Mail Users
-Edit hosts/bastion/mail.nix to add users in the vmailbox, virtual, and dovecot/users sections:
+## 4. Add Mail Users
+
+Edit `hosts/bastion/mail.nix` to add users in the vmailbox, virtual, and dovecot/users sections:
 
 ```sh
 # Generate password hash
 doveadm pw -s SHA512-CRYPT
+```
+
+## 5. Verify DKIM Signing
+
+After deployment, verify DKIM is working:
+
+```sh
+# Check rspamd status
+systemctl status rspamd
+
+# Send a test email and check headers for DKIM-Signature
+# Or use online tools like mail-tester.com
 ```

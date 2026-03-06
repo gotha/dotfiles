@@ -12,10 +12,10 @@ in
   sops.secrets.dkim_private_key = {
     sopsFile = ../../secrets/dkim-key.enc;
     format = "binary";
-    owner = "opendkim";
-    group = "opendkim";
+    owner = "rspamd";
+    group = "rspamd";
     mode = "0400";
-    path = "/var/lib/opendkim/keys/${domain}/mail.private";
+    path = "/var/lib/rspamd/dkim/${domain}.mail.key";
   };
 
   # ============================================================================
@@ -35,32 +35,69 @@ in
   };
 
   # ============================================================================
-  # OpenDKIM - DKIM Signing
+  # Rspamd - DKIM Signing & Spam Filtering
   # ============================================================================
-  services.opendkim = {
+  services.rspamd = {
     enable = true;
-    selector = "mail";
-    domains = "csl:${domain}";
-    configFile = pkgs.writeText "opendkim.conf" ''
-      Syslog yes
-      SyslogSuccess yes
-      LogWhy yes
-      Canonicalization relaxed/simple
-      Mode sv
-      SubDomains no
-      AutoRestart yes
-      AutoRestartRate 10/1M
-      Background yes
-      DNSTimeout 5
-      SignatureAlgorithm rsa-sha256
-    '';
+    locals = {
+      "dkim_signing.conf" = {
+        text = ''
+          enabled = true;
+          sign_authenticated = true;
+          sign_local = true;
+          use_domain = "header";
+          use_redis = false;
+          use_esld = false;
+          allow_hdrfrom_mismatch = false;
+          allow_hdrfrom_mismatch_sign_networks = false;
+          allow_username_mismatch = false;
+          sign_networks = "/^(127\\.0\\.0\\.1|::1)$/";
+          selector = "mail";
+          path = "/var/lib/rspamd/dkim/$domain.$selector.key";
+          domain {
+            ${domain} {
+              selector = "mail";
+              path = "/var/lib/rspamd/dkim/${domain}.mail.key";
+            }
+          }
+        '';
+      };
+      "worker-proxy.inc" = {
+        text = ''
+          milter = yes;
+          timeout = 120s;
+          upstream "local" {
+            default = yes;
+            self_scan = yes;
+          }
+          count = 4;
+          max_retries = 5;
+          discard_on_reject = false;
+          quarantine_on_reject = false;
+          spam_header = "X-Spam";
+          reject_message = "This message is likely spam";
+        '';
+      };
+      "worker-controller.inc" = {
+        text = ''
+          password = "$2$abc123abc123abc123abc123abc123ab$abc123abc123abc123abc123abc123abc123abc123abc123";
+          enable_password = "$2$abc123abc123abc123abc123abc123ab$abc123abc123abc123abc123abc123abc123abc123abc123";
+          secure_ip = "127.0.0.1";
+          secure_ip = "::1";
+        '';
+      };
+      # Disable modules we don't need for basic DKIM signing
+      "classifier-bayes.conf" = {
+        text = ''
+          enabled = false;
+        '';
+      };
+    };
   };
 
-  # Ensure OpenDKIM directory structure exists
+  # Ensure rspamd directory structure exists
   systemd.tmpfiles.rules = [
-    "d /var/lib/opendkim 0750 opendkim opendkim -"
-    "d /var/lib/opendkim/keys 0750 opendkim opendkim -"
-    "d /var/lib/opendkim/keys/${domain} 0750 opendkim opendkim -"
+    "d /var/lib/rspamd/dkim 0750 rspamd rspamd -"
     # Virtual mail directories
     "d /var/vmail 0750 vmail vmail -"
     "d /var/vmail/${domain} 0750 vmail vmail -"
@@ -121,11 +158,11 @@ in
       smtpd_helo_required = "yes";
       smtpd_helo_restrictions = "permit_mynetworks, permit_sasl_authenticated, reject_invalid_helo_hostname, reject_non_fqdn_helo_hostname";
 
-      # Milter configuration for DKIM
+      # Milter configuration for rspamd (DKIM signing)
       milter_default_action = "accept";
       milter_protocol = "6";
-      smtpd_milters = "unix:/run/opendkim/opendkim.sock";
-      non_smtpd_milters = "unix:/run/opendkim/opendkim.sock";
+      smtpd_milters = "unix:/run/rspamd/rspamd-milter.sock";
+      non_smtpd_milters = "unix:/run/rspamd/rspamd-milter.sock";
 
       # Virtual mailbox configuration
       virtual_mailbox_domains = domain;
@@ -315,10 +352,10 @@ in
   };
 
   # Add postfix and dovecot to the nginx group to read certificates
-  # Add postfix to opendkim group to access the milter socket
+  # Add postfix to rspamd group to access the milter socket
   users.users.postfix.extraGroups = [
     "nginx"
-    "opendkim"
+    "rspamd"
   ];
   users.users.dovecot2.extraGroups = [ "nginx" ];
 }
