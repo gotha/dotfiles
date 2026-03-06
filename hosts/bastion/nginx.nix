@@ -79,6 +79,42 @@
         '';
       };
     };
+
+    virtualHosts."chalgarr.hgeorgiev.com" = {
+      forceSSL = true;
+      enableACME = true;
+
+      locations."/" = {
+        proxyPass = "https://10.100.0.100:11443";
+        extraConfig = ''
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto https;
+          proxy_set_header X-Forwarded-Host $host;
+          proxy_set_header X-Forwarded-Port 443;
+
+          # WebSocket support
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+
+          # Allow large file uploads
+          client_max_body_size 1000M;
+
+          # Enable byte-range requests for media streaming
+          proxy_set_header Range $http_range;
+          proxy_set_header If-Range $http_if_range;
+          proxy_force_ranges on;
+
+          # Disable buffering for streaming
+          proxy_buffering off;
+
+          # SSL backend settings
+          proxy_ssl_verify off;
+        '';
+      };
+    };
   };
 
   # Configure ACME for Let's Encrypt SSL certificates
