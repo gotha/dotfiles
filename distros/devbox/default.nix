@@ -50,6 +50,7 @@ in
           ../../home-manager/nextcloud-sync
           ../../home-manager/npm
           ../../home-manager/nvim
+          ../../home-manager/opencode
           ../../home-manager/rofi
           ../../home-manager/sops
           ../../home-manager/ssh

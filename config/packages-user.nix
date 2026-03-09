@@ -28,6 +28,7 @@ in
   lazygit
   less
   lua
+  opencode
   ncdu
   neovim
   nixd
