@@ -16,6 +16,7 @@ in
   imports = [
     ./hardware-configuration.nix
     ./nextcloud.nix
+    ./nightly-build.nix
     ./tunnels.nix
     ./wireguard.nix
     ../../os/linux/efi.nix
