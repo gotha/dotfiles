@@ -44,7 +44,6 @@ in
     jellyfin
     jellyfin-web
     jellyfin-ffmpeg
-    ollama-cuda
     transmission_4-gtk
   ];
 
@@ -80,10 +79,6 @@ in
     ollama = {
       enable = true;
       package = pkgs.ollama-cuda;
-      # Optional: specify which GPU to use (default is all available)
-      # environmentVariables = {
-      #   CUDA_VISIBLE_DEVICES = "0";
-      # };
       host = "0.0.0.0";
       port = 11434;
       openFirewall = true;
