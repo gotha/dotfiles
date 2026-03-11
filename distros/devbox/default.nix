@@ -69,7 +69,7 @@ in
       bash
       zsh
     ];
-    systemPackages = systemPackages;
+    systemPackages = systemPackages ++ [ pkgs.claude-desktop ];
   };
 
   programs = {

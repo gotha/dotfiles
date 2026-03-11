@@ -34,6 +34,8 @@
     deploy-rs.url = "github:serokell/deploy-rs";
 
     gotha.url = "github:gotha/nixpkgs?ref=main";
+
+    claude-desktop.url = "github:aaddrick/claude-desktop-debian";
   };
   outputs =
     {
@@ -48,6 +50,7 @@
       sops-nix,
       gotha,
       deploy-rs,
+      claude-desktop,
       ...
     }:
     let
@@ -57,6 +60,7 @@
           nixpkgs.overlays = [
             nix-vscode-extensions.overlays.default
             gotha.overlays.default
+            claude-desktop.overlays.default
           ];
           _module.args.stablePkgs = import nixpkgs-stable {
             system = pkgs.system;
