@@ -164,6 +164,20 @@ in
     blueman.enable = true;
     gnome.gnome-keyring.enable = true;
     libinput.enable = true;
+    mpd = {
+      enable = true;
+      user = "${cfg.username}";
+      group = "users";
+      musicDirectory = "/home/${cfg.username}/Music";
+      settings = {
+        audio_output = [
+          {
+            type = "pipewire";
+            name = "PipeWire Sound Server";
+          }
+        ];
+      };
+    };
     openssh.enable = true;
     pipewire = {
       enable = true;
@@ -205,6 +219,11 @@ in
     "d /home/${cfg.username}/Downloads 0755 ${cfg.username} users -"
     "d /home/${cfg.username}/Downloads/.incomplete 0755 ${cfg.username} users -"
   ];
+
+  # Set XDG_RUNTIME_DIR for MPD to connect to PipeWire
+  systemd.services.mpd.environment = {
+    XDG_RUNTIME_DIR = "/run/user/1000";
+  };
 
   # Enable lingering for the ${cfg.username} user so the service starts at boot
   # even when the user is not logged in

@@ -28,6 +28,8 @@ in
   lazygit
   less
   lua
+  mpc
+  ncmpcpp
   opencode
   ncdu
   neovim

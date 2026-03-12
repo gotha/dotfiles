@@ -76,6 +76,8 @@ in
       openFirewall = true;
     };
 
+    mpd.musicDirectory = lib.mkForce "/mnt/storage/Music";
+
     ollama = {
       enable = true;
       package = pkgs.ollama-cuda;
