@@ -55,4 +55,5 @@ in
   uv
   vale
   watch
+  yt-dlp
 ]

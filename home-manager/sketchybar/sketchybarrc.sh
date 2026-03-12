@@ -108,10 +108,9 @@ sketchybar --add item front_app left \
 
 sketchybar --add item now_playing left \
            --set now_playing label="" \
-                             update_freq=5 \
-                             script="$PLUGIN_DIR/spotify.sh" \
-                             click_script="osascript -e 'tell application \"Spotify\" to playpause'"
-                             #padding_left=420
+                             update_freq=3 \
+                             script="$PLUGIN_DIR/mpd.sh" \
+                             click_script="mpc toggle"
 
 # ---------------- RIGHT ITEMS ----------------
 

@@ -7,15 +7,25 @@
 let
   pluginsDir = ./plugins;
   pluginFiles = builtins.readDir pluginsDir;
+
+  # MPD plugin needs mpc path substituted
+  mpdPlugin = pkgs.replaceVars ./plugins/mpd.sh {
+    mpc = pkgs.mpc;
+  };
+
   makePluginConfig =
     name: type:
     if type == "regular" then
-      {
-        "sketchybar/plugins/${name}" = {
-          source = pluginsDir + "/${name}";
-          executable = true;
-        };
-      }
+      # Skip mpd.sh as we handle it separately with substitution
+      if name == "mpd.sh" then
+        { }
+      else
+        {
+          "sketchybar/plugins/${name}" = {
+            source = pluginsDir + "/${name}";
+            executable = true;
+          };
+        }
     else
       { };
 in
@@ -30,6 +40,10 @@ in
       };
       "sketchybar/colors.sh" = {
         source = ./colors.sh;
+        executable = true;
+      };
+      "sketchybar/plugins/mpd.sh" = {
+        source = mpdPlugin;
         executable = true;
       };
     }

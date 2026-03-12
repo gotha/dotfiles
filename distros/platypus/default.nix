@@ -38,6 +38,7 @@ in
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
+        backupFileExtension = "backup";
         extraSpecialArgs = {
           inputs = { inherit sops-nix; };
         };
@@ -47,8 +48,10 @@ in
             ../../home-manager/aerospace
             ../../home-manager/alacritty
             ../../home-manager/git
+            ../../home-manager/karabiner
             ../../home-manager/kitty
             ../../home-manager/mcp
+            ../../home-manager/mpd
             ../../home-manager/npm
             ../../home-manager/nvim
             ../../home-manager/sketchybar

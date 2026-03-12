@@ -22,7 +22,6 @@
       "gimp"
       "inkscape"
       "intellij-idea"
-      "karabiner-elements"
       "keka"
       "keycastr"
       "nextcloud"
