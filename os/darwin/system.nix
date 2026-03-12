@@ -68,7 +68,7 @@
         "/Applications/Firefox.app"
         "/Applications/Slack.app"
         #"/Applications/Spotify.app"
-        "/System/Applications/Music.app"
+        #"/System/Applications/Music.app"
         "/Applications/1Password.app"
       ];
     };
