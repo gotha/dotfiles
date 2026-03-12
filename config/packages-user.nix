@@ -29,6 +29,7 @@ in
   less
   lua
   mpc
+  mpdris2
   ncmpcpp
   opencode
   ncdu
