@@ -169,8 +169,8 @@ in
       enable = true;
       user = "${cfg.username}";
       group = "users";
-      musicDirectory = "/home/${cfg.username}/Music";
       settings = {
+        music_directory = "/home/${cfg.username}/Music";
         audio_output = [
           {
             type = "pipewire";
