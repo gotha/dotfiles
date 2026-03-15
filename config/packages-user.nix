@@ -34,6 +34,7 @@ in
   opencode
   ncdu
   neovim
+  nicotine-plus
   nixd
   nixfmt
   nix-search-cli
