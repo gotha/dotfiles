@@ -15,6 +15,7 @@ in
 
   imports = [
     ./hardware-configuration.nix
+    ./monitoring.nix
     ./nextcloud.nix
     ./nightly-build.nix
     ./tunnels.nix
@@ -76,7 +77,14 @@ in
       openFirewall = true;
     };
 
-    mpd.musicDirectory = lib.mkForce "/mnt/storage/Music";
+    mpd = {
+      settings = {
+        music_directory = lib.mkForce "/mnt/storage/Music";
+        # Bind to all interfaces for remote access via wireguard
+        bind_to_address = "any";
+      };
+      openFirewall = false; # wg0 is already a trusted interface
+    };
 
     ollama = {
       enable = true;

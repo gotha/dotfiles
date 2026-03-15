@@ -43,6 +43,12 @@
       format = "json";
       key = "password";
     };
+
+    secrets."grafana_mcp_service_account_token" = {
+      sopsFile = ../../secrets/grafana.enc.json;
+      format = "json";
+      key = "mcp_service_account_token";
+    };
   };
 
 }

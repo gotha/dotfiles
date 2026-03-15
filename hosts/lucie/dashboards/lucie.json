@@ -1,0 +1,179 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "title": "System Overview",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "thresholds": { "mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "yellow", "value": 70}, {"color": "red", "value": 90}] } }, "overrides": [] },
+      "gridPos": { "h": 5, "w": 4, "x": 0, "y": 1 },
+      "id": 1,
+      "options": { "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true, "minVizHeight": 75, "minVizWidth": 75 },
+      "title": "CPU",
+      "type": "gauge",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT 100 - usage_idle as \"CPU\" FROM cpu WHERE cpu = 'cpu-total' AND host = 'lucie' ORDER BY time DESC LIMIT 1", "format": "table", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "thresholds": { "mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "yellow", "value": 70}, {"color": "red", "value": 90}] } }, "overrides": [] },
+      "gridPos": { "h": 5, "w": 4, "x": 4, "y": 1 },
+      "id": 2,
+      "options": { "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true, "minVizHeight": 75, "minVizWidth": 75 },
+      "title": "Memory",
+      "type": "gauge",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT used_percent as \"Memory\" FROM mem WHERE host = 'lucie' ORDER BY time DESC LIMIT 1", "format": "table", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "thresholds": { "mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "yellow", "value": 70}, {"color": "red", "value": 90}] } }, "overrides": [] },
+      "gridPos": { "h": 5, "w": 4, "x": 8, "y": 1 },
+      "id": 3,
+      "options": { "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true, "minVizHeight": 75, "minVizWidth": 75 },
+      "title": "Swap",
+      "type": "gauge",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT used_percent as \"Swap\" FROM swap WHERE host = 'lucie' ORDER BY time DESC LIMIT 1", "format": "table", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "thresholds": { "mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "yellow", "value": 70}, {"color": "red", "value": 90}] } }, "overrides": [] },
+      "gridPos": { "h": 5, "w": 4, "x": 12, "y": 1 },
+      "id": 4,
+      "options": { "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true, "minVizHeight": 75, "minVizWidth": 75 },
+      "title": "GPU",
+      "type": "gauge",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT utilization_gpu as \"GPU\" FROM nvidia_smi WHERE host = 'lucie' ORDER BY time DESC LIMIT 1", "format": "table", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "celsius", "thresholds": { "mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "yellow", "value": 60}, {"color": "red", "value": 80}] } }, "overrides": [] },
+      "gridPos": { "h": 5, "w": 4, "x": 16, "y": 1 },
+      "id": 5,
+      "options": { "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true, "minVizHeight": 75, "minVizWidth": 75 },
+      "title": "GPU Temp",
+      "type": "gauge",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT temperature_gpu as \"Temp\" FROM nvidia_smi WHERE host = 'lucie' ORDER BY time DESC LIMIT 1", "format": "table", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "watt" }, "overrides": [] },
+      "gridPos": { "h": 5, "w": 4, "x": 20, "y": 1 },
+      "id": 6,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false } },
+      "title": "GPU Power",
+      "type": "stat",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT power_draw as \"Power\" FROM nvidia_smi WHERE host = 'lucie' ORDER BY time DESC LIMIT 1", "format": "table", "refId": "A" }]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "custom": { "lineWidth": 1, "fillOpacity": 20, "showPoints": "never", "drawStyle": "line" } }, "overrides": [] },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 6 },
+      "id": 7,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "multi" } },
+      "title": "CPU & Memory Over Time",
+      "type": "timeseries",
+      "targets": [
+        { "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT time, 100 - usage_idle as \"CPU %\" FROM cpu WHERE cpu = 'cpu-total' AND host = 'lucie' AND $__timeFilter(time) ORDER BY time", "format": "table", "refId": "A" },
+        { "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT time, used_percent as \"Memory %\" FROM mem WHERE host = 'lucie' AND $__timeFilter(time) ORDER BY time", "format": "table", "refId": "B" }
+      ]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "custom": { "lineWidth": 1, "fillOpacity": 20, "showPoints": "never", "drawStyle": "line" } }, "overrides": [] },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 6 },
+      "id": 8,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "multi" } },
+      "title": "GPU Utilization Over Time",
+      "type": "timeseries",
+      "targets": [
+        { "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT time, utilization_gpu as \"GPU %\", utilization_memory as \"VRAM %\" FROM nvidia_smi WHERE host = 'lucie' AND $__timeFilter(time) ORDER BY time", "format": "table", "refId": "A" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 13 },
+      "id": 101,
+      "title": "Disk & Network",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "custom": { "lineWidth": 1, "fillOpacity": 10, "showPoints": "never", "stacking": { "mode": "none" }, "spanNulls": true, "thresholdsStyle": { "mode": "line" } }, "thresholds": { "mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "yellow", "value": 70}, {"color": "red", "value": 90}] }, "displayName": "${__field.labels.metric}" }, "overrides": [] },
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 14 },
+      "id": 9,
+      "options": { "legend": { "displayMode": "table", "placement": "right", "showLegend": true, "sortBy": "Last", "sortDesc": true, "calcs": ["last", "max"] }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "title": "Disk Usage Over Time",
+      "type": "timeseries",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT time, path as metric, used_percent as value FROM disk WHERE host = 'lucie' AND fstype NOT IN ('tmpfs', 'devtmpfs', 'overlay', 'efivarfs') AND $__timeFilter(time) ORDER BY time", "format": "table", "refId": "A" }],
+      "transformations": [{ "id": "prepareTimeSeries", "options": { "format": "multi" } }]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "binBps", "custom": { "lineWidth": 1, "fillOpacity": 20, "showPoints": "never" } }, "overrides": [] },
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 14 },
+      "id": 10,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "multi" } },
+      "title": "Network Traffic",
+      "type": "timeseries",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT time, interface, bytes_recv as \"RX\", bytes_sent as \"TX\" FROM net WHERE host = 'lucie' AND interface NOT LIKE 'lo%' AND interface NOT LIKE 'docker%' AND interface NOT LIKE 'veth%' AND interface NOT LIKE 'br-%' AND $__timeFilter(time) ORDER BY time", "format": "table", "refId": "A" }]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 20 },
+      "id": 102,
+      "title": "Processes Over Time",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "percent", "custom": { "lineWidth": 1, "fillOpacity": 10, "showPoints": "never", "stacking": { "mode": "none" }, "spanNulls": true }, "displayName": "${__field.labels.metric}" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 21 },
+      "id": 11,
+      "options": { "legend": { "displayMode": "table", "placement": "right", "showLegend": true, "sortBy": "Max", "sortDesc": true, "calcs": ["max", "mean"] }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "title": "CPU Usage by Process (Memory %)",
+      "type": "timeseries",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "WITH top_procs AS (SELECT process_name FROM procstat WHERE host = 'lucie' AND time > NOW() - INTERVAL '5 minutes' AND process_name IS NOT NULL GROUP BY process_name ORDER BY MAX(cpu_time_user + cpu_time_system) DESC LIMIT 10) SELECT time, process_name as metric, memory_usage as value FROM procstat WHERE host = 'lucie' AND process_name IN (SELECT process_name FROM top_procs) AND $__timeFilter(time) ORDER BY time", "format": "table", "refId": "A" }],
+      "transformations": [{ "id": "prepareTimeSeries", "options": { "format": "multi" } }]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "decbytes", "custom": { "lineWidth": 1, "fillOpacity": 10, "showPoints": "never", "stacking": { "mode": "none" }, "spanNulls": true }, "displayName": "${__field.labels.metric}" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 21 },
+      "id": 12,
+      "options": { "legend": { "displayMode": "table", "placement": "right", "showLegend": true, "sortBy": "Max", "sortDesc": true, "calcs": ["max", "mean"] }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "title": "Memory Usage by Process",
+      "type": "timeseries",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "WITH top_procs AS (SELECT process_name FROM procstat WHERE host = 'lucie' AND time > NOW() - INTERVAL '5 minutes' AND process_name IS NOT NULL GROUP BY process_name ORDER BY MAX(memory_rss) DESC LIMIT 10) SELECT time, process_name as metric, memory_rss as value FROM procstat WHERE host = 'lucie' AND process_name IN (SELECT process_name FROM top_procs) AND $__timeFilter(time) ORDER BY time", "format": "table", "refId": "A" }],
+      "transformations": [{ "id": "prepareTimeSeries", "options": { "format": "multi" } }]
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" },
+      "fieldConfig": { "defaults": { "unit": "decbytes", "custom": { "lineWidth": 1, "fillOpacity": 10, "showPoints": "never", "stacking": { "mode": "normal" }, "spanNulls": true }, "displayName": "${__field.labels.metric}" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 29 },
+      "id": 13,
+      "options": { "legend": { "displayMode": "table", "placement": "right", "showLegend": true, "sortBy": "Max", "sortDesc": true, "calcs": ["max", "mean"] }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "title": "GPU Memory by Process",
+      "type": "timeseries",
+      "targets": [{ "datasource": { "type": "grafana-postgresql-datasource", "uid": "timescaledb" }, "rawSql": "SELECT time, name as metric, used_memory * 1024 * 1024 as value FROM nvidia_smi_process WHERE host = 'lucie' AND $__timeFilter(time) ORDER BY time", "format": "table", "refId": "A" }],
+      "transformations": [{ "id": "prepareTimeSeries", "options": { "format": "multi" } }]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["lucie", "system", "gpu", "network"],
+  "templating": { "list": [] },
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "lucie",
+  "uid": "lucie",
+  "version": 1
+}

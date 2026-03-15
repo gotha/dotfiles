@@ -7,6 +7,15 @@
 let
   mcp-server-github-wrapper = pkgs.callPackage ./mcp-server-github-wrapper.nix { inherit config; };
 
+  # Wrapper for mcp-grafana that reads the service account token from sops secret
+  mcp-grafana-wrapper = pkgs.writeShellScriptBin "mcp-grafana-wrapper" ''
+    export GRAFANA_URL="${config.programs.mcp.grafanaLucieUrl}"
+    if [ -f "${config.sops.secrets.grafana_mcp_service_account_token.path}" ]; then
+      export GRAFANA_SERVICE_ACCOUNT_TOKEN="$(cat ${config.sops.secrets.grafana_mcp_service_account_token.path})"
+    fi
+    exec ${pkgs.mcp-grafana}/bin/mcp-grafana "$@"
+  '';
+
   cfg = config.programs.mcp;
 
   # Conditionally build package list based on enabled servers
@@ -17,6 +26,10 @@ let
     ++ (lib.optionals cfg.enableGcloud [ gcloud-mcp ])
     ++ (lib.optionals cfg.enableGit [ mcp-server-git ])
     ++ (lib.optionals cfg.enableGithub [ mcp-server-github-wrapper ])
+    ++ (lib.optionals cfg.enableGrafanaLucie [
+      mcp-grafana
+      mcp-grafana-wrapper
+    ])
     ++ (lib.optionals cfg.enableKubectl [ kubectl-mcp-server ])
     ++ (lib.optionals cfg.enableMemory [ mcp-server-memory ])
     ++ (lib.optionals cfg.enablePlaywright [ mcp-server-playwright ])
@@ -87,6 +100,13 @@ let
       "Grafana" = {
         url = "https://grafana-mcp-internal.qa-prometheus.qa.redislabs.com/sse";
         type = "sse";
+        description = "Remote Grafana MCP server (Redis QA)";
+      };
+    })
+    // (lib.optionalAttrs cfg.enableGrafanaLucie {
+      "grafana-lucie" = {
+        command = "${mcp-grafana-wrapper}/bin/mcp-grafana-wrapper";
+        description = "Local Grafana MCP server on lucie for querying metrics, dashboards, and observability data";
       };
     })
     // (lib.optionalAttrs cfg.enableTempo {
@@ -132,7 +152,19 @@ in
     enableGrafana = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Enable MCP Grafana server for querying metrics and dashboards";
+      description = "Enable remote MCP Grafana server (Redis QA)";
+    };
+
+    enableGrafanaLucie = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable local MCP Grafana server on lucie";
+    };
+
+    grafanaLucieUrl = lib.mkOption {
+      type = lib.types.str;
+      default = "http://localhost:33000";
+      description = "URL for the local Grafana instance on lucie";
     };
 
     enableKubectl = lib.mkOption {
