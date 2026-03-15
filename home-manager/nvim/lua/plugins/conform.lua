@@ -75,7 +75,8 @@ conform.setup({
     },
 
     nixfmt = {
-      stdin = false,
+      command = "nixfmt",
+      stdin = true,
     },
 
     ktlint = {
