@@ -42,6 +42,7 @@ in
         };
         users.${cfg.username}.imports = [
           ../../home-manager
+          ../../home-manager/beets
           ../../home-manager/kitty
           ../../home-manager/firefox
           ../../home-manager/git
