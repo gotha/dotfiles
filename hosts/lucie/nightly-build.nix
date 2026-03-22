@@ -22,19 +22,21 @@
       set -euo pipefail
 
       DOTFILES="/home/${username}/Projects/github.com/gotha/dotfiles"
-      TMPDIR=$(mktemp -d)
-
-      # Cleanup temp directory on exit
-      trap "rm -rf $TMPDIR" EXIT
+      DATE=$(date +%Y-%m-%d)
+      BUILD_DIR="/var/lib/nix-nightly/dotfiles-$DATE"
 
       echo "Starting nightly build at $(date)"
 
-      # Copy repo to temp directory to avoid interfering with local changes
-      echo "Copying repo to $TMPDIR..."
-      cp -r "$DOTFILES" "$TMPDIR/dotfiles"
-      cd "$TMPDIR/dotfiles"
+      # Clean up old builds (keep last 7 days)
+      find /var/lib/nix-nightly -maxdepth 1 -name "dotfiles-*" -type d -mtime +7 -exec rm -rf {} \; 2>/dev/null || true
 
-      # Reset to clean state on main branch
+      # Create build directory
+      mkdir -p /var/lib/nix-nightly
+      rm -rf "$BUILD_DIR"
+      cp -r "$DOTFILES" "$BUILD_DIR"
+      cd "$BUILD_DIR"
+
+      # Reset to clean state
       echo "Resetting to main branch..."
       git stash --include-untracked || true
       git checkout main
@@ -43,12 +45,16 @@
       echo "Updating flake.lock..."
       nix flake update 2>&1
 
-      # Build devbox config without switching
+      # Build lucie config without switching
       # This populates /nix/store with all required packages
-      echo "Building devbox configuration..."
-      nixos-rebuild build --flake .#devbox 2>&1
+      echo "Building lucie configuration..."
+      nixos-rebuild build --flake .#lucie 2>&1
+
+      # Create symlink to latest build
+      ln -sfn "$BUILD_DIR" /var/lib/nix-nightly/latest
 
       echo "Nightly build completed at $(date)"
+      echo "flake.lock available at: $BUILD_DIR/flake.lock"
     '';
   };
 
