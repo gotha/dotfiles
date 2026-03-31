@@ -15,6 +15,7 @@ in
 
   imports = [
     ./hardware-configuration.nix
+    ./litellm.nix
     ./nextcloud.nix
     ./nightly-build.nix
     ./tunnels.nix
