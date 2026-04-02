@@ -71,6 +71,13 @@ in
     cudaPackages.cudatoolkit
   ];
 
+  # Bluetooth: disable LDAC (decoder has issues), use aptX HD as default
+  environment.etc."wireplumber/wireplumber.conf.d/51-disable-ldac.conf".text = ''
+    monitor.bluez.properties = {
+      bluez5.codecs = [ aptx_hd aptx aac sbc_xq sbc ]
+    }
+  '';
+
   services = {
     jellyfin = {
       enable = true;
