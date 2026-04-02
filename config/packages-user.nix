@@ -14,6 +14,7 @@ in
   clang
   clang-tools
   cloc
+  cursor-cli
   direnv
   eslint
   gcloud

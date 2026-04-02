@@ -23,6 +23,11 @@ let
     ++ (lib.optionals cfg.enableSequentialThinking [ mcp-server-sequential-thinking ]);
 
   # Conditionally build servers configuration
+  mcpConfigJSON = builtins.toJSON {
+    "$schema" = "https://modelcontextprotocol.io/schema/mcp.json";
+    mcpServers = allServers;
+  };
+
   allServers =
     { }
     // (lib.optionalAttrs cfg.enableAtlassian {
@@ -169,9 +174,7 @@ in
   config = {
     home.packages = allPackages;
 
-    xdg.configFile."mcp/mcp.json".text = builtins.toJSON {
-      "$schema" = "https://modelcontextprotocol.io/schema/mcp.json";
-      mcpServers = allServers;
-    };
+    xdg.configFile."mcp/mcp.json".text = mcpConfigJSON;
+    home.file.".cursor/mcp.json".text = mcpConfigJSON;
   };
 }
