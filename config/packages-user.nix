@@ -40,7 +40,7 @@ in
   nixfmt
   nix-search-cli
   nodejs
-  nodePackages_latest.prettier
+  prettier
   pyright
   python314
   ripgrep
