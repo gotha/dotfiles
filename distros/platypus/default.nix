@@ -56,7 +56,9 @@ in
             ../../home-manager/nvim
             ../../home-manager/sketchybar
             ../../home-manager/sops
-            ../../home-manager/vscode
+            # Disabled due to glibc dependency issue on Darwin
+            # https://github.com/NixOS/nixpkgs/issues/272016
+            # ../../home-manager/vscode
             ../../home-manager/vale
             ../../home-manager/tmux
             ../../home-manager/zsh
