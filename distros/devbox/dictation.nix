@@ -65,6 +65,13 @@ let
     sync
     sleep 0.3
 
+    # Restore original volume if it was lowered (for dictate-hotkey)
+    if [[ -f /tmp/dictate-original-volume ]]; then
+      ORIGINAL_VOL=$(cat /tmp/dictate-original-volume)
+      ${pkgs.pamixer}/bin/pamixer --set-volume "$ORIGINAL_VOL"
+      rm -f /tmp/dictate-original-volume
+    fi
+
     echo "Transcribing..."
     
     # Transcribe with whisper.cpp
@@ -92,15 +99,12 @@ let
     if [[ -n "$RESULT" ]]; then
       echo "$RESULT"
 
-      # Copy to clipboard (Wayland or X11)
-      if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        echo -n "$RESULT" | ${pkgs.wl-clipboard}/bin/wl-copy
-      else
-        echo -n "$RESULT" | ${pkgs.xclip}/bin/xclip -selection clipboard
-      fi
+      # Copy to clipboard (Wayland)
+      echo -n "$RESULT" | ${pkgs.wl-clipboard}/bin/wl-copy
       echo "(copied to clipboard)"
     else
       echo "No speech detected"
+      exit 1
     fi
   '';
 
@@ -146,6 +150,48 @@ let
     echo "Set WHISPER_MODEL env var or use default (base)"
   '';
 
+  # Wrapper script that runs dictate and handles errors
+  dictate-wrapper = pkgs.writeShellScriptBin "dictate-wrapper" ''
+    # Run dictate (volume restore happens inside dictate after recording stops)
+    ${dictate}/bin/dictate
+    EXIT_CODE=$?
+
+    if [[ $EXIT_CODE -eq 0 ]]; then
+      # Success - signal to hotkey script to paste by creating a temp file
+      touch /tmp/dictate-success
+    else
+      # Error - wait for keypress before closing
+      echo ""
+      echo "Press any key to close..."
+      read -n 1 -s
+    fi
+  '';
+
+  # Hotkey script for global shortcut
+  # Mutes audio, opens a floating terminal for dictation, unmutes after
+  dictate-hotkey = pkgs.writeShellScriptBin "dictate-hotkey" ''
+    # Clean up any previous success marker
+    rm -f /tmp/dictate-success
+
+    # Save current volume and lower to 10% during dictation
+    ${pkgs.pamixer}/bin/pamixer --get-volume > /tmp/dictate-original-volume
+    ${pkgs.pamixer}/bin/pamixer --set-volume 10
+
+    # Spawn a floating terminal running dictate wrapper
+    ${pkgs.foot}/bin/foot \
+      --title="Dictation" \
+      --window-size-chars=80x15 \
+      -e ${dictate-wrapper}/bin/dictate-wrapper 2>/dev/null
+
+    # After foot closes, type the text if successful
+    if [[ -f /tmp/dictate-success ]]; then
+      rm -f /tmp/dictate-success
+      sleep 0.2
+      # Get text from clipboard and type it directly (avoids Ctrl+V issues)
+      ${pkgs.wl-clipboard}/bin/wl-paste --no-newline --type text/plain 2>/dev/null | ${pkgs.wtype}/bin/wtype -d 5 - 2>/dev/null || true
+    fi
+  '';
+
 in
 {
   # Module options
@@ -177,10 +223,13 @@ in
     users.users.${username}.packages = [
       dictate
       dictate-download-model
+      dictate-hotkey
       cfg.whisperPackage  # Configurable whisper package
       pkgs.sox            # For audio recording
       pkgs.wl-clipboard   # For Wayland clipboard
-      pkgs.xclip          # For X11 clipboard
+      pkgs.pamixer        # For volume control
+      pkgs.foot           # Terminal for dictation hotkey
+      pkgs.wtype          # For simulating keypresses (Wayland)
     ];
   };
 }

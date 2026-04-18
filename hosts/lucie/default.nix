@@ -29,7 +29,7 @@ in
   # Enable dictation with CUDA-accelerated whisper (NVIDIA GPU)
   services.dictation = {
     enable = true;
-    model = "medium";
+    model = "small";
     whisperPackage = stablePkgs.whisper-cpp.override { cudaSupport = true; };
   };
 

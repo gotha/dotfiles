@@ -266,6 +266,10 @@ bindsym $mod+r mode "resize"
 
 bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy
 
+# Dictation - speak to text, result copied to clipboard
+bindsym $mod+i exec dictate-hotkey
+for_window [title="^Dictation$"] floating enable, border pixel 2
+
 #
 # Status Bar:
 #
