@@ -25,6 +25,7 @@ in
 
   # @todo - maybe split nixos config into a separate distro
   imports = [
+    ./dictation.nix
     ../../os/default.nix
     ../../os/nixos/bootloader.nix
     ../../os/nixos/gc.nix

@@ -82,11 +82,19 @@
         ]
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1776136611,
         "narHash": "sha256-b2pu3Pb28W0bJzQVP3OJHZC5+dgOOeqjlli2WVakKEU=",
         "owner": "nix-community",
         "repo": "home-manager",
         "rev": "8a423e444b17dde406097328604a64fc7429e34e",
+=======
+        "lastModified": 1776373306,
+        "narHash": "sha256-iAJIzHngGZeLIkjzuuWI6VBsYJ1n89a/Esq0m8R1vjs=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "d401492e2acd4fea42f7705a3c266cea739c9c36",
+>>>>>>> 3da2a0e (feat: add whisper-based dictation module)
         "type": "github"
       },
       "original": {
@@ -121,11 +129,19 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1776137172,
         "narHash": "sha256-j74GKrjlwtASA2e1/uAJeKvGvqAHDuc4OyLgey6wRWU=",
         "owner": "nix-community",
         "repo": "nix-vscode-extensions",
         "rev": "9d01befbc519cd218f557b9cd500c56b1ec2f995",
+=======
+        "lastModified": 1776396489,
+        "narHash": "sha256-lF3GX4VvQzff/5gpu5WytHKd2GQXJDrWChmK+JNNRO4=",
+        "owner": "nix-community",
+        "repo": "nix-vscode-extensions",
+        "rev": "64839596bff67e8280a2fcd829a858d88530aa6f",
+>>>>>>> 3da2a0e (feat: add whisper-based dictation module)
         "type": "github"
       },
       "original": {
@@ -188,11 +204,19 @@
     },
     "nixpkgs-stable": {
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1776067740,
         "narHash": "sha256-B35lpsqnSZwn1Lmz06BpwF7atPgFmUgw1l8KAV3zpVQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
         "rev": "7e495b747b51f95ae15e74377c5ce1fe69c1765f",
+=======
+        "lastModified": 1776221942,
+        "narHash": "sha256-FbQAeVNi7G4v3QCSThrSAAvzQTmrmyDLiHNPvTF2qFM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "1766437c5509f444c1b15331e82b8b6a9b967000",
+>>>>>>> 3da2a0e (feat: add whisper-based dictation module)
         "type": "github"
       },
       "original": {
@@ -235,11 +259,19 @@
     },
     "nixpkgs_4": {
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1775888245,
         "narHash": "sha256-nwASzrRDD1JBEu/o8ekKYEXm/oJW6EMCzCRdrwcLe90=",
         "owner": "nixos",
         "repo": "nixpkgs",
         "rev": "13043924aaa7375ce482ebe2494338e058282925",
+=======
+        "lastModified": 1776255774,
+        "narHash": "sha256-psVTpH6PK3q1htMJpmdz1hLF5pQgEshu7gQWgKO6t6Y=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "566acc07c54dc807f91625bb286cb9b321b5f42a",
+>>>>>>> 3da2a0e (feat: add whisper-based dictation module)
         "type": "github"
       },
       "original": {

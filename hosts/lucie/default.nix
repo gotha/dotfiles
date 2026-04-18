@@ -1,5 +1,6 @@
 {
   pkgs,
+  stablePkgs,
   username,
   lib,
   ...
@@ -24,6 +25,13 @@ in
   ];
 
   networking.hostName = "lucie";
+
+  # Enable dictation with CUDA-accelerated whisper (NVIDIA GPU)
+  services.dictation = {
+    enable = true;
+    model = "medium";
+    whisperPackage = stablePkgs.whisper-cpp.override { cudaSupport = true; };
+  };
 
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
