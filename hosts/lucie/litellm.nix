@@ -28,18 +28,9 @@ in
           input_cost_per_token: 0.0000025
           output_cost_per_token: 0.00001
 
-      - model_name: qwen3:30b
+      - model_name: gemma4:31b
         litellm_params:
-          model: ollama/qwen3:32b
-          api_base: http://host.docker.internal:11434
-          timeout: 600
-        model_info:
-          input_cost_per_token: 0.0000025
-          output_cost_per_token: 0.00001
-
-      - model_name: qwen3.5:35b-a3b
-        litellm_params:
-          model: ollama/qwen3.5:35b-a3b
+          model: ollama/gemma4:31b
           api_base: http://host.docker.internal:11434
           timeout: 600
         model_info:
