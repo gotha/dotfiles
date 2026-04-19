@@ -1,6 +1,12 @@
 # Speech-to-text dictation using whisper.cpp
 # Usage: dictate (records audio, transcribes with whisper, types result)
-{ config, pkgs, lib, username, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 
 with lib;
 
@@ -43,15 +49,35 @@ let
       fi
     fi
 
-    echo "Recording... Press Enter to stop"
+    echo "Recording... Press Enter to stop, Escape to cancel"
 
     # Record audio using sox with a time limit trick for graceful stop
     # We'll record to a temp file and use SIGINT for proper buffer flushing
     ${pkgs.sox}/bin/rec -q -r 16000 -c 1 "$TEMP_WAV" &
     RECORD_PID=$!
 
-    # Wait for Enter key
-    read -r
+    # Wait for Enter or Escape key
+    while true; do
+      read -r -s -n 1 key
+      if [[ "$key" == "" ]]; then
+        # Enter was pressed
+        break
+      elif [[ "$key" == $'\e' ]]; then
+        # Escape was pressed - cancel recording
+        echo "Cancelled"
+        kill -INT $RECORD_PID 2>/dev/null || true
+        wait $RECORD_PID 2>/dev/null || true
+
+        # Restore volume if needed
+        if [[ -f /tmp/dictate-original-volume ]]; then
+          ORIGINAL_VOL=$(cat /tmp/dictate-original-volume)
+          ${pkgs.pamixer}/bin/pamixer --set-volume "$ORIGINAL_VOL"
+          rm -f /tmp/dictate-original-volume
+        fi
+
+        exit 1
+      fi
+    done
 
     # Keep recording for 1.5 more seconds to capture end of sentence
     echo "Finishing..."
@@ -73,7 +99,7 @@ let
     fi
 
     echo "Transcribing..."
-    
+
     # Transcribe with whisper.cpp
     # Run whisper and capture both stdout and stderr
     WHISPER_OUTPUT=$(mktemp /tmp/whisper-output-XXXXXX.txt)
@@ -199,7 +225,13 @@ in
     enable = mkEnableOption "whisper-based dictation";
 
     model = mkOption {
-      type = types.enum [ "tiny" "base" "small" "medium" "large" ];
+      type = types.enum [
+        "tiny"
+        "base"
+        "small"
+        "medium"
+        "large"
+      ];
       default = "base";
       description = "Whisper model to use for transcription";
     };
@@ -224,12 +256,12 @@ in
       dictate
       dictate-download-model
       dictate-hotkey
-      cfg.whisperPackage  # Configurable whisper package
-      pkgs.sox            # For audio recording
-      pkgs.wl-clipboard   # For Wayland clipboard
-      pkgs.pamixer        # For volume control
-      pkgs.foot           # Terminal for dictation hotkey
-      pkgs.wtype          # For simulating keypresses (Wayland)
+      cfg.whisperPackage # Configurable whisper package
+      pkgs.sox # For audio recording
+      pkgs.wl-clipboard # For Wayland clipboard
+      pkgs.pamixer # For volume control
+      pkgs.foot # Terminal for dictation hotkey
+      pkgs.wtype # For simulating keypresses (Wayland)
     ];
   };
 }
