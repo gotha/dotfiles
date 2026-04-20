@@ -8,45 +8,60 @@ let
   pluginsDir = ./plugins;
   pluginFiles = builtins.readDir pluginsDir;
 
-  # MPD plugin needs mpc path substituted
-  mpdPlugin = pkgs.replaceVars ./plugins/mpd.sh {
-    mpc = pkgs.mpc;
+  # Plugins that require path substitution (mpc path)
+  # Maps plugin filename to substitution variables
+  pluginsWithSubstitution = {
+    "now_playing_helper.sh" = {
+      mpc = pkgs.mpc;
+    };
   };
 
-  makePluginConfig =
-    name: type:
-    if type == "regular" then
-      # Skip mpd.sh as we handle it separately with substitution
-      if name == "mpd.sh" then
-        { }
-      else
-        {
-          "sketchybar/plugins/${name}" = {
-            source = pluginsDir + "/${name}";
-            executable = true;
-          };
-        }
-    else
-      { };
+  # Generate config for plugins with substitutions
+  substitutedPluginConfigs = lib.mapAttrs' (
+    name: vars:
+    lib.nameValuePair "sketchybar/plugins/${name}" {
+      source = pkgs.replaceVars (pluginsDir + "/${name}") vars;
+      executable = true;
+    }
+  ) pluginsWithSubstitution;
+
+  # Generate config for regular plugins (no substitution needed)
+  # Excludes plugins that have substitutions
+  regularPluginConfigs = builtins.listToAttrs (
+    builtins.filter (x: x != null) (
+      lib.mapAttrsToList (
+        name: type:
+        if type == "regular" && !builtins.hasAttr name pluginsWithSubstitution then
+          {
+            name = "sketchybar/plugins/${name}";
+            value = {
+              source = pluginsDir + "/${name}";
+              executable = true;
+            };
+          }
+        else
+          null
+      ) pluginFiles
+    )
+  );
+
+  # Static config files
+  staticConfigs = {
+    "sketchybar/sketchybarrc" = {
+      source = ./sketchybarrc.sh;
+      executable = true;
+    };
+    "sketchybar/colors.sh" = {
+      source = ./colors.sh;
+      executable = true;
+    };
+  };
 in
 {
-
   xdg.configFile = lib.mkMerge [
-    (lib.mkMerge (lib.mapAttrsToList makePluginConfig pluginFiles))
-    {
-      "sketchybar/sketchybarrc" = {
-        source = ./sketchybarrc.sh;
-        executable = true;
-      };
-      "sketchybar/colors.sh" = {
-        source = ./colors.sh;
-        executable = true;
-      };
-      "sketchybar/plugins/mpd.sh" = {
-        source = mpdPlugin;
-        executable = true;
-      };
-    }
+    substitutedPluginConfigs
+    regularPluginConfigs
+    staticConfigs
   ];
 
   launchd.agents.sketchybar = {
@@ -62,5 +77,4 @@ in
       };
     };
   };
-
 }

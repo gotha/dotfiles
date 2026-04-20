@@ -109,8 +109,8 @@ sketchybar --add item front_app left \
 sketchybar --add item now_playing left \
            --set now_playing label="" \
                              update_freq=3 \
-                             script="$PLUGIN_DIR/mpd.sh" \
-                             click_script="mpc toggle"
+                             script="$PLUGIN_DIR/now_playing.sh" \
+                             click_script="$PLUGIN_DIR/now_playing_click.sh"
 
 # ---------------- RIGHT ITEMS ----------------
 
