@@ -47,6 +47,8 @@ in
             ../../home-manager
             ../../home-manager/aerospace
             ../../home-manager/alacritty
+            ../../home-manager/claude-code
+            ../../home-manager/codex
             ../../home-manager/git
             ../../home-manager/karabiner
             ../../home-manager/kitty

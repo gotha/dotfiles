@@ -44,6 +44,8 @@ in
         users.${cfg.username}.imports = [
           ../../home-manager
           ../../home-manager/beets
+          ../../home-manager/claude-code
+          ../../home-manager/codex
           ../../home-manager/kitty
           ../../home-manager/firefox
           ../../home-manager/git

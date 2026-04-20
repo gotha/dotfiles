@@ -162,3 +162,6 @@ alias ask="chatgpt"
 # Auggie CLI with MCP config
 alias auggie="auggie --mcp-config ~/.config/mcp/mcp.json --continue"  # Resume last session
 alias auggie-new="auggie --mcp-config ~/.config/mcp/mcp.json"         # Start fresh session
+
+# Claude Code CLI with MCP config (shared with Cursor/Auggie)
+alias claude="claude --mcp-config ~/.config/mcp/mcp.json"
