@@ -49,6 +49,7 @@ in
             ../../home-manager/alacritty
             ../../home-manager/claude-code
             ../../home-manager/codex
+            ../../home-manager/crush
             ../../home-manager/git
             ../../home-manager/karabiner
             ../../home-manager/kitty

@@ -46,6 +46,7 @@ in
           ../../home-manager/beets
           ../../home-manager/claude-code
           ../../home-manager/codex
+          ../../home-manager/crush
           ../../home-manager/kitty
           ../../home-manager/firefox
           ../../home-manager/git
