@@ -161,6 +161,13 @@ let
       };
     };
     mcp = mcpServers;
+    options = {
+      tui = {
+        # Start in compact layout (sidebar hidden). Toggle at runtime with
+        # Ctrl+P -> "Toggle Sidebar" (visible only when terminal >= 120 cols).
+        compact_mode = true;
+      };
+    };
   };
 in
 {
