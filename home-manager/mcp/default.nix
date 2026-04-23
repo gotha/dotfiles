@@ -6,6 +6,7 @@
 }:
 let
   mcp-server-github-wrapper = pkgs.callPackage ./mcp-server-github-wrapper.nix { inherit config; };
+  mcp-server-kubectl-wrapper = pkgs.callPackage ./mcp-server-kubectl-wrapper.nix { };
 
   cfg = config.programs.mcp;
 
@@ -17,7 +18,7 @@ let
     ++ (lib.optionals cfg.enableGcloud [ gcloud-mcp ])
     ++ (lib.optionals cfg.enableGit [ mcp-server-git ])
     ++ (lib.optionals cfg.enableGithub [ mcp-server-github-wrapper ])
-    ++ (lib.optionals cfg.enableKubectl [ kubectl-mcp-server ])
+    ++ (lib.optionals cfg.enableKubectl [ mcp-server-kubectl-wrapper ])
     ++ (lib.optionals cfg.enableMemory [ mcp-server-memory ])
     ++ (lib.optionals cfg.enablePlaywright [ mcp-server-playwright ])
     ++ (lib.optionals cfg.enableSequentialThinking [ mcp-server-sequential-thinking ]);
@@ -66,7 +67,7 @@ let
     })
     // (lib.optionalAttrs cfg.enableKubectl {
       kubectl = {
-        command = "${pkgs.kubectl-mcp-server}/bin/kubectl-mcp-server";
+        command = "${mcp-server-kubectl-wrapper}/bin/mcp-server-kubectl-wrapper";
         description = "kubectl for managing and debugging Kubernetes clusters";
       };
     })

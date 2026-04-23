@@ -15,6 +15,7 @@ let
   mcp-server-github-wrapper = pkgs.callPackage ../mcp/mcp-server-github-wrapper.nix {
     inherit config;
   };
+  mcp-server-kubectl-wrapper = pkgs.callPackage ../mcp/mcp-server-kubectl-wrapper.nix { };
 
   cfg = config.programs.mcp;
 
@@ -60,7 +61,7 @@ let
     // (lib.optionalAttrs cfg.enableKubectl {
       kubectl = {
         type = "stdio";
-        command = "${pkgs.kubectl-mcp-server}/bin/kubectl-mcp-server";
+        command = "${mcp-server-kubectl-wrapper}/bin/mcp-server-kubectl-wrapper";
       };
     })
     // (lib.optionalAttrs cfg.enableMemory {
