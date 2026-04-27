@@ -54,7 +54,7 @@ in
             ../../home-manager/karabiner
             ../../home-manager/kitty
             ../../home-manager/mcp
-            ../../home-manager/mpd
+            #../../home-manager/mpd
             ../../home-manager/npm
             ../../home-manager/nvim
             ../../home-manager/sketchybar
