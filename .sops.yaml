@@ -1,4 +1,12 @@
 creation_rules:
+  # Secrets consumed by the lucie NixOS system also need the host's age key
+  # (derived from /etc/ssh/ssh_host_ed25519_key) so sops-nix can decrypt at boot.
+  - path_regex: secrets/litellm[^/]*$
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+    pgp: >-
+      7EFF0CECB200083C60EA2AA2C8DDF8A8BDF70670
+    age: >-
+      age1p3u6unlxc4dexv0xnnczsrvxjhr4pxw48wrjmvchxvxs866uu93qt686ph
   - unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     pgp: >-
       7EFF0CECB200083C60EA2AA2C8DDF8A8BDF70670

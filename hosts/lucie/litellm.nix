@@ -1,5 +1,6 @@
 # LiteLLM - Unified LLM API proxy running in Docker
-# No authentication - access restricted by firewall to local networks only
+# Network access restricted by firewall to local networks only.
+# Admin UI auth uses a master key sourced from an encrypted sops secret.
 { config, pkgs, ... }:
 
 let
@@ -8,6 +9,14 @@ in
 {
   # Enable Docker
   virtualisation.docker.enable = true;
+
+  # Master key for LiteLLM admin UI / proxy auth, decrypted by sops-nix.
+  sops.secrets.litellm_master_key = {
+    sopsFile = ../../secrets/litellm.enc.json;
+    format = "json";
+    key = "master_key";
+    mode = "0400";
+  };
 
   # Create data directories
   # PostgreSQL in Alpine container runs as UID 70 (postgres user)
@@ -21,12 +30,30 @@ in
     model_list:
       - model_name: gemma4:31b
         litellm_params:
-          model: ollama/gemma4:31b
+          model: ollama/gemma4:26b
           api_base: http://host.docker.internal:11434
           timeout: 600
         model_info:
           input_cost_per_token: 0.0000025
           output_cost_per_token: 0.00001
+
+      - model_name: gemma4:26b
+        litellm_params:
+          model: ollama/gemma4:26b
+          api_base: http://host.docker.internal:11434
+          timeout: 600
+        model_info:
+          input_cost_per_token: 0.0000025
+          output_cost_per_token: 0.00001
+
+      - model_name: gemma3:4b
+        litellm_params:
+          model: ollama/gemma3:4b
+          api_base: http://host.docker.internal:11434
+          timeout: 600
+        model_info:
+          input_cost_per_token: 0.000001
+          output_cost_per_token: 0.000004
 
     general_settings:
       database_url: os.environ/DATABASE_URL
@@ -42,6 +69,7 @@ in
     after = [
       "docker.service"
       "network-online.target"
+      "sops-nix.service"
     ];
     requires = [ "docker.service" ];
     wantedBy = [ "multi-user.target" ];
@@ -80,12 +108,16 @@ in
       echo "Waiting for PostgreSQL to be ready..."
       sleep 10
 
+      # Read master key from sops-decrypted secret file
+      MASTER_KEY=$(cat ${config.sops.secrets.litellm_master_key.path})
+
       # Start LiteLLM
       exec ${pkgs.docker}/bin/docker run \
         --name litellm \
         --network litellm-net \
         --rm \
         -e DATABASE_URL=postgresql://litellm:litellm@litellm-postgres:5432/litellm \
+        -e LITELLM_MASTER_KEY="$MASTER_KEY" \
         -v /etc/litellm/config.yaml:/app/config.yaml:ro \
         -p ${toString litellmPort}:4000 \
         --add-host=host.docker.internal:host-gateway \
