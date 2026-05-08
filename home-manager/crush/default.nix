@@ -24,38 +24,16 @@ let
   # - http/sse: `url` + optional `headers`
   mcpServers =
     { }
-    // (lib.optionalAttrs cfg.enableAtlassian {
-      atlassian = {
-        type = "stdio";
-        command = "${pkgs.mcp-atlassian}/bin/mcp-atlassian";
-        args = [
-          "--env-file"
-          "${config.home.homeDirectory}/.env"
-        ];
-      };
-    })
     // (lib.optionalAttrs cfg.enableContext7 {
       "context-7" = {
         type = "stdio";
         command = "${pkgs.context7-mcp}/bin/context7-mcp";
       };
     })
-    // (lib.optionalAttrs cfg.enableGcloud {
-      gcloud = {
-        type = "stdio";
-        command = "${pkgs.gcloud-mcp}/bin/gcloud-mcp";
-      };
-    })
     // (lib.optionalAttrs cfg.enableGit {
       git = {
         type = "stdio";
         command = "${pkgs.mcp-server-git}/bin/mcp-server-git";
-      };
-    })
-    // (lib.optionalAttrs cfg.enableGithub {
-      github = {
-        type = "stdio";
-        command = "${mcp-server-github-wrapper}/bin/mcp-server-github-wrapper";
       };
     })
     // (lib.optionalAttrs cfg.enableKubectl {
@@ -70,28 +48,10 @@ let
         command = "${pkgs.mcp-server-memory}/bin/mcp-server-memory";
       };
     })
-    // (lib.optionalAttrs cfg.enablePlaywright {
-      playwright = {
-        type = "stdio";
-        command = "${pkgs.mcp-server-playwright}/bin/mcp-server-playwright";
-      };
-    })
     // (lib.optionalAttrs cfg.enableSequentialThinking {
       "sequential-thinking" = {
         type = "stdio";
         command = "${pkgs.mcp-server-sequential-thinking}/bin/mcp-server-sequential-thinking";
-      };
-    })
-    // (lib.optionalAttrs cfg.enableGrafana {
-      Grafana = {
-        type = "sse";
-        url = "https://grafana-mcp-internal.qa-prometheus.qa.redislabs.com/sse";
-      };
-    })
-    // (lib.optionalAttrs cfg.enableTempo {
-      "tempo-mcp" = {
-        type = "http";
-        url = "https://tempo-query-internal.qa-prometheus-extras.qa.redislabs.com/api/mcp";
       };
     });
 
@@ -121,16 +81,31 @@ let
     }
   ];
 
+  localModels = [
+    {
+      id = "qwen3:4b-thinking";
+      name = "qwen3:4b-thinking (ollama @local)";
+      context_window = 65536;
+      default_max_tokens = 4096;
+    }
+    {
+      id = "gemma4:e4b";
+      name = "gemma4:e4b (ollama @local)";
+      context_window = 65536;
+      default_max_tokens = 4096;
+    }
+  ];
+
   # Self-hosted Ollama instance. Uses Ollama's OpenAI-compatible endpoint
   # so we declare provider type "openai" with a custom base_url.
   # context_window is set to 65536 which requires Ollama to run with
   # `num_ctx >= 65536`. On lucie KV cache is quantized to q8_0 and flash
   # attention is enabled (see hosts/lucie/default.nix), so a 64k cache
   # fits fully on the RTX 5090's 32 GB VRAM alongside the model weights.
-  ollamaModels = [
+  lucieModels = [
     {
       id = "gemma4:31b";
-      name = "Gemma 4 31B (Ollama @ lucie)";
+      name = "Gemma 4 31B (ollama @lucie)";
       context_window = 65536;
       default_max_tokens = 4096;
     }
@@ -144,11 +119,17 @@ let
         api_key = "$OPENAI_API_KEY";
         models = openaiModels;
       };
-      ollama = {
+      lucie = {
         type = "openai";
         base_url = "http://10.100.0.100:11434/v1";
         api_key = "ollama";
-        models = ollamaModels;
+        models = lucieModels;
+      };
+      local = {
+        type = "openai";
+        base_url = "http://127.0.0.1:11434/v1";
+        api_key = "ollama";
+        models = localModels;
       };
     };
     models = {
