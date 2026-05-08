@@ -1,12 +1,8 @@
 {
-  config,
   lib,
   pkgs,
   ...
 }:
-let
-  mpc = "${pkgs.mpc}/bin/mpc";
-in
 {
   config = lib.mkIf pkgs.stdenv.isDarwin {
     home.packages = [ pkgs.karabiner-elements ];
@@ -19,59 +15,6 @@ in
           selected = true;
           complex_modifications = {
             rules = [
-              # MPD Media Key Controls (using F7/F8/F9 function keys)
-              # Press physical Control + F7/F8/F9 (since Fn/Control are swapped)
-              {
-                description = "F8 controls MPD play/pause";
-                manipulators = [
-                  {
-                    type = "basic";
-                    from = {
-                      key_code = "f8";
-                      modifiers = {
-                        optional = [ "any" ];
-                      };
-                    };
-                    to = [
-                      { shell_command = "/bin/sh -c '${mpc} toggle'"; }
-                    ];
-                  }
-                ];
-              }
-              {
-                description = "F9 controls MPD next track";
-                manipulators = [
-                  {
-                    type = "basic";
-                    from = {
-                      key_code = "f9";
-                      modifiers = {
-                        optional = [ "any" ];
-                      };
-                    };
-                    to = [
-                      { shell_command = "/bin/sh -c '${mpc} next'"; }
-                    ];
-                  }
-                ];
-              }
-              {
-                description = "F7 controls MPD previous track";
-                manipulators = [
-                  {
-                    type = "basic";
-                    from = {
-                      key_code = "f7";
-                      modifiers = {
-                        optional = [ "any" ];
-                      };
-                    };
-                    to = [
-                      { shell_command = "/bin/sh -c '${mpc} prev'"; }
-                    ];
-                  }
-                ];
-              }
               # Disable cmd+h (hide window)
               {
                 description = "Disable cmd+h";
