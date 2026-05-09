@@ -57,6 +57,17 @@
           nixpkgs.overlays = [
             nix-vscode-extensions.overlays.default
             gotha.overlays.default
+            # crush 0.65.3 has tests that create /tmp/crush-test directly.
+            # That path is not writable in Darwin's Nix build sandbox, so the
+            # checkPhase fails before the Home Manager generation can build.
+            (_final: prev: {
+              crush = prev.crush.overrideAttrs (
+                _old:
+                prev.lib.optionalAttrs prev.stdenv.isDarwin {
+                  doCheck = false;
+                }
+              );
+            })
           ];
           _module.args.stablePkgs = import nixpkgs-stable {
             system = pkgs.system;
@@ -92,6 +103,47 @@
         ];
       };
       wireguard = import ./config/wireguard.nix;
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+      linterChecks = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          deadnix = pkgs.runCommand "deadnix-check" { nativeBuildInputs = [ pkgs.deadnix ]; } ''
+            cd ${self}
+            deadnix --fail .
+            touch $out
+          '';
+
+          statix = pkgs.runCommand "statix-check" { nativeBuildInputs = [ pkgs.statix ]; } ''
+            cd ${self}
+            statix check .
+            touch $out
+          '';
+
+          nixfmt =
+            pkgs.runCommand "nixfmt-check"
+              {
+                nativeBuildInputs = [
+                  pkgs.fd
+                  pkgs.nixfmt
+                ];
+              }
+              ''
+                cd ${self}
+                fd -e nix -X nixfmt --check {}
+                touch $out
+              '';
+        }
+      );
+      deployChecks = builtins.mapAttrs (
+        _system: deployLib: deployLib.deployChecks self.deploy
+      ) deploy-rs.lib;
     in
     {
 
@@ -258,6 +310,6 @@
       };
 
       # This is highly advised, and will prevent many possible mistakes
-      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+      checks = nixpkgs.lib.recursiveUpdate deployChecks linterChecks;
     };
 }

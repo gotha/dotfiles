@@ -1,7 +1,6 @@
 {
   config,
   wireguard,
-  pkgs,
   username,
   ...
 }:

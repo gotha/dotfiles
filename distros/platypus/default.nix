@@ -1,6 +1,4 @@
 {
-  config,
-  lib,
   pkgs,
   sops-nix,
   stablePkgs,

@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ username, ... }:
 let
   wireguard = import ../../config/wireguard.nix;
 in

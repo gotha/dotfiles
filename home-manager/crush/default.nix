@@ -12,9 +12,6 @@
   ...
 }:
 let
-  mcp-server-github-wrapper = pkgs.callPackage ../mcp/mcp-server-github-wrapper.nix {
-    inherit config;
-  };
   mcp-server-kubectl-wrapper = pkgs.callPackage ../mcp/mcp-server-kubectl-wrapper.nix { };
 
   cfg = config.programs.mcp;
