@@ -8,7 +8,7 @@ in
   # Most configuration is handled by the platypus distro
 
   _module.args = {
-    wireguard = wireguard;
+    inherit wireguard;
   };
 
   imports = [

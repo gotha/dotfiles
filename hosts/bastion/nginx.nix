@@ -1,4 +1,4 @@
-{ ... }:
+_:
 
 {
   # Configure nginx reverse proxy
@@ -8,111 +8,113 @@
     recommendedOptimisation = true;
     recommendedGzipSettings = true;
 
-    # Mail server - just for ACME certificate generation
-    virtualHosts."mail.hgeorgiev.com" = {
-      forceSSL = true;
-      enableACME = true;
-      locations."/" = {
-        return = "200 'Mail server - use IMAP/SMTP clients'";
-        extraConfig = ''
-          add_header Content-Type text/plain;
-        '';
+    virtualHosts = {
+      # Mail server - just for ACME certificate generation
+      "mail.hgeorgiev.com" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          return = "200 'Mail server - use IMAP/SMTP clients'";
+          extraConfig = ''
+            add_header Content-Type text/plain;
+          '';
+        };
       };
-    };
 
-    # Roundcube webmail - SSL configuration
-    # The Roundcube module creates the virtual host, we just add SSL
-    virtualHosts."webmail.hgeorgiev.com" = {
-      forceSSL = true;
-      enableACME = true;
-    };
-
-    virtualHosts."nextcloud.hgeorgiev.com" = {
-      forceSSL = true;
-      enableACME = true;
-
-      locations."/" = {
-        proxyPass = "http://10.100.0.100";
-        extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_set_header X-Forwarded-Host $host;
-          proxy_set_header X-Forwarded-Port $server_port;
-
-          client_max_body_size 10G;
-          proxy_buffering off;
-        '';
+      # Roundcube webmail - SSL configuration
+      # The Roundcube module creates the virtual host, we just add SSL
+      "webmail.hgeorgiev.com" = {
+        forceSSL = true;
+        enableACME = true;
       };
-    };
 
-    virtualHosts."dissona.hgeorgiev.com" = {
-      forceSSL = true;
-      enableACME = true;
+      "nextcloud.hgeorgiev.com" = {
+        forceSSL = true;
+        enableACME = true;
 
-      locations."/" = {
-        proxyPass = "http://10.100.0.100:7679";
-        extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto https;
-          proxy_set_header X-Forwarded-Host $host;
-          proxy_set_header X-Forwarded-Port 443;
+        locations."/" = {
+          proxyPass = "http://10.100.0.100";
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Port $server_port;
 
-          # WebSocket support
-          proxy_http_version 1.1;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection "upgrade";
-
-          # Allow large file uploads
-          client_max_body_size 1000M;
-
-          # Enable byte-range requests for media streaming
-          proxy_set_header Range $http_range;
-          proxy_set_header If-Range $http_if_range;
-          proxy_force_ranges on;
-
-          # Disable buffering for streaming
-          proxy_buffering off;
-        '';
+            client_max_body_size 10G;
+            proxy_buffering off;
+          '';
+        };
       };
-    };
 
-    virtualHosts."chalgarr.hgeorgiev.com" = {
-      forceSSL = true;
-      enableACME = true;
+      "dissona.hgeorgiev.com" = {
+        forceSSL = true;
+        enableACME = true;
 
-      locations."/" = {
-        proxyPass = "https://10.100.0.100:11443";
-        extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto https;
-          proxy_set_header X-Forwarded-Host $host;
-          proxy_set_header X-Forwarded-Port 443;
+        locations."/" = {
+          proxyPass = "http://10.100.0.100:7679";
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto https;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Port 443;
 
-          # WebSocket support
-          proxy_http_version 1.1;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection "upgrade";
+            # WebSocket support
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
 
-          # Allow large file uploads
-          client_max_body_size 1000M;
+            # Allow large file uploads
+            client_max_body_size 1000M;
 
-          # Enable byte-range requests for media streaming
-          proxy_set_header Range $http_range;
-          proxy_set_header If-Range $http_if_range;
-          proxy_force_ranges on;
+            # Enable byte-range requests for media streaming
+            proxy_set_header Range $http_range;
+            proxy_set_header If-Range $http_if_range;
+            proxy_force_ranges on;
 
-          # Disable buffering for streaming
-          proxy_buffering off;
+            # Disable buffering for streaming
+            proxy_buffering off;
+          '';
+        };
+      };
 
-          # SSL backend settings
-          proxy_ssl_verify off;
-        '';
+      "chalgarr.hgeorgiev.com" = {
+        forceSSL = true;
+        enableACME = true;
+
+        locations."/" = {
+          proxyPass = "https://10.100.0.100:11443";
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto https;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Port 443;
+
+            # WebSocket support
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+
+            # Allow large file uploads
+            client_max_body_size 1000M;
+
+            # Enable byte-range requests for media streaming
+            proxy_set_header Range $http_range;
+            proxy_set_header If-Range $http_if_range;
+            proxy_force_ranges on;
+
+            # Disable buffering for streaming
+            proxy_buffering off;
+
+            # SSL backend settings
+            proxy_ssl_verify off;
+          '';
+        };
       };
     };
   };

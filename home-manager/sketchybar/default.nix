@@ -12,7 +12,7 @@ let
   # Maps plugin filename to substitution variables
   pluginsWithSubstitution = {
     "now_playing_helper.sh" = {
-      mpc = pkgs.mpc;
+      inherit (pkgs) mpc;
     };
   };
 

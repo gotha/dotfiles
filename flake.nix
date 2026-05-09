@@ -70,7 +70,7 @@
             })
           ];
           _module.args.stablePkgs = import nixpkgs-stable {
-            system = pkgs.system;
+            inherit (pkgs) system;
             config.allowUnfree = true;
           };
         };
@@ -94,12 +94,9 @@
           nix-index-database.darwinModules.nix-index
           home-manager.darwinModules.home-manager
           sops-nix.darwinModules.sops
-          (
-            { ... }:
-            {
-              nix.enable = false;
-            }
-          )
+          (_: {
+            nix.enable = false;
+          })
         ];
       };
       wireguard = import ./config/wireguard.nix;

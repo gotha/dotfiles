@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 let
   wireguard = import ../../config/wireguard.nix;
-  bastion = wireguard.bastion;
+  inherit (wireguard) bastion;
   peers = builtins.map (peer: {
-    publicKey = peer.publicKey;
+    inherit (peer) publicKey;
     allowedIPs = [ "${peer.privateIP}/32" ];
   }) wireguard.peers;
 in
@@ -35,7 +35,7 @@ in
   };
 
   networking = {
-    hostName = bastion.hostName;
+    inherit (bastion) hostName;
     nat = {
       enable = true;
       externalInterface = "ens3";
@@ -70,7 +70,7 @@ in
 
           privateKeyFile = config.sops.secrets.bastion_private_key.path;
 
-          peers = peers;
+          inherit peers;
         };
       };
     };

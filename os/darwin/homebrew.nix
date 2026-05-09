@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   environment.systemPath = [ "/opt/homebrew/bin" ];
 
   homebrew = {

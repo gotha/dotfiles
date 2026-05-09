@@ -14,7 +14,7 @@ let
     nixd
     sops
   ];
-  systemPackages = import ../../config/packages.nix { pkgs = pkgs; };
+  systemPackages = import ../../config/packages.nix { inherit pkgs; };
 in
 {
 
@@ -24,7 +24,7 @@ in
   ];
 
   _module.args = {
-    username = cfg.username;
+    inherit (cfg) username;
     userPackages = minimalUserPackages;
   };
 
@@ -59,7 +59,7 @@ in
       bash
       zsh
     ];
-    systemPackages = systemPackages;
+    inherit systemPackages;
   };
 
   programs = {

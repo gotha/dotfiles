@@ -19,7 +19,7 @@ in
   ];
 
   _module.args = {
-    username = cfg.username;
+    inherit (cfg) username;
     userPackages = userPackages ++ linuxUserPackages;
   };
 
@@ -75,7 +75,7 @@ in
       bash
       zsh
     ];
-    systemPackages = systemPackages;
+    inherit systemPackages;
   };
 
   programs = {
@@ -220,20 +220,22 @@ in
     };
   };
 
-  # Create transmission download directories
-  systemd.tmpfiles.rules = [
-    "d /home/${cfg.username}/Downloads 0755 ${cfg.username} users -"
-    "d /home/${cfg.username}/Downloads/.incomplete 0755 ${cfg.username} users -"
-  ];
+  systemd = {
+    # Create transmission download directories
+    tmpfiles.rules = [
+      "d /home/${cfg.username}/Downloads 0755 ${cfg.username} users -"
+      "d /home/${cfg.username}/Downloads/.incomplete 0755 ${cfg.username} users -"
+    ];
 
-  # Set XDG_RUNTIME_DIR for MPD to connect to PipeWire
-  systemd.services.mpd.environment = {
-    XDG_RUNTIME_DIR = "/run/user/1000";
+    # Set XDG_RUNTIME_DIR for MPD to connect to PipeWire
+    services.mpd.environment = {
+      XDG_RUNTIME_DIR = "/run/user/1000";
+    };
+
+    # Enable lingering for the ${cfg.username} user so the service starts at boot
+    # even when the user is not logged in
+    user.services."user@${cfg.username}".enable = true;
   };
-
-  # Enable lingering for the ${cfg.username} user so the service starts at boot
-  # even when the user is not logged in
-  systemd.user.services."user@${cfg.username}".enable = true;
 
   xdg.portal.enable = true;
 

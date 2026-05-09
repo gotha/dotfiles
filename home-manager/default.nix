@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   #home-manager = {
   #  useGlobalPkgs = true;
   #  useUserPackages = true;

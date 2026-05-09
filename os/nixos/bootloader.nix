@@ -1,5 +1,6 @@
-{ ... }:
-{
-  boot.loader.systemd-boot.configurationLimit = 10;
-  boot.loader.grub.configurationLimit = 10;
+_: {
+  boot.loader = {
+    systemd-boot.configurationLimit = 10;
+    grub.configurationLimit = 10;
+  };
 }

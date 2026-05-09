@@ -11,7 +11,7 @@ in
 {
 
   _module.args = {
-    wireguard = wireguard;
+    inherit wireguard;
   };
 
   imports = [
@@ -24,29 +24,31 @@ in
     ../../os/linux/efi.nix
   ];
 
-  networking.hostName = "lucie";
+  networking = {
+    hostName = "lucie";
+
+    networkmanager.enable = true; # Easiest to use and most distros use this by default.
+
+    # Configure firewall for Twingate and WireGuard
+    firewall = {
+      # Twingate creates its own network interface and needs to bypass some firewall checks
+      checkReversePath = "loose";
+      # Allow Twingate to communicate (it uses dynamic ports)
+      # Allow WireGuard peers to access all ports
+      trustedInterfaces = [
+        "tun-twingate"
+        "wg0"
+      ];
+      # Allow WireGuard port from public internet
+      allowedUDPPorts = [ 51820 ];
+    };
+  };
 
   # Enable dictation with CUDA-accelerated whisper (NVIDIA GPU)
   services.dictation = {
     enable = true;
     model = "small";
     whisperPackage = stablePkgs.whisper-cpp.override { cudaSupport = true; };
-  };
-
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-
-  # Configure firewall for Twingate and WireGuard
-  networking.firewall = {
-    # Twingate creates its own network interface and needs to bypass some firewall checks
-    checkReversePath = "loose";
-    # Allow Twingate to communicate (it uses dynamic ports)
-    # Allow WireGuard peers to access all ports
-    trustedInterfaces = [
-      "tun-twingate"
-      "wg0"
-    ];
-    # Allow WireGuard port from public internet
-    allowedUDPPorts = [ 51820 ];
   };
 
   users.users.${username}.packages = with pkgs; [
@@ -92,7 +94,7 @@ in
       openFirewall = true;
     };
 
-    mpd.musicDirectory = lib.mkForce "/mnt/storage/Music";
+    mpd.settings.music_directory = lib.mkForce "/mnt/storage/Music";
 
     ollama = {
       enable = true;

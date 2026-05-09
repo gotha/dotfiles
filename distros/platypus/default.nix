@@ -18,8 +18,8 @@ in
   ];
 
   _module.args = {
-    username = cfg.username;
-    systemPackages = systemPackages;
+    inherit (cfg) username;
+    inherit systemPackages;
   };
 
   imports = [
@@ -64,9 +64,13 @@ in
             ../../home-manager/tmux
             ../../home-manager/zsh
           ];
-          programs.alacritty.custom.fontSize = 11.0;
-          programs.kitty.custom.fontSize = 11.0;
-          programs.kitty.custom.fontFamily = "Iosevka Nerd Font";
+          programs = {
+            alacritty.custom.fontSize = 11.0;
+            kitty.custom = {
+              fontSize = 11.0;
+              fontFamily = "Iosevka Nerd Font";
+            };
+          };
         };
       };
 

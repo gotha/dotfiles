@@ -19,29 +19,31 @@
     # Use the default GPG home directory
     gnupg.home = "${config.home.homeDirectory}/.gnupg";
 
-    secrets.".env" = {
-      sopsFile = ../../secrets/.env.enc;
-      format = "dotenv";
-      path = "${config.home.homeDirectory}/.env";
-      mode = "0600";
-    };
+    secrets = {
+      ".env" = {
+        sopsFile = ../../secrets/.env.enc;
+        format = "dotenv";
+        path = "${config.home.homeDirectory}/.env";
+        mode = "0600";
+      };
 
-    secrets."mcp_server_github_pac" = {
-      sopsFile = ../../secrets/github.env.enc;
-      format = "dotenv";
-      key = "GITHUB_PERSONAL_ACCESS_TOKEN_MCP_SERVER";
-    };
+      "mcp_server_github_pac" = {
+        sopsFile = ../../secrets/github.env.enc;
+        format = "dotenv";
+        key = "GITHUB_PERSONAL_ACCESS_TOKEN_MCP_SERVER";
+      };
 
-    secrets."nextcloud_username" = {
-      sopsFile = ../../secrets/nextcloud-credentials-lucie-sync.enc.json;
-      format = "json";
-      key = "username";
-    };
+      "nextcloud_username" = {
+        sopsFile = ../../secrets/nextcloud-credentials-lucie-sync.enc.json;
+        format = "json";
+        key = "username";
+      };
 
-    secrets."nextcloud_password" = {
-      sopsFile = ../../secrets/nextcloud-credentials-lucie-sync.enc.json;
-      format = "json";
-      key = "password";
+      "nextcloud_password" = {
+        sopsFile = ../../secrets/nextcloud-credentials-lucie-sync.enc.json;
+        format = "json";
+        key = "password";
+      };
     };
   };
 

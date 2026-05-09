@@ -23,17 +23,24 @@ in
   config = {
     # @todo -  add dependency on rofi and waybar modules
     # without adding them as packages here
-    home.packages = with pkgs; [
-      brightnessctl
-      grim # screenshots
-      pulseaudio # pactl comes from pulseaudio
-      sway
-      swaylock
-      swayidle
-      slurp # select region in a waylad compositor and print it to stdout
-      wl-clipboard
-      wob
-    ];
+    home = {
+      packages = with pkgs; [
+        brightnessctl
+        grim # screenshots
+        pulseaudio # pactl comes from pulseaudio
+        sway
+        swaylock
+        swayidle
+        slurp # select region in a waylad compositor and print it to stdout
+        wl-clipboard
+        wob
+      ];
+
+      file = {
+        ".xkb/symbols/keychron-k6".source = ./.xkb/symbols/keychron-k6;
+        ".xkb/symbols/ducky-one-2sf".source = ./.xkb/symbols/ducky-one-2sf;
+      };
+    };
 
     xdg.configFile."sway/config".text =
       let
@@ -42,8 +49,5 @@ in
         terminal = config.programs.sway.custom.terminal;
       in
       builtins.replaceStrings [ "{{WALLPAPER}}" "{{TERMINAL}}" ] [ wallpaperImage terminal ] baseConfig;
-
-    home.file.".xkb/symbols/keychron-k6".source = ./.xkb/symbols/keychron-k6;
-    home.file.".xkb/symbols/ducky-one-2sf".source = ./.xkb/symbols/ducky-one-2sf;
   };
 }
