@@ -234,6 +234,7 @@
       apps.x86_64-linux = {
         deploy-devbox-qemu = {
           type = "app";
+          meta.description = "Deploy the devbox QEMU NixOS configuration";
           program = toString (
             nixpkgs.legacyPackages.x86_64-linux.writeScript "deploy-devbox-qemu" ''
               #!/usr/bin/env bash
@@ -243,6 +244,7 @@
         };
         fmt = {
           type = "app";
+          meta.description = "Format all Nix files with nixfmt";
           program = toString (
             nixpkgs.legacyPackages.x86_64-linux.writeShellScript "nixfmt-all" ''
               ${nixpkgs.legacyPackages.x86_64-linux.fd}/bin/fd -e nix -X ${nixpkgs.legacyPackages.x86_64-linux.nixfmt}/bin/nixfmt {}
@@ -251,6 +253,7 @@
         };
         fmt-check = {
           type = "app";
+          meta.description = "Check Nix formatting with nixfmt";
           program = toString (
             nixpkgs.legacyPackages.x86_64-linux.writeShellScript "nixfmt-check" ''
               ${nixpkgs.legacyPackages.x86_64-linux.fd}/bin/fd -e nix -X ${nixpkgs.legacyPackages.x86_64-linux.nixfmt}/bin/nixfmt --check {}
@@ -262,6 +265,7 @@
       apps.aarch64-darwin = {
         fmt = {
           type = "app";
+          meta.description = "Format all Nix files with nixfmt";
           program = toString (
             nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "nixfmt-all" ''
               ${nixpkgs.legacyPackages.aarch64-darwin.fd}/bin/fd -e nix -X ${nixpkgs.legacyPackages.aarch64-darwin.nixfmt}/bin/nixfmt {}
@@ -270,6 +274,7 @@
         };
         fmt-check = {
           type = "app";
+          meta.description = "Check Nix formatting with nixfmt";
           program = toString (
             nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "nixfmt-check" ''
               ${nixpkgs.legacyPackages.aarch64-darwin.fd}/bin/fd -e nix -X ${nixpkgs.legacyPackages.aarch64-darwin.nixfmt}/bin/nixfmt --check {}
