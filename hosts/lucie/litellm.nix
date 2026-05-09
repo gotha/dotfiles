@@ -72,6 +72,7 @@ in
       "sops-nix.service"
     ];
     requires = [ "docker.service" ];
+    wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
