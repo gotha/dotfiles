@@ -223,25 +223,31 @@ in
     dovecot2 = {
       enable = true;
       createMailUser = false;
+      package = pkgs.dovecot;
       settings = {
+        dovecot_config_version = "2.4.3";
+        dovecot_storage_version = "2.4.3";
+
         protocols = [
           "imap"
           "lmtp"
         ];
 
-        mail_location = "maildir:/var/vmail/%d/%n/Maildir";
+        mail_driver = "maildir";
+        mail_home = "/var/vmail/%{user | domain}/%{user | username}";
+        mail_path = "~/Maildir";
 
         ssl = "required";
-        ssl_cert = "<${certDir}/fullchain.pem";
-        ssl_key = "<${certDir}/key.pem";
+        ssl_server_cert_file = "${certDir}/fullchain.pem";
+        ssl_server_key_file = "${certDir}/key.pem";
         ssl_min_protocol = "TLSv1.2";
-        ssl_prefer_server_ciphers = true;
+        ssl_server_prefer_ciphers = "server";
 
         auth_mechanisms = [
           "plain"
           "login"
         ];
-        disable_plaintext_auth = true;
+        auth_allow_cleartext = false;
 
         mail_privileged_group = "vmail";
         mail_uid = "vmail";
@@ -288,22 +294,20 @@ in
           group = "postfix";
         };
 
-        passdb = {
-          driver = "passwd-file";
-          args = "scheme=SHA512-CRYPT /etc/dovecot/users";
+        "passdb passwd-file" = {
+          passwd_file_path = "/etc/dovecot/users";
         };
 
-        userdb = {
-          driver = "static";
-          args = "uid=5000 gid=5000 home=/var/vmail/%d/%n";
+        "userdb static".fields = {
+          uid = "vmail";
+          gid = "vmail";
+          home = "/var/vmail/%{user | domain}/%{user | username}";
         };
 
         log_path = "syslog";
         syslog_facility = "mail";
         auth_verbose = true;
         auth_verbose_passwords = false;
-        auth_debug = false;
-        mail_debug = false;
       };
     };
   };
