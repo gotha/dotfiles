@@ -56,7 +56,7 @@ in
           ../../home-manager/mcp
           ../../home-manager/mpd
           ../../home-manager/nextcloud-sync
-          ../../home-manager/npm
+          ../../home-manager/nodejs
           ../../home-manager/nvim
           ../../home-manager/opencode
           ../../home-manager/rofi

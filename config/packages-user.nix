@@ -15,7 +15,6 @@ in
   clang-tools
   cloc
   direnv
-  eslint
   gcloud
   gh
   git-lfs
@@ -36,8 +35,6 @@ in
   nixd
   nixfmt
   nix-search-cli
-  nodejs
-  prettier
   pyright
   python314
   ripgrep
@@ -50,8 +47,6 @@ in
   stylua
   tmux
   tree
-  typescript
-  typescript-language-server
   unzip
   uv
   vale

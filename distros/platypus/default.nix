@@ -55,7 +55,7 @@ in
             ../../home-manager/kitty
             ../../home-manager/mcp
             #../../home-manager/mpd
-            ../../home-manager/npm
+            ../../home-manager/nodejs
             ../../home-manager/nvim
             ../../home-manager/sketchybar
             ../../home-manager/sops
