@@ -17,18 +17,14 @@ in
   direnv
   gcloud
   gh
-  git-lfs
   go
   gofumpt
   gopls
   gnumake
-  gnupg
   kubectl
-  lazygit
   less
   lua
   ncdu
-  neovim
   nixd
   nixfmt
   nix-search-cli
@@ -37,12 +33,10 @@ in
   ripgrep
   ruff
   shfmt
-  sops
   llm-agents.spec-kit
   llm-agents.skills
   stow
   stylua
-  tmux
   tree
   unzip
   uv
