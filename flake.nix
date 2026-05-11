@@ -34,6 +34,8 @@
     deploy-rs.url = "github:serokell/deploy-rs";
 
     gotha.url = "github:gotha/nixpkgs?ref=main";
+
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
   outputs =
     {
@@ -48,6 +50,7 @@
       sops-nix,
       gotha,
       deploy-rs,
+      llm-agents,
       ...
     }:
     let
@@ -57,6 +60,7 @@
           nixpkgs.overlays = [
             nix-vscode-extensions.overlays.default
             gotha.overlays.default
+            llm-agents.overlays.default
             # crush 0.65.3 has tests that create /tmp/crush-test directly.
             # That path is not writable in Darwin's Nix build sandbox, so the
             # checkPhase fails before the Home Manager generation can build.

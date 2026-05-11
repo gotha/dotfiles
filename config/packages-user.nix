@@ -46,6 +46,8 @@ in
   ruff
   shfmt
   sops
+  llm-agents.spec-kit
+  llm-agents.skills
   stow
   stylua
   tmux
