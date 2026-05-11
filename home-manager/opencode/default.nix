@@ -50,7 +50,7 @@ let
     // (lib.optionalAttrs cfg.enablePlaywright {
       playwright = {
         type = "local";
-        command = [ "${pkgs.mcp-server-playwright}/bin/mcp-server-playwright" ];
+        command = [ "${pkgs.playwright-mcp}/bin/playwright-mcp" ];
       };
     })
     // (lib.optionalAttrs cfg.enableSequentialThinking {

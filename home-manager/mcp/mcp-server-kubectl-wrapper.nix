@@ -7,6 +7,6 @@
 # of stream"). JSON-RPC messages are JSON objects, so any line that does not
 # begin with `{` is a stray log line and is dropped.
 pkgs.writeShellScriptBin "mcp-server-kubectl-wrapper" ''
-  exec ${pkgs.kubectl-mcp-server}/bin/kubectl-mcp-server "$@" \
+  exec ${pkgs.gotha.kubectl-mcp-server}/bin/kubectl-mcp-server "$@" \
     | ${pkgs.gnugrep}/bin/grep --line-buffered -E '^\{'
 ''

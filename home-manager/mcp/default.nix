@@ -10,17 +10,23 @@ let
 
   cfg = config.programs.mcp;
 
-  # Conditionally build package list based on enabled servers
+  # Conditionally build package list based on enabled servers.
+  # Packages from upstream nixpkgs live at `pkgs.*`; packages from the
+  # gotha/nixpkgs flake live under the `pkgs.gotha.*` namespace.
   allPackages =
     with pkgs;
-    (lib.optionals cfg.enableAtlassian [ mcp-atlassian ])
+    (lib.optionals cfg.enableAtlassian [ gotha.mcp-atlassian ])
     ++ (lib.optionals cfg.enableContext7 [ context7-mcp ])
-    ++ (lib.optionals cfg.enableGcloud [ gcloud-mcp ])
+    ++ (lib.optionals cfg.enableGcloud [ gotha.gcloud-mcp ])
     ++ (lib.optionals cfg.enableGit [ mcp-server-git ])
     ++ (lib.optionals cfg.enableGithub [ mcp-server-github-wrapper ])
     ++ (lib.optionals cfg.enableKubectl [ mcp-server-kubectl-wrapper ])
-    ++ (lib.optionals cfg.enableMemory [ mcp-server-memory ])
-    ++ (lib.optionals cfg.enablePlaywright [ mcp-server-playwright ])
+    # mcp-server-memory and mcp-server-sequential-thinking both ship
+    # `lib/node_modules/@modelcontextprotocol/servers/dist/index.js`
+    # (different content per package). lib.hiPrio resolves the buildEnv
+    # conflict; each binary uses its own store path's lib/ at runtime.
+    ++ (lib.optionals cfg.enableMemory [ (lib.hiPrio mcp-server-memory) ])
+    ++ (lib.optionals cfg.enablePlaywright [ playwright-mcp ])
     ++ (lib.optionals cfg.enableSequentialThinking [ mcp-server-sequential-thinking ]);
 
   # Conditionally build servers configuration
@@ -33,7 +39,7 @@ let
     { }
     // (lib.optionalAttrs cfg.enableAtlassian {
       atlassian = {
-        command = "${pkgs.mcp-atlassian}/bin/mcp-atlassian";
+        command = "${pkgs.gotha.mcp-atlassian}/bin/mcp-atlassian";
         args = [
           "--env-file"
           "~/.env"
@@ -49,7 +55,7 @@ let
     })
     // (lib.optionalAttrs cfg.enableGcloud {
       gcloud = {
-        command = "${pkgs.gcloud-mcp}/bin/gcloud-mcp";
+        command = "${pkgs.gotha.gcloud-mcp}/bin/gcloud-mcp";
         description = "Google Cloud Platform (GCP) integration for managing resources and services";
       };
     })
@@ -79,7 +85,7 @@ let
     })
     // (lib.optionalAttrs cfg.enablePlaywright {
       playwright = {
-        command = "${pkgs.mcp-server-playwright}/bin/mcp-server-playwright";
+        command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
         description = "Playwright server for browser automation and web testing";
       };
     })

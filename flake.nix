@@ -59,7 +59,23 @@
         {
           nixpkgs.overlays = [
             nix-vscode-extensions.overlays.default
-            gotha.overlays.default
+            # Expose gotha/nixpkgs packages under their own namespace
+            # (pkgs.gotha.*) so they do not shadow upstream nixpkgs attributes
+            # of the same name. The gotha overlay is applied to a fresh
+            # nixpkgs (with our allowUnfree) and then narrowed to the curated
+            # set declared by `gotha.packages.${system}`.
+            (_final: prev: {
+              gotha =
+                let
+                  system = prev.stdenv.hostPlatform.system;
+                  overlaid = import nixpkgs {
+                    inherit system;
+                    config.allowUnfree = true;
+                    overlays = [ gotha.overlays.default ];
+                  };
+                in
+                builtins.intersectAttrs gotha.packages.${system} overlaid;
+            })
             llm-agents.overlays.default
             # crush 0.65.3 has tests that create /tmp/crush-test directly.
             # That path is not writable in Darwin's Nix build sandbox, so the

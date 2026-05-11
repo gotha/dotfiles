@@ -20,7 +20,7 @@ let
     { }
     // (lib.optionalAttrs cfg.enableAtlassian {
       atlassian = {
-        command = "${pkgs.mcp-atlassian}/bin/mcp-atlassian";
+        command = "${pkgs.gotha.mcp-atlassian}/bin/mcp-atlassian";
         args = [
           "--env-file"
           "${config.home.homeDirectory}/.env"
@@ -34,7 +34,7 @@ let
     })
     // (lib.optionalAttrs cfg.enableGcloud {
       gcloud = {
-        command = "${pkgs.gcloud-mcp}/bin/gcloud-mcp";
+        command = "${pkgs.gotha.gcloud-mcp}/bin/gcloud-mcp";
       };
     })
     // (lib.optionalAttrs cfg.enableGit {
@@ -59,7 +59,7 @@ let
     })
     // (lib.optionalAttrs cfg.enablePlaywright {
       playwright = {
-        command = "${pkgs.mcp-server-playwright}/bin/mcp-server-playwright";
+        command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
       };
     })
     // (lib.optionalAttrs cfg.enableSequentialThinking {
