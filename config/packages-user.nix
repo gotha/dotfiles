@@ -49,7 +49,6 @@ in
   tree
   unzip
   uv
-  vale
   watch
   yt-dlp
 ]
