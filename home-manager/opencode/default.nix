@@ -61,6 +61,8 @@ let
     });
 in
 {
+  home.packages = [ pkgs.opencode ];
+
   # OpenCode configuration file
   xdg.configFile."opencode/opencode.json".text = builtins.toJSON {
     "$schema" = "https://opencode.ai/config.json";

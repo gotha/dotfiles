@@ -149,9 +149,6 @@ compinit
 
 
 alias kbc=kubectl
-if [ -f "$HOME/.config/zsh/kubectl.zsh" ]; then
-  source $HOME/.config/zsh/kubectl.zsh
-fi
 
 if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook zsh)"
@@ -159,9 +156,8 @@ fi
 
 alias ask="chatgpt"
 
-# Auggie CLI with MCP config
-alias auggie="auggie --mcp-config ~/.config/mcp/mcp.json --continue"  # Resume last session
-alias auggie-new="auggie --mcp-config ~/.config/mcp/mcp.json"         # Start fresh session
-
-# Claude Code CLI with MCP config (shared with Cursor/Auggie)
-alias claude="claude --mcp-config ~/.config/mcp/mcp.json"
+# Source every *.zsh snippet under ~/.config/zsh/ (managed by home-manager
+# modules). The (N) glob qualifier makes the expansion silent if empty.
+for f in $HOME/.config/zsh/*.zsh(N); do
+  source "$f"
+done

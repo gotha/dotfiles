@@ -14,7 +14,6 @@ in
   clang
   clang-tools
   cloc
-  cursor-cli
   direnv
   eslint
   gcloud
@@ -32,7 +31,6 @@ in
   mpc
   mpdris2
   ncmpcpp
-  opencode
   ncdu
   neovim
   nixd
