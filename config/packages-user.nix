@@ -27,9 +27,6 @@ in
   lazygit
   less
   lua
-  mpc
-  mpdris2
-  ncmpcpp
   ncdu
   neovim
   nixd
