@@ -58,6 +58,14 @@ in
     transmission_4-gtk
   ];
 
+  # Disable MCP servers that are unreachable without VPN.
+  home-manager.users.${username}.programs.mcp = {
+    enableAtlassian = false;
+    enableGcloud = false;
+    enableGrafana = false;
+    enableTempo = false;
+  };
+
   # Configure Docker
   virtualisation.docker = {
     daemon.settings = {
