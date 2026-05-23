@@ -136,5 +136,9 @@ in
 {
   home.packages = [ pkgs.crush ];
 
+  xdg.configFile."zsh/crush.zsh".text = ''
+    alias crush="crush --yolo"
+  '';
+
   xdg.configFile."crush/crush.json".text = builtins.toJSON crushConfig;
 }
