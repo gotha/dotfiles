@@ -19,11 +19,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
     sops-nix = {
@@ -44,7 +39,6 @@
       nixpkgs-stable,
       darwin,
       nix-index-database,
-      nixos-generators,
       home-manager,
       nix-vscode-extensions,
       sops-nix,
@@ -230,24 +224,30 @@
 
       packages = {
         x86_64-linux = {
-          bae-qemu = nixos-generators.nixosGenerate {
-            system = "x86_64-linux";
-            format = "raw";
-            modules = distro.bae ++ [
-              ./hosts/qemu1
-              ./os/linux/virtio.nix
-            ];
-            specialArgs = { inherit sops-nix; };
-          };
-          devbox-qemu = nixos-generators.nixosGenerate {
-            system = "x86_64-linux";
-            format = "raw";
-            modules = distro.devbox ++ [
-              ./hosts/qemu1
-              ./os/linux/virtio.nix
-            ];
-            specialArgs = { inherit sops-nix; };
-          };
+          bae-qemu =
+            let
+              config = nixpkgs.lib.nixosSystem {
+                system = "x86_64-linux";
+                modules = distro.bae ++ [
+                  ./hosts/qemu1
+                  ./os/linux/virtio.nix
+                ];
+                specialArgs = { inherit sops-nix; };
+              };
+            in
+            config.config.system.build.images.qemu;
+          devbox-qemu =
+            let
+              config = nixpkgs.lib.nixosSystem {
+                system = "x86_64-linux";
+                modules = distro.devbox ++ [
+                  ./hosts/qemu1
+                  ./os/linux/virtio.nix
+                ];
+                specialArgs = { inherit sops-nix; };
+              };
+            in
+            config.config.system.build.images.qemu;
         };
       };
 
