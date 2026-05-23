@@ -117,12 +117,19 @@ in
       default = true;
       description = "Enable MCP Tempo server for querying metrics";
     };
+
+    configJSON = lib.mkOption {
+      type = lib.types.str;
+      default = "";
+      description = "The generated MCP configuration JSON";
+    };
   };
 
   config = {
     home.packages = packages;
 
     xdg.configFile."mcp/mcp.json".text = mcpConfigJSON;
-    home.file.".cursor/mcp.json".text = mcpConfigJSON;
+
+    programs.mcp.configJSON = mcpConfigJSON;
   };
 }
