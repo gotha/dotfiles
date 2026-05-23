@@ -126,6 +126,10 @@ let
         # Ctrl+P -> "Toggle Sidebar" (visible only when terminal >= 120 cols).
         compact_mode = true;
       };
+      attribution = {
+        generated_with = false;
+        trailer_style = "none";
+      };
     };
   };
 in
