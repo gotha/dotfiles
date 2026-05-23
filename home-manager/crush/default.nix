@@ -12,45 +12,25 @@
   ...
 }:
 let
-  mcp-server-kubectl-wrapper = pkgs.callPackage ../mcp/mcp-server-kubectl-wrapper.nix { };
-
   cfg = config.programs.mcp;
 
-  # MCP servers for Crush. Transport `type` is required:
-  # - stdio: `command` + optional `args`
-  # - http/sse: `url` + optional `headers`
+  # MCP servers for Crush. Import shared definitions and ensure `type` is specified.
+  # Crush requires `type = "stdio"` for command-based servers.
   mcpServers =
-    { }
-    // (lib.optionalAttrs cfg.enableContext7 {
-      "context-7" = {
-        type = "stdio";
-        command = "${pkgs.context7-mcp}/bin/context7-mcp";
-      };
-    })
-    // (lib.optionalAttrs cfg.enableGit {
-      git = {
-        type = "stdio";
-        command = "${pkgs.mcp-server-git}/bin/mcp-server-git";
-      };
-    })
-    // (lib.optionalAttrs cfg.enableKubectl {
-      kubectl = {
-        type = "stdio";
-        command = "${mcp-server-kubectl-wrapper}/bin/mcp-server-kubectl-wrapper";
-      };
-    })
-    // (lib.optionalAttrs cfg.enableMemory {
-      memory = {
-        type = "stdio";
-        command = "${pkgs.mcp-server-memory}/bin/mcp-server-memory";
-      };
-    })
-    // (lib.optionalAttrs cfg.enableSequentialThinking {
-      "sequential-thinking" = {
-        type = "stdio";
-        command = "${pkgs.mcp-server-sequential-thinking}/bin/mcp-server-sequential-thinking";
-      };
-    });
+    let
+      servers =
+        (import ../mcp/servers.nix {
+          inherit
+            pkgs
+            lib
+            cfg
+            config
+            ;
+        }).mcpServers;
+    in
+    lib.mapAttrs (
+      _name: value: if (value ? command && !(value ? type)) then value // { type = "stdio"; } else value
+    ) servers;
 
   # Latest Codex-family models as of 2026-04. gpt-5.1-codex is the current
   # API-available Codex model; gpt-5.1 is the general-purpose counterpart
@@ -78,7 +58,7 @@ let
     }
   ];
 
-  localModels = [
+  mucieModels = [
     {
       id = "qwen3:4b-thinking";
       name = "qwen3:4b-thinking (ollama @local)";
@@ -122,11 +102,11 @@ let
         api_key = "ollama";
         models = lucieModels;
       };
-      local = {
+      mucie = {
         type = "openai";
         base_url = "http://127.0.0.1:11434/v1";
         api_key = "ollama";
-        models = localModels;
+        models = mucieModels;
       };
     };
     models = {
