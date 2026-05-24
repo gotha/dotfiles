@@ -1,0 +1,10 @@
+when I ask claude to commit, I get a commit message that ends with:     Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+; how can I disable it?
+
+---
+
+yes, I want to disable it, can you do it via the home-manager/claude-code/module? I see that ~/.claude/settings.json already contains: {
+  "theme": "dark",
+  "skipDangerousModePermissionPrompt": true
+}
+ can you merge the exiting configuration with the new one
