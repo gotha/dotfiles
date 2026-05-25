@@ -1,0 +1,79 @@
+add dissona to the list of mcp servers so it can be used by the coding agents: {
+  "mcpServers": {
+    "dissona": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://dissona.hgeorgiev.com/mcp/sse"]
+    }
+  }
+}
+
+---
+
+undo the changes made from the last prompt; add dissona to the list of mcp servers in the home-manager/mcp module;
+
+---
+
+seems like on this computer (lucie) I cannot play songs via ncmpcpp anymore, when I try to play them I see notification that the song starts playing, but I hear no sound and I see no progress bar, can you investiage
+
+---
+
+how to check why a certain mcp server failed in claude code?
+
+---
+
+make home-manager/claude-code module set env variable ❯ npx -p mcp-remote@latest mcp-remote-client https://dissona.hgeorgiev.com/mcp/sse
+[1338930] Using automatically selected callback port: 7352
+[1338930] Discovering OAuth server configuration...
+[1338930] Discovered authorization server: https://dissona.hgeorgiev.com
+[1338930] [1338930] Connecting to remote server: https://dissona.hgeorgiev.com/mcp/sse
+[1338930] Using transport strategy: http-first
+[1338930] Received error (status 405): Streamable HTTP error: Error POSTing to endpoint: {"detail":"Method Not Allowed"}
+[1338930] Recursively reconnecting for reason: falling-back-to-alternate-transport
+[1338930] [1338930] Connecting to remote server: https://dissona.hgeorgiev.com/mcp/sse
+[1338930] Using transport strategy: sse-only
+[1338930] Connection error: ServerError: HTTP 405: Invalid OAuth error response: SyntaxError: Unexpected token '<', "<html>
+<h"... is not valid JSON. Raw body: <html>
+<head><title>405 Not Allowed</title></head>
+<body>
+<center><h1>405 Not Allowed</h1></center>
+<hr><center>nginx/1.31.1</center>
+</body>
+</html>
+
+    at parseErrorResponse (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:18531:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async registerClient (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:18947:11)
+    at async authInternal (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:18585:31)
+    at async auth (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:18536:12)
+    at async SSEClientTransport._authThenStart (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:19404:16)
+    at async SSEClientTransport.start (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:19500:12)
+    at async Client.connect (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:16642:5)
+    at async Client.connect (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:17848:5)
+    at async connectToRemoteServer (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:20513:7) {
+  errorUri: undefined
+}
+[1338930] Fatal error: ServerError: HTTP 405: Invalid OAuth error response: SyntaxError: Unexpected token '<', "<html>
+<h"... is not valid JSON. Raw body: <html>
+<head><title>405 Not Allowed</title></head>
+<body>
+<center><h1>405 Not Allowed</h1></center>
+<hr><center>nginx/1.31.1</center>
+</body>
+</html>
+
+    at parseErrorResponse (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:18531:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async registerClient (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:18947:11)
+    at async authInternal (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:18585:31)
+    at async auth (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:18536:12)
+    at async SSEClientTransport._authThenStart (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:19404:16)
+    at async SSEClientTransport.start (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:19500:12)
+    at async Client.connect (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:16642:5)
+    at async Client.connect (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:17848:5)
+    at async connectToRemoteServer (file:///home/gotha/.npm/_npx/1a3c4333f3a90708/node_modules/mcp-remote/dist/chunk-65X3S4HB.js:20513:7) {
+  errorUri: undefined
+}
+
+---
+
+make home-manager/claude-code module set env variable CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
