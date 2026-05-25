@@ -129,3 +129,7 @@ restarting sysinit-reactivation.target
 ---
 
 I rebooted and tried to initiate remote deploy, but I got the same result, how to do a deployment?
+
+---
+
+commit the bastion changes
