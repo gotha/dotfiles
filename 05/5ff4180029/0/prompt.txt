@@ -1,0 +1,5 @@
+nix flake check takes a lot of time because it also runs many checks; can I make it to check only formatting?
+
+---
+
+modify .githooks/pre-commit to use this command, but make sure it works for all operating systems and architectures supported by this flake
