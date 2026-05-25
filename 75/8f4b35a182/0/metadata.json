@@ -1,0 +1,123 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "758f4b35a182",
+  "session_id": "9d425926-5c8c-4d05-b3de-8cd3b329f27b",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-25T11:56:08.915820464Z",
+  "branch": "main",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "hosts/bastion/default.nix",
+    "hosts/bastion/nginx.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-sonnet-4-6",
+  "turn_id": "c20979d4cfd2",
+  "checkpoint_transcript_start": 220,
+  "transcript_lines_at_start": 220,
+  "token_usage": {
+    "input_tokens": 39,
+    "cache_creation_tokens": 96143,
+    "cache_read_tokens": 2649430,
+    "output_tokens": 15848,
+    "api_call_count": 30
+  },
+  "session_metrics": {
+    "turn_count": 10
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-25T11:56:08.896053804Z",
+    "agent_lines": 12,
+    "agent_removed": 2,
+    "human_added": 13,
+    "human_modified": 1,
+    "human_removed": 0,
+    "total_committed": 26,
+    "total_lines_changed": 28,
+    "agent_percentage": 50,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 897,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 97,
+        "home-manager/mcp/default.nix": 6,
+        "home-manager/mcp/servers.nix": 11
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 555,
+      "user_lines_removed": 0,
+      "agent_lines_added": 351,
+      "agent_lines_removed": 2,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 555,
+      "user_lines_removed": 0,
+      "agent_lines_added": 351,
+      "agent_lines_removed": 2,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 569,
+      "user_lines_removed": 1,
+      "agent_lines_added": 351,
+      "agent_lines_removed": 2,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97,
+        "hosts/bastion/default.nix": 14
+      },
+      "user_removed_per_file": {
+        "hosts/bastion/default.nix": 1
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 555,
+      "user_lines_removed": 0,
+      "agent_lines_added": 365,
+      "agent_lines_removed": 3,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 555,
+      "user_lines_removed": 0,
+      "agent_lines_added": 369,
+      "agent_lines_removed": 3,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97
+      }
+    }
+  ]
+}

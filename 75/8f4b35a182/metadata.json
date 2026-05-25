@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "758f4b35a182",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "hosts/bastion/default.nix",
+    "hosts/bastion/nginx.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/75/8f4b35a182/0/metadata.json",
+      "transcript": "/75/8f4b35a182/0/full.jsonl",
+      "content_hash": "/75/8f4b35a182/0/content_hash.txt",
+      "prompt": "/75/8f4b35a182/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 39,
+    "cache_creation_tokens": 96143,
+    "cache_read_tokens": 2649430,
+    "output_tokens": 15848,
+    "api_call_count": 30
+  }
+}
