@@ -3,12 +3,9 @@
   imports = [
     ./darwin.nix
     ./linux.nix
+    ./ncmpcpp
   ];
 
-  # Cross-platform MPD clients. The mpd daemon itself is started by
-  # darwin.nix (launchd) and by the NixOS system module on Linux.
-  home.packages = with pkgs; [
-    mpc
-    ncmpcpp
-  ];
+  # Cross-platform MPD clients.
+  home.packages = with pkgs; [ mpc ];
 }
