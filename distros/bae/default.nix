@@ -36,6 +36,20 @@ in
     ../../os/nixos/unfree.nix
     ../../os/linux/user.nix
     sops-nix.nixosModules.sops
+    {
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        extraSpecialArgs = {
+          inputs = { inherit sops-nix; };
+        };
+        users.${cfg.username}.imports = [
+          ../../home-manager
+          ../../home-manager/git
+          ../../home-manager/zsh
+        ];
+      };
+    }
   ];
 
   # Override fonts to save disk space (bae doesn't need GUI fonts)
