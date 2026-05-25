@@ -9,6 +9,19 @@ _:
     ./wireguard.nix
   ];
 
+  # Limit journal size to save disk space
+  services.journald.extraConfig = ''
+    SystemMaxUse=100M
+    SystemMaxFileSize=50M
+    MaxRetentionSec=7day
+  '';
+
+  # Allow user to push closures via deploy-rs
+  nix.settings.trusted-users = [
+    "root"
+    "gotha"
+  ];
+
   swapDevices = [
     {
       device = "/var/lib/swapfile";
@@ -18,5 +31,9 @@ _:
 
   networking.useDHCP = true;
 
-  system.stateVersion = "25.05"; # Did you read the comment?
+  # Pin to classic dbus until a planned reboot migrates to dbus-broker.
+  # nixpkgs-unstable switched the default; switching live breaks activation.
+  services.dbus.implementation = "dbus";
+
+  system.stateVersion = "25.05";
 }

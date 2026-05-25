@@ -8,6 +8,13 @@ _:
     recommendedOptimisation = true;
     recommendedGzipSettings = true;
 
+    commonHttpConfig = ''
+      map $http_upgrade $connection_upgrade {
+        default  upgrade;
+        ""       "";
+      }
+    '';
+
     virtualHosts = {
       # Mail server - just for ACME certificate generation
       "mail.hgeorgiev.com" = {
@@ -65,7 +72,7 @@ _:
             # WebSocket support
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
+            proxy_set_header Connection $connection_upgrade;
 
             # Allow large file uploads
             client_max_body_size 1000M;
@@ -98,7 +105,7 @@ _:
             # WebSocket support
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
+            proxy_set_header Connection $connection_upgrade;
 
             # Allow large file uploads
             client_max_body_size 1000M;
