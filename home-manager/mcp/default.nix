@@ -58,6 +58,12 @@ in
       description = "Enable MCP Atlassian server integration (JIRA and Confluence)";
     };
 
+    enableDissona = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable Dissona MCP server";
+    };
+
     enableContext7 = lib.mkOption {
       type = lib.types.bool;
       default = true;

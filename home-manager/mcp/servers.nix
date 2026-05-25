@@ -21,6 +21,17 @@ in
         description = "Atlassian MCP server for managing JIRA projects and issues, and Confluence content";
       };
     })
+    // (lib.optionalAttrs cfg.enableDissona {
+      dissona = {
+        command = "npx";
+        args = [
+          "-y"
+          "mcp-remote"
+          "https://dissona.hgeorgiev.com/mcp/sse"
+        ];
+        description = "Dissona MCP server";
+      };
+    })
     // (lib.optionalAttrs cfg.enableContext7 {
       "context-7" = {
         command = "${pkgs.context7-mcp}/bin/context7-mcp";
