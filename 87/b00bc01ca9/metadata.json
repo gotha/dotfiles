@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "87b00bc01ca9",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "distros/bae/default.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/87/b00bc01ca9/0/metadata.json",
+      "transcript": "/87/b00bc01ca9/0/full.jsonl",
+      "content_hash": "/87/b00bc01ca9/0/content_hash.txt",
+      "prompt": "/87/b00bc01ca9/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 48,
+    "cache_creation_tokens": 194706,
+    "cache_read_tokens": 4366710,
+    "output_tokens": 18321,
+    "api_call_count": 36
+  }
+}

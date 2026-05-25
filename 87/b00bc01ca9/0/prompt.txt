@@ -1,0 +1,17 @@
+fetch the page https://www.theverge.com/tech/936507/gemini-omni-hands-on-deepfake-ai-video; extract the article content, put it into a pdf and upload it to dissona to create audio version
+
+---
+
+use the mcp tools provided by dissona to upload the file
+
+---
+
+add home-manager modules git and zsh to bae distro
+
+---
+
+why is   #home-manager = {
+  #  useGlobalPkgs = true;
+  #  useUserPackages = true;
+  #};
+ commented out in ./home-manager/default.nix? what is going to happen if I uncomment it? would it reduce code duplication
