@@ -1,0 +1,9 @@
+is typescript lsp installed?
+
+---
+
+/claude-api
+
+---
+
+add formatter to flake.nix to retire the command 'nix run .#fmt'
