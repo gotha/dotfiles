@@ -1,0 +1,135 @@
+The config looks clean — no `limit_except` — so the method restriction is the unconditional `Connection "upgrade"`. When nginx sends `Connection: upgrade` on every proxied request (including regular POST), backends can reject it with 405 because a POST has no business requesting a protocol upgrade.
+
+The fix is the standard conditional WebSocket pattern: only send `Connection: upgrade` when the client actually requested an upgrade, otherwise send nothing. In NixOS you need a `map` block at the HTTP level plus a change to the location:
+
+```nix
+services.nginx = {
+  commonHttpConfig = ''
+    map $http_upgrade $connection_upgrade {
+      default  upgrade;
+      ""       "";
+    }
+  '';
+
+  virtualHosts."dissona.hgeorgiev.com" = {
+    forceSSL = true;
+    enableACME = true;
+
+    locations."/" = {
+      proxyPass = "http://10.100.0.100:7679";
+      extraConfig = ''
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port 443;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+
+        client_max_body_size 1000M;
+
+        proxy_set_header Range $http_range;
+        proxy_set_header If-Range $http_if_range;
+        proxy_force_ranges on;
+
+        proxy_buffering off;
+      '';
+    };
+  };
+};
+```
+
+The only real change is the `map` block in `commonHttpConfig` and replacing the hardcoded `"upgrade"` with `$connection_upgrade`. WebSocket requests still work (they carry `Upgrade: websocket` so the map resolves to `upgrade`), but plain HTTP requests like `POST /oauth/register` get an empty `Connection` header and are proxied normally.
+
+---
+
+how to build and push the bastion configuration to the remote host
+
+---
+
+why my deployment failed: Pre-switch check 'switchInhibitors' failed
+Pre-switch checks failed
+⭐ ⚠️ [activate] [WARN] De-activating due to error
+switching profile from version 40 to 39
+⭐ ⚠️ [activate] [WARN] Removing generation by ID 40
+removing profile version 40
+⭐ ℹ️ [activate] [INFO] Attempting to re-activate the last generation
+Checking switch inhibitors... done
+updating GRUB 2 menu...
+activating the configuration...
+setting up /etc...
+reloading user units for gotha...
+restarting sysinit-reactivation.target
+⭐ ❌ [activate] [ERROR] The activation script resulted in a bad exit code: Some(1)
+🚀 ❌ [deploy] [ERROR] Activating over SSH resulted in a bad exit code: Some(1)
+🚀 ℹ️ [deploy] [INFO] Revoking previous deploys
+🚀 ❌ [deploy] [ERROR] Deployment to node bastion failed, rolled back to previous generation
+
+---
+
+❯ nix run github:serokell/deploy-rs -- .#bastion
+
+🚀 ℹ️ [deploy] [INFO] Running checks for flake in .
+warning: Git tree '/home/gotha/Projects/github.com/gotha/dotfiles' is dirty
+evaluation warning: 'system' has been renamed to/replaced by 'stdenv.hostPlatform.system'
+evaluation warning: ‘xfce.thunar’ was moved to top-level. Please use ‘pkgs.thunar’ directly
+warning: unknown flake output 'deploy'
+warning: The check omitted these incompatible systems: aarch64-darwin, aarch64-linux, x86_64-darwin
+Use '--all-systems' to check all.
+🚀 ℹ️ [deploy] [INFO] Evaluating flake in .
+warning: Git tree '/home/gotha/Projects/github.com/gotha/dotfiles' is dirty
+🚀 ℹ️ [deploy] [INFO] The following profiles are going to be deployed:
+[bastion.system]
+user = "root"
+ssh_user = "gotha"
+path = "/nix/store/REDACTED.05.20260523.3d8f0f3"
+hostname = "64.226.77.137"
+ssh_opts = []
+
+🚀 ℹ️ [deploy] [INFO] Building profile `system` for node `bastion`
+🚀 ℹ️ [deploy] [INFO] Copying profile `system` to node `bastion`
+🚀 ℹ️ [deploy] [INFO] Activating profile `system` for node `bastion`
+🚀 ℹ️ [deploy] [INFO] Creating activation waiter
+⭐ ℹ️ [activate] [INFO] Activating profile
+👀 ℹ️ [wait] [INFO] Waiting for confirmation event...
+Checking switch inhibitors...
+There are changes to critical components of the system:
+
+dbus-implementation : dbus -> broker
+
+Switching into this system is not recommended.
+You probably want to run 'nixos-rebuild boot' and reboot your system instead.
+
+If you really want to switch into this configuration directly, then
+you can set NIXOS_NO_CHECK=1 to ignore pre-switch checks.
+
+WARNING: doing so might cause the switch to fail or your system to become unstable.
+
+Pre-switch check 'switchInhibitors' failed
+Pre-switch checks failed
+⭐ ⚠️ [activate] [WARN] De-activating due to error
+switching profile from version 40 to 39
+⭐ ⚠️ [activate] [WARN] Removing generation by ID 40
+removing profile version 40
+⭐ ℹ️ [activate] [INFO] Attempting to re-activate the last generation
+Checking switch inhibitors... done
+updating GRUB 2 menu...
+activating the configuration...
+setting up /etc...
+reloading user units for gotha...
+restarting sysinit-reactivation.target
+⭐ ❌ [activate] [ERROR] The activation script resulted in a bad exit code: Some(1)
+🚀 ❌ [deploy] [ERROR] Activating over SSH resulted in a bad exit code: Some(1)
+🚀 ℹ️ [deploy] [INFO] Revoking previous deploys
+🚀 ❌ [deploy] [ERROR] Deployment to node bastion failed, rolled back to previous generation
+
+---
+
+I rebooted and tried to initiate remote deploy, but I got the same result, how to do a deployment?
+
+---
+
+commit the bastion changes

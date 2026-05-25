@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "8b91e4d79f34",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "home-manager/mcp/default.nix",
+    "home-manager/mcp/servers.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/8b/91e4d79f34/0/metadata.json",
+      "transcript": "/8b/91e4d79f34/0/full.jsonl",
+      "content_hash": "/8b/91e4d79f34/0/content_hash.txt",
+      "prompt": "/8b/91e4d79f34/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 88,
+    "cache_creation_tokens": 358557,
+    "cache_read_tokens": 4828912,
+    "output_tokens": 27804,
+    "api_call_count": 73
+  }
+}
