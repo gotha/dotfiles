@@ -13,6 +13,9 @@
     theme = "dark";
     skipDangerousModePermissionPrompt = true;
     includeCoAuthoredBy = false;
+    env = {
+      CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN = "1";
+    };
   };
 
   xdg.configFile."zsh/claude.zsh".text = ''
