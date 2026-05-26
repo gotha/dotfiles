@@ -7,7 +7,6 @@ _: {
       autoUpdate = true;
       upgrade = true;
     };
-    caskArgs.no_quarantine = true;
     global.brewfile = true;
     masApps = { };
     casks = [
