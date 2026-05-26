@@ -7,6 +7,9 @@
 ```sh
 sudo scutil --set ComputerName platypus
 sudo scutil --set LocalHostName platypus
+sudo scutil --set HostName platypus
+
+dscacheutil -flushcache
 sudo reboot
 ```
 
@@ -52,7 +55,7 @@ sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
 apply:
 
 ```sh
-nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .
+sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .
 ```
 
 then after each change
