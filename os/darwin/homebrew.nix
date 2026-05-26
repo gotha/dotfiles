@@ -38,6 +38,7 @@ _: {
     taps = [
       "fujiapple852/trippy"
       "FelixKratz/formulae"
+      "jundot/omlx"
     ];
     brews = [
       "cookiecutter"
@@ -46,6 +47,7 @@ _: {
       "gofumpt"
       "gopls"
       "helm"
+      "jundot/omlx/omlx"
       "nowplaying-cli"
       "trippy"
     ];
