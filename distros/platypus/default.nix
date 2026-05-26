@@ -62,6 +62,7 @@ in
             # Disabled due to glibc dependency issue on Darwin
             # https://github.com/NixOS/nixpkgs/issues/272016
             # ../../home-manager/vscode
+            ../../home-manager/ssh
             ../../home-manager/vale
             ../../home-manager/tmux
             ../../home-manager/zsh
