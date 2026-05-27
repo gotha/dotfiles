@@ -112,6 +112,12 @@ in
       description = "Enable MCP Playwright server for browser automation and web testing";
     };
 
+    enableAsana = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable MCP Asana server integration";
+    };
+
     enableSequentialThinking = lib.mkOption {
       type = lib.types.bool;
       default = true;

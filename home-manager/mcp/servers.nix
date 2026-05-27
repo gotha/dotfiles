@@ -74,6 +74,16 @@ in
         description = "Playwright server for browser automation and web testing";
       };
     })
+    // (lib.optionalAttrs cfg.enableAsana {
+      asana = {
+        command = "npx";
+        args = [
+          "-y"
+          "mcp-remote"
+          "https://mcp.asana.com/sse"
+        ];
+      };
+    })
     // (lib.optionalAttrs cfg.enableSequentialThinking {
       "sequential-thinking" = {
         command = "${pkgs.mcp-server-sequential-thinking}/bin/mcp-server-sequential-thinking";
