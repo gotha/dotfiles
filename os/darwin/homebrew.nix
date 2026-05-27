@@ -17,6 +17,7 @@ _: {
       "dbeaver-community"
       "discord"
       "firefox"
+      "google-chrome"
       "gimp"
       "inkscape"
       "intellij-idea"
@@ -34,6 +35,7 @@ _: {
       "utm"
       "viber"
       "vlc"
+      "zoom"
     ];
     taps = [
       "fujiapple852/trippy"
