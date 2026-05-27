@@ -60,16 +60,8 @@ let
 
   mucieModels = [
     {
-      id = "qwen3:4b-thinking";
-      name = "qwen3:4b-thinking (ollama @local)";
-      context_window = 65536;
-      default_max_tokens = 4096;
-    }
-    {
-      id = "gemma4:e4b";
-      name = "gemma4:e4b (ollama @local)";
-      context_window = 65536;
-      default_max_tokens = 4096;
+      id = "gemma-4-26b-a4b-it-4bit";
+      name = "gemma4:e4b (omlx @mucie)";
     }
   ];
 
@@ -104,8 +96,8 @@ let
       };
       mucie = {
         type = "openai";
-        base_url = "http://127.0.0.1:11434/v1";
-        api_key = "ollama";
+        base_url = "http://127.0.0.1:8000/v1";
+        api_key = "asdfasdf";
         models = mucieModels;
       };
     };
