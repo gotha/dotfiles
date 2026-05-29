@@ -159,7 +159,7 @@
     {
 
       darwinConfigurations = {
-        "D2Y6PH4TGJ-Hristo-Georgiev" = darwin.lib.darwinSystem {
+        "platypus" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = distro.platypus ++ [ ./hosts/mucie ];
           specialArgs = {
