@@ -31,6 +31,7 @@ _: {
       "redis-insight"
       "slack"
       "spotify"
+      "superwhisper"
       "transmission"
       "utm"
       "viber"
@@ -48,10 +49,12 @@ _: {
       "go"
       "gofumpt"
       "gopls"
+      "git-secrets"
       "helm"
       "jundot/omlx/omlx"
       "nowplaying-cli"
       "trippy"
+      "watchman"
     ];
   };
 }
