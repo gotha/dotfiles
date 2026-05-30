@@ -11,6 +11,12 @@
   programs.waybar = {
     enable = true;
 
+    style = builtins.readFile "${pkgs.waybar}/etc/xdg/waybar/style.css" + ''
+      * {
+        font-family: "Hack Nerd Font";
+      }
+    '';
+
     #systemd.enable = true;
 
     settings = [
@@ -37,7 +43,7 @@
           "battery"
           "sway/language"
           "clock"
-          "tray"
+          #"tray"
         ];
 
         "custom/os" = {
@@ -125,6 +131,7 @@
 
         clock = {
           # "timezone" = "America/New_York";
+          format = "{:%a %d %b %H:%M}";
           "tooltip-format" = ''
             <big>{:%Y %B}</big>
             <tt><small>{calendar}</small></tt>'';
