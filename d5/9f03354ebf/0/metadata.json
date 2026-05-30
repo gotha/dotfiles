@@ -1,0 +1,121 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "d59f03354ebf",
+  "session_id": "9d425926-5c8c-4d05-b3de-8cd3b329f27b",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-30T07:03:04.322690041Z",
+  "branch": "main",
+  "checkpoints_count": 6,
+  "files_touched": [
+    "home-manager/waybar/default.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-sonnet-4-6",
+  "turn_id": "0602edd36b43",
+  "checkpoint_transcript_start": 486,
+  "transcript_lines_at_start": 486,
+  "token_usage": {
+    "input_tokens": 30,
+    "cache_creation_tokens": 160144,
+    "cache_read_tokens": 2662850,
+    "output_tokens": 2779,
+    "api_call_count": 18
+  },
+  "session_metrics": {
+    "turn_count": 21
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-30T07:03:04.300800856Z",
+    "agent_lines": 5,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 2,
+    "human_removed": 0,
+    "total_committed": 6,
+    "total_lines_changed": 7,
+    "agent_percentage": 71.42857142857143,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 881,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 97,
+        "home-manager/mpd/ncmpcpp/config": 1
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 555,
+      "user_lines_removed": 0,
+      "agent_lines_added": 327,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 556,
+      "user_lines_removed": 1,
+      "agent_lines_added": 327,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97,
+        "home-manager/waybar/default.nix": 1
+      },
+      "user_removed_per_file": {
+        "home-manager/waybar/default.nix": 1
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 555,
+      "user_lines_removed": 0,
+      "agent_lines_added": 327,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 555,
+      "user_lines_removed": 0,
+      "agent_lines_added": 333,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 555,
+      "user_lines_removed": 0,
+      "agent_lines_added": 336,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-20-link": 229,
+        ".scratchpad.md": 97
+      }
+    }
+  ]
+}

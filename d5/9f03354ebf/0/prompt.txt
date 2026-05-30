@@ -1,0 +1,21 @@
+in waybar, next to the time, display the current date in the '29 Mar' format
+
+---
+
+what is the format to display the day of the week>?
+
+---
+
+what is the fonts used by sketchybar?
+
+---
+
+I want to make the font used by waybar to be the same as the one used by sketchybar because it looks better
+
+---
+
+the font looks creat, but the background color is now white-ish instead of transparent, why?
+
+---
+
+seems like the css styles we have defined in the waybar home-manager module completely override the css styling that existed before, can we extend it - keep the defaults and just add the fonts config
