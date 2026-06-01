@@ -96,6 +96,26 @@ in
     }
   '';
 
+  services.keyd.keyboards = {
+    keychron = {
+      ids = [ "3434:0260" ];
+      settings.main = {
+        capslock = "overload(control, esc)";
+        esc = "grave";
+      };
+    };
+    ducky = {
+      ids = [ "0416:0123" ];
+      settings = {
+        main = {
+          capslock = "overload(control, esc)";
+          esc = "grave";
+        };
+        shift.delete = "insert";
+      };
+    };
+  };
+
   services = {
     jellyfin = {
       enable = true;

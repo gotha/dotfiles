@@ -106,6 +106,17 @@ input "13364:608:Keychron_K6_Pro_Keyboard" {
     repeat_rate 45
 }
 
+# keyd virtual keyboard — receives events from all physical keyboards via keyd.
+# Uses us(altgr-intl) to restore Mod5 (AltGr/Right Alt) needed for dictation shortcut.
+# No caps:escape here since keyd handles CapsLock at the evdev level.
+input "4012:2782:keyd_virtual_keyboard" {
+    xkb_layout "us(altgr-intl)",bg
+    xkb_options "grp:win_space_toggle"
+
+    repeat_delay 250
+    repeat_rate 45
+}
+
 input type:touchpad {
     tap enabled
     natural_scroll enabled
