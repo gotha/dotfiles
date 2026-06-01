@@ -41,7 +41,7 @@
           "memory"
           "temperature"
           "battery"
-          "sway/language"
+          "custom/language"
           "clock"
           #"tray"
         ];
@@ -264,6 +264,16 @@
               echo ""
             fi
           '';
+        };
+
+        "custom/language" = {
+          exec = pkgs.writeShellScript "waybar-language" ''
+            idx=$(swaymsg -t get_inputs | ${pkgs.jq}/bin/jq -r '[.[] | select(.type == "keyboard") | .xkb_active_layout_index] | max // 0')
+            if [ "$idx" = "1" ]; then echo "аб"; else echo "ab"; fi
+          '';
+          interval = 1;
+          "return-type" = "";
+          format = " {} ";
         };
 
         "custom/waybar-mpris" = {
