@@ -1,0 +1,47 @@
+in waybar, next to the time, display the current date in the '29 Mar' format
+
+---
+
+what is the format to display the day of the week>?
+
+---
+
+what is the fonts used by sketchybar?
+
+---
+
+I want to make the font used by waybar to be the same as the one used by sketchybar because it looks better
+
+---
+
+the font looks creat, but the background color is now white-ish instead of transparent, why?
+
+---
+
+seems like the css styles we have defined in the waybar home-manager module completely override the css styling that existed before, can we extend it - keep the defaults and just add the fonts config
+
+---
+
+❯ in waybar when I switch between keyboard layouts I see either "bg" for Bulgarian or nothing (empty string); thats why I made the changes I did on home-manager/waybar/default.nix; 
+Now when waybar starts, I see "us", when I switch to bulgarian I see "bg", but then I see empty for English again
+
+---
+
+same thing happens again; can I force to show "ab" for english and "аб" for bulgarian?
+
+---
+
+Now, regardless of what kind of language I am using as a keyboard layout, it always shows A, B in English.
+
+---
+
+this does not work because 'swaymsg -t get_inputs' displays mutliple keyboards and only one of them switches to keyboard layout 1 when I switch to Bulgarian, and it is not the first one, so thats why idx is always 0
+
+---
+
+this obviously does not work; I have reset the file; 
+I have even tried the long format for Sway language but it shows full English when the language is English and when Waybar starts and then when I switch to the other language it shows fine and then English disappears and displays blank
+
+---
+
+this one works, but there is not visual padding around the lang widget
