@@ -126,3 +126,7 @@ move the configuration for keychron and ducky one 2 sf from devbox to lucie
 ---
 
 what key is mod5 on keychron keyboard?
+
+---
+
+commit the staged files
