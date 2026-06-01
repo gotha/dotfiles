@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "90fed9d8a45c",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 7,
+  "files_touched": [
+    "home-manager/sway/config",
+    "hosts/lucie/default.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/90/fed9d8a45c/0/metadata.json",
+      "transcript": "/90/fed9d8a45c/0/full.jsonl",
+      "content_hash": "/90/fed9d8a45c/0/content_hash.txt",
+      "prompt": "/90/fed9d8a45c/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 263,
+    "cache_creation_tokens": 1158763,
+    "cache_read_tokens": 15691152,
+    "output_tokens": 98543,
+    "api_call_count": 186
+  }
+}
