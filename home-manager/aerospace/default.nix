@@ -14,6 +14,9 @@
       ProcessType = "Interactive";
       StandardOutPath = "${config.home.homeDirectory}/Library/Logs/aerospace.log";
       StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/aerospace.log";
+      EnvironmentVariables = {
+        PATH = "${pkgs.sketchybar}/bin:${pkgs.aerospace}/bin:/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      };
     };
   };
 
