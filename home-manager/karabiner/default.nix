@@ -49,16 +49,26 @@
                   }
                 ];
               }
+              # Caps Lock: tap = Escape, hold = Control
+              {
+                description = "Caps Lock to Escape (tap) / Control (hold)";
+                manipulators = [
+                  {
+                    type = "basic";
+                    from = {
+                      key_code = "caps_lock";
+                      modifiers = {
+                        optional = [ "any" ];
+                      };
+                    };
+                    to = [ { key_code = "left_control"; } ];
+                    to_if_alone = [ { key_code = "escape"; } ];
+                  }
+                ];
+              }
             ];
           };
           simple_modifications = [
-            # Caps Lock to Escape
-            {
-              from = {
-                key_code = "caps_lock";
-              };
-              to = [ { key_code = "escape"; } ];
-            }
             # Swap Control and Globe (Fn) keys globally
             {
               from = {
