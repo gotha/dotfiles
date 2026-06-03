@@ -22,6 +22,7 @@ in
   gofumpt
   gopls
   gnumake
+  heroku
   kubectl
   less
   lua
