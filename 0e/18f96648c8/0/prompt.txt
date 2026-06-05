@@ -52,3 +52,7 @@ What is the difference between Whisper CLI and Whisper server?
 ---
 
 does enabling the server via services.dictation.server.enable disable the cli?
+
+---
+
+Okay, commit
