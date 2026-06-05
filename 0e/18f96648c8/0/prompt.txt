@@ -1,0 +1,54 @@
+[        12:  wl_data_device] selection: id: 4278190080
+[        11:    xdg_toplevel] configure: width: 1280; height: 2130
+                      activated tiled-left tiled-right tiled-top tiled-bottom
+[        10:     xdg_surface] configure: serial: 6535
+[        15:      wl_pointer] enter: serial: 6542; surface: 3, x, y: 689.972656, 1290.519531
+[        15:      wl_pointer] frame
+[        16:     wl_keyboard] key: serial: 6543; time: 63317636; key: 36; state: 0 (released)
+                      sym: Return       (65293), utf8: ''
+[        16:     wl_keyboard] key: serial: 6544; time: 63320465; key: 191; state: 1 (pressed)
+                      sym: XF86Tools    (269025153), utf8: ''
+[        16:     wl_keyboard] key: serial: 6545; time: 63320529; key: 191; state: 0 (released)
+                      sym: XF86Tools    (269025153), utf8: ''
+
+this is the wev output when I press the right modifier key and i 
+I want trigger dictation when both of these are pressed together 
+currently this is triggered only when I press left alt + i
+
+---
+
+run a nix shell and run it yourself
+
+---
+
+/model
+
+---
+
+I have reset the config; currently dication is started only when I press left alt + i;
+I want to change it to be triggered only on right alt + i;
+the configuraiton must work on lucie host with keychron keyboard
+
+---
+
+commit
+
+---
+
+there is a problem that every now and then when I run the dictation, the transcribtion from audio to text fails because there is not enough vram, is there a way to somehow keep the ram dedicated just for that or maybe make sure that the model is always loaded in ram?
+
+---
+
+which one is going to be easier - to run whisper server or to make ollama take no more than a certain GB of Vram?
+
+---
+
+setup whisper-server to run on devbox
+
+---
+
+What is the difference between Whisper CLI and Whisper server?
+
+---
+
+does enabling the server via services.dictation.server.enable disable the cli?
