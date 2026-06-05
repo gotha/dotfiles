@@ -28,3 +28,7 @@ run a nix shell and run it yourself
 I have reset the config; currently dication is started only when I press left alt + i;
 I want to change it to be triggered only on right alt + i;
 the configuraiton must work on lucie host with keychron keyboard
+
+---
+
+commit
