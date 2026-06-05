@@ -1,0 +1,173 @@
+in waybar, next to the time, display the current date in the '29 Mar' format
+
+---
+
+what is the format to display the day of the week>?
+
+---
+
+what is the fonts used by sketchybar?
+
+---
+
+I want to make the font used by waybar to be the same as the one used by sketchybar because it looks better
+
+---
+
+the font looks creat, but the background color is now white-ish instead of transparent, why?
+
+---
+
+seems like the css styles we have defined in the waybar home-manager module completely override the css styling that existed before, can we extend it - keep the defaults and just add the fonts config
+
+---
+
+❯ in waybar when I switch between keyboard layouts I see either "bg" for Bulgarian or nothing (empty string); thats why I made the changes I did on home-manager/waybar/default.nix; 
+Now when waybar starts, I see "us", when I switch to bulgarian I see "bg", but then I see empty for English again
+
+---
+
+same thing happens again; can I force to show "ab" for english and "аб" for bulgarian?
+
+---
+
+Now, regardless of what kind of language I am using as a keyboard layout, it always shows A, B in English.
+
+---
+
+this does not work because 'swaymsg -t get_inputs' displays mutliple keyboards and only one of them switches to keyboard layout 1 when I switch to Bulgarian, and it is not the first one, so thats why idx is always 0
+
+---
+
+this obviously does not work; I have reset the file; 
+I have even tried the long format for Sway language but it shows full English when the language is English and when Waybar starts and then when I switch to the other language it shows fine and then English disappears and displays blank
+
+---
+
+this one works, but there is not visual padding around the lang widget
+
+---
+
+given the current keyboard configuration, what is the best way in lucie to remap Caps Lock to Escape, but when held down I want Caps Lock to act like Control key
+
+---
+
+what is the mac osx equivalent of this tool?
+
+---
+
+can you apply the keyd configuration on distro devbox layer
+
+---
+
+do I need to restart the computer to apply the confguration after nixos rebuild?
+
+---
+
+what is a good keyboard viewer for linux/nixos?
+
+---
+
+I have tried several Jellyfin players on my phone that I have connected to this computer, I see the library, I see the videos and the music tracks, but when I try to play them I get "Playback Error: Playback interrupted"; why might that be?
+
+---
+
+this is what I see in the logs: ystem.InvalidOperationException: Response Content-Length mismatch: too few bytes written (25 of 459342).
+[2026-06-01 09:45:49.822 +03:00] [ERR] [21] Jellyfin.Api.Middleware.ExceptionMiddleware: Error processing request. URL "GET" "/Items/9f04173557c72473f151f4ad10e5cea9/Images/Primary".
+System.UnauthorizedAccessException: Access to the path '/mnt/storage/Music/Last Hope/My Own Way (2003)/cover.jpg' is denied.
+ ---> System.IO.IOException: Permission denied
+   --- End of inner exception stack trace ---
+   at Interop.ThrowExceptionForIoErrno(ErrorInfo errorInfo, String path, Boolean isDirError)
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, UnixFileMode openPermissions, Int64& fileLength, UnixFileMode& filePermissions, Boolean failForSymlink, Boolean& wasSymlink, Func`4 createOpenException)
+   at System.IO.Strategies.OSFileStreamStrategy..ctor(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at Microsoft.AspNetCore.Http.SendFileFallback.SendFileAsync(Stream destination, String filePath, Int64 offset, Nullable`1 count, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.SendFileResponseExtensions.SendFileAsyncCore(HttpResponse response, String fileName, Int64 offset, Nullable`1 count, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Jellyfin.Api.Middleware.ServerStartupMessageMiddleware.Invoke(HttpContext httpContext, IServerApplicationHost serverApplicationHost, ILocalizationManager localizationManager) in /build/source/Jellyfin.Api/Middleware/ServerStartupMessageMiddleware.cs:line 41
+   at Jellyfin.Api.Middleware.WebSocketHandlerMiddleware.Invoke(HttpContext httpContext, IWebSocketManager webSocketManager) in /build/source/Jellyfin.Api/Middleware/WebSocketHandlerMiddleware.cs:line 33
+   at Jellyfin.Api.Middleware.IPBasedAccessValidationMiddleware.Invoke(HttpContext httpContext, INetworkManager networkManager) in /build/source/Jellyfin.Api/Middleware/IpBasedAccessValidationMiddleware.cs:line 41
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Jellyfin.Api.Middleware.QueryStringDecodingMiddleware.Invoke(HttpContext httpContext) in /build/source/Jellyfin.Api/Middleware/QueryStringDecodingMiddleware.cs:line 36
+   at Swashbuckle.AspNetCore.ReDoc.ReDocMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Jellyfin.Api.Middleware.RobotsRedirectionMiddleware.Invoke(HttpContext httpContext) in /build/source/Jellyfin.Api/Middleware/RobotsRedirectionMiddleware.cs:line 43
+   at Jellyfin.Api.Middleware.LegacyEmbyRouteRewriteMiddleware.Invoke(HttpContext httpContext) in /build/source/Jellyfin.Api/Middleware/LegacyEmbyRouteRewriteMiddleware.cs:line 51
+   at Microsoft.AspNetCore.ResponseCompression.ResponseCompressionMiddleware.InvokeCore(HttpContext context)
+   at Jellyfin.Api.Middleware.ResponseTimeMiddleware.Invoke(HttpContext context, IServerConfigurationManager serverConfigurationManager) in /build/source/Jellyfin.Api/Middleware/ResponseTimeMiddleware.cs:line 66
+   at Jellyfin.Api.Middleware.ExceptionMiddleware.Invoke(HttpContext context) in /build/source/Jellyfin.Api/Middleware/ExceptionMiddleware.cs:line 55
+[2026-06-01 09:45:49.823 +03:00] [ERR] [21] Microsoft.AspNetCore.Server.Kestrel: Connection id ""0HNLVL50GI48U"", Request id ""0HNLVL50GI48U:00000001"": An unhandled exception was thrown by the application.
+System.InvalidOperationException: Response Content-Length mismatch: too few bytes written (25 of 517045).
+
+---
+
+now jellyfin failed to start, check the system logs to figure out why
+
+---
+
+by introducing keyd some of the keyboard modifications where lost for example escape was remapped to tilde, the keyboard shortcut for dictation doesnt work anymore, etc
+
+---
+
+move the configuration for keychron and ducky one 2 sf from devbox to lucie
+
+---
+
+what key is mod5 on keychron keyboard?
+
+---
+
+commit the staged files
+
+---
+
+what is a good keyboard viewer for wayland
+
+---
+
+Since I installed KD, it seems like the function keys on my Keychron keyboard do not work anymore. Or at least I don't see them when I run WEV. Is that expected? Can I configure the "right alt+i" to become a shortcut for dictation?
+
+---
+
+OK, do the configuration for the right alt + I to trigger dictation in Wayland.
+
+---
+
+This is what I see in wev: [        12:  wl_data_device] selection: id: 4278190080
+[        11:    xdg_toplevel] configure: width: 1280; height: 2130
+                      activated tiled-left tiled-right tiled-top tiled-bottom
+[        10:     xdg_surface] configure: serial: 164714
+[        16:     wl_keyboard] key: serial: 164720; time: 733000308; key: 36; state: 0 (released)
+                      sym: Return       (65293), utf8: ''
+[        15:      wl_pointer] enter: serial: 164722; surface: 3, x, y: 695.042969, 1333.160156
+[        15:      wl_pointer] frame
+[        16:     wl_keyboard] key: serial: 164723; time: 733002421; key: 108; state: 1 (pressed)
+                      sym: Alt_R        (65514), utf8: ''
+[        16:     wl_keyboard] modifiers: serial: 164724; group: 0
+                      depressed: 00000008: Mod1
+                      latched: 00000000
+                      locked: 00000000
+[        16:     wl_keyboard] key: serial: 164725; time: 733004385; key: 31; state: 1 (pressed)
+                      sym: i            (105), utf8: 'i'
+[        16:     wl_keyboard] key: serial: 164726; time: 733004474; key: 31; state: 0 (released)
+                      sym: i            (105), utf8: ''
+[        16:     wl_keyboard] key: serial: 164727; time: 733004795; key: 108; state: 0 (released)
+                      sym: Alt_R        (65514), utf8: ''
+[        16:     wl_keyboard] modifiers: serial: 164728; group: 0
+                      depressed: 00000000
+                      latched: 00000000
+                      locked: 00000000
+
+But this doesn't trigger the dictation in sway

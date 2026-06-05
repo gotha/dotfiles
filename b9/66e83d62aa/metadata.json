@@ -3,7 +3,7 @@
   "checkpoint_id": "b966e83d62aa",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 3,
+  "checkpoints_count": 9,
   "files_touched": [
     "home-manager/sway/config"
   ],
@@ -13,13 +13,19 @@
       "transcript": "/b9/66e83d62aa/0/full.jsonl",
       "content_hash": "/b9/66e83d62aa/0/content_hash.txt",
       "prompt": "/b9/66e83d62aa/0/prompt.txt"
+    },
+    {
+      "metadata": "/b9/66e83d62aa/1/metadata.json",
+      "transcript": "/b9/66e83d62aa/1/full.jsonl",
+      "content_hash": "/b9/66e83d62aa/1/content_hash.txt",
+      "prompt": "/b9/66e83d62aa/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 2686,
-    "cache_creation_tokens": 102830,
-    "cache_read_tokens": 750054,
-    "output_tokens": 18083,
-    "api_call_count": 29
+    "input_tokens": 2970,
+    "cache_creation_tokens": 1372047,
+    "cache_read_tokens": 17678333,
+    "output_tokens": 128850,
+    "api_call_count": 228
   }
 }
