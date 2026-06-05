@@ -277,9 +277,10 @@ bindsym $mod+r mode "resize"
 
 bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy
 
-# Dictation - speak to text, result copied to clipboard
-bindsym $mod+i exec dictate-hotkey
-bindsym Mod5+i exec dictate-hotkey
+# Dictation - speak to text, result copied to clipboard.
+# --to-code binds by keycode: under us(altgr-intl), Right Alt (Mod5/AltGr) shifts
+# the i key to keysym `idiaeresis`, so a plain `bindsym Mod5+i` would never match.
+bindsym --to-code Mod5+i exec dictate-hotkey
 for_window [title="^Dictation$"] floating enable, border pixel 2
 
 #
