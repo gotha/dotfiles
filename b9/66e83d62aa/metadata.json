@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "b966e83d62aa",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "home-manager/sway/config"
+  ],
+  "sessions": [
+    {
+      "metadata": "/b9/66e83d62aa/0/metadata.json",
+      "transcript": "/b9/66e83d62aa/0/full.jsonl",
+      "content_hash": "/b9/66e83d62aa/0/content_hash.txt",
+      "prompt": "/b9/66e83d62aa/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 2686,
+    "cache_creation_tokens": 102830,
+    "cache_read_tokens": 750054,
+    "output_tokens": 18083,
+    "api_call_count": 29
+  }
+}
