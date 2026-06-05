@@ -44,11 +44,14 @@ in
     };
   };
 
-  # Enable dictation with CUDA-accelerated whisper (NVIDIA GPU)
+  # Enable dictation with CUDA-accelerated whisper (NVIDIA GPU).
+  # server.enable keeps the model resident in VRAM so dictation doesn't race
+  # ollama for a transient allocation (which intermittently OOM'd).
   services.dictation = {
     enable = true;
     model = "small";
     whisperPackage = stablePkgs.whisper-cpp.override { cudaSupport = true; };
+    server.enable = true;
   };
 
   users.users.${username}.packages = with pkgs; [

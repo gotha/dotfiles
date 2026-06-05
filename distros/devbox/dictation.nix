@@ -15,6 +15,70 @@ let
 
   # The whisper binary to use
   whisperBin = "${cfg.whisperPackage}/bin/whisper-cli";
+  whisperServerBin = "${cfg.whisperPackage}/bin/whisper-server";
+
+  serverUrl = "http://${cfg.server.host}:${toString cfg.server.port}";
+
+  # Absolute model path for the system service ($HOME is not expanded in ExecStart).
+  serverModelFile = "${
+    config.users.users.${username}.home
+  }/.local/share/whisper/ggml-${cfg.model}.bin";
+
+  # Transcription step. Sets $RESULT to the trimmed transcription, or exits 1.
+  # Server mode posts the wav to the always-on whisper-server (model stays
+  # resident in VRAM); otherwise a one-shot whisper-cli loads the model each run.
+  transcribe =
+    if cfg.server.enable then
+      ''
+        echo "Transcribing (server)..."
+
+        WHISPER_OUTPUT=$(mktemp /tmp/whisper-output-XXXXXX.txt)
+        WHISPER_ERROR=$(mktemp /tmp/whisper-error-XXXXXX.txt)
+
+        HTTP_CODE=$(${pkgs.curl}/bin/curl -s -o "$WHISPER_OUTPUT" -w "%{http_code}" \
+          --max-time 60 \
+          -F file=@"$TEMP_WAV" \
+          -F temperature=0 \
+          -F response_format=text \
+          "${serverUrl}/inference" 2>"$WHISPER_ERROR") || true
+
+        if [[ "$HTTP_CODE" != "200" ]]; then
+          echo "ERROR: whisper-server request failed (HTTP ''${HTTP_CODE:-none})!"
+          echo "Is it running?  systemctl status whisper-server"
+          echo ""
+          cat "$WHISPER_ERROR" "$WHISPER_OUTPUT" 2>/dev/null || true
+          rm -f "$WHISPER_OUTPUT" "$WHISPER_ERROR"
+          exit 1
+        fi
+
+        RESULT=$(tr -d '\n' < "$WHISPER_OUTPUT" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+        rm -f "$WHISPER_OUTPUT" "$WHISPER_ERROR"
+      ''
+    else
+      ''
+        echo "Transcribing..."
+
+        # Run whisper and capture both stdout and stderr
+        WHISPER_OUTPUT=$(mktemp /tmp/whisper-output-XXXXXX.txt)
+        WHISPER_ERROR=$(mktemp /tmp/whisper-error-XXXXXX.txt)
+
+        if ! ${whisperBin} \
+          -m "$WHISPER_MODEL" \
+          -f "$TEMP_WAV" \
+          -nt \
+          >"$WHISPER_OUTPUT" 2>"$WHISPER_ERROR"; then
+
+          echo "ERROR: Whisper transcription failed!"
+          echo ""
+          cat "$WHISPER_ERROR"
+
+          rm -f "$WHISPER_OUTPUT" "$WHISPER_ERROR"
+          exit 1
+        fi
+
+        RESULT=$(grep -v "^\[" "$WHISPER_OUTPUT" | tr -d '\n' | sed 's/^[[:space:]]*//')
+        rm -f "$WHISPER_OUTPUT" "$WHISPER_ERROR"
+      '';
 
   # Dictation script using whisper.cpp
   dictate = pkgs.writeShellScriptBin "dictate" ''
@@ -98,29 +162,7 @@ let
       rm -f /tmp/dictate-original-volume
     fi
 
-    echo "Transcribing..."
-
-    # Transcribe with whisper.cpp
-    # Run whisper and capture both stdout and stderr
-    WHISPER_OUTPUT=$(mktemp /tmp/whisper-output-XXXXXX.txt)
-    WHISPER_ERROR=$(mktemp /tmp/whisper-error-XXXXXX.txt)
-
-    if ! ${whisperBin} \
-      -m "$WHISPER_MODEL" \
-      -f "$TEMP_WAV" \
-      -nt \
-      >"$WHISPER_OUTPUT" 2>"$WHISPER_ERROR"; then
-
-      echo "ERROR: Whisper transcription failed!"
-      echo ""
-      cat "$WHISPER_ERROR"
-
-      rm -f "$WHISPER_OUTPUT" "$WHISPER_ERROR"
-      exit 1
-    fi
-
-    RESULT=$(cat "$WHISPER_OUTPUT" | grep -v "^\[" | tr -d '\n' | sed 's/^[[:space:]]*//')
-    rm -f "$WHISPER_OUTPUT" "$WHISPER_ERROR"
+    ${transcribe}
 
     if [[ -n "$RESULT" ]]; then
       echo "$RESULT"
@@ -247,6 +289,25 @@ in
       default = pkgs.whisper-cpp;
       description = "The whisper-cpp package to use for transcription";
     };
+
+    server = {
+      enable = mkEnableOption ''
+        an always-on whisper-server that keeps the model resident in VRAM.
+        Avoids per-invocation model loads (which can fail under VRAM pressure
+        from e.g. ollama) and speeds up transcription'';
+
+      host = mkOption {
+        type = types.str;
+        default = "127.0.0.1";
+        description = "Host/IP the whisper-server listens on.";
+      };
+
+      port = mkOption {
+        type = types.port;
+        default = 8910;
+        description = "Port the whisper-server listens on.";
+      };
+    };
   };
 
   # Module implementation
@@ -263,5 +324,23 @@ in
       pkgs.foot # Terminal for dictation hotkey
       pkgs.wtype # For simulating keypresses (Wayland)
     ];
+
+    # Always-on whisper-server: loads the model into VRAM once at boot and keeps
+    # it resident, so dictation never races ollama for a transient allocation.
+    systemd.services.whisper-server = mkIf cfg.server.enable {
+      description = "whisper.cpp server (keeps the dictation model resident in VRAM)";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "local-fs.target" ];
+      serviceConfig = {
+        User = username;
+        SupplementaryGroups = [
+          "video"
+          "render"
+        ];
+        ExecStart = "${whisperServerBin} -m ${serverModelFile} --host ${cfg.server.host} --port ${toString cfg.server.port}";
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+    };
   };
 }
