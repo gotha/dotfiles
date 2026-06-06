@@ -47,7 +47,7 @@ in
             ../../home-manager/alacritty
             ../../home-manager/auggie
             ../../home-manager/claude-code
-            ../../home-manager/codex
+            #../../home-manager/codex
             ../../home-manager/crush
             ../../home-manager/cursor-cli
             ../../home-manager/git
