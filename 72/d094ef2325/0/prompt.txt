@@ -68,3 +68,7 @@ Is this context size for Gemma 4 and Gemma 3 a good value or should be adjusted?
 ---
 
 make ./home-manager/mpd/ncmpcpp/default.nix to write into the config file mpd_music_dir that is the same as the value from mpd.settings.music_directory
+
+---
+
+commit the changes on home-manager/mpd/ncmpcpp, add a short commit message and in the description add an explanation that by default the  player uses separate configuration for the music library directory and because none was set it was falling back to ~/music as a folder name; which was different from the one from the one used by mpd; which was fine for things like playing music but was not working for things like editing metadata so this change fixes it
