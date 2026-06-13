@@ -73,8 +73,8 @@ let
   # fits fully on the RTX 5090's 32 GB VRAM alongside the model weights.
   lucieModels = [
     {
-      id = "gemma4:31b";
-      name = "Gemma 4 31B (ollama @lucie)";
+      id = "gemma4:26b";
+      name = "Gemma 4 26B (ollama @lucie)";
       context_window = 65536;
       default_max_tokens = 4096;
     }
