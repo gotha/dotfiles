@@ -1,0 +1,5 @@
+seems like there are some issues with the ssl certificate for hgeorgiev.com, what is it?
+
+---
+
+something is consuming all the disk space on the vm; can you ssh into it and check what is it?

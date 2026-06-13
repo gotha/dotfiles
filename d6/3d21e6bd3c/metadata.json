@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "d63d21e6bd3c",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "home-manager/crush/default.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/d6/3d21e6bd3c/0/metadata.json",
+      "transcript": "/d6/3d21e6bd3c/0/full.jsonl",
+      "content_hash": "/d6/3d21e6bd3c/0/content_hash.txt",
+      "prompt": "/d6/3d21e6bd3c/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 17,
+    "cache_creation_tokens": 25210,
+    "cache_read_tokens": 271346,
+    "output_tokens": 2145,
+    "api_call_count": 13
+  }
+}
