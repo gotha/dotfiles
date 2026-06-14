@@ -11,8 +11,10 @@
 
   home.file.".claude/settings.json".text = lib.generators.toJSON { } {
     theme = "dark";
+    model = "claude-opus-4-8[1m]";
     skipDangerousModePermissionPrompt = true;
     includeCoAuthoredBy = false;
+    effortLevel = "xhigh";
     env = {
       CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN = "1";
     };
