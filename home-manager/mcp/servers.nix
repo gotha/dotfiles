@@ -6,6 +6,9 @@
 }:
 let
   mcp-server-github-wrapper = pkgs.callPackage ./mcp-server-github-wrapper.nix { inherit config; };
+  mcp-server-circleci-wrapper = pkgs.callPackage ./mcp-server-circleci-wrapper.nix {
+    inherit config;
+  };
   mcp-server-kubectl-wrapper = pkgs.callPackage ./mcp-server-kubectl-wrapper.nix { };
 in
 {
@@ -30,6 +33,12 @@ in
           "https://dissona.hgeorgiev.com/mcp"
         ];
         description = "Dissona MCP server";
+      };
+    })
+    // (lib.optionalAttrs cfg.enableCircleci {
+      circleci = {
+        command = "${mcp-server-circleci-wrapper}/bin/mcp-server-circleci-wrapper";
+        description = "CircleCI integration for inspecting pipelines, builds, and test results";
       };
     })
     // (lib.optionalAttrs cfg.enableContext7 {

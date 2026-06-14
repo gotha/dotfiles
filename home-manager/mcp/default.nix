@@ -64,6 +64,12 @@ in
       description = "Enable Dissona MCP server";
     };
 
+    enableCircleci = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable MCP CircleCI server for inspecting pipelines, builds, and test results";
+    };
+
     enableContext7 = lib.mkOption {
       type = lib.types.bool;
       default = true;

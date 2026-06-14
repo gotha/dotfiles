@@ -65,6 +65,7 @@ in
   home-manager.users.${username}.programs.mcp = {
     enableAtlassian = false;
     enableAsana = false;
+    enableCircleci = false;
     enableGcloud = false;
     enableGrafana = false;
     enableTempo = false;

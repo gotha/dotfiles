@@ -33,6 +33,12 @@
         key = "GITHUB_PERSONAL_ACCESS_TOKEN_MCP_SERVER";
       };
 
+      "mcp_server_circleci_token" = {
+        sopsFile = ../../secrets/circleci.env.enc;
+        format = "dotenv";
+        key = "CIRCLECI_TOKEN";
+      };
+
       "nextcloud_username" = {
         sopsFile = ../../secrets/nextcloud-credentials-lucie-sync.enc.json;
         format = "json";
