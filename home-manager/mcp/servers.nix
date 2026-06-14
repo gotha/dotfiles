@@ -27,7 +27,7 @@ in
         args = [
           "-y"
           "mcp-remote"
-          "https://dissona.hgeorgiev.com/mcp/sse"
+          "https://dissona.hgeorgiev.com/mcp"
         ];
         description = "Dissona MCP server";
       };
