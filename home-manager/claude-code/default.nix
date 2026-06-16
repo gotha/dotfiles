@@ -17,6 +17,7 @@
     effortLevel = "xhigh";
     env = {
       CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN = "1";
+      CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
     };
   };
 
