@@ -14,6 +14,7 @@ _: {
       "alacritty"
       "audacity"
       "chromium"
+      "claude"
       "dbeaver-community"
       "discord"
       "firefox"
