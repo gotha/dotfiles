@@ -1,0 +1,12 @@
+set the env variable EDITOR to "vim" for all users in lucie
+
+---
+
+when I start a new shell:
+❯ echo $EDITOR
+nano
+why is that?
+
+---
+
+I have run nixos-rebuild switch, I have restarted the my terminal and then I still see EDITOR nano
