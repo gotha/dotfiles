@@ -1,0 +1,4 @@
+my config in home-manager for claude is 
+    effortLevel = "xhigh";
+but when I open claude I see effor "high"
+why?
