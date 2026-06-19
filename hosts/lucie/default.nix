@@ -94,6 +94,8 @@ in
     cudaPackages.cudatoolkit
   ];
 
+  environment.variables.EDITOR = "vim";
+
   # Bluetooth: disable LDAC (decoder has issues), use aptX HD as default
   environment.etc."wireplumber/wireplumber.conf.d/51-disable-ldac.conf".text = ''
     monitor.bluez.properties = {
