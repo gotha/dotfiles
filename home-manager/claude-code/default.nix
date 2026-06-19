@@ -18,6 +18,10 @@
     env = {
       CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN = "1";
       CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
+      # effortLevel above is ignored while Opus 4.8's "launch effort pin"
+      # is active (it forces the per-model default of "high"). The env var
+      # takes top precedence and overrides the pin.
+      CLAUDE_CODE_EFFORT_LEVEL = "xhigh";
     };
   };
 
