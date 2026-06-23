@@ -19,7 +19,7 @@ in
   # (Grafana, Tempo), unused on this host (Gcloud), or
   # that we prefer not to load by default (Playwright).
   home-manager.users.${username}.programs.mcp = {
-    enableDissona = false;
+    enableDissona = true;
     enableAtlassian = false;
     enableGcloud = false;
     enableGrafana = false;
