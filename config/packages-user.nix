@@ -22,6 +22,7 @@ in
   gofumpt
   gopls
   gnumake
+  graphite-cli
   heroku
   hunk
   kubectl
