@@ -23,6 +23,7 @@ in
   gopls
   gnumake
   heroku
+  hunk
   kubectl
   less
   lua

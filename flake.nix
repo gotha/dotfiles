@@ -41,6 +41,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hunk.url = "github:modem-dev/hunk";
   };
   outputs =
     {
@@ -56,6 +57,7 @@
       deploy-rs,
       llm-agents,
       luna-podcatcher,
+      hunk,
       ...
     }:
     let
@@ -82,6 +84,11 @@
                 builtins.intersectAttrs gotha.packages.${system} overlaid;
             })
             llm-agents.overlays.default
+            # Expose the hunk flake's default package as `pkgs.hunk`. The flake
+            # does not ship an overlay, so wire it in by system here.
+            (_final: prev: {
+              hunk = hunk.packages.${prev.stdenv.hostPlatform.system}.default;
+            })
             # crush 0.65.3 has tests that create /tmp/crush-test directly.
             # That path is not writable in Darwin's Nix build sandbox, so the
             # checkPhase fails before the Home Manager generation can build.
