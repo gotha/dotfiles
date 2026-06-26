@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "3abca88f5ad5",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "distros/devbox/default.nix",
+    "flake.lock",
+    "flake.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/3a/bca88f5ad5/0/metadata.json",
+      "transcript": "/3a/bca88f5ad5/0/full.jsonl",
+      "content_hash": "/3a/bca88f5ad5/0/content_hash.txt",
+      "prompt": "/3a/bca88f5ad5/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 6821,
+    "cache_creation_tokens": 71367,
+    "cache_read_tokens": 754725,
+    "output_tokens": 39432,
+    "api_call_count": 18
+  }
+}

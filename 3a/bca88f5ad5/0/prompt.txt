@@ -1,0 +1,3 @@
+after every restart I have to fix the permissions with
+sudo chown -R 70:70 /var/lib/luna-podcatcher/pgdata
+what is breaking them? how to fix it?
