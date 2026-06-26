@@ -228,6 +228,43 @@ in
         incomplete-dir-enabled = true;
       };
     };
+
+    luna-podcatcher = {
+      enable = true;
+      port = 19091;
+      installCli = true;
+
+      environment = {
+        LUNA_LOG_LEVEL = "info";
+        LUNA_TRANSCRIBE_ENDPOINT = "http://127.0.0.1:8910/inference";
+        LUNA_TRANSCRIBE_LANGUAGE = "en";
+      };
+
+      jobs = {
+        crawl = {
+          enable = true;
+          onCalendar = "*:0/30"; # every 30 minutes instead of hourly
+        };
+        download.enable = true;
+        transcribe.enable = true;
+        gc.enable = true;
+      };
+
+      database = {
+        createLocally = true;
+        user = "luna-podcatcher";
+        name = "luna-podcatcher";
+
+        container = {
+          enable = true;
+          image = "postgres:16-alpine"; # docker container image
+          port = 54329; # host-local TCP port (bound to 127.0.0.1)
+          dataDir = "/var/lib/luna-podcatcher/pgdata";
+        };
+      };
+
+    };
+
   };
 
   systemd = {

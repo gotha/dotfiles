@@ -31,6 +31,16 @@
     gotha.url = "github:gotha/nixpkgs?ref=main";
 
     llm-agents.url = "github:numtide/llm-agents.nix";
+
+    luna-podcatcher = {
+      #url = "github:gotha/luna-podcatcher";
+      #url = "git+ssh://git@github.com/gotha/luna-podcatcher?ref=refs/tags/v0.1.0";
+      url = "git+ssh://git@github.com/gotha/luna-podcatcher?ref=release";
+      #url = "git+ssh://git@github.com/gotha/luna-podcatcher?ref=dev";
+      #url = "git+file:///home/gotha/Projects/github.com/gotha/luna-podcatcher";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
   outputs =
     {
@@ -45,6 +55,7 @@
       gotha,
       deploy-rs,
       llm-agents,
+      luna-podcatcher,
       ...
     }:
     let
@@ -101,6 +112,7 @@
           nix-index-database.nixosModules.nix-index
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
+          luna-podcatcher.nixosModules.default
         ];
         platypus = [
           configuration
