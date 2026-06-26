@@ -3,7 +3,7 @@
   "checkpoint_id": "3abca88f5ad5",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 3,
+  "checkpoints_count": 7,
   "files_touched": [
     "distros/devbox/default.nix",
     "flake.lock",
@@ -21,13 +21,19 @@
       "transcript": "/3a/bca88f5ad5/1/full.jsonl",
       "content_hash": "/3a/bca88f5ad5/1/content_hash.txt",
       "prompt": "/3a/bca88f5ad5/1/prompt.txt"
+    },
+    {
+      "metadata": "/3a/bca88f5ad5/2/metadata.json",
+      "transcript": "/3a/bca88f5ad5/2/full.jsonl",
+      "content_hash": "/3a/bca88f5ad5/2/content_hash.txt",
+      "prompt": "/3a/bca88f5ad5/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 14453,
-    "cache_creation_tokens": 132601,
-    "cache_read_tokens": 1368382,
-    "output_tokens": 49856,
-    "api_call_count": 36
+    "input_tokens": 18455,
+    "cache_creation_tokens": 438386,
+    "cache_read_tokens": 3286319,
+    "output_tokens": 69852,
+    "api_call_count": 65
   }
 }

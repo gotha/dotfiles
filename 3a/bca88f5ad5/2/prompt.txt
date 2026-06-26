@@ -1,0 +1,19 @@
+install stremio-linux-shell and torentio on devbox
+
+---
+
+add reviewthem plugin to neovim 
+use {
+  "KEY60228/reviewthem.nvim",
+  config = function()
+    require("reviewthem").setup()
+  end,
+}
+
+---
+
+how to use whisper server with curl?
+
+---
+
+why luna-podcatcher-server.service did not start sucessfuly?
