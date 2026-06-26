@@ -3,3 +3,7 @@ look into the posgres database for luna-podcatcher, how many podcasts await tran
 ---
 
 what deendencies are needed so live grep works in the telescope plugin for neovim
+
+---
+
+commit the staged files
