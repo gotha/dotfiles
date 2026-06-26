@@ -30,6 +30,8 @@
     ruff
     pyright
     nixd
+
+    ripgrep # needed for telescope
   ];
 
   xdg.configFile = {
