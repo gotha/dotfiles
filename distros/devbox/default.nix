@@ -132,11 +132,6 @@ in
       };
     };
 
-    gnupg.agent = {
-      enable = true;
-      pinentryPackage = pkgs.pinentry-curses;
-    };
-
     obs-studio = {
       enable = true;
       plugins = with pkgs.obs-studio-plugins; [

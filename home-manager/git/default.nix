@@ -7,6 +7,7 @@ in
   home.packages = with pkgs; [
     git
     git-lfs
+    pinentry-curses # passphrase prompt for GPG-signing commits
   ];
 
   xdg.configFile."git/ignore".source = ./global_ignore;
@@ -58,5 +59,11 @@ in
       signByDefault = true;
     };
 
+  };
+
+  # GPG agent wired to use pinentry-curses for the commit-signing passphrase prompt.
+  services.gpg-agent = {
+    enable = true;
+    pinentry.package = pkgs.pinentry-curses;
   };
 }
