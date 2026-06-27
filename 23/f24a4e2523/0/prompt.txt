@@ -35,3 +35,7 @@ platypus is meant to run on osx, is the services.gpg-agent configuration going t
 ---
 
 ok, remove the config from bae and devbox then and keep it only in the git module for home manager
+
+---
+
+commit
