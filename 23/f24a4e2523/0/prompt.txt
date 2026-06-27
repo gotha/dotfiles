@@ -1,0 +1,37 @@
+look into the posgres database for luna-podcatcher, how many podcasts await transcription?
+
+---
+
+what deendencies are needed so live grep works in the telescope plugin for neovim
+
+---
+
+commit the staged files
+
+---
+
+look into the posgres database for luna-podcatcher, how many podcasts await transcription?
+
+---
+
+how to open interactive sql shell and execute queries against the podcatcher postgres?
+
+---
+
+add pinetry-curses pkg to home-manager git module because it is needed for signing the git commits
+
+---
+
+yes
+
+---
+
+given the changes we made on home-manager/git and the fact that this module is imported in devbox config, do we need to keep the gpg.agent configuration in devbox?
+
+---
+
+platypus is meant to run on osx, is the services.gpg-agent configuration going to work on mac os?
+
+---
+
+ok, remove the config from bae and devbox then and keep it only in the git module for home manager
