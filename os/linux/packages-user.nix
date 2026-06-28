@@ -9,6 +9,6 @@ with pkgs;
   spotify
   slack
   vlc
-  xfce.thunar
+  thunar
   xterm
 ]
