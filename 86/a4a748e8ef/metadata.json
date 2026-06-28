@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "86a4a748e8ef",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 14,
+  "files_touched": [
+    "home-manager/nvim/default.nix",
+    "home-manager/nvim/init.lua",
+    "home-manager/nvim/lua/config/folding.lua",
+    "home-manager/nvim/lua/plugins/lazy.lua",
+    "home-manager/nvim/lua/plugins/markdown-preview.lua",
+    "home-manager/nvim/lua/plugins/treesitter.lua"
+  ],
+  "sessions": [
+    {
+      "metadata": "/86/a4a748e8ef/0/metadata.json",
+      "transcript": "/86/a4a748e8ef/0/full.jsonl",
+      "content_hash": "/86/a4a748e8ef/0/content_hash.txt",
+      "prompt": "/86/a4a748e8ef/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 9837,
+    "cache_creation_tokens": 431224,
+    "cache_read_tokens": 12404575,
+    "output_tokens": 174983,
+    "api_call_count": 111
+  }
+}
