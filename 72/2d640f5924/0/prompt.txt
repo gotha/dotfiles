@@ -1,0 +1,191 @@
+look into the posgres database for luna-podcatcher, how many podcasts await transcription?
+
+---
+
+what deendencies are needed so live grep works in the telescope plugin for neovim
+
+---
+
+commit the staged files
+
+---
+
+look into the posgres database for luna-podcatcher, how many podcasts await transcription?
+
+---
+
+how to open interactive sql shell and execute queries against the podcatcher postgres?
+
+---
+
+add pinetry-curses pkg to home-manager git module because it is needed for signing the git commits
+
+---
+
+yes
+
+---
+
+given the changes we made on home-manager/git and the fact that this module is imported in devbox config, do we need to keep the gpg.agent configuration in devbox?
+
+---
+
+platypus is meant to run on osx, is the services.gpg-agent configuration going to work on mac os?
+
+---
+
+ok, remove the config from bae and devbox then and keep it only in the git module for home manager
+
+---
+
+commit
+
+---
+
+how to fold python functions in neovim?
+
+---
+
+setup treesitter based folding
+
+---
+
+how to use the folding now?
+
+---
+
+the issue is that now my markdown syntaxy highlighting is not working anymore?
+
+---
+
+I used to have markdown preview setup at <leader>p but it does not work anymore
+
+---
+
+now when I press <leader>p in markdown file I see message like 
+"Preview page: http://localhost:8987/page/1"
+but the browser page does not open automatically like it used to, why?
+
+---
+
+❯ xdg-open https://example.com
+XPCOMGlueLoad error for file /nix/store/REDACTED.0/lib/firefox/libxul.so:
+/nix/store/7yhnah7619h3wjj7id9ivxp4p9z9k7db-nss-3.112.2/lib/libnss3.so: version `NSS_3.113' not found (required by /nix/store/REDACTED.0/lib/firefox/libxul.so)
+Couldn't load XPCOM.
+
+---
+
+now I see this error in nvim:
+Decoration provider "start" (ns=nvim.treesitter.highlighter):
+Lua: ...3/share/nvim/runtime/lua/vim/treesitter/languagetree.lua:215: ...wrapped-0.12.3/share/nvim/runtime/lua/vim/trees
+itter.lua:197: attempt to call method 'range' (a nil value)
+stack traceback:
+        [C]: in function 'f'
+        ...3/share/nvim/runtime/lua/vim/treesitter/languagetree.lua:215: in function 'tcall'
+        ...3/share/nvim/runtime/lua/vim/treesitter/languagetree.lua:596: in function 'parse'
+        ....3/share/nvim/runtime/lua/vim/treesitter/highlighter.lua:580: in function <....3/share/nvim/runtime/lua/vim/t
+reesitter/highlighter.lua:557>
+
+---
+
+Failed to run `config` for nvim-treesitter
+
+/home/gotha/.config/nvim/lua/plugins/treesitter.lua:13: attempt to call field 'install' (a nil value)
+
+# stacktrace:
+  - ~/.config/nvim/lua/plugins/treesitter.lua:13
+  - ~/.config/nvim/lua/plugins/lazy.lua:97 _in_ **config**
+  - ~/.config/nvim/lua/plugins/lazy.lua:19
+  - ~/.config/nvim/init.lua:4
+
+---
+
+3 nvim-treesitter:                                                            ✅
+  4
+  5 Installation
+  6 - ✅ OK tree-sitter found 0.26.8 (parser generator, only needed for :TSInstallFromGrammar)
+  7 - ✅ OK node found v24.15.0 (only needed for :TSInstallFromGrammar)
+  8 - ✅ OK git executable found.
+  9 - ✅ OK gcc executable found. Selected from { "gcc", "cc", "gcc", "clang", "cl", "zig" }                             10   Version: gcc (GCC) 15.2.0                                                                                          11 - ✅ OK Neovim was compiled with tree-sitter runtime ABI version 15 (required >=13). Parsers must be compatible         with runtime ABI.
+ 12
+ 13 OS Info:
+ 14 {
+ 15   machine = "x86_64",
+ 16   release = "6.18.35",
+ 17   sysname = "Linux",
+ 18   version = "#1-NixOS SMP PREEMPT_DYNAMIC Tue Jun  9 10:28:53 UTC 2026"
+ 19 }
+
+but when I start nvim, I see errors like:
+Failed to run `config` for nvim-treesitter
+
+/home/gotha/.config/nvim/lua/plugins/treesitter.lua:13: attempt to call field 'install' (a nil value)
+
+# stacktrace:
+  - ~/.config/nvim/lua/plugins/treesitter.lua:13
+  - ~/.config/nvim/lua/plugins/lazy.lua:97 _in_ **config**
+  - ~/.config/nvim/lua/plugins/lazy.lua:19
+  - ~/.config/nvim/init.lua:4
+vim.schedule callback: ...3/share/nvim/runtime/lua/vim/treesitter/languagetree.lua:215: ...wrapped-0.12.3/share/nvim/run
+time/lua/vim/treesitter.lua:197: attempt to call method 'range' (a nil value)
+stack traceback:
+        [C]: in function 'f'
+        ...3/share/nvim/runtime/lua/vim/treesitter/languagetree.lua:215: in function 'tcall'
+        ...3/share/nvim/runtime/lua/vim/treesitter/languagetree.lua:596: in function <...3/share/nvim/runtime/lua/vim/tr
+eesitter/languagetree.lua:579>
+
+---
+
+can you extract the markdown-preview config into its own config file like home-manager/nvim/lua/plugins/markdown-preview.lua ?
+
+---
+
+can you make the custom markdown open function to be registered only on linux, but not on macos
+
+---
+
+commit
+
+---
+
+❯ nix flake check --all-systems
+warning: Git tree '/home/gotha/Projects/github.com/gotha/dotfiles' is dirty
+evaluation warning: 'system' has been renamed to/replaced by 'stdenv.hostPlatform.system'
+evaluation warning: ‘xfce.thunar’ was moved to top-level. Please use ‘pkgs.thunar’ directly
+warning: unknown flake output 'deploy'
+error: failed to build attribute 'checks.x86_64-linux.statix', build of '/nix/store/REDACTED.drv^*' failed: Cannot build '/nix/store/REDACTED.drv'.
+       Reason: builder failed with exit code 1.
+       Output paths:
+         /nix/store/REDACTED
+       Last 25 log lines:
+       >      │            ╰────────── The key services is first assigned here ...
+       >      │
+       >  106 │   services.keyd.keyboards = {
+       >      │   ───────────┬───────────
+       >      │              ╰───────────── ... repeated here ...
+       >      │
+       >  126 │   services = {
+       >      │   ────┬───
+       >      │       ╰───── ... and here. Try services = { dictation=...; keyd.keyboards=...; =...; } instead.
+       > ─────╯
+       > [20] Warning: Avoid repeated keys in attribute sets
+       >      ╭─[ ./hosts/lucie/default.nix:92:3 ]
+       >      │
+       >   92 │   environment.systemPackages = with pkgs; [
+       >      │   ─────────────┬────────────
+       >      │                ╰────────────── The key environment is first assigned here ...
+       >      │
+       >   97 │   environment.variables.EDITOR = "vim";
+       >      │   ──────────────┬─────────────
+       >      │                 ╰─────────────── ... repeated here ...
+       >      │
+       >  100 │   environment.etc."wireplumber/wireplumber.conf.d/51-disable-ldac.conf".text = ''
+       >      │   ─────────────────────────────────────┬────────────────────────────────────
+       >      │                                        ╰────────────────────────────────────── ... and here. Try environment = { systemPackages=...; variables.EDITOR=...; etc."wireplumber/wireplumber.conf.d/51-disable-ldac.conf".text=...; } instead.
+       > ─────╯
+       For full logs, run:
+         nix log /nix/store/REDACTED.drv
+
+---
+
+fix the statix issue
