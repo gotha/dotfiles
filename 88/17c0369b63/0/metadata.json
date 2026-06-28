@@ -1,0 +1,60 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "8817c0369b63",
+  "session_id": "54a37ee6-5765-4853-84b8-4782eb876dd6",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-28T10:21:43.059585917Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "flake.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "d21fe6116b6e",
+  "checkpoint_transcript_start": 758,
+  "transcript_lines_at_start": 758,
+  "token_usage": {
+    "input_tokens": 231,
+    "cache_creation_tokens": 290492,
+    "cache_read_tokens": 1741031,
+    "output_tokens": 7933,
+    "api_call_count": 7
+  },
+  "session_metrics": {
+    "turn_count": 28
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-28T10:21:43.027689848Z",
+    "agent_lines": 1,
+    "agent_removed": 1,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1,
+    "total_lines_changed": 2,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 485,
+      "user_lines_removed": 0,
+      "agent_lines_added": 326,
+      "agent_lines_removed": 1,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-21-link": 229,
+        ".scratchpad.md": 27
+      }
+    }
+  ]
+}
