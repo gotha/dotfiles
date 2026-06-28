@@ -1,0 +1,1 @@
+evaluation warning: ‘xfce.thunar’ was moved to top-level. Please use ‘pkgs.thunar’ directly
