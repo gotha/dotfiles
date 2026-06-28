@@ -12,6 +12,11 @@
     # Required for lazy.nvim to clone plugins.
     git
     lazygit
+    # nvim-treesitter (main branch) builds parsers via the tree-sitter CLI and a
+    # C compiler, fetching parser sources with curl (tar comes from coreutils).
+    gcc
+    tree-sitter
+    curl
 
     # Formatters used by conform.nvim (lua/plugins/conform.lua).
     rustfmt

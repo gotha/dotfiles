@@ -85,6 +85,19 @@ require("lazy").setup({
 		end,
 	},
 
+	-- Treesitter: syntax-aware highlighting and folding.
+	-- main branch (the rewrite) — required because Neovim 0.12 is unsupported by
+	-- the legacy master branch. main does not support lazy-loading.
+	{
+		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		lazy = false,
+		build = ":TSUpdate",
+		config = function()
+			require("plugins/treesitter")
+		end,
+	},
+
 	-- LSP Configuration
 	{
 		"neovim/nvim-lspconfig",
@@ -173,12 +186,13 @@ require("lazy").setup({
 	{
 		"iamcco/markdown-preview.nvim",
 		ft = { "markdown" },
+		cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
 		build = "cd app && npm install",
 		init = function()
-			vim.g.mkdp_filetypes = { "markdown" }
+			require("plugins/markdown-preview")
 		end,
 		keys = {
-			{ "<leader>p", "<cmd>:MarkdownPreview<cr>", desc = "Markdown Preview" },
+			{ "<leader>p", "<cmd>MarkdownPreview<cr>", desc = "Markdown Preview" },
 		},
 	},
 
