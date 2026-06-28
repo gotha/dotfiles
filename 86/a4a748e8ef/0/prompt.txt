@@ -141,3 +141,7 @@ can you extract the markdown-preview config into its own config file like home-m
 ---
 
 can you make the custom markdown open function to be registered only on linux, but not on macos
+
+---
+
+commit
