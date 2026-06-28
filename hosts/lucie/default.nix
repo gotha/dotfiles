@@ -44,16 +44,6 @@ in
     };
   };
 
-  # Enable dictation with CUDA-accelerated whisper (NVIDIA GPU).
-  # server.enable keeps the model resident in VRAM so dictation doesn't race
-  # ollama for a transient allocation (which intermittently OOM'd).
-  services.dictation = {
-    enable = true;
-    model = "small";
-    whisperPackage = stablePkgs.whisper-cpp.override { cudaSupport = true; };
-    server.enable = true;
-  };
-
   users.users.${username}.packages = with pkgs; [
     jellyfin
     jellyfin-web
@@ -88,42 +78,54 @@ in
     ];
   };
 
-  # Make nvidia-container-cli and CUDA toolkit available system-wide
-  environment.systemPackages = with pkgs; [
-    libnvidia-container
-    cudaPackages.cudatoolkit
-  ];
+  environment = {
+    # Make nvidia-container-cli and CUDA toolkit available system-wide
+    systemPackages = with pkgs; [
+      libnvidia-container
+      cudaPackages.cudatoolkit
+    ];
 
-  environment.variables.EDITOR = "vim";
+    variables.EDITOR = "vim";
 
-  # Bluetooth: disable LDAC (decoder has issues), use aptX HD as default
-  environment.etc."wireplumber/wireplumber.conf.d/51-disable-ldac.conf".text = ''
-    monitor.bluez.properties = {
-      bluez5.codecs = [ aptx_hd aptx aac sbc_xq sbc ]
-    }
-  '';
-
-  services.keyd.keyboards = {
-    keychron = {
-      ids = [ "3434:0260" ];
-      settings.main = {
-        capslock = "overload(control, esc)";
-        esc = "grave";
-      };
-    };
-    ducky = {
-      ids = [ "0416:0123" ];
-      settings = {
-        main = {
-          capslock = "overload(control, esc)";
-          esc = "grave";
-        };
-        shift.delete = "insert";
-      };
-    };
+    # Bluetooth: disable LDAC (decoder has issues), use aptX HD as default
+    etc."wireplumber/wireplumber.conf.d/51-disable-ldac.conf".text = ''
+      monitor.bluez.properties = {
+        bluez5.codecs = [ aptx_hd aptx aac sbc_xq sbc ]
+      }
+    '';
   };
 
   services = {
+    # Enable dictation with CUDA-accelerated whisper (NVIDIA GPU).
+    # server.enable keeps the model resident in VRAM so dictation doesn't race
+    # ollama for a transient allocation (which intermittently OOM'd).
+    dictation = {
+      enable = true;
+      model = "small";
+      whisperPackage = stablePkgs.whisper-cpp.override { cudaSupport = true; };
+      server.enable = true;
+    };
+
+    keyd.keyboards = {
+      keychron = {
+        ids = [ "3434:0260" ];
+        settings.main = {
+          capslock = "overload(control, esc)";
+          esc = "grave";
+        };
+      };
+      ducky = {
+        ids = [ "0416:0123" ];
+        settings = {
+          main = {
+            capslock = "overload(control, esc)";
+            esc = "grave";
+          };
+          shift.delete = "insert";
+        };
+      };
+    };
+
     jellyfin = {
       enable = true;
       openFirewall = true;
