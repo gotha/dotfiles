@@ -95,7 +95,7 @@
             })
           ];
           _module.args.stablePkgs = import nixpkgs-stable {
-            inherit (pkgs) system;
+            inherit (pkgs.stdenv.hostPlatform) system;
             config.allowUnfree = true;
           };
         };
