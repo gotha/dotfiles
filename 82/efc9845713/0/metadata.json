@@ -1,0 +1,110 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "82efc9845713",
+  "session_id": "54a37ee6-5765-4853-84b8-4782eb876dd6",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-29T06:33:25.893383165Z",
+  "branch": "main",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "distros/devbox/dictation.nix",
+    "hosts/lucie/default.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "3c85cc3c8491",
+  "checkpoint_transcript_start": 799,
+  "transcript_lines_at_start": 799,
+  "token_usage": {
+    "input_tokens": 1347,
+    "cache_creation_tokens": 725418,
+    "cache_read_tokens": 12916895,
+    "output_tokens": 86006,
+    "api_call_count": 39
+  },
+  "session_metrics": {
+    "turn_count": 35
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-29T06:33:25.824361198Z",
+    "agent_lines": 63,
+    "agent_removed": 17,
+    "human_added": 1,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 64,
+    "total_lines_changed": 81,
+    "agent_percentage": 98.76543209876543,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 485,
+      "user_lines_removed": 0,
+      "agent_lines_added": 339,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-21-link": 229,
+        ".scratchpad.md": 27
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 485,
+      "user_lines_removed": 0,
+      "agent_lines_added": 325,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-21-link": 229,
+        ".scratchpad.md": 27
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 485,
+      "user_lines_removed": 0,
+      "agent_lines_added": 385,
+      "agent_lines_removed": 17,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-21-link": 229,
+        ".scratchpad.md": 27
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 486,
+      "user_lines_removed": 0,
+      "agent_lines_added": 385,
+      "agent_lines_removed": 17,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-21-link": 229,
+        ".scratchpad.md": 27,
+        "hosts/lucie/default.nix": 1
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 485,
+      "user_lines_removed": 0,
+      "agent_lines_added": 389,
+      "agent_lines_removed": 17,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-21-link": 229,
+        ".scratchpad.md": 27
+      }
+    }
+  ]
+}

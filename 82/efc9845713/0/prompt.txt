@@ -1,0 +1,21 @@
+reduce the comment to a single line
+
+---
+
+commit
+
+---
+
+how to stop claude from signing PR descriptions with "Generated with Claude"?
+
+---
+
+Currently, the dictation module inside the dev box distro has the functionality to lower the volume of the currently playing music when dictation starts. It keeps that functionality but also introduces the configuration controlled by a feature flag or by a module option to pause the music if it's already started instead of lowering the volume and respectively resume the playback while the dictation is over.
+
+---
+
+What do you mean by maker file?
+
+---
+
+modify the play/pause script to use waybar-mpris instead of playerctl
