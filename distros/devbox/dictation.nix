@@ -80,6 +80,52 @@ let
         rm -f "$WHISPER_OUTPUT" "$WHISPER_ERROR"
       '';
 
+  # While recording we "duck" any currently-playing audio so it neither drowns
+  # out the speaker nor leaks into the mic. Two strategies, selected by
+  # cfg.pauseMusic:
+  #   - default:    save the system volume and lower it to 10%, restoring after.
+  #   - pauseMusic: toggle playback via waybar-mpris (if a player is playing)
+  #                 and toggle it back after.
+  # duckStart runs in dictate-hotkey; duckStop runs in dictate once recording
+  # finishes or is cancelled. Each undoes only what it did.
+  duckStart =
+    if cfg.pauseMusic then
+      ''
+        # waybar-mpris only offers a toggle, so gate it on the play state from
+        # `--send list`: toggle (pause) only if something is currently playing,
+        # recording that we did so duckStop only resumes what we paused.
+        # --autofocus makes the toggle target the playing player.
+        if ${pkgs.waybar-mpris}/bin/waybar-mpris --send list 2>/dev/null | grep -q "Playing: true"; then
+          ${pkgs.waybar-mpris}/bin/waybar-mpris --send toggle || true
+          touch /tmp/dictate-paused-music
+        fi
+      ''
+    else
+      ''
+        # Save current volume and lower to 10% during dictation.
+        ${pkgs.pamixer}/bin/pamixer --get-volume > /tmp/dictate-original-volume
+        ${pkgs.pamixer}/bin/pamixer --set-volume 10
+      '';
+
+  duckStop =
+    if cfg.pauseMusic then
+      ''
+        # Resume (toggle back) playback only if we paused it.
+        if [[ -f /tmp/dictate-paused-music ]]; then
+          ${pkgs.waybar-mpris}/bin/waybar-mpris --send toggle || true
+          rm -f /tmp/dictate-paused-music
+        fi
+      ''
+    else
+      ''
+        # Restore the original volume if it was lowered.
+        if [[ -f /tmp/dictate-original-volume ]]; then
+          ORIGINAL_VOL=$(cat /tmp/dictate-original-volume)
+          ${pkgs.pamixer}/bin/pamixer --set-volume "$ORIGINAL_VOL"
+          rm -f /tmp/dictate-original-volume
+        fi
+      '';
+
   # Dictation script using whisper.cpp
   dictate = pkgs.writeShellScriptBin "dictate" ''
     set -euo pipefail
@@ -132,12 +178,8 @@ let
         kill -INT $RECORD_PID 2>/dev/null || true
         wait $RECORD_PID 2>/dev/null || true
 
-        # Restore volume if needed
-        if [[ -f /tmp/dictate-original-volume ]]; then
-          ORIGINAL_VOL=$(cat /tmp/dictate-original-volume)
-          ${pkgs.pamixer}/bin/pamixer --set-volume "$ORIGINAL_VOL"
-          rm -f /tmp/dictate-original-volume
-        fi
+        # Undo audio ducking on cancel
+        ${duckStop}
 
         exit 1
       fi
@@ -155,12 +197,8 @@ let
     sync
     sleep 0.3
 
-    # Restore original volume if it was lowered (for dictate-hotkey)
-    if [[ -f /tmp/dictate-original-volume ]]; then
-      ORIGINAL_VOL=$(cat /tmp/dictate-original-volume)
-      ${pkgs.pamixer}/bin/pamixer --set-volume "$ORIGINAL_VOL"
-      rm -f /tmp/dictate-original-volume
-    fi
+    # Undo audio ducking after recording stops (for dictate-hotkey)
+    ${duckStop}
 
     ${transcribe}
 
@@ -236,14 +274,14 @@ let
   '';
 
   # Hotkey script for global shortcut
-  # Mutes audio, opens a floating terminal for dictation, unmutes after
+  # Ducks currently-playing audio (lowers volume or pauses playback), opens a
+  # floating terminal for dictation, then restores audio after.
   dictate-hotkey = pkgs.writeShellScriptBin "dictate-hotkey" ''
     # Clean up any previous success marker
     rm -f /tmp/dictate-success
 
-    # Save current volume and lower to 10% during dictation
-    ${pkgs.pamixer}/bin/pamixer --get-volume > /tmp/dictate-original-volume
-    ${pkgs.pamixer}/bin/pamixer --set-volume 10
+    # Duck currently-playing audio while dictating.
+    ${duckStart}
 
     # Spawn a floating terminal running dictate wrapper
     ${pkgs.foot}/bin/foot \
@@ -290,6 +328,12 @@ in
       description = "The whisper-cpp package to use for transcription";
     };
 
+    pauseMusic = mkEnableOption ''
+      pausing media playback (via waybar-mpris) while dictating and resuming it
+      afterwards, instead of the default behaviour of lowering the system
+      volume to 10%. Requires a running waybar-mpris daemon (as started by the
+      waybar module) and an MPRIS source such as mpd via mpdris2'';
+
     server = {
       enable = mkEnableOption ''
         an always-on whisper-server that keeps the model resident in VRAM.
@@ -323,7 +367,9 @@ in
       pkgs.pamixer # For volume control
       pkgs.foot # Terminal for dictation hotkey
       pkgs.wtype # For simulating keypresses (Wayland)
-    ];
+    ]
+    # waybar-mpris is only needed for the pauseMusic strategy.
+    ++ optional cfg.pauseMusic pkgs.waybar-mpris;
 
     # Always-on whisper-server: loads the model into VRAM once at boot and keeps
     # it resident, so dictation never races ollama for a transient allocation.

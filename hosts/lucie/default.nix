@@ -101,6 +101,7 @@ in
     # ollama for a transient allocation (which intermittently OOM'd).
     dictation = {
       enable = true;
+      pauseMusic = true; # instead of just lowering the volume while talking
       model = "small";
       whisperPackage = stablePkgs.whisper-cpp.override { cudaSupport = true; };
       server.enable = true;
