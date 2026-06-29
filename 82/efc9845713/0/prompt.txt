@@ -19,3 +19,11 @@ What do you mean by maker file?
 ---
 
 modify the play/pause script to use waybar-mpris instead of playerctl
+
+---
+
+gs
+
+---
+
+commit
