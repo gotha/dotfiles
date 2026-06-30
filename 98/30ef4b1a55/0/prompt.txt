@@ -1,0 +1,57 @@
+reduce the comment to a single line
+
+---
+
+commit
+
+---
+
+how to stop claude from signing PR descriptions with "Generated with Claude"?
+
+---
+
+Currently, the dictation module inside the dev box distro has the functionality to lower the volume of the currently playing music when dictation starts. It keeps that functionality but also introduces the configuration controlled by a feature flag or by a module option to pause the music if it's already started instead of lowering the volume and respectively resume the playback while the dictation is over.
+
+---
+
+What do you mean by maker file?
+
+---
+
+modify the play/pause script to use waybar-mpris instead of playerctl
+
+---
+
+gs
+
+---
+
+commit
+
+---
+
+Currently, after the dictation stops, it starts pasting the content in the input field that's in focus, if there is such an input field. But it takes some time and if the focus changes to another input field while it's pasting, it gets split in multiple places. What I want to do is once the transcription is done to immediately put the entire content in the input field and minimize the chances of changing or losing focus. What can be potentially done about this?
+
+---
+
+lets try just #1 first and later we can extend if needed
+
+---
+
+The pasting of text doesn't seem to work when I hit enter, the window closes, but the actual pasting doesn't happen automatically. I have to press Ctrl + V and I don't want to have to press Ctrl + V, I want automatically to paste the thing that was just transferred.
+
+---
+
+The pasting of text doesn't seem to work when I hit enter, the window closes, but the actual pasting doesn't happen automatically. I have to press Ctrl + V and I don't want to have to press Ctrl + V, I want automatically to paste the thing that was just transferred.
+
+---
+
+The pasting of text doesn't seem to work when I hit enter, the window closes, but the actual pasting doesn't happen automatically. I have to press Ctrl + V and I don't want to have to press Ctrl + V, I want automatically to paste the thing that was just transferred.
+
+---
+
+Yes, I want to dictate to the terminal so we need to detect whether the terminal is running and change the paste combination.
+
+---
+
+Yes, I want to dictate to the terminal so we need to detect whether the terminal is focused and change the paste combination.
