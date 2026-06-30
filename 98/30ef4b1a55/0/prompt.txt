@@ -55,3 +55,7 @@ Yes, I want to dictate to the terminal so we need to detect whether the terminal
 ---
 
 Yes, I want to dictate to the terminal so we need to detect whether the terminal is focused and change the paste combination.
+
+---
+
+Commit.
