@@ -280,6 +280,15 @@ let
     # Clean up any previous success marker
     rm -f /tmp/dictate-success
 
+    # Record the focused window's app id *before* the dictation terminal steals
+    # focus, so we can pick the right paste shortcut afterwards (terminals paste
+    # with Ctrl+Shift+V, other apps with Ctrl+V). app_id covers native Wayland
+    # windows; window_properties.class covers XWayland ones. Empty on failure,
+    # which falls through to the Ctrl+V default below.
+    FOCUSED_APP=$(${pkgs.sway}/bin/swaymsg -t get_tree 2>/dev/null \
+      | ${pkgs.jq}/bin/jq -r 'recurse(.nodes[]?, .floating_nodes[]?) | select(.focused == true) | (.app_id // .window_properties.class // "")' \
+      | head -n1)
+
     # Duck currently-playing audio while dictating.
     ${duckStart}
 
@@ -289,12 +298,28 @@ let
       --window-size-chars=80x15 \
       -e ${dictate-wrapper}/bin/dictate-wrapper 2>/dev/null
 
-    # After foot closes, type the text if successful
+    # After foot closes, paste the text if successful
     if [[ -f /tmp/dictate-success ]]; then
       rm -f /tmp/dictate-success
       sleep 0.2
-      # Get text from clipboard and type it directly (avoids Ctrl+V issues)
-      ${pkgs.wl-clipboard}/bin/wl-paste --no-newline --type text/plain 2>/dev/null | ${pkgs.wtype}/bin/wtype -d 5 - 2>/dev/null || true
+      # The transcription is already on the clipboard (wl-copy in dictate). Paste
+      # it with a single keystroke instead of typing it out character by
+      # character: the whole content lands in one atomic action, so it can't be
+      # split across fields if focus drifts mid-insert.
+      #
+      # The -s delays space out the modifier sequence so the target app registers
+      # the modifiers as held when V arrives; without them wtype fires the events
+      # instantly and nothing pastes (the man page recommends -s for exactly these
+      # modifier sequences). Terminals paste with Ctrl+Shift+V, everything else
+      # (GUI/browser input fields) with Ctrl+V.
+      case "''${FOCUSED_APP,,}" in
+        kitty | alacritty | foot | xterm | *terminal* )
+          ${pkgs.wtype}/bin/wtype -M ctrl -M shift -s 60 -k v -s 60 -m shift -m ctrl 2>/dev/null || true
+          ;;
+        *)
+          ${pkgs.wtype}/bin/wtype -M ctrl -s 60 -k v -s 60 -m ctrl 2>/dev/null || true
+          ;;
+      esac
     fi
   '';
 
