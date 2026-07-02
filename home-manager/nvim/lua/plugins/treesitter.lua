@@ -9,6 +9,20 @@
 -- Parser install needs the tree-sitter CLI + a C compiler + curl, all provided by
 -- the nvim home-manager module. Parsers/queries land in stdpath("data")/site.
 
+-- On macOS the nix cc-wrapper drops libSystem when tree-sitter passes
+-- `--target=arm64-apple-macosx`, breaking parser links. Point the build at the
+-- target-stripping shims from the nvim home-manager module (see default.nix).
+if vim.fn.has("mac") == 1 then
+	local cc = vim.fn.exepath("nvim-ts-cc")
+	local cxx = vim.fn.exepath("nvim-ts-cxx")
+	if cc ~= "" then
+		vim.env.CC = cc
+	end
+	if cxx ~= "" then
+		vim.env.CXX = cxx
+	end
+end
+
 -- Install parsers (idempotent: a no-op when already present; runs async).
 require("nvim-treesitter").install({
 	"python",
