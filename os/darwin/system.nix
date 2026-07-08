@@ -84,6 +84,16 @@
         TrackpadRightClick = true;
         TrackpadThreeFingerDrag = true;
       };
+
+      # Global-domain (`-g` / NSGlobalDomain) keys that nix-darwin exposes no
+      # typed option for — macOS Tahoe "Liquid Glass" tuning. Set via
+      # CustomUserPreferences, equivalent to `defaults write -g <key> ...`.
+      # Floats (4.0 / 8.0) match the original `-float` writes.
+      CustomUserPreferences.NSGlobalDomain = {
+        NSSplitViewItemSidebarDefaultsToFloatingAppearance = false;
+        NSSplitViewItemGlassMinimumCornerRadius = 4.0;
+        NSConvolutionOverride1 = 8.0;
+      };
     };
 
     # backwards compat; don't change
