@@ -56,6 +56,16 @@ fi
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
+# GPG commit signing uses pinentry-curses, which draws its passphrase prompt in
+# the terminal. Export GPG_TTY so gpg-agent knows which TTY to use (otherwise it
+# fails with "Inappropriate ioctl for device", especially inside tmux), and point
+# the running agent at the current TTY on each new shell.
+# Use zsh's built-in $TTY rather than $(tty): the `tty` command inspects stdin,
+# which Powerlevel10k's instant prompt holds during init, making it report
+# "not a tty". $TTY comes from the shell's controlling terminal and is reliable.
+export GPG_TTY=${TTY:-$(tty)}
+gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+
 # enable history
 HISTSIZE=10000
 SAVEHIST=10000
