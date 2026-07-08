@@ -58,6 +58,8 @@ let
   };
 in
 {
+  home.packages = [ pkgs.sketchybar ];
+
   xdg.configFile = lib.mkMerge [
     substitutedPluginConfigs
     regularPluginConfigs

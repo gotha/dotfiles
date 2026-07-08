@@ -126,7 +126,11 @@ inner.horizontal = 5
 inner.vertical =   5
 outer.left =       5
 outer.bottom =     5
-outer.top =        5
+# Reserve room at the top for the 42px SketchyBar.
+# The built-in display's camera-notch safe area already pushes windows down, so it
+# only needs a small gap. Notch-less monitors (incl. the external 4K, which is `main`)
+# need ~bar-height, otherwise tiled windows are drawn on top of the bar.
+outer.top = [{ monitor.'built-in retina display' = 5 }, 42]
 outer.right =      5
 
 [workspace-to-monitor-force-assignment]
