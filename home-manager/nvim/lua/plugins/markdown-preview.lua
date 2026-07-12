@@ -6,6 +6,17 @@
 
 vim.g.mkdp_filetypes = { "markdown" }
 
+-- Keep the browser preview tab open when switching away from the markdown
+-- buffer. Default is 1, which closes the tab as soon as the current buffer is
+-- no longer the previewed markdown file; close it manually with
+-- :MarkdownPreviewStop instead.
+vim.g.mkdp_auto_close = 0
+
+-- Stop the browser preview from scrolling in sync with the cursor in nvim.
+vim.g.mkdp_preview_options = {
+	disable_sync_scroll = 1,
+}
+
 -- Echo the preview URL in nvim as a fallback.
 vim.g.mkdp_echo_preview_url = 1
 
