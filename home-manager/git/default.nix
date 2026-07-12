@@ -4,11 +4,19 @@ let
 in
 {
 
-  home.packages = with pkgs; [
-    git
-    git-lfs
-    pinentry-curses # passphrase prompt for GPG-signing commits
-  ];
+  home = {
+    packages = with pkgs; [
+      git
+      git-lfs
+      pinentry-curses # passphrase prompt for GPG-signing commits
+    ];
+
+    file = {
+      ".config/zsh/gpg_test.zsh".source = pkgs.replaceVars ./gpg_test.zsh {
+        signingKey = cfg.gpgSigningKey;
+      };
+    };
+  };
 
   xdg.configFile."git/ignore".source = ./global_ignore;
 
@@ -55,7 +63,7 @@ in
     };
 
     signing = {
-      key = "C3AB3AC0115DD07B5ACA476E8D8E74E4033D192C";
+      key = cfg.gpgSigningKey;
       signByDefault = true;
     };
 
@@ -65,5 +73,9 @@ in
   services.gpg-agent = {
     enable = true;
     pinentry.package = pkgs.pinentry-curses;
+
+    # Cache the signing-key passphrase for a week so commit signing does not re-prompt constantly
+    defaultCacheTtl = 604800; # 1 week; default 600s
+    maxCacheTtl = 604800; # 1 week; default 7200s
   };
 }
