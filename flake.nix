@@ -83,7 +83,7 @@
                 in
                 builtins.intersectAttrs gotha.packages.${system} overlaid;
             })
-            llm-agents.overlays.default
+            llm-agents.overlays.shared-nixpkgs
             # Expose the hunk flake's default package as `pkgs.hunk`. The flake
             # does not ship an overlay, so wire it in by system here.
             (_final: prev: {
