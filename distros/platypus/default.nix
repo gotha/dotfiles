@@ -45,7 +45,6 @@ in
             ../../home-manager
             ../../home-manager/aerospace
             ../../home-manager/alacritty
-            ../../home-manager/auggie
             ../../home-manager/claude-code
             #../../home-manager/codex
             ../../home-manager/crush

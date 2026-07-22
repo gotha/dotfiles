@@ -5,7 +5,6 @@ with pkgs;
   dbeaver-bin
   gimp
   nicotine-plus
-  gotha.redis-insight-bin
   spotify
   slack
   vlc

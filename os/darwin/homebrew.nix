@@ -21,7 +21,6 @@ _: {
       "google-chrome"
       "gimp"
       "inkscape"
-      "intellij-idea"
       "karabiner-elements"
       "keka"
       "keycastr"
@@ -29,7 +28,6 @@ _: {
       "nextcloud"
       "rar"
       "raycast"
-      "redis-insight"
       "slack"
       "spotify"
       "superwhisper"
@@ -45,8 +43,6 @@ _: {
       "jundot/omlx"
     ];
     brews = [
-      "cookiecutter"
-      "cfn-lint"
       "go"
       "gofumpt"
       "gopls"
