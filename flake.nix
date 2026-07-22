@@ -178,7 +178,7 @@
     {
 
       darwinConfigurations = {
-        "platypus" = darwin.lib.darwinSystem {
+        "HS-DDH669533W" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = distro.platypus ++ [ ./hosts/mucie ];
           specialArgs = {
