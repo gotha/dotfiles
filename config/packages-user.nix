@@ -29,6 +29,7 @@ in
   less
   lua
   ncdu
+  newsraft
   nixd
   nixfmt
   nix-search-cli
