@@ -33,6 +33,7 @@ in
     ../../os/nixos/unfree.nix
     ../../os/linux/virt.nix
     ../../os/linux/user.nix
+    ../../os/linux/zsa.nix
     {
       home-manager = {
         # @todo - maybe make waybar, mako, rofi, etc become deps of sway
