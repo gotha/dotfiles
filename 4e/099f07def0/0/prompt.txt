@@ -28,3 +28,11 @@ can I configure newsraft to download podcasts?
 ---
 
 commit the staged files
+
+---
+
+why was .entire/.gitignore changed?
+
+---
+
+comit it
