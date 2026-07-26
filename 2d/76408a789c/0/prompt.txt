@@ -24,3 +24,7 @@ what is newsboat and podboat?
 ---
 
 can I configure newsraft to download podcasts?
+
+---
+
+commit the staged files
