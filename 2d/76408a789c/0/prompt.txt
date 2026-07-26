@@ -1,0 +1,26 @@
+have I installed any RSS readers in the last month or so?
+
+---
+
+can you find in ~/.config folder and RSS configuration
+
+---
+
+at wat port is running luna-podcatcher-server.service
+
+---
+
+why this address does not return anything :
+http://localhost:19091/feed/b187b434-f6dd-4ab3-b8dc-120cc026b01e/rss
+
+---
+
+does newsraft work on osx?
+
+---
+
+what is newsboat and podboat?
+
+---
+
+can I configure newsraft to download podcasts?

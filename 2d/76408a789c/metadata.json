@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "2d76408a789c",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "distros/devbox/default.nix",
+    "os/linux/zsa.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/2d/76408a789c/0/metadata.json",
+      "transcript": "/2d/76408a789c/0/full.jsonl",
+      "compact_transcript": "/2d/76408a789c/0/transcript.jsonl",
+      "content_hash": "/2d/76408a789c/0/content_hash.txt",
+      "prompt": "/2d/76408a789c/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 49,
+    "cache_creation_tokens": 40221,
+    "cache_read_tokens": 1218843,
+    "output_tokens": 19585,
+    "api_call_count": 26
+  }
+}
