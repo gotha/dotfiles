@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "3415580be7a7",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "config/keyd-symbols.nix",
+    "distros/devbox/default.nix",
+    "hosts/lucie/default.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/34/15580be7a7/0/metadata.json",
+      "transcript": "/34/15580be7a7/0/full.jsonl",
+      "compact_transcript": "/34/15580be7a7/0/transcript.jsonl",
+      "content_hash": "/34/15580be7a7/0/content_hash.txt",
+      "prompt": "/34/15580be7a7/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 44,
+    "cache_creation_tokens": 80229,
+    "cache_read_tokens": 3140102,
+    "output_tokens": 72906,
+    "api_call_count": 24
+  }
+}

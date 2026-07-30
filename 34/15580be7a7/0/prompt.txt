@@ -1,0 +1,9 @@
+I want to set up custom layer for special characters so I don't have to move my fingers to type special characters like brackets quotes and so on when I'm programming. For this reason currently I am having configuration like when cap slope is held down it acts as control so I want to set up another key as a layer kind of key so when this key is pressed a regular key turns into a special character so for example when layer plus cube is pressed that would be opening bracket when layer plus W is pressed that will turn into a closing bracket and so on. I am thinking of either pressing like the right backslash or something like a layer key or maybe I can choose something more in the middle of the keyboard for example what if I hold down J or F since they are already on the home row and my fingers are probably there so when I hold J and then I press Q then this turns into an opening bracket and held J plus W becomes a closing bracket. What do you think about that?
+
+---
+
+Okay, I like the idea of using held down space as the layer key. So what would you recommend me as a layout for having all the brackets, curly brackets, square braces, special mathematical symbols, quotes and all that kind of stuff that most programming languages use? For this one particularly we are not going to use the ZSA keyboard, it should work on any keyboard.
+
+---
+
+Okay, I like that. Let's do the keyd configuration.
