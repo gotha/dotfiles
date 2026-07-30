@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "0d4d741badb4",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "hosts/lucie/default.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0d/4d741badb4/0/metadata.json",
+      "transcript": "/0d/4d741badb4/0/full.jsonl",
+      "compact_transcript": "/0d/4d741badb4/0/transcript.jsonl",
+      "content_hash": "/0d/4d741badb4/0/content_hash.txt",
+      "prompt": "/0d/4d741badb4/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 25,
+    "cache_creation_tokens": 21057,
+    "cache_read_tokens": 919979,
+    "output_tokens": 14204,
+    "api_call_count": 14
+  }
+}

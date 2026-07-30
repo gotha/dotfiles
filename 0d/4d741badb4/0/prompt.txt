@@ -1,0 +1,10 @@
+resolve the conflict
+
+---
+
+add this to config 
+  Since you're on NixOS, put it in configuration.nix instead and sudo nixos-rebuild switch:
+  nix.settings = {
+    extra-substituters = [ "https://nixpkgs-ruby.cachix.org" ];
+    extra-trusted-public-keys = [ "nixpkgs-ruby.cachix.org-1:REDACTED" ];
+  };

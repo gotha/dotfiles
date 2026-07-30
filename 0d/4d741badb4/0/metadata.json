@@ -1,0 +1,70 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "0d4d741badb4",
+  "session_id": "3015a582-ef00-42fc-80b9-b40017eaf209",
+  "strategy": "manual-commit",
+  "created_at": "2026-07-30T17:26:13.81781601Z",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "save_step_count": 1,
+  "files_touched": [
+    "hosts/lucie/default.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "3711b670fe95",
+  "checkpoint_transcript_start": 99,
+  "transcript_lines_at_start": 99,
+  "compact_transcript_start": 20,
+  "token_usage": {
+    "input_tokens": 25,
+    "cache_creation_tokens": 21057,
+    "cache_read_tokens": 919979,
+    "output_tokens": 14204,
+    "api_call_count": 14
+  },
+  "session_metrics": {
+    "turn_count": 5
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-07-30T17:26:13.791262488Z",
+    "agent_lines": 8,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 8,
+    "total_lines_changed": 8,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 812,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-25-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 487,
+      "user_lines_removed": 0,
+      "agent_lines_added": 333,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-25-link": 230,
+        ".scratchpad.md": 27
+      }
+    }
+  ]
+}
