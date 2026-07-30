@@ -24,6 +24,14 @@ in
     ../../os/linux/efi.nix
   ];
 
+  # Binary cache for the nixpkgs-ruby flake (prebuilt Ruby versions).
+  nix.settings = {
+    extra-substituters = [ "https://nixpkgs-ruby.cachix.org" ];
+    extra-trusted-public-keys = [
+      "nixpkgs-ruby.cachix.org-1:vrcdi50fTolOxWCZZkw0jakOnUI1T19oYJ+PRYdK4SM="
+    ];
+  };
+
   networking = {
     hostName = "lucie";
 
