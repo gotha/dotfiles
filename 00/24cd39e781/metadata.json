@@ -3,7 +3,7 @@
   "checkpoint_id": "0024cd39e781",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 1,
+  "checkpoints_count": 4,
   "files_touched": [
     "flake.lock"
   ],
@@ -14,6 +14,13 @@
       "compact_transcript": "/00/24cd39e781/0/transcript.jsonl",
       "content_hash": "/00/24cd39e781/0/content_hash.txt",
       "prompt": "/00/24cd39e781/0/prompt.txt"
+    },
+    {
+      "metadata": "/00/24cd39e781/1/metadata.json",
+      "transcript": "/00/24cd39e781/1/full.jsonl",
+      "compact_transcript": "/00/24cd39e781/1/transcript.jsonl",
+      "content_hash": "/00/24cd39e781/1/content_hash.txt",
+      "prompt": "/00/24cd39e781/1/prompt.txt"
     }
   ],
   "token_usage": {

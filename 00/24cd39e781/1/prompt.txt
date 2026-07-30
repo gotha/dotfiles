@@ -1,0 +1,102 @@
+have I installed any RSS readers in the last month or so?
+
+---
+
+can you find in ~/.config folder and RSS configuration
+
+---
+
+at wat port is running luna-podcatcher-server.service
+
+---
+
+why this address does not return anything :
+http://localhost:19091/feed/b187b434-f6dd-4ab3-b8dc-120cc026b01e/rss
+
+---
+
+does newsraft work on osx?
+
+---
+
+what is newsboat and podboat?
+
+---
+
+can I configure newsraft to download podcasts?
+
+---
+
+commit the staged files
+
+---
+
+why was .entire/.gitignore changed?
+
+---
+
+comit it
+
+---
+
+update nextcloud to resolve this warning: 
+evaluation warning: A legacy Nextcloud install (from before NixOS 26.11) may be installed.
+
+                    After nextcloud33 is installed successfully, you can safely upgrade
+                    to 34. The latest version available is Nextcloud34.
+
+                    Please note that Nextcloud doesn't support upgrades across multiple major versions
+                    (i.e. an upgrade from 16 is possible to 17, but not 16 to 18).
+
+                    The package can be upgraded by explicitly declaring the service-option
+                    `services.nextcloud.package`.
+evaluation warning: Nixpkgs 26.05 will be the last release to support x86_64-darwin; see https://nixos.org/manual/nixpkgs/unstable/release-notes#x86_64-darwin-26.05
+
+---
+
+why ollama build failed:
+error: Cannot build '/nix/store/55pdhdb436bl3idz4lq5n4zhy37kqgaq-ollama-0.32.1.drv'.
+       Reason: builder failed with exit code 2.
+       Output paths:
+         /nix/store/i8cvmzghv03jpbpmxhkxfcp7lwbv737b-ollama-0.32.1
+       Last 25 log lines:
+       > -- Installing: /build/source/build/lib/ollama/libllama-common.so.0.0.0
+       > -- Installing: /build/source/build/lib/ollama/libllama-common.so.0
+       > -- Set non-toolchain portion of runtime path of "/build/source/build/lib/ollama/libllama-common.so.0.0.0" to "$ORIGIN"
+       > -- Installing: /build/source/build/lib/ollama/libllama-common.so
+       > -- Installing: /build/source/build/lib/ollama/libllama-server-impl.so
+       > -- Set non-toolchain portion of runtime path of "/build/source/build/lib/ollama/libllama-server-impl.so" to "$ORIGIN"
+       > -- Installing: /build/source/build/lib/ollama/libllama-quantize-impl.so
+       > -- Set non-toolchain portion of runtime path of "/build/source/build/lib/ollama/libllama-quantize-impl.so" to "$ORIGIN"
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-alderlake.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-cannonlake.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-cascadelake.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-cooperlake.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-haswell.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-icelake.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-ivybridge.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-piledriver.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-sandybridge.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-sapphirerapids.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-skylakex.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-sse42.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-x64.so
+       > -- Installing: /build/source/build/lib/ollama/libggml-cpu-zen4.so
+       > [ 73%] Completed 'ollama-llama-server-local'
+       > [ 73%] Built target ollama-llama-server-local
+       > make: *** [Makefile:136: all] Error 2
+       For full logs, run:
+         nix log /nix/store/55pdhdb436bl3idz4lq5n4zhy37kqgaq-ollama-0.32.1.drv
+error: Cannot build '/nix/store/2rra6nmmk08993inqik774sm76qq3741-system-path.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/sp9ff7yh14clw4hyw1azk9526pr2yggf-system-path
+error: Cannot build '/nix/store/0fmdgli8b940fj7kj59vlvpmbl4dpz0y-unit-ollama.service.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/REDACTED.service
+error: Cannot build '/nix/store/REDACTED.11.20260724.335f073.drv'.
+       Reason: 1 dependency failed.
+       Output paths:
+         /nix/store/bfdzhhgifsdmjiz2dqdd1ifzxsvhgizy-nixos-system-lucie-26.11.20260724.335f073
+Command 'nix --extra-experimental-features 'nix-command flakes' build --print-out-paths '.#nixosConfigurations."lucie".config.system.build.toplevel' --no-link' returned non-zero exit status 1.
