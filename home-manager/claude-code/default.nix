@@ -3,11 +3,22 @@
 # Claude Code reads MCP servers from ~/.mcp.json or via the --mcp-config flag.
 # We reuse the MCP configuration generated at ~/.config/mcp/mcp.json by
 # aliasing `claude` in a zsh snippet sourced from ~/.zshrc.
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
   imports = [ ../mcp ];
 
   home.packages = [ pkgs.claude-code ];
+
+  # Load personal skills from the shared ~/.agents/skills location (managed
+  # outside Nix, e.g. by the skill installer) by pointing ~/.claude/skills at
+  # it. Out-of-store symlink so the target stays mutable.
+  home.file.".claude/skills".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.agents/skills";
 
   home.file.".claude/settings.json".text = lib.generators.toJSON { } {
     theme = "dark";
