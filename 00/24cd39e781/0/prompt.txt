@@ -1,0 +1,5 @@
+how to configure claude code to load skills from the global location at ~/.agents/skills
+
+---
+
+commit the staged files and then make the symlink via nix
