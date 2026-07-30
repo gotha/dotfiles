@@ -30,7 +30,12 @@
     };
   };
 
-  security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    # Reattach sudo to the GUI bootstrap session so Touch ID works inside
+    # tmux/screen; without this, sudo falls back to a password prompt there.
+    reattach = true;
+  };
 
   system = {
     primaryUser = username;
