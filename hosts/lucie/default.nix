@@ -7,6 +7,7 @@
 }:
 let
   wireguard = import ../../config/wireguard.nix;
+  keydSymbols = import ../../config/keyd-symbols.nix;
 in
 {
 
@@ -118,10 +119,14 @@ in
     keyd.keyboards = {
       keychron = {
         ids = [ "3434:0260" ];
-        settings.main = {
-          capslock = "overload(control, esc)";
-          esc = "grave";
-        };
+        settings = {
+          main = {
+            capslock = "overload(control, esc)";
+            esc = "grave";
+            space = keydSymbols.mainSpace;
+          };
+        }
+        // keydSymbols.extraSections;
       };
       ducky = {
         ids = [ "0416:0123" ];
@@ -129,9 +134,11 @@ in
           main = {
             capslock = "overload(control, esc)";
             esc = "grave";
+            space = keydSymbols.mainSpace;
           };
           shift.delete = "insert";
-        };
+        }
+        // keydSymbols.extraSections;
       };
     };
 

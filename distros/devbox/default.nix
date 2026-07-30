@@ -6,6 +6,7 @@
 }:
 let
   cfg = import ../../config/default.nix;
+  keydSymbols = import ../../config/keyd-symbols.nix;
   userPackages = import ../../config/packages-user.nix { inherit pkgs stablePkgs; };
   linuxUserPackages = import ../../os/linux/packages-user.nix { inherit pkgs; };
   systemPackages = import ../../config/packages.nix { inherit pkgs; };
@@ -202,7 +203,13 @@ in
       enable = true;
       keyboards.default = {
         ids = [ "*" ];
-        settings.main.capslock = "overload(control, esc)";
+        settings = {
+          main = {
+            capslock = "overload(control, esc)";
+            space = keydSymbols.mainSpace;
+          };
+        }
+        // keydSymbols.extraSections;
       };
     };
 
