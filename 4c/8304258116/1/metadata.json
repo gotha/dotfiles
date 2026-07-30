@@ -1,0 +1,75 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "4c8304258116",
+  "session_id": "6c0fcd4c-30eb-40f3-8bf6-d25a3c7dbfab",
+  "strategy": "manual-commit",
+  "created_at": "2026-07-30T16:41:19.206588529Z",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "save_step_count": 3,
+  "files_touched": [
+    "hosts/lucie/nextcloud.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "42d45172bae8",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 82,
+    "cache_creation_tokens": 73263,
+    "cache_read_tokens": 2674710,
+    "output_tokens": 41437,
+    "api_call_count": 45
+  },
+  "session_metrics": {
+    "turn_count": 12
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-07-30T16:41:19.178571688Z",
+    "agent_lines": 1,
+    "agent_removed": 1,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1,
+    "total_lines_changed": 2,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 844,
+      "user_lines_removed": 34,
+      "agent_lines_added": 27,
+      "agent_lines_removed": 27,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-24-link": 229,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "flake.lock": 34
+      },
+      "user_removed_per_file": {
+        "flake.lock": 34
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 810,
+      "user_lines_removed": 0,
+      "agent_lines_added": 26,
+      "agent_lines_removed": 26,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 229,
+        ".direnv/flake-profile-24-link": 229,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27
+      }
+    }
+  ]
+}

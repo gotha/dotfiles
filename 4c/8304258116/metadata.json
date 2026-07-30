@@ -3,7 +3,7 @@
   "checkpoint_id": "4c8304258116",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 1,
+  "checkpoints_count": 4,
   "files_touched": [
     "hosts/lucie/nextcloud.nix"
   ],
@@ -14,13 +14,20 @@
       "compact_transcript": "/4c/8304258116/0/transcript.jsonl",
       "content_hash": "/4c/8304258116/0/content_hash.txt",
       "prompt": "/4c/8304258116/0/prompt.txt"
+    },
+    {
+      "metadata": "/4c/8304258116/1/metadata.json",
+      "transcript": "/4c/8304258116/1/full.jsonl",
+      "compact_transcript": "/4c/8304258116/1/transcript.jsonl",
+      "content_hash": "/4c/8304258116/1/content_hash.txt",
+      "prompt": "/4c/8304258116/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 11,
-    "cache_creation_tokens": 26507,
-    "cache_read_tokens": 197388,
-    "output_tokens": 10007,
-    "api_call_count": 6
+    "input_tokens": 93,
+    "cache_creation_tokens": 99770,
+    "cache_read_tokens": 2872098,
+    "output_tokens": 51444,
+    "api_call_count": 51
   }
 }
