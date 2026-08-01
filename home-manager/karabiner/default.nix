@@ -5,7 +5,10 @@
 }:
 {
   config = lib.mkIf pkgs.stdenv.isDarwin {
-    home.packages = [ pkgs.karabiner-elements ];
+    # Karabiner-Elements itself is installed via the Homebrew cask in
+    # os/darwin/homebrew.nix (it needs a system DriverKit extension + daemon
+    # that the nixpkgs package cannot fully provide on Darwin). We only manage
+    # its configuration file here.
 
     # Karabiner-Elements configuration
     home.file.".config/karabiner/karabiner.json".text = builtins.toJSON {
