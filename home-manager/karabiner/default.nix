@@ -1,9 +1,12 @@
 {
+  config,
   lib,
   pkgs,
   ...
 }:
 let
+  cfg = config.programs.karabiner.custom;
+
   # US-keyboard character -> the key (and whether Shift is required) that
   # produces it. Used to translate the `layer` mapping below into Karabiner
   # `to` events.
@@ -110,8 +113,9 @@ let
     };
   };
 
-  # Space layer: while Space is held, each physical key (given as its Karabiner
-  # key_code) emits the mapped character instead of its normal letter.
+  # Special-characters layer: while the layer key is held, each physical key
+  # (given as its Karabiner key_code) emits the mapped character instead of its
+  # normal letter.
   layer = {
     # top row -> shifted number row: ! @ # $ % ^ & * ( )
     q = "!";
@@ -150,6 +154,9 @@ let
     slash = "\\";
   };
 
+  # Karabiner variable toggled while the layer key is held.
+  layerVariable = "special_chars_layer";
+
   # Turn a target character into a Karabiner `to` event.
   toChar =
     char:
@@ -161,7 +168,7 @@ let
     }
     // lib.optionalAttrs (k.shift or false) { modifiers = [ "left_shift" ]; };
 
-  # One manipulator per layer key, gated on the `space_layer` variable.
+  # One manipulator per layer key, gated on the layer variable.
   layerManipulators = lib.mapAttrsToList (fromKey: char: {
     type = "basic";
     from = {
@@ -172,23 +179,23 @@ let
     conditions = [
       {
         type = "variable_if";
-        name = "space_layer";
+        name = layerVariable;
         value = 1;
       }
     ];
   }) layer;
 
-  # Hold Space -> activate the layer; tap Space -> ordinary space.
-  spaceLayerToggle = {
+  # Hold the layer key -> activate the layer; tap it -> its normal output.
+  layerToggle = {
     type = "basic";
     from = {
-      key_code = "spacebar";
+      key_code = cfg.specialCharsLayer.key;
       modifiers.optional = [ "any" ];
     };
     to = [
       {
         set_variable = {
-          name = "space_layer";
+          name = layerVariable;
           value = 1;
         };
       }
@@ -196,15 +203,35 @@ let
     to_after_key_up = [
       {
         set_variable = {
-          name = "space_layer";
+          name = layerVariable;
           value = 0;
         };
       }
     ];
-    to_if_alone = [ { key_code = "spacebar"; } ];
+    to_if_alone = [ { key_code = cfg.specialCharsLayer.key; } ];
+  };
+
+  # The layer rule is only present when the layer is enabled.
+  specialCharsRules = lib.optional cfg.specialCharsLayer.enable {
+    description = "Special characters layer: hold the layer key to type symbols";
+    manipulators = [ layerToggle ] ++ layerManipulators;
   };
 in
 {
+  options.programs.karabiner.custom.specialCharsLayer = {
+    enable = lib.mkEnableOption "the special-characters layer (hold a key to type symbols)";
+
+    key = lib.mkOption {
+      type = lib.types.str;
+      default = "spacebar";
+      example = "right_command";
+      description = ''
+        Karabiner `key_code` of the key that activates the special-characters
+        layer while held. Tapping it still produces its normal output.
+      '';
+    };
+  };
+
   config = lib.mkIf pkgs.stdenv.isDarwin {
     # Karabiner-Elements itself is installed via the Homebrew cask in
     # os/darwin/homebrew.nix (it needs a system DriverKit extension + daemon
@@ -270,12 +297,8 @@ in
                   }
                 ];
               }
-              # Space layer: hold Space to type special characters
-              {
-                description = "Space layer: hold Space for special characters";
-                manipulators = [ spaceLayerToggle ] ++ layerManipulators;
-              }
-            ];
+            ]
+            ++ specialCharsRules;
           };
           simple_modifications = [
             # Swap Control and Globe (Fn) keys globally

@@ -72,6 +72,7 @@ in
               fontSize = 11.0;
               fontFamily = "Iosevka Nerd Font";
             };
+            karabiner.custom.specialCharsLayer.enable = true;
           };
         };
       };
