@@ -1,0 +1,5 @@
+is this layout for special characters inspired by something else? is there a name for it?
+
+---
+
+ollama runs at parallel requests 1, set it to 4
