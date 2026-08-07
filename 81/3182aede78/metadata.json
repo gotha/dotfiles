@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "813182aede78",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "distros/devbox/default.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/81/3182aede78/0/metadata.json",
+      "transcript": "/81/3182aede78/0/full.jsonl",
+      "compact_transcript": "/81/3182aede78/0/transcript.jsonl",
+      "content_hash": "/81/3182aede78/0/content_hash.txt",
+      "prompt": "/81/3182aede78/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 156,
+    "cache_creation_tokens": 937228,
+    "cache_read_tokens": 10543099,
+    "output_tokens": 169547,
+    "api_call_count": 85
+  }
+}
