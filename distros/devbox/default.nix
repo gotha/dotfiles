@@ -2,11 +2,14 @@
   pkgs,
   sops-nix,
   stablePkgs,
+  config,
+  lib,
   ...
 }:
 let
   cfg = import ../../config/default.nix;
   keydSymbols = import ../../config/keyd-symbols.nix;
+  symbolLayer = config.services.keyd.custom.symbolLayer.enable;
   userPackages = import ../../config/packages-user.nix { inherit pkgs stablePkgs; };
   linuxUserPackages = import ../../os/linux/packages-user.nix { inherit pkgs; };
   systemPackages = import ../../config/packages.nix { inherit pkgs; };
@@ -35,6 +38,7 @@ in
     ../../os/linux/virt.nix
     ../../os/linux/user.nix
     ../../os/linux/zsa.nix
+    ../../os/linux/keyd-symbols.nix
     {
       home-manager = {
         # @todo - maybe make waybar, mako, rofi, etc become deps of sway
@@ -206,10 +210,10 @@ in
         settings = {
           main = {
             capslock = "overload(control, esc)";
-            space = keydSymbols.mainSpace;
-          };
+          }
+          // lib.optionalAttrs symbolLayer { space = keydSymbols.mainSpace; };
         }
-        // keydSymbols.extraSections;
+        // lib.optionalAttrs symbolLayer keydSymbols.extraSections;
       };
     };
 

@@ -3,11 +3,13 @@
   stablePkgs,
   username,
   lib,
+  config,
   ...
 }:
 let
   wireguard = import ../../config/wireguard.nix;
   keydSymbols = import ../../config/keyd-symbols.nix;
+  symbolLayer = config.services.keyd.custom.symbolLayer.enable;
 in
 {
 
@@ -116,6 +118,8 @@ in
       server.enable = true;
     };
 
+    # No hold-Space symbol layer on this host.
+    keyd.custom.symbolLayer.enable = false;
     keyd.keyboards = {
       keychron = {
         ids = [ "3434:0260" ];
@@ -123,10 +127,10 @@ in
           main = {
             capslock = "overload(control, esc)";
             esc = "grave";
-            space = keydSymbols.mainSpace;
-          };
+          }
+          // lib.optionalAttrs symbolLayer { space = keydSymbols.mainSpace; };
         }
-        // keydSymbols.extraSections;
+        // lib.optionalAttrs symbolLayer keydSymbols.extraSections;
       };
       ducky = {
         ids = [ "0416:0123" ];
@@ -134,11 +138,11 @@ in
           main = {
             capslock = "overload(control, esc)";
             esc = "grave";
-            space = keydSymbols.mainSpace;
-          };
+          }
+          // lib.optionalAttrs symbolLayer { space = keydSymbols.mainSpace; };
           shift.delete = "insert";
         }
-        // keydSymbols.extraSections;
+        // lib.optionalAttrs symbolLayer keydSymbols.extraSections;
       };
     };
 
