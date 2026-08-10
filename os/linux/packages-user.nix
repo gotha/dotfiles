@@ -10,4 +10,5 @@ with pkgs;
   vlc
   thunar
   xterm
+  zoom-us
 ]
