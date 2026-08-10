@@ -1,0 +1,17 @@
+is this layout for special characters inspired by something else? is there a name for it?
+
+---
+
+ollama runs at parallel requests 1, set it to 4
+
+---
+
+make the special characters layer to be enabled or disabled via nix option and disable it for lucie host
+
+---
+
+at what port is litellm running on this machine
+
+---
+
+install zoom-us as user package for devbox
