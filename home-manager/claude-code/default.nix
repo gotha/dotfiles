@@ -22,7 +22,7 @@
 
   home.file.".claude/settings.json".text = lib.generators.toJSON { } {
     theme = "dark";
-    model = "claude-opus-4-8[1m]";
+    model = "claude-opus-5";
     skipDangerousModePermissionPrompt = true;
     includeCoAuthoredBy = false;
     effortLevel = "xhigh";
