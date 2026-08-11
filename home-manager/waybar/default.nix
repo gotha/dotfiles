@@ -43,7 +43,7 @@
           "battery"
           "custom/language"
           "clock"
-          #"tray"
+          "tray"
         ];
 
         "custom/os" = {
