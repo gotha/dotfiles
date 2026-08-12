@@ -30,7 +30,7 @@ in
     model_list:
       - model_name: gemma4:31b
         litellm_params:
-          model: ollama/gemma4:26b
+          model: ollama/gemma4:31b
           api_base: http://host.docker.internal:11434
           timeout: 600
         model_info:
@@ -49,6 +49,24 @@ in
       - model_name: gemma3:4b
         litellm_params:
           model: ollama/gemma3:4b
+          api_base: http://host.docker.internal:11434
+          timeout: 600
+        model_info:
+          input_cost_per_token: 0.000001
+          output_cost_per_token: 0.000004
+
+      - model_name: qwen3-coder-next:q4_K_M
+        litellm_params:
+          model: ollama/qwen3-coder-next:q4_K_M
+          api_base: http://host.docker.internal:11434
+          timeout: 600
+        model_info:
+          input_cost_per_token: 0.000001
+          output_cost_per_token: 0.000004
+
+      - model_name: qwen3-coder:30b-a3b-q4_K_M
+        litellm_params:
+          model: ollama/qwen3-coder:30b-a3b-q4_K_M
           api_base: http://host.docker.internal:11434
           timeout: 600
         model_info:
