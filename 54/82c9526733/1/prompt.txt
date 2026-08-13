@@ -7,3 +7,7 @@ drop that commit and commit the changes on lazy.lua
 ---
 
 try to commit again
+
+---
+
+commit the changes on crush
