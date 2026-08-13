@@ -65,8 +65,8 @@ let
     }
   ];
 
-  # Self-hosted Ollama instance. Uses Ollama's OpenAI-compatible endpoint
-  # so we declare provider type "openai" with a custom base_url.
+  # Self-hosted Ollama instance, reached via its OpenAI-compatible endpoint
+  # using Crush's `ollama` provider type (see the provider block below).
   # context_window is set to 65536 which requires Ollama to run with
   # `num_ctx >= 65536`. On lucie KV cache is quantized to q8_0 and flash
   # attention is enabled (see hosts/lucie/default.nix), so a 64k cache
@@ -75,6 +75,18 @@ let
     {
       id = "gemma4:26b";
       name = "Gemma 4 26B (ollama @lucie)";
+      context_window = 65536;
+      default_max_tokens = 4096;
+    }
+    {
+      id = "qwen3.6:27b";
+      name = "Qwen 3.6 (ollama @lucie)";
+      context_window = 65536;
+      default_max_tokens = 4096;
+    }
+    {
+      id = "qwen3-coder:30b-a3b-q4_K_M";
+      name = "Qwen 3.6 Coder 30B-A3B (ollama @lucie)";
       context_window = 65536;
       default_max_tokens = 4096;
     }
@@ -88,9 +100,13 @@ let
         api_key = "$OPENAI_API_KEY";
         models = openaiModels;
       };
+      # Local Ollama endpoint. Use Crush's dedicated `ollama` provider type
+      # (not `openai`, which targets genuine OpenAI) so tool calls go through
+      # Ollama's native parsing instead of leaking the model's raw tool-call
+      # syntax (e.g. `<function=...></tool_call>`) into the chat as text.
       lucie = {
-        type = "openai";
-        base_url = "http://10.100.0.100:11434/v1";
+        type = "ollama";
+        base_url = "http://10.100.0.100:11434/v1/";
         api_key = "ollama";
         models = lucieModels;
       };
