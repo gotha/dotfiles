@@ -3,8 +3,10 @@
   "checkpoint_id": "1b573f02944e",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 8,
-  "files_touched": null,
+  "checkpoints_count": 11,
+  "files_touched": [
+    "home-manager/nvim/lua/plugins/lazy.lua"
+  ],
   "sessions": [
     {
       "metadata": "/1b/573f02944e/0/metadata.json",
@@ -12,13 +14,20 @@
       "compact_transcript": "/1b/573f02944e/0/transcript.jsonl",
       "content_hash": "/1b/573f02944e/0/content_hash.txt",
       "prompt": "/1b/573f02944e/0/prompt.txt"
+    },
+    {
+      "metadata": "/1b/573f02944e/1/metadata.json",
+      "transcript": "/1b/573f02944e/1/full.jsonl",
+      "compact_transcript": "/1b/573f02944e/1/transcript.jsonl",
+      "content_hash": "/1b/573f02944e/1/content_hash.txt",
+      "prompt": "/1b/573f02944e/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 211,
-    "cache_creation_tokens": 2066743,
-    "cache_read_tokens": 17989882,
-    "output_tokens": 245523,
-    "api_call_count": 116
+    "input_tokens": 233,
+    "cache_creation_tokens": 2082179,
+    "cache_read_tokens": 20008111,
+    "output_tokens": 258726,
+    "api_call_count": 128
   }
 }
