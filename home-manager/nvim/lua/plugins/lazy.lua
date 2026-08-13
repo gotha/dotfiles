@@ -233,4 +233,11 @@ require("lazy").setup({
 		lazy = false,
 		priority = 1000,
 	},
+}, {
+	-- No plugins here require luarocks (see :checkhealth lazy). Disabling
+	-- hererocks alone isn't enough — lazy would then look for a system
+	-- luarocks, which also isn't installed, and still warn. Disable luarocks
+	-- support entirely so checkhealth reports "luarocks disabled" and stays
+	-- clean. Re-enable if a future plugin uses `build = "rockspec"`.
+	rocks = { enabled = false },
 })
