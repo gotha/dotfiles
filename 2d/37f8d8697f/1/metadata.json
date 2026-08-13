@@ -1,0 +1,73 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "2d37f8d8697f",
+  "session_id": "b7ce3ffd-3951-4c4e-a981-02f9fa5ca374",
+  "strategy": "manual-commit",
+  "created_at": "2026-08-13T10:49:54.407625028Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "save_step_count": 2,
+  "files_touched": [
+    "home-manager/codex/codex-wrapper.nix",
+    "home-manager/codex/default.nix",
+    "home-manager/sops/default.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "7e85c4253a33",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 153,
+    "cache_creation_tokens": 186417,
+    "cache_read_tokens": 10160889,
+    "output_tokens": 130309,
+    "api_call_count": 85
+  },
+  "session_metrics": {
+    "turn_count": 13
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-08-13T10:49:54.356019102Z",
+    "agent_lines": 75,
+    "agent_removed": 4,
+    "human_added": 12,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 87,
+    "total_lines_changed": 91,
+    "agent_percentage": 86.81318681318682,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 812,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-26-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 812,
+      "user_lines_removed": 0,
+      "agent_lines_added": 6,
+      "agent_lines_removed": 4,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-26-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+did you create that commit? 7be3b4d77a99c5280bec903c807d5808d5004450
+
+---
+
+drop that commit and commit the changes on lazy.lua
+
+---
+
+try to commit again
+
+---
+
+commit the changes on crush
+
+---
+
+I still see this error in neovim luarocks ~
+- checking `hererocks` installation
+- ✅ OK no plugins require `luarocks`, so you can ignore any warnings below
+- ✅ OK {python3} `Python 3.12.12`
+- ❌ ERROR {/home/gotha/.local/share/nvim/lazy-rocks/hererocks/bin/luarocks} not installed
+- ⚠️ WARNING {/home/gotha/.local/share/nvim/lazy-rocks/hererocks/bin/lua} version `5.1` not installed
+- ⚠️ WARNING Lazy won't be able to install plugins that require `luarocks`.
+  Here's what you can do:
+   - fix your `luarocks` installation
+   - disable *hererocks* with `opts.rocks.hererocks = false`
+   - disable `luarocks` support completely with `opts.rocks.enabled = false`
