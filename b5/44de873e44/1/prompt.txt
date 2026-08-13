@@ -1,0 +1,50 @@
+can you see the qwen models registered in litellm; register them in the codex configuration so I can use them via codex locally
+
+---
+
+~/Projects/github.com/gotha/dotfiles main ⇣3⇡1 *9 !2 ?3 ❯ codex                                                                                                                                                4m 40s ▼ gotha@lucie   impure
+❯ codex
+Error loading config.toml: `wire_api = "chat"` is no longer supported.
+How to fix: set `wire_api = "responses"` in your provider config.
+More info: https://github.com/openai/codex/discussions/7782
+in `model_providers.litellm.wire_api`
+
+---
+
+codex is asking me whether I want to login via chatgpt or api key, I selected API ket and set random string as key because I dont really needed; 
+then when asked about whether I trust the current folder I confirmed and I got this error:
+> You are in /home/gotha/Projects/github.com/gotha/dotfiles
+
+  Do you trust the contents of this directory? Working with untrusted contents comes with higher risk of prompt injection. Trusting the directory allows project-local config, hooks, and exec policies to load.
+
+› 1. Yes, continue
+  2. No, quit
+
+  Failed to set trust for /home/gotha/Projects/github.com/gotha/dotfiles: config/batchWrite failed in TUI: config/batchWrite failed: failed to persist config.toml: failed to persist config at
+  /nix/store/REDACTED.toml (code -32603)
+
+---
+
+❯   codex --profile qwen-coder
+
+Error loading config.toml: --profile `qwen-coder` cannot be used while /home/gotha/.codex/config.toml contains legacy `profile = "qwen-coder"` or `[profiles.qwen-coder]` config; move those settings into /home/gotha/.codex/qwen-coder.config.toml and remove the legacy profile selector/table. See https://developers.openai.com/codex/config-advanced#profiles for more information.
+
+---
+
+can you make the LITELLM_API_KEY env variable to be injected as env variable to codex wrapper
+
+---
+
+when I start codex I see this message:
+⚠ Model metadata for `qwen3-coder:30b-a3b-q4_K_M` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.
+
+---
+
+when I try to run crush coding agent I get this"
+ │ what model are you using?
+
+ ▌ <function=crush_info>  </tool_call>
+
+
+
+it seems like the tool calling is not quite correctly configured
