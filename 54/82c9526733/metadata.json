@@ -3,8 +3,10 @@
   "checkpoint_id": "5482c9526733",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 8,
-  "files_touched": null,
+  "checkpoints_count": 9,
+  "files_touched": [
+    "home-manager/crush/default.nix"
+  ],
   "sessions": [
     {
       "metadata": "/54/82c9526733/0/metadata.json",
@@ -12,13 +14,20 @@
       "compact_transcript": "/54/82c9526733/0/transcript.jsonl",
       "content_hash": "/54/82c9526733/0/content_hash.txt",
       "prompt": "/54/82c9526733/0/prompt.txt"
+    },
+    {
+      "metadata": "/54/82c9526733/1/metadata.json",
+      "transcript": "/54/82c9526733/1/full.jsonl",
+      "compact_transcript": "/54/82c9526733/1/transcript.jsonl",
+      "content_hash": "/54/82c9526733/1/content_hash.txt",
+      "prompt": "/54/82c9526733/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 211,
-    "cache_creation_tokens": 2066743,
-    "cache_read_tokens": 17989882,
-    "output_tokens": 245523,
-    "api_call_count": 116
+    "input_tokens": 339,
+    "cache_creation_tokens": 2215278,
+    "cache_read_tokens": 25483481,
+    "output_tokens": 342740,
+    "api_call_count": 187
   }
 }
