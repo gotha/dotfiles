@@ -1,0 +1,12 @@
+when I copy text in neovim or when I delete it (by default when I delete a like with dd for example it goes to my clipboard and I can paste it by hitting p) the paste does not work;
+when I hit p, different text pastes, not the one that I copied; 
+when I hit ctrl+shift+v in my terminal, the right text pastes;
+why is that?
+
+---
+
+I am currently on the lucie host using devbox, I am not over ssh, but I am running neovim in tmux if that makes a difference
+
+---
+
+is it possible that powerlevel10k thinks I am remote because the session was started remotely?

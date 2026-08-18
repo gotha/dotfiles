@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "4aff3d967e7d",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "home-manager/nvim/lua/config/clipboard.lua",
+    "home-manager/tmux/tmux.conf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/4a/ff3d967e7d/0/metadata.json",
+      "transcript": "/4a/ff3d967e7d/0/full.jsonl",
+      "compact_transcript": "/4a/ff3d967e7d/0/transcript.jsonl",
+      "content_hash": "/4a/ff3d967e7d/0/content_hash.txt",
+      "prompt": "/4a/ff3d967e7d/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 38,
+    "cache_creation_tokens": 98566,
+    "cache_read_tokens": 961772,
+    "output_tokens": 24947,
+    "api_call_count": 19
+  }
+}
