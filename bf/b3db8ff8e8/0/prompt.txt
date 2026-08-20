@@ -1,0 +1,2 @@
+evaluation warning: stdenv.isLinux is deprecated, use stdenv.hostPlatform.isLinux instead
+evaluation warning: stdenv.isDarwin is deprecated, use stdenv.hostPlatform.isDarwin instead

@@ -1,0 +1,80 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "bfb3db8ff8e8",
+  "session_id": "3dc96b0a-fd49-40a3-a95c-9b069ed75df1",
+  "strategy": "manual-commit",
+  "created_at": "2026-08-20T13:21:08.646076101Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "flake.nix",
+    "home-manager/beets/default.nix",
+    "home-manager/karabiner/default.nix",
+    "home-manager/mpd/darwin.nix",
+    "home-manager/mpd/linux.nix",
+    "home-manager/nvim/default.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5",
+  "turn_id": "6dfefc45824a",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 32,
+    "cache_creation_tokens": 53222,
+    "cache_read_tokens": 672574,
+    "output_tokens": 5110,
+    "api_call_count": 16
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-08-20T13:21:08.638126401Z",
+    "agent_lines": 10,
+    "agent_removed": 7,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 10,
+    "total_lines_changed": 17,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 842,
+      "user_lines_removed": 30,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-27-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "flake.lock": 30
+      },
+      "user_removed_per_file": {
+        "flake.lock": 30
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 812,
+      "user_lines_removed": 0,
+      "agent_lines_added": 10,
+      "agent_lines_removed": 7,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-27-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27
+      }
+    }
+  ]
+}
