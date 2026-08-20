@@ -71,11 +71,11 @@ in
     # C compiler for tree-sitter parser builds. On Darwin use the --target-
     # stripping shims above (the wrapped clang otherwise fails to link); on Linux
     # gcc is the correct default and needs no shim.
-    ++ lib.optionals stdenv.isDarwin [
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [
       nvimTsCc
       nvimTsCxx
     ]
-    ++ lib.optional stdenv.isLinux gcc;
+    ++ lib.optional stdenv.hostPlatform.isLinux gcc;
 
   xdg.configFile = {
     "nvim/init.lua".source = ./init.lua;

@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 {
-  config = lib.mkIf pkgs.stdenv.isLinux {
+  config = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     # mpdris2 provides a D-Bus/MPRIS interface to MPD (consumed by waybar-mpris
     # and other MPRIS clients). Linux-only.
     home.packages = [ pkgs.mpdris2 ];

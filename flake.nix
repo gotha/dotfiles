@@ -95,7 +95,7 @@
             (_final: prev: {
               crush = prev.crush.overrideAttrs (
                 _old:
-                prev.lib.optionalAttrs prev.stdenv.isDarwin {
+                prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin {
                   doCheck = false;
                 }
               );

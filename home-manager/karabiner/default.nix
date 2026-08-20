@@ -232,7 +232,7 @@ in
     };
   };
 
-  config = lib.mkIf pkgs.stdenv.isDarwin {
+  config = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     # Karabiner-Elements itself is installed via the Homebrew cask in
     # os/darwin/homebrew.nix (it needs a system DriverKit extension + daemon
     # that the nixpkgs package cannot fully provide on Darwin). We only manage

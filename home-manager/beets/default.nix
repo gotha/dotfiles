@@ -5,7 +5,10 @@
 }:
 let
   musicDirectory =
-    if pkgs.stdenv.isDarwin then "${config.home.homeDirectory}/Music" else "/mnt/storage/Music";
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      "${config.home.homeDirectory}/Music"
+    else
+      "/mnt/storage/Music";
 in
 {
   home.packages = with pkgs; [
