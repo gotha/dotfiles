@@ -167,10 +167,9 @@ in
         OLLAMA_KV_CACHE_TYPE = "q8_0";
         # Only keep one model resident to guarantee full GPU residency for the
         # active model (no layer split across CPU/GPU when switching models).
-        #OLLAMA_MAX_LOADED_MODELS = "1";
-        OLLAMA_MAX_LOADED_MODELS = "2";
+        OLLAMA_MAX_LOADED_MODELS = "1";
         # Handle up to 4 concurrent requests per model instead of the default 1.
-        OLLAMA_NUM_PARALLEL = "4";
+        OLLAMA_NUM_PARALLEL = "1";
         OLLAMA_KEEP_ALIVE = "24h";
         # Default context window bumped from 32k to 64k. With q8_0 KV cache
         # and flash attention, gemma4:31b + 64k cache fits on the 32 GB RTX 5090.

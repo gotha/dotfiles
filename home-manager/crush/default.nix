@@ -76,19 +76,19 @@ let
       id = "gemma4:26b";
       name = "Gemma 4 26B (ollama @lucie)";
       context_window = 65536;
-      default_max_tokens = 4096;
+      default_max_tokens = 8192;
     }
     {
       id = "qwen3.6:27b";
       name = "Qwen 3.6 (ollama @lucie)";
       context_window = 65536;
-      default_max_tokens = 4096;
+      default_max_tokens = 8192;
     }
     {
       id = "qwen3-coder:30b-a3b-q4_K_M";
       name = "Qwen 3.6 Coder 30B-A3B (ollama @lucie)";
       context_window = 65536;
-      default_max_tokens = 4096;
+      default_max_tokens = 8192;
     }
   ];
 
