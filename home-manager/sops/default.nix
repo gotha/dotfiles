@@ -50,6 +50,14 @@
         format = "json";
         key = "password";
       };
+
+      "crush_openai_key" = {
+        sopsFile = ../../secrets/openai.json.enc;
+        format = "json";
+        key = "CRUSH_API_KEY";
+        path = "${config.home.homeDirectory}/.config/crush/openai-api-key";
+        mode = "0400";
+      };
     };
   };
 

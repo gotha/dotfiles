@@ -1,10 +1,11 @@
-# Crush CLI (charmbracelet) configuration with OpenAI Codex models and MCP.
+# Crush CLI (charmbracelet) configuration with OpenAI models and MCP.
 #
 # Crush reads config from $HOME/.config/crush/crush.json (or .crush.json in
 # the project). We override the built-in `openai` provider to register the
-# latest Codex model IDs and default the large/small slots to them.
+# latest OpenAI API model IDs and default the large/small slots to them.
 #
-# OPENAI_API_KEY must be exported in the shell that runs `crush`.
+# The OpenAI API key is decrypted by sops-nix into a private file and read
+# by Crush at load time, so no secret value is stored in Git or Nix outputs.
 {
   config,
   pkgs,
@@ -32,14 +33,15 @@ let
       _name: value: if (value ? command && !(value ? type)) then value // { type = "stdio"; } else value
     ) servers;
 
-  # Latest Codex-family models as of 2026-04. gpt-5.1-codex is the current
-  # API-available Codex model; gpt-5.1 is the general-purpose counterpart
-  # used as the "small" slot for lighter tasks.
+  # Latest OpenAI API models as of 2026-08. GPT-5.6 Sol is the current
+  # flagship reasoning/coding model, while Terra is the lower-cost sibling
+  # used for lighter tasks. The GPT-5.6 family currently exposes a 272k
+  # context window in OpenAI's docs.
   openaiModels = [
     {
-      id = "gpt-5.1-codex";
-      name = "GPT-5.1 Codex";
-      context_window = 400000;
+      id = "gpt-5.6-sol";
+      name = "GPT-5.6 Sol";
+      context_window = 272000;
       default_max_tokens = 128000;
       can_reason = true;
       has_reasoning_efforts = true;
@@ -47,9 +49,19 @@ let
       supports_attachments = true;
     }
     {
-      id = "gpt-5.1";
-      name = "GPT-5.1";
-      context_window = 400000;
+      id = "gpt-5.6-terra";
+      name = "GPT-5.6 Terra";
+      context_window = 272000;
+      default_max_tokens = 128000;
+      can_reason = true;
+      has_reasoning_efforts = true;
+      default_reasoning_effort = "medium";
+      supports_attachments = true;
+    }
+    {
+      id = "gpt-5.6-luna";
+      name = "GPT-5.6 Luna";
+      context_window = 272000;
       default_max_tokens = 128000;
       can_reason = true;
       has_reasoning_efforts = true;
@@ -97,7 +109,7 @@ let
     providers = {
       openai = {
         type = "openai";
-        api_key = "$OPENAI_API_KEY";
+        api_key = "$(cat ${config.sops.secrets.crush_openai_key.path})";
         models = openaiModels;
       };
       # Local Ollama endpoint. Use Crush's dedicated `ollama` provider type
@@ -119,11 +131,11 @@ let
     };
     models = {
       large = {
-        model = "gpt-5.1-codex";
+        model = "gpt-5.6-sol";
         provider = "openai";
       };
       small = {
-        model = "gpt-5.1";
+        model = "gpt-5.6-terra";
         provider = "openai";
       };
     };
