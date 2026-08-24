@@ -55,9 +55,10 @@ _:
         };
       };
 
-      "dissona.hgeorgiev.com" = {
+      "dissona.app" = {
         forceSSL = true;
         enableACME = true;
+        serverAliases = [ "www.dissona.app" ];
 
         locations."/" = {
           proxyPass = "http://10.100.0.100:7679";
@@ -86,6 +87,13 @@ _:
             proxy_buffering off;
           '';
         };
+      };
+
+      # Old domain - redirect to dissona.app
+      "dissona.hgeorgiev.com" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/".return = "301 https://dissona.app$request_uri";
       };
 
       "chalgarr.hgeorgiev.com" = {
