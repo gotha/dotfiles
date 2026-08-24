@@ -14,3 +14,7 @@ can we configure it to stop doing that via home-manager?
 
 I rebuilt and restarted claude code but I still see git comments ending with :
     Claude-Session: https://claude.ai/code/session_01E8L9sc2rx17NTX2jcispCP
+
+---
+
+commit
