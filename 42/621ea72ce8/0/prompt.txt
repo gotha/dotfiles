@@ -49,3 +49,7 @@ warning: Git tree '/home/gotha/Projects/github.com/gotha/dotfiles' is dirty
 ---
 
 remove deploy-devbox-qemu
+
+---
+
+can we make it so the nix store on the host is used durning build (if present) but it is not mounted afterwards so once the vm is built is would run on any host
