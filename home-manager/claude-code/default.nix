@@ -25,6 +25,10 @@
     model = "claude-opus-5";
     skipDangerousModePermissionPrompt = true;
     includeCoAuthoredBy = false;
+    # Web / Remote Control sessions otherwise append a
+    # "Claude-Session: https://claude.ai/code/session_..." trailer to commits
+    # and a matching link to PR bodies. includeCoAuthoredBy does not cover it.
+    attribution.sessionUrl = false;
     effortLevel = "xhigh";
 
     extraKnownMarketplaces = {
@@ -48,6 +52,21 @@
       CLAUDE_CODE_EFFORT_LEVEL = "xhigh";
     };
   };
+
+  # attribution.sessionUrl above stops Claude Code appending the trailer
+  # itself, but history written before that setting existed still carries it -
+  # dissona, zensourcer and handshake have dozens of such commits. Claude reads
+  # git log to match a repo's commit style and copies the trailer by hand, so
+  # the setting alone does not end it. Say so explicitly.
+  home.file.".claude/CLAUDE.md".text = ''
+    ## Git commits
+
+    Never put a `Claude-Session:` trailer, a `Co-Authored-By: Claude` line, or
+    any other Claude or session attribution in a commit message or PR body -
+    not even when existing commits in the repository have one. That older
+    history was produced by a Claude Code setting that is now disabled; it is
+    not a convention to match.
+  '';
 
   xdg.configFile."zsh/claude.zsh".text = ''
     alias claude="claude --mcp-config ~/.config/mcp/mcp.json --dangerously-skip-permissions"
