@@ -1,0 +1,16 @@
+why is my screen resolution wrong, I am on a 4k monitor
+
+---
+
+While you were testing for a brief moment the resolution switched back to 4k which was what I was expecting and then it returned back to 140p. So it seems like we have like a temporary issue. Can you just set it to 4k and leave it be and hopefully after we start it will be persisted to 4k.
+
+---
+
+claude is signing the git commits with things like
+    Claude-Session: https://claude.ai/code/session_01E8L9sc2rx17NTX2jcispCP
+can we configure it to stop doing that via home-manager?
+
+---
+
+I rebuilt and restarted claude code but I still see git comments ending with :
+    Claude-Session: https://claude.ai/code/session_01E8L9sc2rx17NTX2jcispCP
