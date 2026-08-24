@@ -164,7 +164,7 @@ let
       k = charToKey.${char};
     in
     {
-      key_code = k.key_code;
+      inherit (k) key_code;
     }
     // lib.optionalAttrs (k.shift or false) { modifiers = [ "left_shift" ]; };
 
