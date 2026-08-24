@@ -2,14 +2,13 @@
 
 system=$(nix eval --impure --raw --expr 'builtins.currentSystem')
 
-echo "Checking nix formatting..."
+echo "Running nix checks (nixfmt, statix)..."
 
-if ! nix build ".#checks.${system}.nixfmt"; then
+if ! nix build --no-link ".#checks.${system}.nixfmt" ".#checks.${system}.statix"; then
     echo ""
-    echo "ERROR: Nix files are not properly formatted."
-    echo "Run 'nix fmt' to fix formatting issues."
+    echo "ERROR: nix checks failed (see output above)."
+    echo "Run 'nix fmt' to fix formatting issues; fix statix lints by hand."
     exit 1
 fi
 
-echo "Formatting check passed."
-
+echo "Checks passed."
