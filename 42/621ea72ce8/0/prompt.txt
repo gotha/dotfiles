@@ -1,0 +1,51 @@
+why is my screen resolution wrong, I am on a 4k monitor
+
+---
+
+While you were testing for a brief moment the resolution switched back to 4k which was what I was expecting and then it returned back to 140p. So it seems like we have like a temporary issue. Can you just set it to 4k and leave it be and hopefully after we start it will be persisted to 4k.
+
+---
+
+claude is signing the git commits with things like
+    Claude-Session: https://claude.ai/code/session_01E8L9sc2rx17NTX2jcispCP
+can we configure it to stop doing that via home-manager?
+
+---
+
+I rebuilt and restarted claude code but I still see git comments ending with :
+    Claude-Session: https://claude.ai/code/session_01E8L9sc2rx17NTX2jcispCP
+
+---
+
+commit
+
+---
+
+how to run the devbox-qemu in a qemu vm?
+
+---
+
+remove the run-qemu.sh and replace it with an app in flake.nix 
+so I can execute nix run devbox-qemu and this would build and starts a virtual machine for me
+
+---
+
+seems like it is stuck
+
+❯ nix run .#devbox-qemu
+warning: Git tree '/home/gotha/Projects/github.com/gotha/dotfiles' is dirty
+[1/163/165 built, 109 copied (280.7 MiB), 79.4 MiB DL] building nixos-disk-image: [    1.249146] random: crng init done\
+
+---
+
+<task-notification>
+<task-id>bndqgmbk0</task-id>
+<tool-use-id>toolu_01BddD74MdbJbsc8XVSfhBVv</tool-use-id>
+<output-file>/tmp/nix-shell.LnL7SL/claude-1000/-home-gotha-Projects-github-com-gotha-dotfiles/3dc96b0a-fd49-40a3-a95c-9b069ed75df1/tasks/bndqgmbk0.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for boot test result to appear" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+remove deploy-devbox-qemu
