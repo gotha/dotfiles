@@ -1,0 +1,24 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "05f9c2c3d511",
+  "strategy": "manual-commit",
+  "branch": "bastion-dissona-app-config",
+  "checkpoints_count": 6,
+  "files_touched": null,
+  "sessions": [
+    {
+      "metadata": "/05/f9c2c3d511/0/metadata.json",
+      "transcript": "/05/f9c2c3d511/0/full.jsonl",
+      "compact_transcript": "/05/f9c2c3d511/0/transcript.jsonl",
+      "content_hash": "/05/f9c2c3d511/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 613,
+    "cache_creation_tokens": 1132248,
+    "cache_read_tokens": 61495007,
+    "output_tokens": 194613,
+    "api_call_count": 308
+  }
+}
