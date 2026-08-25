@@ -65,6 +65,12 @@ in
     # ============================================================================
     rspamd = {
       enable = true;
+      # Binds the rspamd_proxy worker to /run/rspamd/rspamd-milter.sock and
+      # points postfix's smtpd_milters at it. Without this the proxy worker
+      # falls back to its default localhost:11332 and postfix's milter
+      # connection fails - mail then flows unsigned, because
+      # milter_default_action is accept.
+      postfix.enable = true;
       locals = {
         "dkim_signing.conf" = {
           text = ''
@@ -96,10 +102,6 @@ in
           text = ''
             milter = yes;
             timeout = 120s;
-            upstream "local" {
-              default = yes;
-              self_scan = yes;
-            }
             count = 4;
             max_retries = 5;
             discard_on_reject = false;
@@ -175,11 +177,10 @@ in
         smtpd_helo_required = "yes";
         smtpd_helo_restrictions = "permit_mynetworks, permit_sasl_authenticated, reject_invalid_helo_hostname, reject_non_fqdn_helo_hostname";
 
-        # Milter configuration for rspamd (DKIM signing)
+        # Milter configuration for rspamd (DKIM signing).
+        # smtpd_milters/non_smtpd_milters come from services.rspamd.postfix.
         milter_default_action = "accept";
         milter_protocol = "6";
-        smtpd_milters = "unix:/run/rspamd/rspamd-milter.sock";
-        non_smtpd_milters = "unix:/run/rspamd/rspamd-milter.sock";
 
         # Virtual mailbox configuration
         virtual_mailbox_domains = [
