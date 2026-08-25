@@ -2,6 +2,9 @@
 
 let
   domain = "hgeorgiev.com";
+  # Second mailbox domain. Its accounts live in the same passwd-file and
+  # /var/vmail tree as hgeorgiev.com - dovecot derives both from the address.
+  dissonaDomain = "dissona.app";
   mailHostname = "mail.${domain}";
   certDir = config.security.acme.certs.${mailHostname}.directory;
 in
@@ -9,13 +12,23 @@ in
   # ============================================================================
   # SOPS Secrets for DKIM
   # ============================================================================
-  sops.secrets.dkim_private_key = {
-    sopsFile = ../../secrets/dkim-key.enc;
-    format = "binary";
-    owner = "rspamd";
-    group = "rspamd";
-    mode = "0400";
-    path = "/var/lib/rspamd/dkim/${domain}.mail.key";
+  sops.secrets = {
+    dkim_private_key = {
+      sopsFile = ../../secrets/dkim-key.enc;
+      format = "binary";
+      owner = "rspamd";
+      group = "rspamd";
+      mode = "0400";
+      path = "/var/lib/rspamd/dkim/${domain}.mail.key";
+    };
+    dkim_private_key_dissona = {
+      sopsFile = ../../secrets/dkim-key-dissona.enc;
+      format = "binary";
+      owner = "rspamd";
+      group = "rspamd";
+      mode = "0400";
+      path = "/var/lib/rspamd/dkim/${dissonaDomain}.mail.key";
+    };
   };
 
   # ============================================================================
@@ -71,6 +84,10 @@ in
               ${domain} {
                 selector = "mail";
                 path = "/var/lib/rspamd/dkim/${domain}.mail.key";
+              }
+              ${dissonaDomain} {
+                selector = "mail";
+                path = "/var/lib/rspamd/dkim/${dissonaDomain}.mail.key";
               }
             }
           '';
@@ -165,7 +182,10 @@ in
         non_smtpd_milters = "unix:/run/rspamd/rspamd-milter.sock";
 
         # Virtual mailbox configuration
-        virtual_mailbox_domains = domain;
+        virtual_mailbox_domains = [
+          domain
+          dissonaDomain
+        ];
         virtual_mailbox_base = "/var/vmail";
         virtual_mailbox_maps = "hash:/var/lib/postfix/conf/vmailbox";
         virtual_alias_maps = "hash:/var/lib/postfix/conf/virtual";
@@ -207,12 +227,17 @@ in
           postmaster@${domain}    ${domain}/postmaster/Maildir/
           admin@${domain}         ${domain}/admin/Maildir/
           me@${domain}            ${domain}/me/Maildir/
+          contacts@${dissonaDomain}    ${dissonaDomain}/contacts/Maildir/
+          no-reply@${dissonaDomain}    ${dissonaDomain}/no-reply/Maildir/
         '';
         virtual = pkgs.writeText "virtual" ''
           # Virtual aliases - format: alias@domain.com    target@domain.com
           # Add your aliases here, e.g.:
           # abuse@${domain}         postmaster@${domain}
           # webmaster@${domain}     postmaster@${domain}
+
+          # RFC 5321 wants postmaster to exist; no mailbox of its own.
+          postmaster@${dissonaDomain}  contacts@${dissonaDomain}
         '';
       };
     };
@@ -323,6 +348,8 @@ in
     "d /var/vmail/${domain}/me/Maildir/new 0750 vmail vmail -"
     "d /var/vmail/${domain}/me/Maildir/cur 0750 vmail vmail -"
     "d /var/vmail/${domain}/me/Maildir/tmp 0750 vmail vmail -"
+    # Dovecot's LMTP creates the per-user Maildirs on first delivery.
+    "d /var/vmail/${dissonaDomain} 0750 vmail vmail -"
   ];
 
   # Dovecot users file (virtual users with passwords)
@@ -333,6 +360,8 @@ in
       # Example:
       # postmaster@${domain}:{SHA512-CRYPT}$6$...hash...
       me@${domain}:{SHA512-CRYPT}$6$QsFatvmI5WDrohOu$zjSBT0LVYfxRYQPDdappLoxFvtbDOfXvc.xH/Aq./Hr4RHKum6sbZvNYAfsmTU.zoLtCjubcSYJhYw3RCty8k.
+      contacts@${dissonaDomain}:{SHA512-CRYPT}$6$FYBErG.3O9WElYQt$OXShfLfnv/KnRLWHlkpxZXGhETIMluRaOx.3SpXQySEWxpcBUuBjg6xN9pCqnYzFB0G2ZrAzJOKuPJIuUSt/f0
+      no-reply@${dissonaDomain}:{SHA512-CRYPT}$6$.U.Kjf9EEo700EuS$NYGOqqc664E7Y3/WqE3jrVlvg2KL4CP9UBIxhD1WfsFM79WclRm.QvRfaqGo2HZXRMY6SlIjvMfpYe8eT80EX.
     '';
     mode = "0600";
     user = "dovecot2";
