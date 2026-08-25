@@ -45,12 +45,10 @@ in
         description = "Virtual mail user";
       };
 
-      # Add postfix and dovecot to the nginx group to read certificates
-      # Add postfix to rspamd group to access the milter socket
-      postfix.extraGroups = [
-        "nginx"
-        "rspamd"
-      ];
+      # Add postfix and dovecot to the nginx group to read certificates.
+      # The milter socket needs no group here - services.rspamd.postfix
+      # creates it as rspamd:postfix.
+      postfix.extraGroups = [ "nginx" ];
       dovecot2.extraGroups = [ "nginx" ];
     };
 
