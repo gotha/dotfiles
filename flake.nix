@@ -133,6 +133,17 @@
         ];
       };
       wireguard = import ./config/wireguard.nix;
+      # Shared by packages.devbox-qemu (the image) and apps.devbox-qemu (which
+      # boots it) - the app needs config.image.filePath for the filename, which
+      # lives on the NixOS config rather than on the derivation.
+      devboxQemuImage = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = distro.devbox ++ [
+          ./os/linux/virtio.nix
+          ./os/linux/repart-image.nix
+        ];
+        specialArgs = { inherit sops-nix; };
+      };
       systems = [
         "x86_64-linux"
         "aarch64-darwin"
@@ -255,18 +266,7 @@
               };
             in
             config.config.system.build.images.qemu;
-          devbox-qemu =
-            let
-              config = nixpkgs.lib.nixosSystem {
-                system = "x86_64-linux";
-                modules = distro.devbox ++ [
-                  ./hosts/qemu1
-                  ./os/linux/virtio.nix
-                ];
-                specialArgs = { inherit sops-nix; };
-              };
-            in
-            config.config.system.build.images.qemu;
+          devbox-qemu = devboxQemuImage.config.system.build.image;
         };
       };
 
@@ -281,16 +281,68 @@
       );
 
       apps.x86_64-linux = {
-        deploy-devbox-qemu = {
-          type = "app";
-          meta.description = "Deploy the devbox QEMU NixOS configuration";
-          program = toString (
-            nixpkgs.legacyPackages.x86_64-linux.writeScript "deploy-devbox-qemu" ''
-              #!/usr/bin/env bash
-              nixos-rebuild switch --flake .#devbox --target-host devbox.qemu --use-remote-sudo
-            ''
-          );
-        };
+        devbox-qemu =
+          let
+            pkgs = nixpkgs.legacyPackages.x86_64-linux;
+            image = self.packages.x86_64-linux.devbox-qemu;
+            imageFile = "${image}/${devboxQemuImage.config.image.filePath}";
+          in
+          {
+            type = "app";
+            meta.description = "Boot the self-contained devbox image in a QEMU VM";
+            program = toString (
+              pkgs.writeShellScript "devbox-qemu" ''
+                set -euo pipefail
+
+                disk="''${DEVBOX_QEMU_DISK:-qemu/devbox.qcow2}"
+                vars="''${disk%.qcow2}-efivars.fd"
+                if [ "''${1-}" = "--fresh" ]; then
+                  rm -f "$disk" "$vars"
+                fi
+
+                # The overlay is only valid for the exact image it was created
+                # from, so a disk left behind by an older build has to go. Left
+                # in place it either boots the previous image, breaks once that
+                # store path is garbage collected, or - if it predates this
+                # setup and has no ESP at all - dies in OVMF with
+                # "BdsDxe: failed to load Boot0002 ... Not Found".
+                if [ -e "$disk" ]; then
+                  backing=$(${pkgs.qemu_kvm}/bin/qemu-img info --output=json "$disk" \
+                    | ${pkgs.jq}/bin/jq -r '."backing-filename" // ""')
+                  if [ "$backing" != "${imageFile}" ]; then
+                    echo "devbox-qemu: $disk was built from a different image, recreating it" >&2
+                    echo "devbox-qemu:   had: ''${backing:-(none)}" >&2
+                    echo "devbox-qemu:   now: ${imageFile}" >&2
+                    rm -f "$disk" "$vars"
+                  fi
+                fi
+
+                # Back a writable qcow2 onto the image rather than copying 47G.
+                if [ ! -e "$disk" ]; then
+                  mkdir -p "$(dirname "$disk")"
+                  ${pkgs.qemu_kvm}/bin/qemu-img create -f qcow2 \
+                    -b ${imageFile} -F raw "$disk" >/dev/null
+                fi
+                # OVMF needs its own writable copy of the variable store.
+                if [ ! -e "$vars" ]; then
+                  install -Dm600 ${pkgs.OVMF.fd}/FV/OVMF_VARS.fd "$vars"
+                fi
+
+                # UEFI, not BIOS: the image boots a UKI from its ESP.
+                # DEVBOX_QEMU_DISPLAY=none plus QEMU_OPTS='-serial stdio' runs it
+                # headless, which is the only way to see the boot at all.
+                exec ${pkgs.qemu_kvm}/bin/qemu-system-x86_64 \
+                  -machine q35 -enable-kvm -cpu host -smp 4 -m 8G \
+                  -drive if=pflash,format=raw,unit=0,readonly=on,file=${pkgs.OVMF.fd}/FV/OVMF_CODE.fd \
+                  -drive if=pflash,format=raw,unit=1,file="$vars" \
+                  -drive file="$disk",format=qcow2,if=virtio \
+                  -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+                  -device virtio-net-pci,netdev=net0 \
+                  -device virtio-vga -display "''${DEVBOX_QEMU_DISPLAY:-gtk}" \
+                  ''${QEMU_OPTS:-}
+              ''
+            );
+          };
       };
 
       devShells = {

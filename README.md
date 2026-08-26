@@ -50,18 +50,38 @@ nix run github:serokell/deploy-rs -- .#bastion
 
 ## Install on QEMU
 
-### Generate and boot disk image
+### Build and boot a VM
 
 ```sh
-nix build .#packages.x86_64-linux.devbox-qemu
-./run-qemu.sh
+nix run .#devbox-qemu
 ```
 
-### Update configuration over ssh
+Builds a self-contained UEFI disk image and boots it. The host's Nix store is
+used to *build* the image but is not mounted into the running VM - the image
+carries its own store on its own partition - so the `.raw` can be copied to any
+machine with a UEFI-capable qemu and booted there.
+
+State lives in `qemu/devbox.qcow2`, a thin overlay backed by the image, so runs
+are cheap and the image itself stays untouched. `nix run .#devbox-qemu -- --fresh`
+discards the overlay and the EFI variables.
+
+An overlay is only valid for the image it was created from, so when the image
+changes the old one is detected and recreated automatically - the VM's state is
+lost at that point, which is unavoidable since the overlay refers to blocks of
+the previous image.
+
+Log in as `gotha`, or `ssh -p 2222 gotha@localhost`.
+
+To build just the image, e.g. to copy it elsewhere:
 
 ```sh
-nix run .#deploy-devbox-qemu
+nix build .#devbox-qemu     # -> result/devbox_1.raw
 ```
+
+The image is built with `systemd-repart` (`os/linux/repart-image.nix`) rather
+than `nixos/lib/make-disk-image.nix`, which every stock image path uses and
+which copies the closure with `cptofs` - that spins forever on a closure this
+size. Note the closure is ~29 GiB, so the image is ~47 GB.
 
 ## Get ready to contribute
 
