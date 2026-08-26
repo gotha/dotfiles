@@ -111,3 +111,7 @@ the vm starts and it boots sway but does not have my wallpaper and my dotfiles
 <status>completed</status>
 <summary>Background command "Boot new image and verify home-manager and wallpaper" completed (exit code 0)</summary>
 </task-notification>
+
+---
+
+create a new branch for this feature, push to remote and open a draft pull request
