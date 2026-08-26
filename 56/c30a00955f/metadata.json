@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "56c30a00955f",
+  "strategy": "manual-commit",
+  "branch": "qemu-vm-repart-image",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "README.md",
+    "flake.nix",
+    "os/linux/repart-image.nix",
+    "run-qemu.sh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/56/c30a00955f/0/metadata.json",
+      "transcript": "/56/c30a00955f/0/full.jsonl",
+      "compact_transcript": "/56/c30a00955f/0/transcript.jsonl",
+      "content_hash": "/56/c30a00955f/0/content_hash.txt",
+      "prompt": "/56/c30a00955f/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 627,
+    "cache_creation_tokens": 1464507,
+    "cache_read_tokens": 63636650,
+    "output_tokens": 198525,
+    "api_call_count": 315
+  }
+}
