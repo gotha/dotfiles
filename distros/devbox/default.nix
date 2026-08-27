@@ -49,6 +49,7 @@ in
         };
         users.${cfg.username}.imports = [
           ../../home-manager
+          ../../home-manager/aerc
           ../../home-manager/beets
           ../../home-manager/claude-code
           ../../home-manager/codex

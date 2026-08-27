@@ -51,6 +51,34 @@
         key = "password";
       };
 
+      # aerc reads these with source-cred-cmd / outgoing-cred-cmd, so the
+      # passwords never land in accounts.conf. All three are real dovecot
+      # users with their own Maildir - see the vmailbox in hosts/bastion/
+      # mail.nix - so no-reply gets a full account like the others.
+      "mail_me_hgeorgiev" = {
+        sopsFile = ../../secrets/mailboxes.enc.json;
+        format = "json";
+        key = "me@hgeorgiev.com";
+        path = "${config.home.homeDirectory}/.config/aerc/me-hgeorgiev.password";
+        mode = "0400";
+      };
+
+      "mail_contacts_dissona" = {
+        sopsFile = ../../secrets/mailboxes.enc.json;
+        format = "json";
+        key = "contacts@dissona.app";
+        path = "${config.home.homeDirectory}/.config/aerc/contacts-dissona.password";
+        mode = "0400";
+      };
+
+      "mail_no_reply_dissona" = {
+        sopsFile = ../../secrets/mailboxes.enc.json;
+        format = "json";
+        key = "no-reply@dissona.app";
+        path = "${config.home.homeDirectory}/.config/aerc/no-reply-dissona.password";
+        mode = "0400";
+      };
+
       "crush_openai_key" = {
         sopsFile = ../../secrets/openai.json.enc;
         format = "json";
