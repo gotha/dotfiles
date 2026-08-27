@@ -1,0 +1,172 @@
+{
+  "cli_version": "0.10.0",
+  "checkpoint_id": "e7f8764a74b0",
+  "session_id": "3dc96b0a-fd49-40a3-a95c-9b069ed75df1",
+  "strategy": "manual-commit",
+  "created_at": "2026-08-27T17:47:42.464550658Z",
+  "branch": "observability",
+  "checkpoints_count": 8,
+  "save_step_count": 6,
+  "files_touched": [
+    "hosts/lucie/default.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5",
+  "turn_id": "161d71e454e2",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 849,
+    "cache_creation_tokens": 2674578,
+    "cache_read_tokens": 107353490,
+    "output_tokens": 259683,
+    "api_call_count": 426
+  },
+  "skill_events_version": 1,
+  "skill_events": [
+    {
+      "id": "prompt-skill-claude-code-clear-2026-08-27T17:32:09.048149428Z",
+      "event_type": "prompt_invocation",
+      "skill": {
+        "name": "clear"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "prompt_slash_command",
+        "confidence": "explicit"
+      },
+      "turn_id": "08361aaf717a",
+      "timestamp": "2026-08-27T17:32:09.048149428Z",
+      "native": {
+        "command": "/clear"
+      },
+      "collapse": {
+        "target": "user_message",
+        "label": "/clear",
+        "default_collapsed": true
+      }
+    }
+  ],
+  "session_metrics": {
+    "turn_count": 27
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-08-27T17:47:42.07069725Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 217,
+    "human_modified": 5,
+    "human_removed": 0,
+    "total_committed": 217,
+    "total_lines_changed": 223,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 910,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "home-manager/antigravity/default.nix": 9,
+        "home-manager/gemini/default.nix": 89
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 928,
+      "user_lines_removed": 0,
+      "agent_lines_added": 82,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "home-manager/antigravity/default.nix": 9,
+        "home-manager/gemini/default.nix": 89,
+        "secrets/mailboxes.enc.json": 18
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 928,
+      "user_lines_removed": 0,
+      "agent_lines_added": 95,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "home-manager/antigravity/default.nix": 9,
+        "home-manager/gemini/default.nix": 89,
+        "secrets/mailboxes.enc.json": 18
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 928,
+      "user_lines_removed": 0,
+      "agent_lines_added": 95,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "home-manager/antigravity/default.nix": 9,
+        "home-manager/gemini/default.nix": 89,
+        "secrets/mailboxes.enc.json": 18
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 915,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "home-manager/antigravity/default.nix": 9,
+        "home-manager/gemini/default.nix": 89,
+        "hosts/lucie/default.nix": 5
+      }
+    },
+    {
+      "checkpoint_number": 7,
+      "user_lines_added": 910,
+      "user_lines_removed": 0,
+      "agent_lines_added": 5,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "home-manager/antigravity/default.nix": 9,
+        "home-manager/gemini/default.nix": 89
+      }
+    }
+  ]
+}

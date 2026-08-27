@@ -1,0 +1,150 @@
+why is my screen resolution wrong, I am on a 4k monitor
+
+---
+
+While you were testing for a brief moment the resolution switched back to 4k which was what I was expecting and then it returned back to 140p. So it seems like we have like a temporary issue. Can you just set it to 4k and leave it be and hopefully after we start it will be persisted to 4k.
+
+---
+
+claude is signing the git commits with things like
+    Claude-Session: https://claude.ai/code/session_01E8L9sc2rx17NTX2jcispCP
+can we configure it to stop doing that via home-manager?
+
+---
+
+I rebuilt and restarted claude code but I still see git comments ending with :
+    Claude-Session: https://claude.ai/code/session_01E8L9sc2rx17NTX2jcispCP
+
+---
+
+commit
+
+---
+
+how to run the devbox-qemu in a qemu vm?
+
+---
+
+remove the run-qemu.sh and replace it with an app in flake.nix 
+so I can execute nix run devbox-qemu and this would build and starts a virtual machine for me
+
+---
+
+seems like it is stuck
+
+❯ nix run .#devbox-qemu
+warning: Git tree '/home/gotha/Projects/github.com/gotha/dotfiles' is dirty
+[1/163/165 built, 109 copied (280.7 MiB), 79.4 MiB DL] building nixos-disk-image: [    1.249146] random: crng init done\
+
+---
+
+<task-notification>
+<task-id>bndqgmbk0</task-id>
+<tool-use-id>toolu_01BddD74MdbJbsc8XVSfhBVv</tool-use-id>
+<output-file>/tmp/nix-shell.LnL7SL/claude-1000/-home-gotha-Projects-github-com-gotha-dotfiles/3dc96b0a-fd49-40a3-a95c-9b069ed75df1/tasks/bndqgmbk0.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for boot test result to appear" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+remove deploy-devbox-qemu
+
+---
+
+can we make it so the nix store on the host is used durning build (if present) but it is not mounted afterwards so once the vm is built is would run on any host
+
+---
+
+<task-notification>
+<task-id>bge73pjy8</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/tmp/nix-shell.LnL7SL/claude-1000/-home-gotha-Projects-github-com-gotha-dotfiles/3dc96b0a-fd49-40a3-a95c-9b069ed75df1/tasks/bge73pjy8.output</output-file>
+<status>completed</status>
+<summary>Background command "Build the app script and inspect image reference" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bakn1637j</task-id>
+<tool-use-id>toolu_01UEEzsdF66q699ay8VBbZVT</tool-use-id>
+<output-file>/tmp/nix-shell.LnL7SL/claude-1000/-home-gotha-Projects-github-com-gotha-dotfiles/3dc96b0a-fd49-40a3-a95c-9b069ed75df1/tasks/bakn1637j.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait and check portable image boot result" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+now when I start the VM I see in qemu - bdsdxe: failed to load Boot0002 UEFI Misc Device ... Not found
+
+---
+
+the vm starts and it boots sway but does not have my wallpaper and my dotfiles
+
+---
+
+<task-notification>
+<task-id>b6p5i8gka</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/tmp/nix-shell.LnL7SL/claude-1000/-home-gotha-Projects-github-com-gotha-dotfiles/3dc96b0a-fd49-40a3-a95c-9b069ed75df1/tasks/b6p5i8gka.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait and check rebuild progress" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bwd70piv3</task-id>
+<tool-use-id>toolu_01WuvEtkRoM8A5oZ2Caun4ub</tool-use-id>
+<output-file>/tmp/nix-shell.LnL7SL/claude-1000/-home-gotha-Projects-github-com-gotha-dotfiles/3dc96b0a-fd49-40a3-a95c-9b069ed75df1/tasks/bwd70piv3.output</output-file>
+<status>completed</status>
+<summary>Background command "Rebuild the image with Nix DB registration" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bbvcduer1</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/tmp/nix-shell.LnL7SL/claude-1000/-home-gotha-Projects-github-com-gotha-dotfiles/3dc96b0a-fd49-40a3-a95c-9b069ed75df1/tasks/bbvcduer1.output</output-file>
+<status>completed</status>
+<summary>Background command "Boot new image and verify home-manager and wallpaper" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+create a new branch for this feature, push to remote and open a draft pull request
+
+---
+
+install aerc e-mail client and configure it to fetch e-mail from mail.hgeorgiev.com for me@hgeorgiev.com and contacts@dissona.app, 
+I have put the credentials for all mailboxes in ./secrets/mailboxes.json; encrypt it and use it via sops
+
+---
+
+mailboxes.enc.json also includes credentials for no-reply@dissona.app
+
+---
+
+how to switch between mailboxes in aerc?
+
+---
+
+now when I open an e-mail it tries to open it in my locally configured app for that and because I dont have such it opens text/plain in my chromium browser, how to configure to use neovim for reading and replying e-mails?
+
+---
+
+commit and push
+
+---
+
+commit
+
+---
+
+commit
+
+---
+
+/clear
