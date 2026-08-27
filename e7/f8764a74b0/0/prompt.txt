@@ -148,3 +148,7 @@ commit
 ---
 
 /clear
+
+---
+
+create a new branch, in it add to the lucie host a new config file that sets up the services - grafana, tempo, prometheus and tempo; I would like later to configure services from docker to send their logs and traces
