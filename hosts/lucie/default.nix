@@ -22,6 +22,7 @@ in
     ./litellm.nix
     ./nextcloud.nix
     ./nightly-build.nix
+    ./observability.nix
     ./tunnels.nix
     ./wireguard.nix
     ../../os/linux/efi.nix
