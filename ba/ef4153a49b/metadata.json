@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.10.0",
+  "checkpoint_id": "baef4153a49b",
+  "strategy": "manual-commit",
+  "branch": "observability",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "hosts/lucie/observability.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/ba/ef4153a49b/0/metadata.json",
+      "transcript": "/ba/ef4153a49b/0/full.jsonl",
+      "compact_transcript": "/ba/ef4153a49b/0/transcript.jsonl",
+      "content_hash": "/ba/ef4153a49b/0/content_hash.txt",
+      "prompt": "/ba/ef4153a49b/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 899,
+    "cache_creation_tokens": 3176981,
+    "cache_read_tokens": 118517190,
+    "output_tokens": 276629,
+    "api_call_count": 451
+  }
+}
