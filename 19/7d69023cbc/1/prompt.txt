@@ -40,3 +40,7 @@ commit the staged file
 ---
 
 what is the log retention in loki?
+
+---
+
+commit the code changes so far; make the changes so the logs are kept for 30days and compacted  afterwards, commit that in a separate commit
