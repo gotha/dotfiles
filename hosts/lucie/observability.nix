@@ -146,6 +146,19 @@ in
           };
         };
 
+        # Chunks are dropped 30 days after ingestion. Loki keeps everything
+        # forever by default, and this shares the root filesystem, so it needs
+        # a bound. Deletion is a compactor job: retention_period on its own is
+        # inert unless retention_enabled is set, and the compactor refuses to
+        # start without delete_request_store.
+        limits_config.retention_period = "30d";
+
+        compactor = {
+          working_directory = "${lokiDir}/compactor";
+          retention_enabled = true;
+          delete_request_store = "filesystem";
+        };
+
         # tsdb + v13 is what Loki 3.x wants; the older boltdb-shipper/v11 combo
         # is accepted but deprecated.
         schema_config.configs = [
