@@ -1,0 +1,46 @@
+when I woke up this morning (15 mins ago) lucie was completely stuck and unresponsive so I had to do hardware reset; 
+I see alers from my monitoring system that certain services were failing since 3:30 AM EET 
+can you check the logs about potential issues?
+
+---
+
+submit issue in github about the problem  with the nigthly build with information about what caused it
+
+---
+
+I fixed the ports and switched; 
+how can we fix the issue with the tempo crashing?
+
+---
+
+<task-notification>
+<task-id>bk663a05e</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/tmp/nix-shell.divI9e/claude-1000/-home-gotha-Projects-github-com-gotha-dotfiles/f2df6df2-f259-432a-b023-cb6d8e10c9f0/tasks/bk663a05e.output</output-file>
+<status>completed</status>
+<summary>Background command "Watch tempo for 150s past the old crash interval" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+can you check if all the observability services are running? 
+what is my grafana password?
+
+---
+
+admin/admin is not working; 
+I tried to reset it
+❯ grafana cli admin reset-admin-password
+Grafana-server Init Failed: Could not find config defaults, make sure homepath command line parameter is set or working directory is homepath
+
+---
+
+commit the staged file
+
+---
+
+what is the log retention in loki?
+
+---
+
+commit the code changes so far; make the changes so the logs are kept for 30days and compacted  afterwards, commit that in a separate commit
