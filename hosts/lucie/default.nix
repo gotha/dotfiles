@@ -36,6 +36,11 @@ in
     ];
   };
 
+  # aarch64 emulation, so this x86_64 box can build the devbox-arm image for
+  # the mac. Registers the binfmt handlers and adds aarch64-linux to nix.conf's
+  # extra-platforms, which is what lets nix build aarch64 derivations here.
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   networking = {
     hostName = "lucie";
 
