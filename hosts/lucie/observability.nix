@@ -11,13 +11,13 @@
 # 127.0.0.1 would be unreachable from a container.
 { config, lib, ... }:
 let
-  grafanaPort = 3000;
-  prometheusPort = 9090;
-  lokiPort = 3100;
-  lokiGrpcPort = 9096;
-  tempoPort = 3200;
-  otlpGrpcPort = 4317;
-  otlpHttpPort = 4318;
+  grafanaPort = 32010;
+  prometheusPort = 32020;
+  lokiPort = 32030;
+  lokiGrpcPort = 32031;
+  tempoPort = 32040;
+  otlpGrpcPort = 32047;
+  otlpHttpPort = 32048;
 
   lokiDir = "/var/lib/loki";
   tempoDir = "/var/lib/tempo";
@@ -178,13 +178,23 @@ in
           http.endpoint = "0.0.0.0:${toString otlpHttpPort}";
         };
 
-        # The unit runs with DynamicUser and StateDirectory=tempo, so these have
-        # to sit under /var/lib/tempo.
+        # The unit runs with DynamicUser, which implies ProtectSystem=strict, so
+        # StateDirectory=tempo is the only writable path. Every path below
+        # otherwise defaults somewhere under /var/tempo and Tempo crash-loops on
+        # "mkdir /var/tempo: read-only file system".
         storage.trace = {
           backend = "local";
           local.path = "${tempoDir}/traces";
           wal.path = "${tempoDir}/wal";
         };
+
+        live_store = {
+          wal.path = "${tempoDir}/live-store/traces";
+          shutdown_marker_dir = "${tempoDir}/live-store/shutdown-marker";
+        };
+
+        block_builder.wal.path = "${tempoDir}/block-builder/traces";
+        backend_scheduler.local_work_path = "${tempoDir}/scheduler";
       };
     };
   };
