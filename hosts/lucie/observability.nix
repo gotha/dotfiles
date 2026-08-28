@@ -101,6 +101,23 @@ in
           }
         ];
       };
+
+      # Dashboards are read out of the store, so the JSON in ./dashboards is the
+      # only source of truth: the UI shows them read-only and a rebuild is what
+      # publishes a change. Edit a copy in Grafana, then export the JSON model
+      # back into ./dashboards - do not expect the UI to save.
+      provision.dashboards.settings = {
+        apiVersion = 1;
+        providers = [
+          {
+            name = "lucie";
+            type = "file";
+            folder = "lucie";
+            allowUiUpdates = false;
+            options.path = ./dashboards;
+          }
+        ];
+      };
     };
 
     prometheus = {
