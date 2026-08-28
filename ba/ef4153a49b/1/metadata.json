@@ -1,0 +1,161 @@
+{
+  "cli_version": "0.10.0",
+  "checkpoint_id": "baef4153a49b",
+  "session_id": "f2df6df2-f259-432a-b023-cb6d8e10c9f0",
+  "strategy": "manual-commit",
+  "created_at": "2026-08-28T05:32:27.42673455Z",
+  "branch": "observability",
+  "checkpoints_count": 6,
+  "save_step_count": 6,
+  "files_touched": [
+    "hosts/lucie/observability.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5",
+  "turn_id": "8bb47e9ed66c",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 132,
+    "cache_creation_tokens": 126912,
+    "cache_read_tokens": 7977573,
+    "output_tokens": 44821,
+    "api_call_count": 66
+  },
+  "session_metrics": {
+    "turn_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-08-28T05:32:27.385470102Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 3,
+    "human_removed": 7,
+    "total_committed": 2,
+    "total_lines_changed": 10,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 922,
+      "user_lines_removed": 7,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "home-manager/antigravity/default.nix": 9,
+        "home-manager/gemini/default.nix": 89,
+        "hosts/lucie/default.nix": 5,
+        "hosts/lucie/observability.nix": 7
+      },
+      "user_removed_per_file": {
+        "hosts/lucie/observability.nix": 7
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 812,
+      "user_lines_removed": 0,
+      "agent_lines_added": 110,
+      "agent_lines_removed": 7,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 812,
+      "user_lines_removed": 0,
+      "agent_lines_added": 110,
+      "agent_lines_removed": 7,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 813,
+      "user_lines_removed": 1,
+      "agent_lines_added": 122,
+      "agent_lines_removed": 9,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "hosts/lucie/observability.nix": 1
+      },
+      "user_removed_per_file": {
+        "hosts/lucie/observability.nix": 1
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 812,
+      "user_lines_removed": 0,
+      "agent_lines_added": 122,
+      "agent_lines_removed": 9,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 814,
+      "user_lines_removed": 2,
+      "agent_lines_added": 122,
+      "agent_lines_removed": 9,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27,
+        "hosts/lucie/observability.nix": 2
+      },
+      "user_removed_per_file": {
+        "hosts/lucie/observability.nix": 2
+      }
+    },
+    {
+      "checkpoint_number": 7,
+      "user_lines_added": 812,
+      "user_lines_removed": 0,
+      "agent_lines_added": 122,
+      "agent_lines_removed": 9,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".direnv/flake-profile": 230,
+        ".direnv/flake-profile-28-link": 230,
+        ".opencode/plugins/entire.ts": 216,
+        ".scratchpad.md": 27
+      }
+    }
+  ]
+}
