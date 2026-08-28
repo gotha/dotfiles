@@ -83,6 +83,33 @@ than `nixos/lib/make-disk-image.nix`, which every stock image path uses and
 which copies the closure with `cptofs` - that spins forever on a closure this
 size. Note the closure is ~29 GiB, so the image is ~47 GB.
 
+### Apple silicon
+
+`nix run .#devbox-qemu` on a Mac boots an ARM build of the same devbox.
+`-machine virt -accel hvf -cpu host` is hardware virtualisation rather than
+emulation, so the guest runs at native speed - which is the whole reason for a
+second image instead of running the x86 one under TCG. The overlay lives in
+`qemu/devbox-arm.qcow2`, separate from the x86 one.
+
+The image comes from the `devbox-arm` distro (`distros/devbox-arm`): devbox with
+everything nixpkgs has no aarch64-linux build for filtered out of the user
+package set - currently spotify, slack and zoom-us - plus steam, which no
+package list mentions but whose module switches on
+`hardware.graphics.enable32Bit` and asserts off x86_64. To build just the image:
+
+```sh
+nix build .#packages.aarch64-linux.devbox-qemu
+```
+
+On a Mac that goes through the Linux builder rather than the local store, so the
+first build is a long one - it is the same ~29 GiB closure, and the unfree parts
+(`_1password-cli`, `dbeaver-bin`, `heroku`) are not on Hydra and get built
+locally.
+
+Two things to expect from the guest: sway runs on llvmpipe, because virtio-gpu
+hands it no GPU acceleration, and the `.raw` is aarch64-only - it will not boot
+on any of the x86 hosts.
+
 ## Get ready to contribute
 
 ```sh

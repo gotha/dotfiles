@@ -106,7 +106,7 @@
             config.allowUnfree = true;
           };
         };
-      distro = {
+      distro = rec {
         bae = [
           configuration
           ./distros/bae
@@ -121,6 +121,8 @@
           sops-nix.nixosModules.sops
           luna-podcatcher.nixosModules.default
         ];
+        # devbox minus whatever nixpkgs has no aarch64-linux build for.
+        devbox-arm = devbox ++ [ ./distros/devbox-arm ];
         platypus = [
           configuration
           ./distros/platypus
@@ -136,14 +138,101 @@
       # Shared by packages.devbox-qemu (the image) and apps.devbox-qemu (which
       # boots it) - the app needs config.image.filePath for the filename, which
       # lives on the NixOS config rather than on the derivation.
-      devboxQemuImage = nixpkgs.lib.nixosSystem {
+      mkDevboxQemuImage =
+        { system, modules }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = modules ++ [
+            ./os/linux/virtio.nix
+            ./os/linux/repart-image.nix
+          ];
+          specialArgs = { inherit sops-nix; };
+        };
+      devboxQemuImage = mkDevboxQemuImage {
         system = "x86_64-linux";
-        modules = distro.devbox ++ [
-          ./os/linux/virtio.nix
-          ./os/linux/repart-image.nix
-        ];
-        specialArgs = { inherit sops-nix; };
+        modules = distro.devbox;
       };
+      devboxQemuImageArm = mkDevboxQemuImage {
+        system = "aarch64-linux";
+        modules = distro.devbox-arm;
+      };
+      # The two runners differ only in the qemu binary, the UEFI firmware and
+      # the machine/accelerator flags. Everything around the writable overlay
+      # is identical, so build both from one template and keep that logic in
+      # one place.
+      mkDevboxQemuApp =
+        {
+          pkgs,
+          qemu,
+          imageFile,
+          defaultDisk,
+          varsTemplate,
+          qemuCommand,
+        }:
+        {
+          type = "app";
+          meta.description = "Boot the self-contained devbox image in a QEMU VM";
+          program = toString (
+            pkgs.writeShellScript "devbox-qemu" ''
+              set -euo pipefail
+
+              disk="''${DEVBOX_QEMU_DISK:-${defaultDisk}}"
+              vars="''${disk%.qcow2}-efivars.fd"
+              # A prebuilt .raw can be booted straight from disk. The store path
+              # below is the default, but a Mac cannot build a Linux image at
+              # all, so pointing at a file copied in from a Linux builder is the
+              # only way to run one here.
+              image="''${DEVBOX_QEMU_IMAGE:-${imageFile}}"
+              # qcow2 resolves a relative backing path against the qcow2's own
+              # directory, not the working directory, so make it absolute here
+              # or the overlay ends up pointing at qemu/qemu/devbox_1.raw.
+              case "$image" in
+                /*) ;;
+                *) image="$PWD/$image" ;;
+              esac
+              if [ "''${1-}" = "--fresh" ]; then
+                rm -f "$disk" "$vars"
+              fi
+
+              # The overlay is only valid for the exact image it was created
+              # from, so a disk left behind by an older build has to go. Left
+              # in place it either boots the previous image, breaks once that
+              # store path is garbage collected, or - if it predates this
+              # setup and has no ESP at all - dies in the firmware with
+              # "BdsDxe: failed to load Boot0002 ... Not Found".
+              if [ -e "$disk" ]; then
+                backing=$(${qemu}/bin/qemu-img info --output=json "$disk" \
+                  | ${pkgs.jq}/bin/jq -r '."backing-filename" // ""')
+                if [ "$backing" != "$image" ]; then
+                  echo "devbox-qemu: $disk was built from a different image, recreating it" >&2
+                  echo "devbox-qemu:   had: ''${backing:-(none)}" >&2
+                  echo "devbox-qemu:   now: $image" >&2
+                  rm -f "$disk" "$vars"
+                fi
+              fi
+
+              # Back a writable qcow2 onto the image rather than copying 47G.
+              if [ ! -e "$disk" ]; then
+                mkdir -p "$(dirname "$disk")"
+                ${qemu}/bin/qemu-img create -f qcow2 \
+                  -b "$image" -F raw "$disk" >/dev/null
+              fi
+              # The firmware needs its own writable copy of the variable store.
+              # Spelled out rather than `install -D`, which is a GNU extension
+              # the install(1) in macOS base does not have.
+              if [ ! -e "$vars" ]; then
+                mkdir -p "$(dirname "$vars")"
+                cp ${varsTemplate} "$vars"
+                chmod 600 "$vars"
+              fi
+
+              # UEFI, not BIOS: the image boots a UKI from its ESP.
+              # DEVBOX_QEMU_DISPLAY=none plus QEMU_OPTS='-serial stdio' runs it
+              # headless, which is the only way to see the boot at all.
+              ${qemuCommand}
+            ''
+          );
+        };
       systems = [
         "x86_64-linux"
         "aarch64-darwin"
@@ -268,6 +357,9 @@
             config.config.system.build.images.qemu;
           devbox-qemu = devboxQemuImage.config.system.build.image;
         };
+        aarch64-linux = {
+          devbox-qemu = devboxQemuImageArm.config.system.build.image;
+        };
       };
 
       formatter = forAllSystems (
@@ -280,68 +372,97 @@
         ''
       );
 
-      apps.x86_64-linux = {
-        devbox-qemu =
+      apps = {
+        x86_64-linux.devbox-qemu =
           let
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
-            image = self.packages.x86_64-linux.devbox-qemu;
-            imageFile = "${image}/${devboxQemuImage.config.image.filePath}";
           in
-          {
-            type = "app";
-            meta.description = "Boot the self-contained devbox image in a QEMU VM";
-            program = toString (
-              pkgs.writeShellScript "devbox-qemu" ''
-                set -euo pipefail
+          mkDevboxQemuApp {
+            inherit pkgs;
+            qemu = pkgs.qemu_kvm;
+            imageFile = "${self.packages.x86_64-linux.devbox-qemu}/${devboxQemuImage.config.image.filePath}";
+            defaultDisk = "qemu/devbox.qcow2";
+            varsTemplate = "${pkgs.OVMF.fd}/FV/OVMF_VARS.fd";
+            qemuCommand = ''
+              exec ${pkgs.qemu_kvm}/bin/qemu-system-x86_64 \
+                -machine q35 -enable-kvm -cpu host -smp 4 -m 8G \
+                -drive if=pflash,format=raw,unit=0,readonly=on,file=${pkgs.OVMF.fd}/FV/OVMF_CODE.fd \
+                -drive if=pflash,format=raw,unit=1,file="$vars" \
+                -drive file="$disk",format=qcow2,if=virtio \
+                -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+                -device virtio-net-pci,netdev=net0 \
+                -device virtio-vga -display "''${DEVBOX_QEMU_DISPLAY:-gtk}" \
+                ''${QEMU_OPTS:-}
+            '';
+          };
 
-                disk="''${DEVBOX_QEMU_DISK:-qemu/devbox.qcow2}"
-                vars="''${disk%.qcow2}-efivars.fd"
-                if [ "''${1-}" = "--fresh" ]; then
-                  rm -f "$disk" "$vars"
-                fi
+        # devbox-arm on Apple silicon. accel=hvf with -cpu host is real
+        # hardware virtualisation, so the guest runs at native speed - the
+        # whole point of building an ARM image rather than emulating the
+        # x86 one.
+        aarch64-darwin.devbox-qemu =
+          let
+            pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+            # qemu ships the ARM edk2 build itself, both blobs already padded
+            # to the 64M that the virt machine's pflash wants, so there is no
+            # separate OVMF package to chase on darwin.
+            firmware = "${pkgs.qemu}/share/qemu";
+          in
+          mkDevboxQemuApp {
+            inherit pkgs;
+            inherit (pkgs) qemu;
+            imageFile = "${self.packages.aarch64-linux.devbox-qemu}/${devboxQemuImageArm.config.image.filePath}";
+            defaultDisk = "qemu/devbox-arm.qcow2";
+            varsTemplate = "${firmware}/edk2-arm-vars.fd";
+            qemuCommand = ''
+              # virt has no VGA, so virtio-gpu-pci rather than virtio-vga. There
+              # is no GPU passthrough either way - sway lands on llvmpipe.
+              exec ${pkgs.qemu}/bin/qemu-system-aarch64 \
+                -machine virt,accel=hvf -cpu host -smp 4 -m 8G \
+                -drive if=pflash,format=raw,unit=0,readonly=on,file=${firmware}/edk2-aarch64-code.fd \
+                -drive if=pflash,format=raw,unit=1,file="$vars" \
+                -drive file="$disk",format=qcow2,if=virtio \
+                -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+                -device virtio-net-pci,netdev=net0 \
+                -device virtio-gpu-pci -display "''${DEVBOX_QEMU_DISPLAY:-cocoa}" \
+                ''${QEMU_OPTS:-}
+            '';
+          };
 
-                # The overlay is only valid for the exact image it was created
-                # from, so a disk left behind by an older build has to go. Left
-                # in place it either boots the previous image, breaks once that
-                # store path is garbage collected, or - if it predates this
-                # setup and has no ESP at all - dies in OVMF with
-                # "BdsDxe: failed to load Boot0002 ... Not Found".
-                if [ -e "$disk" ]; then
-                  backing=$(${pkgs.qemu_kvm}/bin/qemu-img info --output=json "$disk" \
-                    | ${pkgs.jq}/bin/jq -r '."backing-filename" // ""')
-                  if [ "$backing" != "${imageFile}" ]; then
-                    echo "devbox-qemu: $disk was built from a different image, recreating it" >&2
-                    echo "devbox-qemu:   had: ''${backing:-(none)}" >&2
-                    echo "devbox-qemu:   now: ${imageFile}" >&2
-                    rm -f "$disk" "$vars"
-                  fi
-                fi
-
-                # Back a writable qcow2 onto the image rather than copying 47G.
-                if [ ! -e "$disk" ]; then
-                  mkdir -p "$(dirname "$disk")"
-                  ${pkgs.qemu_kvm}/bin/qemu-img create -f qcow2 \
-                    -b ${imageFile} -F raw "$disk" >/dev/null
-                fi
-                # OVMF needs its own writable copy of the variable store.
-                if [ ! -e "$vars" ]; then
-                  install -Dm600 ${pkgs.OVMF.fd}/FV/OVMF_VARS.fd "$vars"
-                fi
-
-                # UEFI, not BIOS: the image boots a UKI from its ESP.
-                # DEVBOX_QEMU_DISPLAY=none plus QEMU_OPTS='-serial stdio' runs it
-                # headless, which is the only way to see the boot at all.
-                exec ${pkgs.qemu_kvm}/bin/qemu-system-x86_64 \
-                  -machine q35 -enable-kvm -cpu host -smp 4 -m 8G \
-                  -drive if=pflash,format=raw,unit=0,readonly=on,file=${pkgs.OVMF.fd}/FV/OVMF_CODE.fd \
-                  -drive if=pflash,format=raw,unit=1,file="$vars" \
-                  -drive file="$disk",format=qcow2,if=virtio \
-                  -netdev user,id=net0,hostfwd=tcp::2222-:22 \
-                  -device virtio-net-pci,netdev=net0 \
-                  -device virtio-vga -display "''${DEVBOX_QEMU_DISPLAY:-gtk}" \
-                  ''${QEMU_OPTS:-}
-              ''
-            );
+        # The x86_64 image on Apple silicon. No hardware acceleration exists for
+        # a cross-architecture guest, so this is full TCG emulation and is slow -
+        # fine over ssh, rough for sway. It is a stopgap; devbox-qemu (the ARM
+        # image) is the fast path. Nix will not build the x86_64 image on a Mac
+        # either, so the image has to be copied in from a Linux builder first.
+        aarch64-darwin.devbox-qemu-x86 =
+          let
+            pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+            firmware = "${pkgs.qemu}/share/qemu";
+          in
+          mkDevboxQemuApp {
+            inherit pkgs;
+            inherit (pkgs) qemu;
+            # A plain path, not the store path: interpolating the latter would
+            # make the image a build input of this script, and a Mac cannot
+            # build a Linux image - `nix run` would try, and fail, before it
+            # ever got to booting anything. Relative to the working directory,
+            # like defaultDisk. Override with DEVBOX_QEMU_IMAGE.
+            imageFile = "qemu/devbox_1.raw";
+            defaultDisk = "qemu/devbox-x86.qcow2";
+            varsTemplate = "${firmware}/edk2-i386-vars.fd";
+            qemuCommand = ''
+              # -cpu max, not host: host means "expose the physical cpu", which
+              # needs hardware acceleration, and there is none here.
+              exec ${pkgs.qemu}/bin/qemu-system-x86_64 \
+                -machine q35 -accel tcg -cpu max -smp 4 -m 8G \
+                -drive if=pflash,format=raw,unit=0,readonly=on,file=${firmware}/edk2-x86_64-code.fd \
+                -drive if=pflash,format=raw,unit=1,file="$vars" \
+                -drive file="$disk",format=qcow2,if=virtio \
+                -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+                -device virtio-net-pci,netdev=net0 \
+                -device virtio-vga -display "''${DEVBOX_QEMU_DISPLAY:-cocoa}" \
+                ''${QEMU_OPTS:-}
+            '';
           };
       };
 
