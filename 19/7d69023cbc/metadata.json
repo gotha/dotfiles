@@ -3,7 +3,7 @@
   "checkpoint_id": "197d69023cbc",
   "strategy": "manual-commit",
   "branch": "observability",
-  "checkpoints_count": 5,
+  "checkpoints_count": 7,
   "files_touched": [
     "hosts/lucie/default.nix"
   ],
@@ -14,13 +14,20 @@
       "compact_transcript": "/19/7d69023cbc/0/transcript.jsonl",
       "content_hash": "/19/7d69023cbc/0/content_hash.txt",
       "prompt": "/19/7d69023cbc/0/prompt.txt"
+    },
+    {
+      "metadata": "/19/7d69023cbc/1/metadata.json",
+      "transcript": "/19/7d69023cbc/1/full.jsonl",
+      "compact_transcript": "/19/7d69023cbc/1/transcript.jsonl",
+      "content_hash": "/19/7d69023cbc/1/content_hash.txt",
+      "prompt": "/19/7d69023cbc/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 899,
-    "cache_creation_tokens": 3176981,
-    "cache_read_tokens": 118517190,
-    "output_tokens": 276629,
-    "api_call_count": 451
+    "input_tokens": 917,
+    "cache_creation_tokens": 3318756,
+    "cache_read_tokens": 119868425,
+    "output_tokens": 280703,
+    "api_call_count": 460
   }
 }
