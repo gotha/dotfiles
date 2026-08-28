@@ -1,0 +1,64 @@
+{
+  "cli_version": "0.10.0",
+  "checkpoint_id": "197d69023cbc",
+  "session_id": "3dc96b0a-fd49-40a3-a95c-9b069ed75df1",
+  "strategy": "manual-commit",
+  "created_at": "2026-08-28T16:31:55.036895016Z",
+  "branch": "observability",
+  "checkpoints_count": 5,
+  "save_step_count": 1,
+  "files_touched": [
+    "hosts/lucie/default.nix"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5",
+  "turn_id": "4e2e6970386e",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 899,
+    "cache_creation_tokens": 3176981,
+    "cache_read_tokens": 118517190,
+    "output_tokens": 276629,
+    "api_call_count": 451
+  },
+  "skill_events_version": 1,
+  "skill_events": [
+    {
+      "id": "prompt-skill-claude-code-clear-2026-08-27T17:32:09.048149428Z",
+      "event_type": "prompt_invocation",
+      "skill": {
+        "name": "clear"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "prompt_slash_command",
+        "confidence": "explicit"
+      },
+      "turn_id": "08361aaf717a",
+      "timestamp": "2026-08-27T17:32:09.048149428Z",
+      "native": {
+        "command": "/clear"
+      },
+      "collapse": {
+        "target": "user_message",
+        "label": "/clear",
+        "default_collapsed": true
+      }
+    }
+  ],
+  "session_metrics": {
+    "turn_count": 32
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-08-28T16:31:54.81048595Z",
+    "agent_lines": 5,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 5,
+    "total_lines_changed": 5,
+    "agent_percentage": 100,
+    "metric_version": 2
+  }
+}
