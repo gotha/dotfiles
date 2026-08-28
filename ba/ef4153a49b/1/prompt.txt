@@ -32,3 +32,7 @@ admin/admin is not working;
 I tried to reset it
 ❯ grafana cli admin reset-admin-password
 Grafana-server Init Failed: Could not find config defaults, make sure homepath command line parameter is set or working directory is homepath
+
+---
+
+commit the staged file
