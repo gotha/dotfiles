@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.10.0",
+  "checkpoint_id": "ce4a59d8918f",
+  "strategy": "manual-commit",
+  "branch": "alloy",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "hosts/lucie/alloy/config.alloy",
+    "hosts/lucie/observability.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/ce/4a59d8918f/0/metadata.json",
+      "transcript": "/ce/4a59d8918f/0/full.jsonl",
+      "compact_transcript": "/ce/4a59d8918f/0/transcript.jsonl",
+      "content_hash": "/ce/4a59d8918f/0/content_hash.txt",
+      "prompt": "/ce/4a59d8918f/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 14,
+    "cache_creation_tokens": 162351,
+    "cache_read_tokens": 1153415,
+    "output_tokens": 2328,
+    "api_call_count": 7
+  }
+}
