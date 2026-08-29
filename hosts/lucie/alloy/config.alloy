@@ -1,0 +1,54 @@
+// Everything Alloy collects on this host goes to the local Loki.
+loki.write "local" {
+  endpoint {
+    url = "http://127.0.0.1:32030/loki/api/v1/push"
+  }
+
+  external_labels = {
+    host = "lucie",
+  }
+}
+
+// The systemd journal: every native service on the box - grafana, loki,
+// prometheus, tempo, nginx errors, sshd, the docker daemon, the kernel.
+loki.relabel "journal" {
+  forward_to = []
+
+  rule {
+    source_labels = ["__journal__systemd_unit"]
+    target_label  = "unit"
+  }
+
+  rule {
+    source_labels = ["__journal_priority_keyword"]
+    target_label  = "level"
+  }
+
+  rule {
+    source_labels = ["__journal__transport"]
+    target_label  = "transport"
+  }
+}
+
+loki.source.journal "system" {
+  forward_to    = [loki.write.local.receiver]
+  relabel_rules = loki.relabel.journal.rules
+  labels        = { job = "systemd-journal" }
+  max_age       = "12h"
+}
+
+// The host nginx access log. It is a file rather than a journal stream, and it
+// is the only place the nextcloud vhost's traffic is recorded.
+local.file_match "nginx" {
+  path_targets = [
+    {
+      __path__ = "/var/log/nginx/access.log",
+      job      = "nginx-host",
+    },
+  ]
+}
+
+loki.source.file "nginx" {
+  targets    = local.file_match.nginx.targets
+  forward_to = [loki.write.local.receiver]
+}
