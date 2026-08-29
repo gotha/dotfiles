@@ -1,8 +1,15 @@
-# Grafana, Prometheus, Loki and Tempo - metrics, logs and traces.
+# Grafana, Prometheus, Loki, Tempo and Alloy - metrics, logs and traces.
 #
-# All four run as native NixOS services rather than containers. The modules
+# All five run as native NixOS services rather than containers. The modules
 # exist and handle the users, state directories and unit hardening, so a
 # compose file would only add moving parts.
+#
+# Two things feed Loki and they do not overlap. Docker containers ship
+# themselves via the loki log driver configured in each compose file - the
+# daemon is rootless, so a system-level collector cannot reach the container
+# log files under /home/gotha/.local/share/docker anyway. Everything native to
+# the host arrives through Alloy below: the journal, plus nginx's access log,
+# which is a file and never reaches journald.
 #
 # Docker services on this host reach these over host.docker.internal, which
 # litellm.nix already maps to host-gateway. A container talking to that address
@@ -227,7 +234,20 @@ in
         backend_scheduler.local_work_path = "${tempoDir}/scheduler";
       };
     };
+
+    # The config lives in its own .alloy file rather than inline here: it stays
+    # syntax-highlightable and `alloy fmt` / `alloy validate` can be run against
+    # it directly. environment.etc rather than a store path is what the module
+    # wants, so SIGHUP reload works instead of a restart.
+    alloy.enable = true;
   };
+
+  environment.etc."alloy/config.alloy".source = ./alloy/config.alloy;
+
+  # The module already grants systemd-journal. nginx's access log lives in
+  # /var/log/nginx, which is 0750 nginx:nginx, so reading it needs that group
+  # too. serviceConfig lists concatenate, so this appends rather than replaces.
+  systemd.services.alloy.serviceConfig.SupplementaryGroups = [ "nginx" ];
 
   networking.firewall.extraCommands = lib.concatMapStringsSep "\n" restrictPort exposedPorts;
 }
