@@ -467,6 +467,16 @@
             qemuCommand = ''
               # virt has no VGA, so virtio-gpu-pci rather than virtio-vga. There
               # is no GPU passthrough either way - sway lands on llvmpipe.
+              #
+              # virt also has no PS/2 controller - x86 q35 gets a keyboard and
+              # mouse for free from i8042, virt gets nothing - so without the
+              # three -device lines below the guest has no input devices at all
+              # and the greeter never sees a keystroke, however much the host
+              # window grabs the cursor. USB HID rather than virtio-input
+              # because the guest kernel has usbcore, usbhid, hid-generic and
+              # xhci-pci built in, while virtio_input is only a loadable
+              # module. usb-tablet reports absolute coordinates, so the pointer
+              # follows the host cursor instead of needing a grab.
               exec ${pkgs.qemu}/bin/qemu-system-aarch64 \
                 -machine virt,accel=hvf -cpu host -smp 4 -m 8G \
                 -drive if=pflash,format=raw,unit=0,readonly=on,file=${firmware}/edk2-aarch64-code.fd \
@@ -475,6 +485,9 @@
                 -netdev user,id=net0,hostfwd=tcp::2222-:22 \
                 -device virtio-net-pci,netdev=net0 \
                 -device virtio-gpu-pci -display "''${DEVBOX_QEMU_DISPLAY:-cocoa}" \
+                -device qemu-xhci,id=usb \
+                -device usb-kbd,bus=usb.0 \
+                -device usb-tablet,bus=usb.0 \
                 ''${QEMU_OPTS:-}
             '';
           };
