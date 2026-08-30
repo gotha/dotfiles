@@ -145,9 +145,59 @@
           modules = modules ++ [
             ./os/linux/virtio.nix
             ./os/linux/repart-image.nix
+            ./hosts/qemu1/qemu-no-audio.nix
           ];
           specialArgs = { inherit sops-nix; };
         };
+      # systemd-repart writes the .raw into the build directory and only moves
+      # it to $out afterwards, and Minimize = "guess" makes it first stage a
+      # full copy of the closure under $TMPDIR just to measure the smallest
+      # partition that fits. So a ~25 GiB closure needs ~25 GiB of scratch on
+      # top of the image itself, all of it in the build directory.
+      #
+      # On a Mac these are built by Determinate Nix's external Linux builder,
+      # which gives a build a 3.9 GiB tmpfs - half the builder VM's 8 GiB of
+      # RAM - for exactly that. The stock phases die on
+      #   Failed to copy '/nix/store/...' to '/build/.#repart...': No space
+      #   left on device
+      # and the message is swallowed by the `| tee` in the upstream buildPhase,
+      # so the build just fails with three blank lines.
+      #
+      # $out lives on the real store, with hundreds of GB free, so put both the
+      # scratch tree and the image there. No-op on a Linux builder, where the
+      # build directory is disk-backed anyway.
+      #
+      # This replaces buildPhase/installPhase from nixpkgs'
+      # nixos/modules/image/repart-image.nix, so it also drops that
+      # installPhase's compression step - nothing here sets
+      # image.repart.compression.enable.
+      repartImageOnOut =
+        nixos:
+        nixos.config.system.build.image.overrideAttrs (_old: {
+          buildPhase = ''
+            runHook preBuild
+
+            scratch="$out/.repart-scratch"
+            mkdir -p "$scratch"
+            export TMPDIR="$scratch"
+
+            echo "Building image with systemd-repart..."
+            unshare --map-root-user fakeroot systemd-repart \
+              "''${systemdRepartFlags[@]}" \
+              "$out/${nixos.config.image.filePath}" \
+              | tee repart-output.json
+
+            rm -rf "$scratch"
+
+            runHook postBuild
+          '';
+          # The image is already in $out; only the json report still has to move.
+          installPhase = ''
+            runHook preInstall
+            mv -v repart-output.json "$out"
+            runHook postInstall
+          '';
+        });
       devboxQemuImage = mkDevboxQemuImage {
         system = "x86_64-linux";
         modules = distro.devbox;
@@ -355,10 +405,10 @@
               };
             in
             config.config.system.build.images.qemu;
-          devbox-qemu = devboxQemuImage.config.system.build.image;
+          devbox-qemu = repartImageOnOut devboxQemuImage;
         };
         aarch64-linux = {
-          devbox-qemu = devboxQemuImageArm.config.system.build.image;
+          devbox-qemu = repartImageOnOut devboxQemuImageArm;
         };
       };
 
