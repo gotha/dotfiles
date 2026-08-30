@@ -495,10 +495,12 @@
               # virt has no VGA, so virtio-gpu-pci rather than virtio-vga. There
               # is no GPU passthrough either way - sway lands on llvmpipe.
               #
-              # virtio-gpu defaults to 1280x800, which is a cramped desktop, so
-              # ask for 1080p and let DEVBOX_QEMU_XRES/YRES override. These set
-              # the EDID the guest reads, so they pick the mode sway comes up
-              # in rather than just the largest one on offer.
+              # No xres/yres here on purpose. They set the initial mode, but
+              # pinning them cost the dynamic resize: cocoa's windowDidResize
+              # feeds dpy_set_ui_info into virtio_gpu_ui_info, which rewrites
+              # req_state and regenerates the EDID, so the guest follows the
+              # window and fills the screen when you go fullscreen. Setting
+              # them left the guest fixed at 1080p, centred in a black frame.
               #
               # full-grab installs a global event tap so system combos reach
               # the guest instead of the host - without it alt-1 goes to
@@ -525,7 +527,7 @@
                 -drive file="$disk",format=qcow2,if=virtio \
                 -netdev user,id=net0,hostfwd=tcp::2222-:22 \
                 -device virtio-net-pci,netdev=net0 \
-                -device virtio-gpu-pci,xres=''${DEVBOX_QEMU_XRES:-1920},yres=''${DEVBOX_QEMU_YRES:-1080} \
+                -device virtio-gpu-pci \
                 -display "''${DEVBOX_QEMU_DISPLAY:-cocoa,full-grab=on}" \
                 -device qemu-xhci,id=usb \
                 -device usb-kbd,bus=usb.0 \
