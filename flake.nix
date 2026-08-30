@@ -495,6 +495,20 @@
               # virt has no VGA, so virtio-gpu-pci rather than virtio-vga. There
               # is no GPU passthrough either way - sway lands on llvmpipe.
               #
+              # virtio-gpu defaults to 1280x800, which is a cramped desktop, so
+              # ask for 1080p and let DEVBOX_QEMU_XRES/YRES override. These set
+              # the EDID the guest reads, so they pick the mode sway comes up
+              # in rather than just the largest one on offer.
+              #
+              # full-grab installs a global event tap so system combos reach
+              # the guest instead of the host - without it alt-1 goes to
+              # aerospace (see home-manager/aerospace/aerospace.toml) and sway
+              # never sees it. macOS only honours the tap once qemu has
+              # Accessibility permission, and that is granted per binary path,
+              # so it has to be re-granted whenever the qemu store path
+              # changes. DEVBOX_QEMU_DISPLAY overrides the whole string, so
+              # DEVBOX_QEMU_DISPLAY=cocoa turns the grab back off.
+              #
               # virt also has no PS/2 controller - x86 q35 gets a keyboard and
               # mouse for free from i8042, virt gets nothing - so without the
               # three -device lines below the guest has no input devices at all
@@ -511,7 +525,8 @@
                 -drive file="$disk",format=qcow2,if=virtio \
                 -netdev user,id=net0,hostfwd=tcp::2222-:22 \
                 -device virtio-net-pci,netdev=net0 \
-                -device virtio-gpu-pci -display "''${DEVBOX_QEMU_DISPLAY:-cocoa}" \
+                -device virtio-gpu-pci,xres=''${DEVBOX_QEMU_XRES:-1920},yres=''${DEVBOX_QEMU_YRES:-1080} \
+                -display "''${DEVBOX_QEMU_DISPLAY:-cocoa,full-grab=on}" \
                 -device qemu-xhci,id=usb \
                 -device usb-kbd,bus=usb.0 \
                 -device usb-tablet,bus=usb.0 \
