@@ -219,6 +219,12 @@
           varsTemplate,
           qemuCommand,
         }:
+        let
+          # Identifies the exact command line below, qemu's store path and all,
+          # so a qemu bump counts as a change too. Only used to decide whether
+          # the varstore is still valid.
+          qemuCommandHash = builtins.hashString "sha256" qemuCommand;
+        in
         {
           type = "app";
           meta.description = "Boot the self-contained devbox image in a QEMU VM";
@@ -267,6 +273,24 @@
                 ${qemu}/bin/qemu-img create -f qcow2 \
                   -b "$image" -F raw "$disk" >/dev/null
               fi
+              # The EFI variable store remembers Boot#### entries by device
+              # path, so changing the qemu command line - adding a PCI device
+              # shifts the enumeration - leaves entries that no longer resolve.
+              # The firmware then falls through to the internal shell:
+              #   BdsDxe: loading Boot0002 "EFI Internal Shell"
+              # which reads as "the OS will not boot any more" even though the
+              # image is fine. Discard the varstore whenever the command line
+              # it was written against has changed. The disk, and so the guest's
+              # state, is deliberately left alone: the ESP carries a fallback
+              # \EFI\BOOT\BOOT*.EFI, so a blank varstore boots on its own.
+              stamp="''${disk%.qcow2}-cmdline.stamp"
+              if [ ! -e "$stamp" ] || [ "$(cat "$stamp")" != "${qemuCommandHash}" ]; then
+                if [ -e "$vars" ]; then
+                  echo "devbox-qemu: qemu command line changed, resetting EFI variables" >&2
+                  rm -f "$vars"
+                fi
+              fi
+
               # The firmware needs its own writable copy of the variable store.
               # Spelled out rather than `install -D`, which is a GNU extension
               # the install(1) in macOS base does not have.
@@ -275,6 +299,9 @@
                 cp ${varsTemplate} "$vars"
                 chmod 600 "$vars"
               fi
+
+              mkdir -p "$(dirname "$stamp")"
+              printf '%s' "${qemuCommandHash}" > "$stamp"
 
               # UEFI, not BIOS: the image boots a UKI from its ESP.
               # DEVBOX_QEMU_DISPLAY=none plus QEMU_OPTS='-serial stdio' runs it
