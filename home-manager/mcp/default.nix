@@ -28,6 +28,7 @@ let
     with pkgs;
     (lib.optionals cfg.enableAtlassian [ gotha.mcp-atlassian ])
     ++ (lib.optionals cfg.enableContext7 [ context7-mcp ])
+    ++ (lib.optionals cfg.enableFirefoxDevtools [ firefox-devtools-mcp ])
     ++ (lib.optionals cfg.enableGcloud [ gotha.gcloud-mcp ])
     ++ (lib.optionals cfg.enableGit [ mcp-server-git ])
     ++ (lib.optionals cfg.enableGithub [
@@ -74,6 +75,12 @@ in
       type = lib.types.bool;
       default = true;
       description = "Enable MCP Context 7 server for enhanced context management";
+    };
+
+    enableFirefoxDevtools = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable MCP Firefox DevTools server for driving Firefox and inspecting pages";
     };
 
     enableGcloud = lib.mkOption {

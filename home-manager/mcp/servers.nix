@@ -47,6 +47,12 @@ in
         description = "Context 7 MCP server for enhanced context management and analysis";
       };
     })
+    // (lib.optionalAttrs cfg.enableFirefoxDevtools {
+      "firefox-devtools" = {
+        command = "${pkgs.firefox-devtools-mcp}/bin/firefox-devtools-mcp";
+        description = "Firefox DevTools for driving a browser, inspecting the DOM, network requests and the console";
+      };
+    })
     // (lib.optionalAttrs cfg.enableGcloud {
       gcloud = {
         command = "${pkgs.gotha.gcloud-mcp}/bin/gcloud-mcp";
