@@ -42,7 +42,7 @@ vale sync
 
 to update vale styles
 
-## Deploy remote host 
+## Deploy remote host
 
 ```sh
 nix run github:serokell/deploy-rs -- .#bastion
@@ -50,17 +50,57 @@ nix run github:serokell/deploy-rs -- .#bastion
 
 ## Install on QEMU
 
-### Generate and boot disk image
+on M processor Mac the distro `devbox-arm` is build instead of `devbox`;
+
+### Build
 
 ```sh
-nix build .#packages.x86_64-linux.devbox-qemu
-./run-qemu.sh
+nix build .#devbox-qemu
 ```
 
-### Update configuration over ssh
+### Run
 
 ```sh
-nix run .#deploy-devbox-qemu
+nix run .#devbox-qemu
+```
+
+State lives in `qemu/devbox.qcow2`
+```sh
+nix run .#devbox-qemu -- --fresh
+```
+
+discards the overlay and the EFI variables.
+
+
+```sh
+ssh -p 2222 gotha@localhost
+```
+
+
+### Copy secrets in a fresh VM
+
+```sh
+scp -P 2222 ~/.ssh/id_rsa ~/.ssh/id_rsa.pub gotha@localhost:.ssh/
+ssh -p 2222 gotha@localhost 'chmod 600 ~/.ssh/id_rsa'
+```
+
+```sh
+gpg --export-secret-keys 7EFF0CECB200083C60EA2AA2C8DDF8A8BDF70670 \
+  | ssh -p 2222 gotha@localhost 'gpg --import'
+ssh -p 2222 gotha@localhost '
+  chmod 700 ~/.gnupg
+  find ~/.gnupg -mindepth 1 -maxdepth 1 -type d -exec chmod 700 {} \;
+  systemctl --user restart sops-nix.service
+'
+```
+
+successful run is the healthy state:
+
+```sh
+ssh -p 2222 gotha@localhost '
+  systemctl --user status sops-nix.service --no-pager | head -3
+  ls ~/.config/sops-nix/secrets/
+'
 ```
 
 ## Get ready to contribute
