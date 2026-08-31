@@ -1,0 +1,6 @@
+install mozilla/firefox-devtools-mcp via nix package and configure the mcp home-manager module to include to so all coding agents like claude can use it
+
+---
+
+can this mcp server connect to pre-existing running instance of firefox?
+do I have to install something on firefox to make it work?

@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.10.0",
+  "checkpoint_id": "2cadfecad29b",
+  "strategy": "manual-commit",
+  "branch": "feat/firefox-devtools-mcp",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "home-manager/mcp/default.nix",
+    "home-manager/mcp/servers.nix"
+  ],
+  "sessions": [
+    {
+      "metadata": "/2c/adfecad29b/0/metadata.json",
+      "transcript": "/2c/adfecad29b/0/full.jsonl",
+      "compact_transcript": "/2c/adfecad29b/0/transcript.jsonl",
+      "content_hash": "/2c/adfecad29b/0/content_hash.txt",
+      "prompt": "/2c/adfecad29b/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 44,
+    "cache_creation_tokens": 210311,
+    "cache_read_tokens": 4381203,
+    "output_tokens": 12292,
+    "api_call_count": 22
+  }
+}
