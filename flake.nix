@@ -519,6 +519,20 @@
             };
           };
         };
+
+        # The aarch64 h4kbox is only ever run as the qemu image, so this is
+        # that image's nixosSystem rather than a second one built the way
+        # h4kbox above is. Anything else would disagree with the running
+        # image about the root device and the bootloader: hosts/qemu1 mounts
+        # / by label and installs grub, while os/linux/repart-image.nix
+        # mkForces / to /dev/disk/by-partlabel/root and turns grub off.
+        #
+        # Note the ESP is written once, when the image is built, so a switch
+        # here takes effect immediately but does not survive a reboot - the
+        # baked UKI still has init= pinned to the generation the image
+        # shipped with. Rebuild the image to make a change persist.
+        h4kbox-arm = h4kboxQemuImageArm;
+
         lucie = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = distro.devbox ++ [ ./hosts/lucie ];
@@ -686,6 +700,15 @@
 
         aarch64-darwin.default = nixpkgs.legacyPackages.aarch64-darwin.mkShell {
           packages = with nixpkgs.legacyPackages.aarch64-darwin; [
+            nixd
+            qrencode
+          ];
+        };
+
+        # For working on this repo from inside the aarch64 h4kbox/devbox VM,
+        # where .envrc's `use flake` would otherwise fail outright.
+        aarch64-linux.default = nixpkgs.legacyPackages.aarch64-linux.mkShell {
+          packages = with nixpkgs.legacyPackages.aarch64-linux; [
             nixd
             qrencode
           ];
