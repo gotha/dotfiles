@@ -41,6 +41,17 @@ in
   # extra-platforms, which is what lets nix build aarch64 derivations here.
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
+  # Cap dirty page cache in absolute terms rather than as a share of RAM. The
+  # default vm.dirty_ratio = 20 lets a single writer accumulate ~12 GB of dirty
+  # pages on this 62 GB box, which is how the 2026-08-28 nightly build stalled
+  # the ext4 journal: jbd2 sat in jbd2_journal_wait_updates for minutes at a
+  # time and every other writer piled up behind it. Setting the _bytes knobs
+  # zeroes their _ratio counterparts, which is intended.
+  boot.kernel.sysctl = {
+    "vm.dirty_background_bytes" = 512 * 1024 * 1024; # start writeback at 512 MB
+    "vm.dirty_bytes" = 2 * 1024 * 1024 * 1024; # block the writer at 2 GB
+  };
+
   networking = {
     hostName = "lucie";
 
