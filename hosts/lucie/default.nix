@@ -41,6 +41,14 @@ in
   # extra-platforms, which is what lets nix build aarch64 derivations here.
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
+  # Cap the dirty page cache in absolute terms - the default vm.dirty_ratio = 20
+  # works out to ~12 GB on this box - so a heavy writer is throttled steadily
+  # instead of accumulating GBs of dirty pages.
+  boot.kernel.sysctl = {
+    "vm.dirty_background_bytes" = 512 * 1024 * 1024; # start writeback at 512 MB
+    "vm.dirty_bytes" = 2 * 1024 * 1024 * 1024; # block the writer at 2 GB
+  };
+
   networking = {
     hostName = "lucie";
 
