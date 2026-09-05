@@ -9,13 +9,6 @@ _:
     ./wireguard.nix
   ];
 
-  # Limit journal size to save disk space
-  services.journald.extraConfig = ''
-    SystemMaxUse=100M
-    SystemMaxFileSize=50M
-    MaxRetentionSec=7day
-  '';
-
   # Allow user to push closures via deploy-rs
   nix.settings.trusted-users = [
     "root"

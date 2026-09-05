@@ -26,7 +26,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    deploy-rs.url = "github:serokell/deploy-rs";
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      # Build deploy-rs against our nixpkgs, not its own. Its pin predates the
+      # fetchurl that sends a User-Agent, and crates.io now answers 403 without
+      # one, so every crate in its Rust dependency tree fails to download. The
+      # activation profile embeds this binary, so it is not enough to run a
+      # prebuilt deploy-rs from elsewhere - the build has to work here.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     gotha.url = "github:gotha/nixpkgs?ref=main";
 
