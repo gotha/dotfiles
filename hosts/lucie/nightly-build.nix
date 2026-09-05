@@ -7,11 +7,19 @@
     serviceConfig = {
       Type = "oneshot";
       User = "root";
-      # Low priority to avoid impacting system usage
-      Nice = 19;
-      IOSchedulingClass = "idle";
-      # Timeout after 4 hours
+
+      CPUWeight = 20;
+
+      MemoryHigh = "8G";
+      MemoryMax = "12G";
+
+      IOReadBandwidthMax = "/ 300M";
+      IOWriteBandwidthMax = "/ 150M";
+
+      IOWeight = 10;
+
       TimeoutStartSec = "4h";
+      TimeoutStopSec = "30s";
     };
     path = with pkgs; [
       git
@@ -27,8 +35,21 @@
 
       echo "Starting nightly build at $(date)"
 
-      # Clean up old builds (keep last 7 days)
-      find /var/lib/nix-nightly -maxdepth 1 -name "dotfiles-*" -type d -mtime +7 -exec rm -rf {} \; 2>/dev/null || true
+      # Refuse to start without room for a large closure. This is a speculative
+      # prebuild; filling the last of the root filesystem for it is never worth
+      # it, and ext4 allocation degrades badly near full. Failing loudly beats
+      # skipping quietly - "systemctl --failed" is then the disk-space alarm.
+      AVAIL_GB=$(($(df --output=avail --block-size=1G /nix/store | tail -n1)))
+      if [ "$AVAIL_GB" -lt 150 ]; then
+        echo "Only ''${AVAIL_GB}G free on /nix/store, need 150G. Refusing to build." >&2
+        exit 1
+      fi
+
+      # Clean up old builds. Each one leaves a ./result symlink that nix
+      # registers as an indirect GC root, so every retained day pins an entire
+      # system closure - CUDA, ollama and all. Seven days of those was a
+      # meaningful share of the 96% full root filesystem.
+      find /var/lib/nix-nightly -maxdepth 1 -name "dotfiles-*" -type d -mtime +3 -exec rm -rf {} \; 2>/dev/null || true
 
       # Create build directory
       mkdir -p /var/lib/nix-nightly
@@ -47,8 +68,10 @@
 
       # Build lucie config without switching
       # This populates /nix/store with all required packages
+      # --max-jobs/--cores bound how much of the machine a cache miss can claim;
+      # without them a CUDA rebuild fans out across every core at once.
       echo "Building lucie configuration..."
-      nixos-rebuild build --flake .#lucie 2>&1
+      nixos-rebuild build --flake .#lucie --max-jobs 2 --cores 4 2>&1
 
       # Create symlink to latest build
       ln -sfn "$BUILD_DIR" /var/lib/nix-nightly/latest
