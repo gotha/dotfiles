@@ -10,9 +10,23 @@ let
 in
 {
   # ============================================================================
-  # SOPS Secrets for DKIM
+  # SOPS Secrets
   # ============================================================================
   sops.secrets = {
+    # The dovecot passwd-file, holding one BLF-CRYPT hash per mailbox. It goes
+    # through sops rather than environment.etc because the latter stores its
+    # content in /nix/store, which is world-readable - the 0600 on the /etc
+    # entry would not have protected the hashes from any local user. Cleartext
+    # for these lives in secrets/mailboxes.json, which aerc reads on the
+    # client side; regenerate a hash with `doveadm pw -s BLF-CRYPT -r 11`.
+    dovecot_users = {
+      sopsFile = ../../secrets/dovecot-users.enc;
+      format = "binary";
+      owner = "dovecot2";
+      group = "dovecot2";
+      mode = "0400";
+    };
+
     dkim_private_key = {
       sopsFile = ../../secrets/dkim-key.enc;
       format = "binary";
@@ -319,7 +333,7 @@ in
         };
 
         "passdb passwd-file" = {
-          passwd_file_path = "/etc/dovecot/users";
+          passwd_file_path = config.sops.secrets.dovecot_users.path;
         };
 
         "userdb static".fields = {
@@ -350,22 +364,6 @@ in
     # Dovecot's LMTP creates the per-user Maildirs on first delivery.
     "d /var/vmail/${dissonaDomain} 0750 vmail vmail -"
   ];
-
-  # Dovecot users file (virtual users with passwords)
-  environment.etc."dovecot/users" = {
-    text = ''
-      # Virtual users - format: user@domain:{scheme}password
-      # Generate password hash with: doveadm pw -s SHA512-CRYPT
-      # Example:
-      # postmaster@${domain}:{SHA512-CRYPT}$6$...hash...
-      me@${domain}:{SHA512-CRYPT}$6$QsFatvmI5WDrohOu$zjSBT0LVYfxRYQPDdappLoxFvtbDOfXvc.xH/Aq./Hr4RHKum6sbZvNYAfsmTU.zoLtCjubcSYJhYw3RCty8k.
-      contacts@${dissonaDomain}:{SHA512-CRYPT}$6$FYBErG.3O9WElYQt$OXShfLfnv/KnRLWHlkpxZXGhETIMluRaOx.3SpXQySEWxpcBUuBjg6xN9pCqnYzFB0G2ZrAzJOKuPJIuUSt/f0
-      no-reply@${dissonaDomain}:{SHA512-CRYPT}$6$.U.Kjf9EEo700EuS$NYGOqqc664E7Y3/WqE3jrVlvg2KL4CP9UBIxhD1WfsFM79WclRm.QvRfaqGo2HZXRMY6SlIjvMfpYe8eT80EX.
-    '';
-    mode = "0600";
-    user = "dovecot2";
-    group = "dovecot2";
-  };
 
   # ============================================================================
   # Firewall Configuration

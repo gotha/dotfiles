@@ -45,14 +45,39 @@ mail._domainkey	60	IN	TXT	"<content of mail.txt>" ; ----- DKIM key mail for hgeo
 
 To configure PTR (reverse DNS) set the name of the droplet in Digitalocean to mail.hgeorgiev.com.
 
-## 4. Add Mail Users
+## 4. Add or Rotate Mail Users
 
-Edit `hosts/bastion/mail.nix` to add users in the vmailbox, virtual, and dovecot/users sections:
+Passwords live in two encrypted files and must be kept in sync:
+
+- `secrets/mailboxes.json` - cleartext, read by aerc on the client side
+- `secrets/dovecot-users` - the dovecot passwd-file of BLF-CRYPT hashes,
+  deployed to bastion as `/run/secrets/dovecot_users`
+
+Both are gitignored; only their `.enc` counterparts are committed.
 
 ```sh
-# Generate password hash
-doveadm pw -s SHA512-CRYPT
+# 1. Add or change the cleartext password
+$EDITOR secrets/mailboxes.json
+sops -e secrets/mailboxes.json > secrets/mailboxes.enc.json
+
+# 2. Generate the matching hash and put it in the passwd-file as
+#    user@domain:{BLF-CRYPT}$2y$11$...
+doveadm pw -s BLF-CRYPT -r 11
+$EDITOR secrets/dovecot-users
+sops -e secrets/dovecot-users > secrets/dovecot-users.enc
+
+# 3. Verify a hash matches its password before deploying
+doveadm pw -t '{BLF-CRYPT}$2y$11$...' -p 'the-password'
 ```
+
+A new mailbox also needs an entry in the `vmailbox` map in
+`hosts/bastion/mail.nix`, and an alias in `virtual` if it should receive
+mail under other addresses.
+
+BLF-CRYPT rather than ARGON2ID: bastion is a 1 GB droplet, and argon2's
+default 64 MiB per verification times dovecot's auth workers is an
+out-of-memory vector on an internet-facing port. bcrypt's cost is CPU-only,
+and `-r 11` lands around 250 ms there.
 
 ## 5. Verify DKIM Signing
 
