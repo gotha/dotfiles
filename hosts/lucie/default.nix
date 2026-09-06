@@ -19,6 +19,7 @@ in
 
   imports = [
     ./hardware-configuration.nix
+    ./internal.nix
     ./litellm.nix
     ./nextcloud.nix
     ./nightly-build.nix

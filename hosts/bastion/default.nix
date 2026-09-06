@@ -3,6 +3,7 @@ _:
 {
   imports = [
     ./digitalocean.nix
+    ./internal.nix
     ./mail.nix
     ./nginx.nix
     ./roundcube.nix

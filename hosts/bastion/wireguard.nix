@@ -59,13 +59,20 @@ in
 
           # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
           # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
+          # The second rule is what lets one peer reach another - every
+          # .internal service is served from lucie and reached this way.
+          # Forwarding already worked by falling through to the FORWARD chain's
+          # default ACCEPT policy; stating it means a future change to that
+          # policy cannot silently cut every peer off from lucie.
           postSetup = ''
             ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o ens3 -j MASQUERADE
+            ${pkgs.iptables}/bin/iptables -A FORWARD -i wg0 -o wg0 -j ACCEPT
           '';
 
-          # This undoes the above command
+          # This undoes the above commands
           postShutdown = ''
             ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o ens3 -j MASQUERADE
+            ${pkgs.iptables}/bin/iptables -D FORWARD -i wg0 -o wg0 -j ACCEPT
           '';
 
           privateKeyFile = config.sops.secrets.bastion_private_key.path;
