@@ -96,6 +96,32 @@ _:
         locations."/".return = "301 https://dissona.app$request_uri";
       };
 
+      # Jellyfin, also reachable as jellyfin.internal over the VPN. This is the
+      # public route, so Jellyfin's own login is the only thing between the
+      # internet and the media library - it wants a strong admin password and
+      # prompt updates in a way the internal-only services do not.
+      "video.hgeorgiev.com" = {
+        forceSSL = true;
+        enableACME = true;
+
+        locations."/" = {
+          proxyPass = "http://10.100.0.100:8096";
+          proxyWebsockets = true;
+          recommendedProxySettings = true;
+          extraConfig = ''
+            # Media streams are large and long-lived; buffering them through
+            # this 964 MB droplet would spool them to its disk.
+            proxy_buffering off;
+            client_max_body_size 0;
+
+            # Seeking in a video is a byte-range request.
+            proxy_set_header Range $http_range;
+            proxy_set_header If-Range $http_if_range;
+            proxy_force_ranges on;
+          '';
+        };
+      };
+
       "chalgarr.hgeorgiev.com" = {
         forceSSL = true;
         enableACME = true;
