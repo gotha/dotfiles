@@ -2,6 +2,21 @@
 # Builds packages overnight so they're ready when you upgrade
 { pkgs, username, ... }:
 {
+  # When disk space runs low, have the daemon collect garbage mid-build; once
+  # free space drops below min-free it deletes until max-free is available,
+  # rather than failing the build or wedging the filesystem.
+  #
+  # Sized for this host's 3.6 TB of storage and the CUDA closure the nightly
+  # build pulls in. These belong here rather than in os/nixos/gc.nix, which
+  # distros/bae shares with bastion: a 25 GB droplet never has 20 GiB free, so
+  # there the same numbers make every nix operation trigger a collection that
+  # cannot reach its target - which then deletes paths a deploy is still
+  # copying in, before they are rooted.
+  nix.settings = {
+    min-free = 20 * 1024 * 1024 * 1024; # 20 GiB
+    max-free = 100 * 1024 * 1024 * 1024; # 100 GiB
+  };
+
   systemd.services.nix-nightly-build = {
     description = "Nightly NixOS devbox configuration build";
     serviceConfig = {
