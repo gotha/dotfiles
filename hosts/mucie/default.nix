@@ -12,6 +12,7 @@ in
   };
 
   imports = [
+    ./internal.nix
     ./wireguard.nix
   ];
 
