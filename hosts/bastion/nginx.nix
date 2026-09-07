@@ -1,6 +1,18 @@
-_:
+{ config, ... }:
 
 {
+  # nginx reads this as an htpasswd file. It goes through sops rather than
+  # services.nginx.virtualHosts.<name>.basicAuth, which would render the hash
+  # into a world-readable file in /nix/store.
+  sops.secrets.cachix_htpasswd = {
+    sopsFile = ../../secrets/cachix.enc.json;
+    format = "json";
+    key = "htpasswd";
+    owner = "nginx";
+    group = "nginx";
+    mode = "0400";
+  };
+
   # Configure nginx reverse proxy
   services.nginx = {
     enable = true;
@@ -50,6 +62,29 @@ _:
             proxy_set_header X-Forwarded-Port $server_port;
 
             client_max_body_size 10G;
+            proxy_buffering off;
+          '';
+        };
+      };
+
+      # Nix binary cache. nix-serve runs on lucie, which has no public address,
+      # so bastion terminates TLS and forwards over the tunnel. That is the
+      # whole reason this name resolves here rather than to lucie.
+      #
+      # Kept behind basic auth, as it was on the host this moved from. Store
+      # paths are signed either way, so the auth is about not publishing what
+      # gets built here rather than about trusting what comes back.
+      "cachix.hgeorgiev.com" = {
+        forceSSL = true;
+        enableACME = true;
+        basicAuthFile = config.sops.secrets.cachix_htpasswd.path;
+
+        locations."/" = {
+          proxyPass = "http://10.100.0.100:5000";
+          recommendedProxySettings = true;
+          extraConfig = ''
+            # NARs are large and nix streams them; buffering would spool each
+            # one onto this droplet's disk before a byte reached the client.
             proxy_buffering off;
           '';
         };

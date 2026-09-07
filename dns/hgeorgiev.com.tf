@@ -6,7 +6,7 @@
 locals {
   hgeorgiev_com = {
     "@/A"         = { ttl = 60, records = ["134.122.64.210"] }
-    "cachix/A"    = { ttl = 60, records = ["134.122.64.210"] }
+    "cachix/A"    = { ttl = 60, records = ["64.226.77.137"] }
     "chalgarr/A"  = { ttl = 60, records = ["64.226.77.137"] }
     "dissona/A"   = { ttl = 60, records = ["64.226.77.137"] }
     "mail/A"      = { ttl = 60, records = ["64.226.77.137"] }
