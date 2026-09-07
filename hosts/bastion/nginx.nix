@@ -1,4 +1,10 @@
-{ config, ... }:
+{
+  config,
+  pkgs,
+  gotha-website,
+  gotha-blog,
+  ...
+}:
 
 {
   # nginx reads this as an htpasswd file. It goes through sops rather than
@@ -64,6 +70,48 @@
             client_max_body_size 10G;
             proxy_buffering off;
           '';
+        };
+      };
+
+      # The personal site, and the blog underneath it at /blog. Both are flake
+      # inputs whose output is a directory of static files, so there is nothing
+      # to run - nginx serves the store paths directly and updating either site
+      # is `nix flake update hgg` (or blog) and a redeploy.
+      #
+      # root for the site, alias for the blog: the URL prefix /blog has to map
+      # to the root of the blog package, which is what alias does and root does
+      # not. Hugo bakes an absolute baseURL of https://hgeorgiev.com/blog into
+      # every link, so the two have to agree - serving it anywhere else means
+      # overriding baseURL on the package.
+      "hgeorgiev.com" = {
+        forceSSL = true;
+        enableACME = true;
+        serverAliases = [ "www.hgeorgiev.com" ];
+
+        root = "${gotha-website.packages.${pkgs.system}.default}";
+
+        locations = {
+          "/" = {
+            index = "index.html";
+            tryFiles = "$uri $uri/ =404";
+          };
+
+          # Bare /blog matches location / rather than the block below, where
+          # the site package has no such file, so send it to the slashed form.
+          "= /blog".return = "301 /blog/";
+
+          # The trailing slash on the location matters. Without it, alias lets
+          # /blog../etc/passwd resolve to <store path>/../etc/passwd - the
+          # traversal gixy rejects at build time. A location ending in / can
+          # only be entered by a request that also has one.
+          #
+          # No tryFiles here on purpose: combined with alias it resolves
+          # against the wrong base. Hugo writes a directory per page with an
+          # index.html inside, so index alone serves them.
+          "/blog/" = {
+            alias = "${gotha-blog.packages.${pkgs.system}.default}/";
+            index = "index.html";
+          };
         };
       };
 

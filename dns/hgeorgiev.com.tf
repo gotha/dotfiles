@@ -5,7 +5,7 @@
 # SOA is deliberately absent: the API owns it and bumps its serial.
 locals {
   hgeorgiev_com = {
-    "@/A"         = { ttl = 60, records = ["134.122.64.210"] }
+    "@/A"         = { ttl = 60, records = ["64.226.77.137"] }
     "cachix/A"    = { ttl = 60, records = ["64.226.77.137"] }
     "chalgarr/A"  = { ttl = 60, records = ["64.226.77.137"] }
     "dissona/A"   = { ttl = 60, records = ["64.226.77.137"] }
@@ -13,7 +13,7 @@ locals {
     "nextcloud/A" = { ttl = 60, records = ["64.226.77.137"] }
     "video/A"     = { ttl = 60, records = ["64.226.77.137"] }
     "webmail/A"   = { ttl = 60, records = ["64.226.77.137"] }
-    "www/A"       = { ttl = 60, records = ["134.122.64.210"] }
+    "www/A"       = { ttl = 60, records = ["64.226.77.137"] }
     "imap/CNAME"  = { ttl = 60, records = ["mail.hgeorgiev.com."] }
     "smtp/CNAME"  = { ttl = 60, records = ["mail.hgeorgiev.com."] }
     "@/MX"        = { ttl = 60, records = ["10 mail.hgeorgiev.com."] }

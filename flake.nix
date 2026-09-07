@@ -50,6 +50,11 @@
     };
 
     hunk.url = "github:modem-dev/hunk";
+
+    gotha-website.url = "github:gotha/hgg";
+
+    gotha-blog.url = "github:gotha/blog";
+
   };
   outputs =
     {
@@ -66,6 +71,8 @@
       llm-agents,
       luna-podcatcher,
       hunk,
+      gotha-website,
+      gotha-blog,
       ...
     }:
     let
@@ -443,7 +450,7 @@
           system = "x86_64-linux";
           modules = distro.bae ++ [ ./hosts/bastion ];
           specialArgs = {
-            inherit sops-nix;
+            inherit sops-nix gotha-website gotha-blog;
             stablePkgs = import nixpkgs-stable {
               system = "x86_64-linux";
               config.allowUnfree = true;
