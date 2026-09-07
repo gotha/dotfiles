@@ -5,24 +5,18 @@
 # SOA is deliberately absent: the API owns it and bumps its serial.
 locals {
   hgeorgiev_com = {
-    "@/A"           = { ttl = 60, records = ["134.122.64.210"] }
-    "argo.ramo/A"   = { ttl = 60, records = ["138.68.104.26"] }
-    "cachix/A"      = { ttl = 60, records = ["134.122.64.210"] }
-    "chalgarr/A"    = { ttl = 60, records = ["64.226.77.137"] }
-    "dissona/A"     = { ttl = 60, records = ["64.226.77.137"] }
-    "ftfy/A"        = { ttl = 60, records = ["134.122.64.210"] }
-    "mail/A"        = { ttl = 60, records = ["64.226.77.137"] }
-    "new/A"         = { ttl = 60, records = ["134.122.64.210"] }
-    "new.xoomify/A" = { ttl = 60, records = ["134.122.64.210"] }
-    "nextcloud/A"   = { ttl = 60, records = ["64.226.77.137"] }
-    "ramo/A"        = { ttl = 60, records = ["138.68.104.26"] }
-    "video/A"       = { ttl = 60, records = ["64.226.77.137"] }
-    "webmail/A"     = { ttl = 60, records = ["64.226.77.137"] }
-    "www/A"         = { ttl = 60, records = ["134.122.64.210"] }
-    "xoomify/A"     = { ttl = 60, records = ["134.122.64.210"] }
-    "imap/CNAME"    = { ttl = 60, records = ["mail.hgeorgiev.com."] }
-    "smtp/CNAME"    = { ttl = 60, records = ["mail.hgeorgiev.com."] }
-    "@/MX"          = { ttl = 60, records = ["10 mail.hgeorgiev.com."] }
+    "@/A"         = { ttl = 60, records = ["134.122.64.210"] }
+    "cachix/A"    = { ttl = 60, records = ["134.122.64.210"] }
+    "chalgarr/A"  = { ttl = 60, records = ["64.226.77.137"] }
+    "dissona/A"   = { ttl = 60, records = ["64.226.77.137"] }
+    "mail/A"      = { ttl = 60, records = ["64.226.77.137"] }
+    "nextcloud/A" = { ttl = 60, records = ["64.226.77.137"] }
+    "video/A"     = { ttl = 60, records = ["64.226.77.137"] }
+    "webmail/A"   = { ttl = 60, records = ["64.226.77.137"] }
+    "www/A"       = { ttl = 60, records = ["134.122.64.210"] }
+    "imap/CNAME"  = { ttl = 60, records = ["mail.hgeorgiev.com."] }
+    "smtp/CNAME"  = { ttl = 60, records = ["mail.hgeorgiev.com."] }
+    "@/MX"        = { ttl = 60, records = ["10 mail.hgeorgiev.com."] }
     "@/NS" = {
       ttl = 60
       records = [
