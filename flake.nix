@@ -318,6 +318,57 @@
             ''
           );
         };
+      # OpenTofu with the Hetzner provider pinned by nix rather than fetched
+      # from the registry at init. Shared by the app below and by the devShells.
+      mkTofu =
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        pkgs.opentofu.withPlugins (p: [ p.hetznercloud_hcloud ]);
+
+      # `nix run .#dns` - DNS from ./dns, applied to Hetzner. The API token is
+      # only ever an environment variable: sops decrypts it for the length of
+      # the run and the provider reads HCLOUD_TOKEN from there.
+      #
+      # Arguments pass straight through to tofu, so `-- apply` applies and
+      # `-- state list` inspects. With none it plans, which changes nothing.
+      mkDnsApp =
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          tofu = mkTofu system;
+        in
+        {
+          type = "app";
+          meta.description = "Plan the DNS records in ./dns against Hetzner; `-- apply` applies them";
+          program = toString (
+            pkgs.writeShellScript "dns" ''
+              set -euo pipefail
+
+              # The secret path below is relative, and tofu has to run beside
+              # the .tf files, so both only resolve from the repository root.
+              if [ ! -f dns/main.tf ]; then
+                echo "dns: run this from the repository root" >&2
+                exit 1
+              fi
+
+              HCLOUD_TOKEN=$(${pkgs.sops}/bin/sops -d --extract '["token"]' secrets/hetzner-dns.enc.json)
+              export HCLOUD_TOKEN
+
+              cd dns
+
+              # .terraform is not committed, so a fresh checkout has to
+              # initialise. It is a no-op once the plugin link is in place.
+              ${tofu}/bin/tofu init -input=false >/dev/null
+
+              if [ "$#" -eq 0 ]; then
+                exec ${tofu}/bin/tofu plan
+              fi
+              exec ${tofu}/bin/tofu "$@"
+            ''
+          );
+        };
       systems = [
         "x86_64-linux"
         "aarch64-darwin"
@@ -458,127 +509,136 @@
       );
 
       apps = {
-        x86_64-linux.devbox-qemu =
-          let
-            pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          in
-          mkDevboxQemuApp {
-            inherit pkgs;
-            qemu = pkgs.qemu_kvm;
-            imageFile = "${self.packages.x86_64-linux.devbox-qemu}/${devboxQemuImage.config.image.filePath}";
-            defaultDisk = "qemu/devbox.qcow2";
-            varsTemplate = "${pkgs.OVMF.fd}/FV/OVMF_VARS.fd";
-            qemuCommand = ''
-              exec ${pkgs.qemu_kvm}/bin/qemu-system-x86_64 \
-                -machine q35 -enable-kvm -cpu host -smp 4 -m 8G \
-                -drive if=pflash,format=raw,unit=0,readonly=on,file=${pkgs.OVMF.fd}/FV/OVMF_CODE.fd \
-                -drive if=pflash,format=raw,unit=1,file="$vars" \
-                -drive file="$disk",format=qcow2,if=virtio \
-                -netdev user,id=net0,hostfwd=tcp::2222-:22 \
-                -device virtio-net-pci,netdev=net0 \
-                -device virtio-vga -display "''${DEVBOX_QEMU_DISPLAY:-gtk}" \
-                ''${QEMU_OPTS:-}
-            '';
-          };
+        x86_64-linux = {
+          # Plans by default; `nix run .#dns -- apply` applies. README-dns.md.
+          dns = mkDnsApp "x86_64-linux";
+          devbox-qemu =
+            let
+              pkgs = nixpkgs.legacyPackages.x86_64-linux;
+            in
+            mkDevboxQemuApp {
+              inherit pkgs;
+              qemu = pkgs.qemu_kvm;
+              imageFile = "${self.packages.x86_64-linux.devbox-qemu}/${devboxQemuImage.config.image.filePath}";
+              defaultDisk = "qemu/devbox.qcow2";
+              varsTemplate = "${pkgs.OVMF.fd}/FV/OVMF_VARS.fd";
+              qemuCommand = ''
+                exec ${pkgs.qemu_kvm}/bin/qemu-system-x86_64 \
+                  -machine q35 -enable-kvm -cpu host -smp 4 -m 8G \
+                  -drive if=pflash,format=raw,unit=0,readonly=on,file=${pkgs.OVMF.fd}/FV/OVMF_CODE.fd \
+                  -drive if=pflash,format=raw,unit=1,file="$vars" \
+                  -drive file="$disk",format=qcow2,if=virtio \
+                  -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+                  -device virtio-net-pci,netdev=net0 \
+                  -device virtio-vga -display "''${DEVBOX_QEMU_DISPLAY:-gtk}" \
+                  ''${QEMU_OPTS:-}
+              '';
+            };
 
-        # devbox-arm on Apple silicon. accel=hvf with -cpu host is real
-        # hardware virtualisation, so the guest runs at native speed - the
-        # whole point of building an ARM image rather than emulating the
-        # x86 one.
-        aarch64-darwin.devbox-qemu =
-          let
-            pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-            # qemu ships the ARM edk2 build itself, both blobs already padded
-            # to the 64M that the virt machine's pflash wants, so there is no
-            # separate OVMF package to chase on darwin.
-            firmware = "${pkgs.qemu}/share/qemu";
-          in
-          mkDevboxQemuApp {
-            inherit pkgs;
-            inherit (pkgs) qemu;
-            imageFile = "${self.packages.aarch64-linux.devbox-qemu}/${devboxQemuImageArm.config.image.filePath}";
-            defaultDisk = "qemu/devbox-arm.qcow2";
-            varsTemplate = "${firmware}/edk2-arm-vars.fd";
-            qemuCommand = ''
-              # virt has no VGA, so virtio-gpu-pci rather than virtio-vga. There
-              # is no GPU passthrough either way - sway lands on llvmpipe.
-              #
-              # No xres/yres here on purpose. They set the initial mode, but
-              # pinning them cost the dynamic resize: cocoa's windowDidResize
-              # feeds dpy_set_ui_info into virtio_gpu_ui_info, which rewrites
-              # req_state and regenerates the EDID, so the guest follows the
-              # window and fills the screen when you go fullscreen. Setting
-              # them left the guest fixed at 1080p, centred in a black frame.
-              #
-              # full-grab installs a global event tap so system combos reach
-              # the guest instead of the host - without it alt-1 goes to
-              # aerospace (see home-manager/aerospace/aerospace.toml) and sway
-              # never sees it. macOS only honours the tap once qemu has
-              # Accessibility permission, and that is granted per binary path,
-              # so it has to be re-granted whenever the qemu store path
-              # changes. DEVBOX_QEMU_DISPLAY overrides the whole string, so
-              # DEVBOX_QEMU_DISPLAY=cocoa turns the grab back off.
-              #
-              # virt also has no PS/2 controller - x86 q35 gets a keyboard and
-              # mouse for free from i8042, virt gets nothing - so without the
-              # three -device lines below the guest has no input devices at all
-              # and the greeter never sees a keystroke, however much the host
-              # window grabs the cursor. USB HID rather than virtio-input
-              # because the guest kernel has usbcore, usbhid, hid-generic and
-              # xhci-pci built in, while virtio_input is only a loadable
-              # module. usb-tablet reports absolute coordinates, so the pointer
-              # follows the host cursor instead of needing a grab.
-              exec ${pkgs.qemu}/bin/qemu-system-aarch64 \
-                -machine virt,accel=hvf -cpu host -smp 4 -m 8G \
-                -drive if=pflash,format=raw,unit=0,readonly=on,file=${firmware}/edk2-aarch64-code.fd \
-                -drive if=pflash,format=raw,unit=1,file="$vars" \
-                -drive file="$disk",format=qcow2,if=virtio \
-                -netdev user,id=net0,hostfwd=tcp::2222-:22 \
-                -device virtio-net-pci,netdev=net0 \
-                -device virtio-gpu-pci \
-                -display "''${DEVBOX_QEMU_DISPLAY:-cocoa,full-grab=on}" \
-                -device qemu-xhci,id=usb \
-                -device usb-kbd,bus=usb.0 \
-                -device usb-tablet,bus=usb.0 \
-                ''${QEMU_OPTS:-}
-            '';
-          };
+          # devbox-arm on Apple silicon. accel=hvf with -cpu host is real
+          # hardware virtualisation, so the guest runs at native speed - the
+          # whole point of building an ARM image rather than emulating the
+          # x86 one.
+        };
 
-        # The x86_64 image on Apple silicon. No hardware acceleration exists for
-        # a cross-architecture guest, so this is full TCG emulation and is slow -
-        # fine over ssh, rough for sway. It is a stopgap; devbox-qemu (the ARM
-        # image) is the fast path. Nix will not build the x86_64 image on a Mac
-        # either, so the image has to be copied in from a Linux builder first.
-        aarch64-darwin.devbox-qemu-x86 =
-          let
-            pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-            firmware = "${pkgs.qemu}/share/qemu";
-          in
-          mkDevboxQemuApp {
-            inherit pkgs;
-            inherit (pkgs) qemu;
-            # A plain path, not the store path: interpolating the latter would
-            # make the image a build input of this script, and a Mac cannot
-            # build a Linux image - `nix run` would try, and fail, before it
-            # ever got to booting anything. Relative to the working directory,
-            # like defaultDisk. Override with DEVBOX_QEMU_IMAGE.
-            imageFile = "qemu/devbox_1.raw";
-            defaultDisk = "qemu/devbox-x86.qcow2";
-            varsTemplate = "${firmware}/edk2-i386-vars.fd";
-            qemuCommand = ''
-              # -cpu max, not host: host means "expose the physical cpu", which
-              # needs hardware acceleration, and there is none here.
-              exec ${pkgs.qemu}/bin/qemu-system-x86_64 \
-                -machine q35 -accel tcg -cpu max -smp 4 -m 8G \
-                -drive if=pflash,format=raw,unit=0,readonly=on,file=${firmware}/edk2-x86_64-code.fd \
-                -drive if=pflash,format=raw,unit=1,file="$vars" \
-                -drive file="$disk",format=qcow2,if=virtio \
-                -netdev user,id=net0,hostfwd=tcp::2222-:22 \
-                -device virtio-net-pci,netdev=net0 \
-                -device virtio-vga -display "''${DEVBOX_QEMU_DISPLAY:-cocoa}" \
-                ''${QEMU_OPTS:-}
-            '';
-          };
+        aarch64-darwin = {
+          dns = mkDnsApp "aarch64-darwin";
+
+          devbox-qemu =
+            let
+              pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+              # qemu ships the ARM edk2 build itself, both blobs already padded
+              # to the 64M that the virt machine's pflash wants, so there is no
+              # separate OVMF package to chase on darwin.
+              firmware = "${pkgs.qemu}/share/qemu";
+            in
+            mkDevboxQemuApp {
+              inherit pkgs;
+              inherit (pkgs) qemu;
+              imageFile = "${self.packages.aarch64-linux.devbox-qemu}/${devboxQemuImageArm.config.image.filePath}";
+              defaultDisk = "qemu/devbox-arm.qcow2";
+              varsTemplate = "${firmware}/edk2-arm-vars.fd";
+              qemuCommand = ''
+                # virt has no VGA, so virtio-gpu-pci rather than virtio-vga. There
+                # is no GPU passthrough either way - sway lands on llvmpipe.
+                #
+                # No xres/yres here on purpose. They set the initial mode, but
+                # pinning them cost the dynamic resize: cocoa's windowDidResize
+                # feeds dpy_set_ui_info into virtio_gpu_ui_info, which rewrites
+                # req_state and regenerates the EDID, so the guest follows the
+                # window and fills the screen when you go fullscreen. Setting
+                # them left the guest fixed at 1080p, centred in a black frame.
+                #
+                # full-grab installs a global event tap so system combos reach
+                # the guest instead of the host - without it alt-1 goes to
+                # aerospace (see home-manager/aerospace/aerospace.toml) and sway
+                # never sees it. macOS only honours the tap once qemu has
+                # Accessibility permission, and that is granted per binary path,
+                # so it has to be re-granted whenever the qemu store path
+                # changes. DEVBOX_QEMU_DISPLAY overrides the whole string, so
+                # DEVBOX_QEMU_DISPLAY=cocoa turns the grab back off.
+                #
+                # virt also has no PS/2 controller - x86 q35 gets a keyboard and
+                # mouse for free from i8042, virt gets nothing - so without the
+                # three -device lines below the guest has no input devices at all
+                # and the greeter never sees a keystroke, however much the host
+                # window grabs the cursor. USB HID rather than virtio-input
+                # because the guest kernel has usbcore, usbhid, hid-generic and
+                # xhci-pci built in, while virtio_input is only a loadable
+                # module. usb-tablet reports absolute coordinates, so the pointer
+                # follows the host cursor instead of needing a grab.
+                exec ${pkgs.qemu}/bin/qemu-system-aarch64 \
+                  -machine virt,accel=hvf -cpu host -smp 4 -m 8G \
+                  -drive if=pflash,format=raw,unit=0,readonly=on,file=${firmware}/edk2-aarch64-code.fd \
+                  -drive if=pflash,format=raw,unit=1,file="$vars" \
+                  -drive file="$disk",format=qcow2,if=virtio \
+                  -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+                  -device virtio-net-pci,netdev=net0 \
+                  -device virtio-gpu-pci \
+                  -display "''${DEVBOX_QEMU_DISPLAY:-cocoa,full-grab=on}" \
+                  -device qemu-xhci,id=usb \
+                  -device usb-kbd,bus=usb.0 \
+                  -device usb-tablet,bus=usb.0 \
+                  ''${QEMU_OPTS:-}
+              '';
+            };
+
+          # The x86_64 image on Apple silicon. No hardware acceleration exists for
+          # a cross-architecture guest, so this is full TCG emulation and is slow -
+          # fine over ssh, rough for sway. It is a stopgap; devbox-qemu (the ARM
+          # image) is the fast path. Nix will not build the x86_64 image on a Mac
+          # either, so the image has to be copied in from a Linux builder first.
+          devbox-qemu-x86 =
+            let
+              pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+              firmware = "${pkgs.qemu}/share/qemu";
+            in
+            mkDevboxQemuApp {
+              inherit pkgs;
+              inherit (pkgs) qemu;
+              # A plain path, not the store path: interpolating the latter would
+              # make the image a build input of this script, and a Mac cannot
+              # build a Linux image - `nix run` would try, and fail, before it
+              # ever got to booting anything. Relative to the working directory,
+              # like defaultDisk. Override with DEVBOX_QEMU_IMAGE.
+              imageFile = "qemu/devbox_1.raw";
+              defaultDisk = "qemu/devbox-x86.qcow2";
+              varsTemplate = "${firmware}/edk2-i386-vars.fd";
+              qemuCommand = ''
+                # -cpu max, not host: host means "expose the physical cpu", which
+                # needs hardware acceleration, and there is none here.
+                exec ${pkgs.qemu}/bin/qemu-system-x86_64 \
+                  -machine q35 -accel tcg -cpu max -smp 4 -m 8G \
+                  -drive if=pflash,format=raw,unit=0,readonly=on,file=${firmware}/edk2-x86_64-code.fd \
+                  -drive if=pflash,format=raw,unit=1,file="$vars" \
+                  -drive file="$disk",format=qcow2,if=virtio \
+                  -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+                  -device virtio-net-pci,netdev=net0 \
+                  -device virtio-vga -display "''${DEVBOX_QEMU_DISPLAY:-cocoa}" \
+                  ''${QEMU_OPTS:-}
+              '';
+            };
+        };
       };
 
       devShells = {
@@ -586,6 +646,7 @@
           packages = with nixpkgs.legacyPackages.x86_64-linux; [
             nixd
             qrencode
+            (mkTofu "x86_64-linux")
           ];
         };
 
@@ -593,6 +654,7 @@
           packages = with nixpkgs.legacyPackages.aarch64-darwin; [
             nixd
             qrencode
+            (mkTofu "aarch64-darwin")
           ];
         };
       };

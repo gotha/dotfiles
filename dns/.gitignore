@@ -1,0 +1,6 @@
+# Rebuildable from the import blocks in main.tf, so it is not worth committing
+# - and this repository is public.
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
