@@ -43,6 +43,7 @@ in
         users.${cfg.username} = {
           imports = [
             ../../home-manager
+            ../../home-manager/aerc
             ../../home-manager/aerospace
             ../../home-manager/alacritty
             ../../home-manager/claude-code

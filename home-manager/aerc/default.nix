@@ -5,7 +5,7 @@
 # source-cred-cmd / outgoing-cred-cmd rather than having them inlined, so
 # accounts.conf itself holds no credentials - which matters, because
 # home-manager writes it into the world-readable Nix store.
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   imapHost = "mail.hgeorgiev.com:993";
   smtpHost = "mail.hgeorgiev.com:465";
@@ -35,6 +35,14 @@ let
 in
 {
   imports = [ ../sops ];
+
+  # Not what makes text/html render: nixpkgs wraps aerc's own html filter with
+  # a w3m of its own, so that works with or without this. This puts w3m on PATH
+  # for reading a saved part by hand, and for the `! w3m -T text/html` filter
+  # aerc offers as an alternative to the bundled script. It sits with the
+  # module rather than in the shared package list so it follows aerc around
+  # instead of landing on hosts with no mail client.
+  home.packages = [ pkgs.w3m ];
 
   programs.aerc = {
     enable = true;
