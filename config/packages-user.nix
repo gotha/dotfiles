@@ -15,7 +15,6 @@ in
   clang-tools
   cloc
   direnv
-  entire
   gcloud
   gh
   go
