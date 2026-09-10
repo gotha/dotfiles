@@ -13,6 +13,9 @@
   pkgs,
   ...
 }:
+let
+  keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+in
 {
 
   imports = [ inputs.sops-nix.homeManagerModules.sops ];
@@ -26,6 +29,14 @@
   # runs as this user and cannot read a root-owned file. It carries no
   # passphrase - sops reads it unattended - which is why it is kept separate
   # from ~/.ssh/id_ed25519, where a passphrase costs nothing.
-  sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+  sops.age.keyFile = keyFile;
+
+  # sops-nix reads the path above directly, so activation needs nothing more.
+  # The sops command does not: it looks at this variable, and otherwise at a
+  # default under Go's UserConfigDir, which on darwin is
+  # ~/Library/Application Support rather than ~/.config - so on a Mac it never
+  # finds the key and reports "no identity matched any of the recipients",
+  # which reads like a recipient problem rather than a missing key.
+  home.sessionVariables.SOPS_AGE_KEY_FILE = keyFile;
 
 }
