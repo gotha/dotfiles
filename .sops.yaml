@@ -14,9 +14,6 @@
 #                     sops-install-secrets running as root at boot. Root-only,
 #                     so a home-manager module can never use one.
 #
-# The pgp: lines are transitional. They keep the old key working as a fallback
-# until every host is proven to decrypt on age alone; phase 7 of
-# guides/age-key-migration.md removes them.
 
 keys:
   # Workstations - the age keys under ~/.config/sops/age/keys.txt
@@ -34,8 +31,6 @@ keys:
   # losing every workstation, or rebuilding a host, survivable.
   - &breakglass age130g8lt0nepzcd2wl5g256xs0rpgfmdsn85w0nhjulf2wpxjwfeaqryen8x
 
-  - &pgp_infra 7EFF0CECB200083C60EA2AA2C8DDF8A8BDF70670
-
 creation_rules:
   # Home-manager secrets, decrypted by you rather than by a machine, so the
   # recipients are workstation keys. bastion is deliberately absent: it imports
@@ -49,8 +44,6 @@ creation_rules:
           - *ws_mucie
           - *ws_lucie
           - *breakglass
-        pgp:
-          - *pgp_infra
 
   # Host secrets, decrypted by root at boot. One host each, which is the whole
   # point: bastion holds the key to bastion's secrets and nothing else.
@@ -60,8 +53,6 @@ creation_rules:
       - age:
           - *host_bastion
           - *breakglass
-        pgp:
-          - *pgp_infra
 
   - path_regex: hosts/lucie/secrets/
     unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
@@ -69,8 +60,6 @@ creation_rules:
       - age:
           - *host_lucie
           - *breakglass
-        pgp:
-          - *pgp_infra
 
   - path_regex: hosts/mucie/secrets/
     unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
@@ -78,8 +67,6 @@ creation_rules:
       - age:
           - *host_mucie
           - *breakglass
-        pgp:
-          - *pgp_infra
 
   # The hetzner token, read by `nix run .#dns` from a workstation. No machine
   # decrypts it unattended, so it takes workstation keys only.
@@ -90,5 +77,3 @@ creation_rules:
           - *ws_mucie
           - *ws_lucie
           - *breakglass
-        pgp:
-          - *pgp_infra

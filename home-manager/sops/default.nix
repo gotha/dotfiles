@@ -2,7 +2,7 @@
 #
 # Individual secrets are declared by the module that reads them, next to the
 # encrypted file they come from - see ../aerc for the shape. A module that
-# needs one imports this to pull in the sops-nix module and the gpg setup;
+# needs one imports this to pull in the sops-nix module and the age key;
 # importing it twice is harmless, since the module system merges them.
 #
 # Keeping the declarations with their consumers means a secret and its
@@ -17,10 +17,7 @@
 
   imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
-  home.packages = with pkgs; [
-    sops
-    gnupg
-  ];
+  home.packages = [ pkgs.sops ];
 
   # The age key this user decrypts with. Created per machine and never copied:
   #   nix shell nixpkgs#age -c age-keygen -o ~/.config/sops/age/keys.txt
