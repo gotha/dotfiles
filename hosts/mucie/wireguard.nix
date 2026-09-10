@@ -1,22 +1,16 @@
 {
   config,
   wireguard,
-  username,
   ...
 }:
 {
 
-  # Configure sops for secrets management
+  # Decrypted with this machine's ssh host key - see ../bastion/wireguard.nix
+  # for why there is no key configuration here.
   sops = {
-    # Use GPG keys from user's home directory
-    gnupg.home = "/Users/${username}/.gnupg";
-    gnupg.sshKeyPaths = [ ];
-
-    # Disable age
-    age.sshKeyPaths = [ ];
 
     secrets.mucie_private_key = {
-      sopsFile = ../../secrets/wg-mucie-key.enc;
+      sopsFile = ./secrets/wg-mucie-key.enc;
       format = "json";
       key = "private";
       mode = "0400";

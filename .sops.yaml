@@ -1,12 +1,94 @@
+# Who can decrypt what. These rules apply when sops *encrypts* - creating a
+# file, editing one, or running `sops updatekeys`. Decryption ignores them and
+# reads the recipient list baked into each file's own `sops:` metadata, which
+# is why changing a rule has no effect until updatekeys is run.
+#
+# Two kinds of age recipient appear below, and mixing them up breaks things in
+# different ways:
+#
+#   workstation keys  ~/.config/sops/age/keys.txt, read by home-manager
+#                     activation running as you. Portable: a module that uses
+#                     one works on any machine where you have the key.
+#
+#   host keys         derived from /etc/ssh/ssh_host_ed25519_key, read by
+#                     sops-install-secrets running as root at boot. Root-only,
+#                     so a home-manager module can never use one.
+#
+# The pgp: lines are transitional. They keep the old key working as a fallback
+# until every host is proven to decrypt on age alone; phase 7 of
+# guides/age-key-migration.md removes them.
+
+keys:
+  # Workstations - the age keys under ~/.config/sops/age/keys.txt
+  - &ws_mucie age1dl9n3k8q3e7uqwqy7kstqag5km6evsupzjf8ajvftzv9l5g86psqw5rt8r
+  - &ws_lucie age1w955fw2fmxnazd9lpsj9lknzl8l0ccwhcahznmgjqr430mjys4zs2t8vad
+
+  # Hosts - derived from each machine's ssh host key with:
+  #   ssh <host> cat /etc/ssh/ssh_host_ed25519_key.pub | nix run nixpkgs#ssh-to-age
+  - &host_bastion age1za4avpeg9ppzq9d4dfms2pp0m92x9l0pte85zme35s7tqlux8uwsn53863
+  - &host_lucie age1p3u6unlxc4dexv0xnnczsrvxjhr4pxw48wrjmvchxvxs866uu93qt686ph
+  - &host_mucie age144cn0578fcg24aqddssd7fevsyzek758aec000jdtq9u4xdy3ylsp9pye8
+
+  # Offline recovery. Recipient on everything, installed on no machine - its
+  # private half lives outside this infrastructure entirely. It is what makes
+  # losing every workstation, or rebuilding a host, survivable.
+  - &breakglass age130g8lt0nepzcd2wl5g256xs0rpgfmdsn85w0nhjulf2wpxjwfeaqryen8x
+
+  - &pgp_infra 7EFF0CECB200083C60EA2AA2C8DDF8A8BDF70670
+
 creation_rules:
-  # Secrets consumed by the lucie NixOS system also need the host's age key
-  # (derived from /etc/ssh/ssh_host_ed25519_key) so sops-nix can decrypt at boot.
-  - path_regex: secrets/(litellm|grafana)[^/]*$
+  # Home-manager secrets, decrypted by you rather than by a machine, so the
+  # recipients are workstation keys. bastion is deliberately absent: it imports
+  # only home-manager/git and home-manager/zsh, neither of which declares a
+  # secret, and its host key is root-only so activation as gotha could not read
+  # it anyway. Give bastion a workstation key if that ever changes.
+  - path_regex: home-manager/[^/]+/secrets/
     unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
-    pgp: >-
-      7EFF0CECB200083C60EA2AA2C8DDF8A8BDF70670
-    age: >-
-      age1p3u6unlxc4dexv0xnnczsrvxjhr4pxw48wrjmvchxvxs866uu93qt686ph
-  - unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
-    pgp: >-
-      7EFF0CECB200083C60EA2AA2C8DDF8A8BDF70670
+    key_groups:
+      - age:
+          - *ws_mucie
+          - *ws_lucie
+          - *breakglass
+        pgp:
+          - *pgp_infra
+
+  # Host secrets, decrypted by root at boot. One host each, which is the whole
+  # point: bastion holds the key to bastion's secrets and nothing else.
+  - path_regex: hosts/bastion/secrets/
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+    key_groups:
+      - age:
+          - *host_bastion
+          - *breakglass
+        pgp:
+          - *pgp_infra
+
+  - path_regex: hosts/lucie/secrets/
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+    key_groups:
+      - age:
+          - *host_lucie
+          - *breakglass
+        pgp:
+          - *pgp_infra
+
+  - path_regex: hosts/mucie/secrets/
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+    key_groups:
+      - age:
+          - *host_mucie
+          - *breakglass
+        pgp:
+          - *pgp_infra
+
+  # The hetzner token, read by `nix run .#dns` from a workstation. No machine
+  # decrypts it unattended, so it takes workstation keys only.
+  - path_regex: dns/secrets/
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+    key_groups:
+      - age:
+          - *ws_mucie
+          - *ws_lucie
+          - *breakglass
+        pgp:
+          - *pgp_infra

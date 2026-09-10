@@ -1,3 +1,12 @@
+# sops-nix wiring, and nothing about any particular secret.
+#
+# Individual secrets are declared by the module that reads them, next to the
+# encrypted file they come from - see ../aerc for the shape. A module that
+# needs one imports this to pull in the sops-nix module and the gpg setup;
+# importing it twice is harmless, since the module system merges them.
+#
+# Keeping the declarations with their consumers means a secret and its
+# .enc file move, or get deleted, together with the thing that wanted them.
 {
   config,
   inputs,
@@ -13,80 +22,13 @@
     gnupg
   ];
 
-  home.file.".sops.yaml".source = ./.sops.yaml;
-
-  sops = {
-    # Use the default GPG home directory
-    gnupg.home = "${config.home.homeDirectory}/.gnupg";
-
-    secrets = {
-      ".env" = {
-        sopsFile = ../../secrets/.env.enc;
-        format = "dotenv";
-        path = "${config.home.homeDirectory}/.env";
-        mode = "0600";
-      };
-
-      "mcp_server_github_pac" = {
-        sopsFile = ../../secrets/github.env.enc;
-        format = "dotenv";
-        key = "GITHUB_PERSONAL_ACCESS_TOKEN_MCP_SERVER";
-      };
-
-      "mcp_server_circleci_token" = {
-        sopsFile = ../../secrets/circleci.env.enc;
-        format = "dotenv";
-        key = "CIRCLECI_TOKEN";
-      };
-
-      "nextcloud_username" = {
-        sopsFile = ../../secrets/nextcloud-credentials-lucie-sync.enc.json;
-        format = "json";
-        key = "username";
-      };
-
-      "nextcloud_password" = {
-        sopsFile = ../../secrets/nextcloud-credentials-lucie-sync.enc.json;
-        format = "json";
-        key = "password";
-      };
-
-      # aerc reads these with source-cred-cmd / outgoing-cred-cmd, so the
-      # passwords never land in accounts.conf. All three are real dovecot
-      # users with their own Maildir - see the vmailbox in hosts/bastion/
-      # mail.nix - so no-reply gets a full account like the others.
-      "mail_me_hgeorgiev" = {
-        sopsFile = ../../secrets/mailboxes.enc.json;
-        format = "json";
-        key = "me@hgeorgiev.com";
-        path = "${config.home.homeDirectory}/.config/aerc/me-hgeorgiev.password";
-        mode = "0400";
-      };
-
-      "mail_contacts_dissona" = {
-        sopsFile = ../../secrets/mailboxes.enc.json;
-        format = "json";
-        key = "contacts@dissona.app";
-        path = "${config.home.homeDirectory}/.config/aerc/contacts-dissona.password";
-        mode = "0400";
-      };
-
-      "mail_no_reply_dissona" = {
-        sopsFile = ../../secrets/mailboxes.enc.json;
-        format = "json";
-        key = "no-reply@dissona.app";
-        path = "${config.home.homeDirectory}/.config/aerc/no-reply-dissona.password";
-        mode = "0400";
-      };
-
-      "crush_openai_key" = {
-        sopsFile = ../../secrets/openai.json.enc;
-        format = "json";
-        key = "CRUSH_API_KEY";
-        path = "${config.home.homeDirectory}/.config/crush/openai-api-key";
-        mode = "0400";
-      };
-    };
-  };
+  # The age key this user decrypts with. Created per machine and never copied:
+  #   nix shell nixpkgs#age -c age-keygen -o ~/.config/sops/age/keys.txt
+  #
+  # A workstation key rather than the host key at /etc/ssh, because activation
+  # runs as this user and cannot read a root-owned file. It carries no
+  # passphrase - sops reads it unattended - which is why it is kept separate
+  # from ~/.ssh/id_ed25519, where a passphrase costs nothing.
+  sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
 
 }

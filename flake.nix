@@ -360,7 +360,7 @@
                 exit 1
               fi
 
-              HCLOUD_TOKEN=$(${pkgs.sops}/bin/sops -d --extract '["token"]' secrets/hetzner-dns.enc.json)
+              HCLOUD_TOKEN=$(${pkgs.sops}/bin/sops -d --extract '["token"]' dns/secrets/hetzner-dns.enc.json)
               export HCLOUD_TOKEN
 
               cd dns

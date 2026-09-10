@@ -154,6 +154,8 @@ let
   };
 in
 {
+  imports = [ ../sops ];
+
   home.packages = [ pkgs.crush ];
 
   xdg.configFile."zsh/crush.zsh".text = ''
@@ -161,4 +163,15 @@ in
   '';
 
   xdg.configFile."crush/crush.json".text = builtins.toJSON crushConfig;
+
+  # Read by Crush at load time from the 0400 file sops writes, so the key is
+  # never in crush.json or any Nix output.
+  sops.secrets.crush_openai_key = {
+    sopsFile = ./secrets/openai.json.enc;
+    format = "json";
+    key = "CRUSH_API_KEY";
+    path = "${config.home.homeDirectory}/.config/crush/openai-api-key";
+    mode = "0400";
+  };
+
 }

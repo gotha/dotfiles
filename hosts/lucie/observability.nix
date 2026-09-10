@@ -55,7 +55,7 @@ in
   # dropped the built-in default, so it has to be supplied; $__file{} keeps it
   # out of the world-readable store copy of grafana.ini.
   sops.secrets.grafana_secret_key = {
-    sopsFile = ../../secrets/grafana.enc.json;
+    sopsFile = ./secrets/grafana.enc.json;
     format = "json";
     key = "secret_key";
     owner = "grafana";

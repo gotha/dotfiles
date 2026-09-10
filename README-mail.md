@@ -23,7 +23,7 @@ openssl rsa -in /tmp/mail.private -pubout -out /tmp/mail.pub
 ## 2. Encrypt DKIM Private Key with SOPS
 
 ```sh
-sops -e /tmp/mail.private > secrets/dkim-key.enc
+sops -e /tmp/mail.private > hosts/bastion/secrets/dkim-key.enc
 ```
 
 The key will be deployed to `/var/lib/rspamd/dkim/hgeorgiev.com.mail.key` on bastion.
@@ -50,7 +50,7 @@ To configure PTR (reverse DNS) set the name of the droplet in Digitalocean to ma
 Passwords live in two encrypted files and must be kept in sync:
 
 - `secrets/mailboxes.json` - cleartext, read by aerc on the client side
-- `secrets/dovecot-users` - the dovecot passwd-file of BLF-CRYPT hashes,
+- `hosts/bastion/secrets/dovecot-users` - the dovecot passwd-file of BLF-CRYPT hashes,
   deployed to bastion as `/run/secrets/dovecot_users`
 
 Both are gitignored; only their `.enc` counterparts are committed.
@@ -63,8 +63,8 @@ sops -e secrets/mailboxes.json > secrets/mailboxes.enc.json
 # 2. Generate the matching hash and put it in the passwd-file as
 #    user@domain:{BLF-CRYPT}$2y$11$...
 doveadm pw -s BLF-CRYPT -r 11
-$EDITOR secrets/dovecot-users
-sops -e secrets/dovecot-users > secrets/dovecot-users.enc
+$EDITOR hosts/bastion/secrets/dovecot-users
+sops -e hosts/bastion/secrets/dovecot-users > hosts/bastion/secrets/dovecot-users.enc
 
 # 3. Verify a hash matches its password before deploying
 doveadm pw -t '{BLF-CRYPT}$2y$11$...' -p 'the-password'

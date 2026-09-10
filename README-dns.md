@@ -26,7 +26,7 @@ octoDNS.
 Create a token in the Hetzner console and store it with sops:
 
 ```sh
-sops secrets/hetzner-dns.enc.json
+sops dns/secrets/hetzner-dns.enc.json
 ```
 
 An editor opens on a new file. It holds one key:

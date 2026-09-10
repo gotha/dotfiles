@@ -9,17 +9,14 @@ let
 in
 {
 
-  # Configure sops for secrets management
+  # No key configuration here on purpose. The default is
+  # age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ], so root decrypts at
+  # boot with the key sshd already has, and this machine holds no pgp key for a
+  # snapshot or a stolen backup to give away.
   sops = {
-    # Use GPG keys from root's home directory
-    gnupg.home = "/root/.gnupg";
-    gnupg.sshKeyPaths = [ ];
-
-    # Disable age
-    age.sshKeyPaths = [ ];
 
     secrets.bastion_private_key = {
-      sopsFile = ../../secrets/wg-bastion-key.enc;
+      sopsFile = ./secrets/wg-bastion-key.enc;
       format = "json";
       key = "bastion_private_key";
       mode = "0400";

@@ -150,6 +150,21 @@ in
     xdg.configFile."mcp/mcp.json".text = mcpConfigJSON;
 
     programs.mcp.configJSON = mcpConfigJSON;
+    # Read by the server wrappers in this directory, which hand them to the MCP
+    # servers as environment variables.
+    sops.secrets = {
+      mcp_server_github_pac = {
+        sopsFile = ./secrets/github.env.enc;
+        format = "dotenv";
+        key = "GITHUB_PERSONAL_ACCESS_TOKEN_MCP_SERVER";
+      };
+
+      mcp_server_circleci_token = {
+        sopsFile = ./secrets/circleci.env.enc;
+        format = "dotenv";
+        key = "CIRCLECI_TOKEN";
+      };
+    };
   };
 
 }

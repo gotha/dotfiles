@@ -11,7 +11,7 @@
   # services.nginx.virtualHosts.<name>.basicAuth, which would render the hash
   # into a world-readable file in /nix/store.
   sops.secrets.cachix_htpasswd = {
-    sopsFile = ../../secrets/cachix.enc.json;
+    sopsFile = ./secrets/cachix.enc.json;
     format = "json";
     key = "htpasswd";
     owner = "nginx";

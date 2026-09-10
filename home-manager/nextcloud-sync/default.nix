@@ -10,6 +10,8 @@ let
   nextcloudUrl = "https://nextcloud.${defaultCfg.domain}";
 in
 {
+  imports = [ ../sops ];
+
   # Install nextcloud-client package (includes nextcloudcmd)
   home.packages = [ pkgs.nextcloud-client ];
 
@@ -62,4 +64,19 @@ in
       WantedBy = [ "timers.target" ];
     };
   };
+
+  sops.secrets = {
+    nextcloud_username = {
+      sopsFile = ./secrets/credentials.enc.json;
+      format = "json";
+      key = "username";
+    };
+
+    nextcloud_password = {
+      sopsFile = ./secrets/credentials.enc.json;
+      format = "json";
+      key = "password";
+    };
+  };
+
 }

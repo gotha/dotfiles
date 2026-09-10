@@ -12,3 +12,58 @@ if ! nix build --no-link ".#checks.${system}.nixfmt" ".#checks.${system}.statix"
 fi
 
 echo "Checks passed."
+
+# Refuse to commit a secret in the clear.
+#
+# The .enc files used to live under secrets/, which .gitignore covers, so
+# committing one took a deliberate `git add -f`. They now sit beside the
+# modules that read them and are tracked normally, so that accident is only a
+# `git add` away - this is what replaces the ignore rule.
+#
+# Two rules. A file named like an encrypted one must actually be encrypted,
+# which catches saving a decrypted copy over the original. And no file may
+# introduce a private key or a password hash, which is the leak that put the
+# dovecot hashes in this repository's history in the first place.
+echo "Checking staged files for unencrypted secrets..."
+
+fail=0
+while IFS= read -r f; do
+    [ -n "$f" ] || continue
+    staged=$(git show ":$f" 2>/dev/null) || continue
+
+    case "$f" in
+        *.enc | *.enc.* | *.env.enc)
+            if ! printf '%s' "$staged" | grep -q 'ENC\['; then
+                echo "  ERROR: $f is named as encrypted but has no sops ciphertext."
+                fail=1
+            fi
+            continue
+            ;;
+    esac
+
+    # Already-encrypted files legitimately contain these patterns.
+    printf '%s' "$staged" | grep -q 'ENC\[' && continue
+
+    if printf '%s' "$staged" | grep -qE -- '-----BEGIN [A-Z ]*PRIVATE KEY-----'; then
+        echo "  ERROR: $f contains a private key block."
+        fail=1
+    fi
+    # The scheme tag alone is not enough - documentation carries placeholders
+    # like {BLF-CRYPT}$2y$11$... - so require a real run of hash material after
+    # it. A bcrypt hash is 53 chars of that alphabet, sha512-crypt is longer.
+    if printf '%s' "$staged" | grep -qE '\{(SHA512-CRYPT|BLF-CRYPT|SSHA512|MD5-CRYPT)\}\$[0-9a-z]+\$[^$]*\$?[./A-Za-z0-9]{16,}'; then
+        echo "  ERROR: $f contains a password hash."
+        fail=1
+    fi
+done <<EOF
+$(git diff --cached --name-only --diff-filter=ACM)
+EOF
+
+if [ "$fail" -ne 0 ]; then
+    echo ""
+    echo "ERROR: refusing to commit. Encrypt with sops, or move the value into"
+    echo "a secrets file the owning module declares."
+    exit 1
+fi
+
+echo "No unencrypted secrets staged."

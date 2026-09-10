@@ -10,12 +10,6 @@ in
       git-lfs
       pinentry-curses # passphrase prompt for GPG-signing commits
     ];
-
-    file = {
-      ".config/zsh/gpg_test.zsh".source = pkgs.replaceVars ./gpg_test.zsh {
-        signingKey = cfg.gpgSigningKey;
-      };
-    };
   };
 
   xdg.configFile."git/ignore".source = ./global_ignore;

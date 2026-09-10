@@ -20,7 +20,7 @@ in
     # for these lives in secrets/mailboxes.json, which aerc reads on the
     # client side; regenerate a hash with `doveadm pw -s BLF-CRYPT -r 11`.
     dovecot_users = {
-      sopsFile = ../../secrets/dovecot-users.enc;
+      sopsFile = ./secrets/dovecot-users.enc;
       format = "binary";
       owner = "dovecot2";
       group = "dovecot2";
@@ -28,7 +28,7 @@ in
     };
 
     dkim_private_key = {
-      sopsFile = ../../secrets/dkim-key.enc;
+      sopsFile = ./secrets/dkim-key.enc;
       format = "binary";
       owner = "rspamd";
       group = "rspamd";
@@ -36,7 +36,7 @@ in
       path = "/var/lib/rspamd/dkim/${domain}.mail.key";
     };
     dkim_private_key_dissona = {
-      sopsFile = ../../secrets/dkim-key-dissona.enc;
+      sopsFile = ./secrets/dkim-key-dissona.enc;
       format = "binary";
       owner = "rspamd";
       group = "rspamd";

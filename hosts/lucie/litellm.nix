@@ -12,7 +12,7 @@ in
 
   # Master key for LiteLLM admin UI / proxy auth, decrypted by sops-nix.
   sops.secrets.litellm_master_key = {
-    sopsFile = ../../secrets/litellm.enc.json;
+    sopsFile = ./secrets/litellm.enc.json;
     format = "json";
     key = "master_key";
     mode = "0400";
