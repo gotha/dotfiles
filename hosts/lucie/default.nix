@@ -79,7 +79,6 @@ in
 
   # Disable MCP servers that are unreachable without VPN.
   home-manager.users.${username}.programs.mcp = {
-    enableAtlassian = false;
     enableAsana = false;
     enableCircleci = false;
     enableGcloud = false;

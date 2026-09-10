@@ -14,16 +14,6 @@ in
 {
   mcpServers =
     { }
-    // (lib.optionalAttrs cfg.enableAtlassian {
-      atlassian = {
-        command = "${pkgs.gotha.mcp-atlassian}/bin/mcp-atlassian";
-        args = [
-          "--env-file"
-          "~/.env"
-        ];
-        description = "Atlassian MCP server for managing JIRA projects and issues, and Confluence content";
-      };
-    })
     // (lib.optionalAttrs cfg.enableDissona {
       dissona = {
         command = "npx";

@@ -18,15 +18,6 @@ let
   # STDIO servers use `command`/`args`; remote servers use `url`.
   mcpServers =
     { }
-    // (lib.optionalAttrs cfg.enableAtlassian {
-      atlassian = {
-        command = "${pkgs.gotha.mcp-atlassian}/bin/mcp-atlassian";
-        args = [
-          "--env-file"
-          "${config.home.homeDirectory}/.env"
-        ];
-      };
-    })
     // (lib.optionalAttrs cfg.enableContext7 {
       "context-7" = {
         command = "${pkgs.context7-mcp}/bin/context7-mcp";

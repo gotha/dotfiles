@@ -26,8 +26,7 @@ let
   # gotha/nixpkgs flake live under the `pkgs.gotha.*` namespace.
   packages =
     with pkgs;
-    (lib.optionals cfg.enableAtlassian [ gotha.mcp-atlassian ])
-    ++ (lib.optionals cfg.enableContext7 [ context7-mcp ])
+    (lib.optionals cfg.enableContext7 [ context7-mcp ])
     ++ (lib.optionals cfg.enableFirefoxDevtools [ firefox-devtools-mcp ])
     ++ (lib.optionals cfg.enableGcloud [ gotha.gcloud-mcp ])
     ++ (lib.optionals cfg.enableGit [ mcp-server-git ])
@@ -51,14 +50,9 @@ let
 
 in
 {
+  imports = [ ../sops ];
 
   options.programs.mcp = {
-    enableAtlassian = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable MCP Atlassian server integration (JIRA and Confluence)";
-    };
-
     enableDissona = lib.mkOption {
       type = lib.types.bool;
       default = true;
@@ -157,4 +151,5 @@ in
 
     programs.mcp.configJSON = mcpConfigJSON;
   };
+
 }

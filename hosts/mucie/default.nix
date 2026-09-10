@@ -21,7 +21,6 @@ in
   # that we prefer not to load by default (Playwright).
   home-manager.users.${username}.programs.mcp = {
     enableAsana = false;
-    enableAtlassian = false;
     enableDissona = false;
     enableGcloud = false;
     enableGrafana = false;
