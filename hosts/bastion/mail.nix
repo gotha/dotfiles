@@ -2,9 +2,11 @@
 
 let
   domain = "hgeorgiev.com";
-  # Second mailbox domain. Its accounts live in the same passwd-file and
-  # /var/vmail tree as hgeorgiev.com - dovecot derives both from the address.
+  # Additional mailbox domains. Their accounts live in the same passwd-file
+  # and /var/vmail tree as hgeorgiev.com - dovecot derives each from the
+  # address, so hosting more domains here never means another mail server.
   dissonaDomain = "dissona.app";
+  snugbgDomain = "snugbg.org";
   mailHostname = "mail.${domain}";
   certDir = config.security.acme.certs.${mailHostname}.directory;
 in
@@ -42,6 +44,14 @@ in
       group = "rspamd";
       mode = "0400";
       path = "/var/lib/rspamd/dkim/${dissonaDomain}.mail.key";
+    };
+    dkim_private_key_snugbg = {
+      sopsFile = ./secrets/dkim-key-snugbg.enc;
+      format = "binary";
+      owner = "rspamd";
+      group = "rspamd";
+      mode = "0400";
+      path = "/var/lib/rspamd/dkim/${snugbgDomain}.mail.key";
     };
   };
 
@@ -106,6 +116,10 @@ in
               ${dissonaDomain} {
                 selector = "mail";
                 path = "/var/lib/rspamd/dkim/${dissonaDomain}.mail.key";
+              }
+              ${snugbgDomain} {
+                selector = "mail";
+                path = "/var/lib/rspamd/dkim/${snugbgDomain}.mail.key";
               }
             }
           '';
@@ -198,6 +212,7 @@ in
         virtual_mailbox_domains = [
           domain
           dissonaDomain
+          snugbgDomain
         ];
         virtual_mailbox_base = "/var/vmail";
         virtual_mailbox_maps = "hash:/var/lib/postfix/conf/vmailbox";
@@ -242,6 +257,7 @@ in
           me@${domain}            ${domain}/me/Maildir/
           contacts@${dissonaDomain}    ${dissonaDomain}/contacts/Maildir/
           no-reply@${dissonaDomain}    ${dissonaDomain}/no-reply/Maildir/
+          gotha@${snugbgDomain}        ${snugbgDomain}/gotha/Maildir/
         '';
         virtual = pkgs.writeText "virtual" ''
           # Virtual aliases - format: alias@domain.com    target@domain.com
@@ -251,6 +267,9 @@ in
 
           # RFC 5321 wants postmaster to exist; no mailbox of its own.
           postmaster@${dissonaDomain}  contacts@${dissonaDomain}
+          postmaster@${snugbgDomain}   gotha@${snugbgDomain}
+          contacts@${snugbgDomain}     gotha@${snugbgDomain}
+          hristo@${snugbgDomain}       gotha@${snugbgDomain}
         '';
       };
     };
@@ -363,6 +382,7 @@ in
     "d /var/vmail/${domain}/me/Maildir/tmp 0750 vmail vmail -"
     # Dovecot's LMTP creates the per-user Maildirs on first delivery.
     "d /var/vmail/${dissonaDomain} 0750 vmail vmail -"
+    "d /var/vmail/${snugbgDomain} 0750 vmail vmail -"
   ];
 
   # ============================================================================
