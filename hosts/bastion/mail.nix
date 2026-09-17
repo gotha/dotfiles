@@ -258,6 +258,7 @@ in
           contacts@${dissonaDomain}    ${dissonaDomain}/contacts/Maildir/
           no-reply@${dissonaDomain}    ${dissonaDomain}/no-reply/Maildir/
           gotha@${snugbgDomain}        ${snugbgDomain}/gotha/Maildir/
+          contacts@${snugbgDomain}     ${snugbgDomain}/contacts/Maildir/
         '';
         virtual = pkgs.writeText "virtual" ''
           # Virtual aliases - format: alias@domain.com    target@domain.com
@@ -268,7 +269,6 @@ in
           # RFC 5321 wants postmaster to exist; no mailbox of its own.
           postmaster@${dissonaDomain}  contacts@${dissonaDomain}
           postmaster@${snugbgDomain}   gotha@${snugbgDomain}
-          contacts@${snugbgDomain}     gotha@${snugbgDomain}
           hristo@${snugbgDomain}       gotha@${snugbgDomain}
         '';
       };
