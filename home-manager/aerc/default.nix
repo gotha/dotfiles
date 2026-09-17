@@ -55,6 +55,10 @@ in
       # bounces and people who reply anyway are readable rather than lost.
       "no-reply@dissona.app" =
         account "no-reply@dissona.app" config.sops.secrets.mail_no_reply_dissona.path;
+      # contacts@ and hristo@snugbg.org are virtual aliases onto this same
+      # mailbox (see hosts/bastion/mail.nix) - one dovecot account, no
+      # separate entries here.
+      "gotha@snugbg.org" = account "gotha@snugbg.org" config.sops.secrets.mail_gotha_snugbg.path;
     };
 
     extraConfig = {
@@ -117,6 +121,14 @@ in
       format = "json";
       key = "no-reply@dissona.app";
       path = "${config.home.homeDirectory}/.config/aerc/no-reply-dissona.password";
+      mode = "0400";
+    };
+
+    mail_gotha_snugbg = {
+      sopsFile = ./secrets/mailboxes.enc.json;
+      format = "json";
+      key = "gotha@snugbg.org";
+      path = "${config.home.homeDirectory}/.config/aerc/gotha-snugbg.password";
       mode = "0400";
     };
   };
