@@ -8,6 +8,23 @@ if [ -f /etc/static/zshrc ]; then
   source /etc/static/zshrc
 fi
 
+# Session variables declared with home.sessionVariables (e.g.
+# SOPS_AGE_KEY_FILE in home-manager/sops) land in each Nix profile's
+# etc/profile.d/hm-session-vars.sh. Nothing else in this hand-written
+# .zshrc sources it - unlike a home-manager-managed .zshrc via
+# programs.zsh.enable, which wires this up itself - so do it explicitly.
+#
+# ${=NIX_PROFILES} rather than plain $NIX_PROFILES: zsh does not word-split
+# an unquoted parameter by default the way bash does, so without the (=)
+# flag this loop would run once with the whole space-separated string
+# bound to hm_profile instead of once per profile.
+for hm_profile in ${=NIX_PROFILES}; do
+  if [ -f "$hm_profile/etc/profile.d/hm-session-vars.sh" ]; then
+    source "$hm_profile/etc/profile.d/hm-session-vars.sh"
+  fi
+done
+unset hm_profile
+
 if [ ! -d ~/.zsh-autosuggestions ]; then
   git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh-autosuggestions
 fi
