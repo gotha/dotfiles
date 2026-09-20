@@ -77,13 +77,23 @@ in
     transmission_4-gtk
   ];
 
-  # Disable MCP servers that are unreachable without VPN.
-  home-manager.users.${username}.programs.mcp = {
-    enableAsana = false;
-    enableCircleci = false;
-    enableGcloud = false;
-    enableGrafana = false;
-    enableTempo = false;
+  home-manager.users.${username}.programs = {
+    # Sign with a key of its own, carrying no passphrase. git signs through
+    # `ssh-keygen -Y sign`, which never consults ssh-agent and reads the file
+    # directly, so a passphrase on the signing key is typed on every commit -
+    # nothing an agent or keyring can cache, and over ssh the desktop keyring
+    # cannot prompt at all. The server key keeps its passphrase; this one
+    # guards nothing, being public-verification material.
+    git.signing.key = "/home/${username}/.ssh/id_ed25519_signing.pub";
+
+    # Disable MCP servers that are unreachable without VPN.
+    mcp = {
+      enableAsana = false;
+      enableCircleci = false;
+      enableGcloud = false;
+      enableGrafana = false;
+      enableTempo = false;
+    };
   };
 
   # Configure Docker

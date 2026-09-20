@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -59,12 +60,9 @@ in
       };
     };
 
-    # ssh rather than pgp: the key is the one that already gets this machine
-    # into its servers, it needs no agent or keyring, and github verifies it
-    # once the same key is added there a second time as a Signing Key.
     signing = {
       format = "ssh";
-      key = "${config.home.homeDirectory}/${cfg.signingKey}";
+      key = lib.mkDefault "${config.home.homeDirectory}/${cfg.signingKey}";
       signByDefault = true;
 
       # Without this, git can sign but not verify: `git verify-commit` and
