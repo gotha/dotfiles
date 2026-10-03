@@ -435,9 +435,13 @@
               '';
         }
       );
-      deployChecks = builtins.mapAttrs (
-        _system: deployLib: deployLib.deployChecks self.deploy
-      ) deploy-rs.lib;
+      # deploy-rs.lib still exposes x86_64-darwin, but nixpkgs 26.11 dropped it
+      # and throws on evaluation. mapAttrs forces every attribute, so leaving it
+      # in breaks `nix flake show` and `nix flake check` outright. Drop it here
+      # rather than from `systems`, which this does not read.
+      deployChecks = builtins.mapAttrs (_system: deployLib: deployLib.deployChecks self.deploy) (
+        builtins.removeAttrs deploy-rs.lib [ "x86_64-darwin" ]
+      );
     in
     {
 
