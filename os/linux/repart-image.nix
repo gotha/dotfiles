@@ -40,6 +40,10 @@ in
   };
 
   image.repart = {
+    # nixpkgs 26.11 put image/repart.nix behind this flag, which defaults off.
+    # Importing the module used to be enough; without it the whole `config`
+    # block is mkIf'd away and system.build.image never gets defined.
+    enable = true;
     name = "devbox";
     # OVMF cannot read the 4096-byte sectors repart defaults to.
     sectorSize = 512;
