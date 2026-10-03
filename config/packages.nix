@@ -8,7 +8,6 @@ with pkgs;
   jq
   killall
   less
-  links2
   tree
   vim
   wget
