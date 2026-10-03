@@ -21,6 +21,18 @@
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
+    # Raspberry Pi support. nixpkgs removed the linux_rpi* kernels in
+    # September 2026 ("linux-rpi series has been removed, please change to use
+    # nixos-hardware"), so the vendor kernel, the config.txt generator and the
+    # firmware-partition installer all live here now.
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      # Only its own checks and devShell read this; the modules we import are
+      # evaluated against ours either way. Following keeps a second nixpkgs
+      # out of the lock.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -65,6 +77,7 @@
       nix-index-database,
       home-manager,
       nix-vscode-extensions,
+      nixos-hardware,
       sops-nix,
       gotha,
       deploy-rs,
@@ -138,6 +151,14 @@
         ];
         # devbox minus whatever nixpkgs has no aarch64-linux build for.
         devbox-arm = devbox ++ [ ./distros/devbox-arm ];
+        # Kodi appliance. No luna-podcatcher or vscode extensions here: the
+        # only thing with a screen is Kodi, and the machine is not developed on.
+        jukebox = [
+          configuration
+          ./distros/jukebox
+          nix-index-database.nixosModules.nix-index
+          home-manager.nixosModules.home-manager
+        ];
         platypus = [
           configuration
           ./distros/platypus
@@ -482,6 +503,24 @@
             };
           };
         };
+        # Raspberry Pi 3 Model B. The board profile is listed here rather than
+        # in distro.jukebox because jukebox is meant to run on an x86 home
+        # theatre PC just as well - the Pi is this host's business, not the
+        # distro's.
+        pizzie = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = distro.jukebox ++ [
+            nixos-hardware.nixosModules.raspberry-pi-3
+            ./hosts/pizzie
+          ];
+          specialArgs = {
+            inherit sops-nix;
+            stablePkgs = import nixpkgs-stable {
+              system = "aarch64-linux";
+              config.allowUnfree = true;
+            };
+          };
+        };
       };
 
       packages = {
@@ -502,6 +541,10 @@
         };
         aarch64-linux = {
           devbox-qemu = repartImageOnOut devboxQemuImageArm;
+          # The SD card for pizzie, as an uncompressed .img to dd. Build it on
+          # lucie, which reaches aarch64 through boot.binfmt.emulatedSystems -
+          # a Mac cannot build a Linux image at all. See README-jukebox.md.
+          pizzie-sd = self.nixosConfigurations.pizzie.config.system.build.sdImage;
         };
       };
 
