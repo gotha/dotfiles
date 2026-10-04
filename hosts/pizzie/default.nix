@@ -24,32 +24,19 @@
 
   networking.hostName = "pizzie";
 
-  # pizzie decrypts with the shared appliance key seeded onto its card, not
-  # with one derived from its ssh host key: sshd-keygen.service only runs when
-  # sshd first starts, long after secrets are installed, so a freshly written
-  # card has no host key at the moment it needs one - and an ssh-derived
-  # identity would change on every reflash anyway. The key opens everything in
-  # secrets/appliance/ and nothing outside it;
+  # The appliance key, written onto the card by hand. README-jukebox.md.
   sops.age = {
     keyFile = "/var/lib/sops-nix/key.txt";
-    # Without this the default is pizzie's ed25519 host key, which on a fresh
-    # card is a path that does not exist yet.
-    sshKeyPaths = [ ];
+    sshKeyPaths = [ ]; # the default is a host key, absent on a fresh card
   };
 
-  # The house wifi, so a card written from this flake joins the network with
-  # nobody having to reach the box - no ethernet, no nmtui, no keyboard.
   sops.secrets."home-wifi" = {
     sopsFile = ../../secrets/appliance/home-wifi.enc.env;
     format = "dotenv";
-    # The whole file rather than one value out of it: NetworkManager consumes
-    # this as a systemd EnvironmentFile.
-    key = "";
+    key = ""; # the whole file: NetworkManager reads it as an EnvironmentFile
   };
 
-  # envsubst runs over the generated keyfile at boot, which is what keeps both
-  # the SSID and the PSK out of the world-readable store copy of it. The
-  # rendered profile lands in /run/NetworkManager - tmpfs, mode 0600.
+  # envsubst fills these in at boot, so neither value is in the store copy.
   networking.networkmanager.ensureProfiles = {
     environmentFiles = [ config.sops.secrets."home-wifi".path ];
     profiles.home-wifi = {
@@ -86,43 +73,26 @@
   # left as noauto it would quietly never update config.txt.
   fileSystems."/boot/firmware".options = lib.mkForce [ "nofail" ];
 
-  # The USB disk that lives behind the TV, HFS+ from a Mac. Mounted on demand
-  # rather than at boot: Kodi has to come up whether or not the disk is
-  # attached, and nothing here may ever hold up a boot waiting for it.
+  # The USB disk behind the TV. Automounted, so Kodi boots without it.
   boot.supportedFilesystems.hfsplus = true;
 
   fileSystems."/media/bkp" = {
     device = "/dev/disk/by-uuid/4c714431-071c-3826-aead-5995982f98a7";
     fsType = "hfsplus";
-    # hfsplus is not in nixpkgs' fsToSkipCheck, so without this the entry asks
-    # for an fsck.hfsplus that is not here - hfsprogs is Apple's source with
-    # Debian patches, no business on an appliance - and systemd-fsck@ failing
-    # takes the mount down with it. The Mac that owns the volume checks it.
-    noCheck = true;
+    noCheck = true; # no fsck.hfsplus here, and systemd-fsck@ failing kills the mount
     options = [
-      # systemd mounts this on first access to /media/bkp and never at boot, so
-      # an absent disk costs nothing. device-timeout stops an access with no
-      # disk attached from hanging for the default 90 seconds.
       "noauto"
       "x-systemd.automount"
       "x-systemd.device-timeout=10"
 
-      # HFS+ carries no Unix ownership this driver will trust, so it is handed
-      # out at mount time instead. root:users, group-writable: the user Kodi
-      # runs as has users as its primary group, and that group has a declared
-      # gid where the uid is allocated dynamically and so cannot be named here.
+      # HFS+ has no ownership this driver trusts; Kodi's user is in users.
       "gid=100"
       "umask=002"
       "nls=utf8"
 
-      # ponytail: `force` is the only thing making this read-write. The kernel
-      # driver refuses rw on a journaled HFS+ volume because it can neither
-      # replay nor maintain the journal - "write access to a journaled
-      # filesystem is not supported, use the force option at your own risk".
-      # So an unclean unplug leaves a volume only a Mac can repair, and nothing
-      # here will warn first. Either upgrade retires this comment and the flag:
-      # `diskutil disableJournal` on a Mac, or reformat the disk exFAT - this
-      # kernel has exfat.ko - and change fsType.
+      # ponytail: rw on a journaled volume needs force - the driver cannot keep
+      # the journal, so an unclean unplug wants a Mac to repair. Drop both after
+      # `diskutil disableJournal`, or reformat exFAT.
       "force"
       "rw"
     ];

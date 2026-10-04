@@ -3,8 +3,8 @@
 # reads the recipient list baked into each file's own `sops:` metadata, which
 # is why changing a rule has no effect until updatekeys is run.
 #
-# Two kinds of age recipient appear below, and mixing them up breaks things in
-# different ways:
+# Three kinds of age recipient appear below, and mixing them up breaks things
+# in different ways:
 #
 #   workstation keys  ~/.config/sops/age/keys.txt, read by home-manager
 #                     activation running as you. Portable: a module that uses
@@ -14,11 +14,9 @@
 #                     sops-install-secrets running as root at boot. Root-only,
 #                     so a home-manager module can never use one.
 #
-#   the appliance key made with age-keygen and tied to no machine at all. It is
-#                     copied by hand onto every appliance that needs the house
-#                     wifi, and read by root at boot from
-#                     /var/lib/sops-nix/key.txt. Its reach is fenced to one
-#                     directory, secrets/appliance/, and nothing outside it.
+#   appliance key     made with age-keygen, tied to no machine. Copied by hand
+#                     onto every appliance and read by root at boot from
+#                     /var/lib/sops-nix/key.txt. Reaches secrets/appliance/.
 #
 
 keys:
