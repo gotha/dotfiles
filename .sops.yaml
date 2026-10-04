@@ -3,8 +3,8 @@
 # reads the recipient list baked into each file's own `sops:` metadata, which
 # is why changing a rule has no effect until updatekeys is run.
 #
-# Two kinds of age recipient appear below, and mixing them up breaks things in
-# different ways:
+# Three kinds of age recipient appear below, and mixing them up breaks things
+# in different ways:
 #
 #   workstation keys  ~/.config/sops/age/keys.txt, read by home-manager
 #                     activation running as you. Portable: a module that uses
@@ -13,6 +13,10 @@
 #   host keys         derived from /etc/ssh/ssh_host_ed25519_key, read by
 #                     sops-install-secrets running as root at boot. Root-only,
 #                     so a home-manager module can never use one.
+#
+#   appliance key     made with age-keygen, tied to no machine. Copied by hand
+#                     onto every appliance and read by root at boot from
+#                     /var/lib/sops-nix/key.txt. Reaches secrets/appliance/.
 #
 
 keys:
@@ -25,6 +29,11 @@ keys:
   - &host_bastion age1za4avpeg9ppzq9d4dfms2pp0m92x9l0pte85zme35s7tqlux8uwsn53863
   - &host_lucie age1p3u6unlxc4dexv0xnnczsrvxjhr4pxw48wrjmvchxvxs866uu93qt686ph
   - &host_mucie age144cn0578fcg24aqddssd7fevsyzek758aec000jdtq9u4xdy3ylsp9pye8
+
+  # The appliance key. Not a host key: encrypted, at secrets/keys/appliance.agekey.enc
+  # used for accessing ./secrets/appliance where you do not have the host key
+  # of the machine yet (currently used only for my home's wifi password)
+  - &appliance age1jjcsfegc9u3dtgzk6sqd4nuajsetnfu7z8vhhsrkzy5ajjxwscrsfdw0nm
 
   # Offline recovery. Recipient on everything, installed on no machine - its
   # private half lives outside this infrastructure entirely. It is what makes
@@ -72,6 +81,32 @@ creation_rules:
   # decrypts it unattended, so it takes workstation keys only.
   - path_regex: dns/secrets/
     unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+    key_groups:
+      - age:
+          - *ws_mucie
+          - *ws_lucie
+          - *breakglass
+
+  # Private keys, including the appliance key's own half.
+  # workstations should be able to decrypt it and pass it around as they see fit
+  - path_regex: ^secrets/keys/
+    key_groups:
+      - age:
+          - *ws_mucie
+          - *ws_lucie
+          - *breakglass
+
+  # Everything the appliance key opens
+  - path_regex: ^secrets/appliance/
+    key_groups:
+      - age:
+          - *ws_mucie
+          - *ws_lucie
+          - *appliance
+          - *breakglass
+
+  # Every other secrets by default is not visible to appliance key
+  - path_regex: ^secrets/
     key_groups:
       - age:
           - *ws_mucie
