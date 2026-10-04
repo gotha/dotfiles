@@ -55,7 +55,6 @@ in
         };
         users.${cfg.username}.imports = [
           ../../home-manager
-          ../../home-manager/git
           ../../home-manager/zsh
         ];
       };
