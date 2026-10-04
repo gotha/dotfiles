@@ -101,10 +101,17 @@
   # The name the TV shows for this input in its own menus and on the CEC bus.
   hardware.raspberry-pi.configtxt.settings.all.cec_osd_name = "Jukebox";
 
-  # Each generation keeps a kernel and an initrd on the ext4 root. The card is
-  # small and the firmware partition is smaller, so keep fewer around than the
-  # 10 that os/nixos/bootloader.nix allows the EFI hosts.
-  boot.loader.generic-extlinux-compatible.configurationLimit = 5;
+  boot = {
+    # Otherwise the analog card takes ALSA 0 from vc4hdmi and Kodi's "Default"
+    # misses the TV. dtparam=audio=off does not do it: snd_bcm2835 is built
+    # into the vendor kernel and registers through the mailbox, with no DT node.
+    kernelParams = [ "snd_bcm2835.enable_headphones=0" ];
+
+    # Each generation keeps a kernel and an initrd on the ext4 root. The card is
+    # small and the firmware partition is smaller, so keep fewer around than the
+    # 10 that os/nixos/bootloader.nix allows the EFI hosts.
+    loader.generic-extlinux-compatible.configurationLimit = 5;
+  };
 
   sdImage = {
     # Uncompressed, so flashing is `dd` with no zstd in the pipe. Costs
