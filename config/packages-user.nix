@@ -31,6 +31,7 @@ in
   newsraft
   nixd
   nixfmt
+  nix-output-monitor
   nix-search-cli
   pyright
   python314
