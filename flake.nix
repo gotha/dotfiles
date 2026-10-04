@@ -171,6 +171,7 @@
         ];
       };
       wireguard = import ./config/wireguard.nix;
+      cfg = import ./config/default.nix;
       # Shared by packages.devbox-qemu (the image) and apps.devbox-qemu (which
       # boots it) - the app needs config.image.filePath for the filename, which
       # lives on the NixOS config rather than on the derivation.
@@ -721,6 +722,16 @@
           profiles.system = {
             user = "root";
             path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.bastion;
+          };
+        };
+
+        pizzie = {
+          hostname = "192.168.1.48"; # @todo - change to wireguard address once the pi joins
+          remoteBuild = false;
+          sshUser = cfg.username;
+          profiles.system = {
+            user = "root";
+            path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.pizzie;
           };
         };
       };
