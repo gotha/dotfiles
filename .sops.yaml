@@ -14,6 +14,12 @@
 #                     sops-install-secrets running as root at boot. Root-only,
 #                     so a home-manager module can never use one.
 #
+#   the appliance key made with age-keygen and tied to no machine at all. It is
+#                     copied by hand onto every appliance that needs the house
+#                     wifi, and read by root at boot from
+#                     /var/lib/sops-nix/key.txt. Its reach is fenced to one
+#                     directory, secrets/appliance/, and nothing outside it.
+#
 
 keys:
   # Workstations - the age keys under ~/.config/sops/age/keys.txt
@@ -25,6 +31,11 @@ keys:
   - &host_bastion age1za4avpeg9ppzq9d4dfms2pp0m92x9l0pte85zme35s7tqlux8uwsn53863
   - &host_lucie age1p3u6unlxc4dexv0xnnczsrvxjhr4pxw48wrjmvchxvxs866uu93qt686ph
   - &host_mucie age144cn0578fcg24aqddssd7fevsyzek758aec000jdtq9u4xdy3ylsp9pye8
+
+  # The appliance key. Not a host key: encrypted, at secrets/keys/appliance.agekey.enc
+  # used for accessing ./secrets/appliance where you do not have the host key
+  # of the machine yet (currently used only for my home's wifi password)
+  - &appliance age1jjcsfegc9u3dtgzk6sqd4nuajsetnfu7z8vhhsrkzy5ajjxwscrsfdw0nm
 
   # Offline recovery. Recipient on everything, installed on no machine - its
   # private half lives outside this infrastructure entirely. It is what makes
@@ -72,6 +83,32 @@ creation_rules:
   # decrypts it unattended, so it takes workstation keys only.
   - path_regex: dns/secrets/
     unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+    key_groups:
+      - age:
+          - *ws_mucie
+          - *ws_lucie
+          - *breakglass
+
+  # Private keys, including the appliance key's own half.
+  # workstations should be able to decrypt it and pass it around as they see fit
+  - path_regex: ^secrets/keys/
+    key_groups:
+      - age:
+          - *ws_mucie
+          - *ws_lucie
+          - *breakglass
+
+  # Everything the appliance key opens
+  - path_regex: ^secrets/appliance/
+    key_groups:
+      - age:
+          - *ws_mucie
+          - *ws_lucie
+          - *appliance
+          - *breakglass
+
+  # Every other secrets by default is not visible to appliance key
+  - path_regex: ^secrets/
     key_groups:
       - age:
           - *ws_mucie

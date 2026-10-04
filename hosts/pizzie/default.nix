@@ -24,6 +24,52 @@
 
   networking.hostName = "pizzie";
 
+  # pizzie decrypts with the shared appliance key seeded onto its card, not
+  # with one derived from its ssh host key: sshd-keygen.service only runs when
+  # sshd first starts, long after secrets are installed, so a freshly written
+  # card has no host key at the moment it needs one - and an ssh-derived
+  # identity would change on every reflash anyway. The key opens everything in
+  # secrets/appliance/ and nothing outside it;
+  sops.age = {
+    keyFile = "/var/lib/sops-nix/key.txt";
+    # Without this the default is pizzie's ed25519 host key, which on a fresh
+    # card is a path that does not exist yet.
+    sshKeyPaths = [ ];
+  };
+
+  # The house wifi, so a card written from this flake joins the network with
+  # nobody having to reach the box - no ethernet, no nmtui, no keyboard.
+  sops.secrets."home-wifi" = {
+    sopsFile = ../../secrets/appliance/home-wifi.enc.env;
+    format = "dotenv";
+    # The whole file rather than one value out of it: NetworkManager consumes
+    # this as a systemd EnvironmentFile.
+    key = "";
+  };
+
+  # envsubst runs over the generated keyfile at boot, which is what keeps both
+  # the SSID and the PSK out of the world-readable store copy of it. The
+  # rendered profile lands in /run/NetworkManager - tmpfs, mode 0600.
+  networking.networkmanager.ensureProfiles = {
+    environmentFiles = [ config.sops.secrets."home-wifi".path ];
+    profiles.home-wifi = {
+      connection = {
+        id = "home-wifi";
+        type = "wifi";
+      };
+      wifi = {
+        mode = "infrastructure";
+        ssid = "$HOME_WIFI_SSID";
+      };
+      wifi-security = {
+        key-mgmt = "wpa-psk";
+        psk = "$HOME_WIFI_PSK";
+      };
+      ipv4.method = "auto";
+      ipv6.method = "auto";
+    };
+  };
+
   hardware.raspberry-pi.firmware = {
     # Repopulate /boot/firmware on every nixos-rebuild switch, so a change to
     # config.txt or a U-Boot bump reaches the card without reflashing it.
