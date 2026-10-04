@@ -86,6 +86,48 @@
   # left as noauto it would quietly never update config.txt.
   fileSystems."/boot/firmware".options = lib.mkForce [ "nofail" ];
 
+  # The USB disk that lives behind the TV, HFS+ from a Mac. Mounted on demand
+  # rather than at boot: Kodi has to come up whether or not the disk is
+  # attached, and nothing here may ever hold up a boot waiting for it.
+  boot.supportedFilesystems.hfsplus = true;
+
+  fileSystems."/media/bkp" = {
+    device = "/dev/disk/by-uuid/4c714431-071c-3826-aead-5995982f98a7";
+    fsType = "hfsplus";
+    # hfsplus is not in nixpkgs' fsToSkipCheck, so without this the entry asks
+    # for an fsck.hfsplus that is not here - hfsprogs is Apple's source with
+    # Debian patches, no business on an appliance - and systemd-fsck@ failing
+    # takes the mount down with it. The Mac that owns the volume checks it.
+    noCheck = true;
+    options = [
+      # systemd mounts this on first access to /media/bkp and never at boot, so
+      # an absent disk costs nothing. device-timeout stops an access with no
+      # disk attached from hanging for the default 90 seconds.
+      "noauto"
+      "x-systemd.automount"
+      "x-systemd.device-timeout=10"
+
+      # HFS+ carries no Unix ownership this driver will trust, so it is handed
+      # out at mount time instead. root:users, group-writable: the user Kodi
+      # runs as has users as its primary group, and that group has a declared
+      # gid where the uid is allocated dynamically and so cannot be named here.
+      "gid=100"
+      "umask=002"
+      "nls=utf8"
+
+      # ponytail: `force` is the only thing making this read-write. The kernel
+      # driver refuses rw on a journaled HFS+ volume because it can neither
+      # replay nor maintain the journal - "write access to a journaled
+      # filesystem is not supported, use the force option at your own risk".
+      # So an unclean unplug leaves a volume only a Mac can repair, and nothing
+      # here will warn first. Either upgrade retires this comment and the flag:
+      # `diskutil disableJournal` on a Mac, or reformat the disk exFAT - this
+      # kernel has exfat.ko - and change fsType.
+      "force"
+      "rw"
+    ];
+  };
+
   # The name the TV shows for this input in its own menus and on the CEC bus.
   hardware.raspberry-pi.configtxt.settings.all.cec_osd_name = "Jukebox";
 
