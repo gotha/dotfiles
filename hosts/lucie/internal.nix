@@ -67,6 +67,12 @@ in
   # country.
   networking.hosts."127.0.0.1" = internalNames;
 
+  # nginx forwards the name it was asked for, and Transmission answers 421 to
+  # any Host header that is not an IP or on this list - so the web UI loads and
+  # every torrent-get is refused, leaving an empty list. Naming the host keeps
+  # the DNS-rebinding check that protects a daemon with no password.
+  services.transmission.settings.rpc-host-whitelist = "transmission.internal";
+
   services.nginx.virtualHosts =
     lib.mapAttrs' (
       name: svc:
