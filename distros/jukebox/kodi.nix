@@ -48,6 +48,30 @@ let
       plex-for-kodi
     ]
   );
+
+  # Kodi files new addons away disabled and asks about each one at startup, so
+  # a card from this flake would need a dozen yes-clicks on a TV remote.
+  enableAddons = pkgs.writeShellApplication {
+    name = "kodi-enable-addons";
+    runtimeInputs = with pkgs; [
+      coreutils
+      gnugrep
+      gnused
+      sqlite
+    ];
+    text = ''
+      for db in "$HOME"/.kodi/userdata/Database/Addons*.db; do
+        [ -e "$db" ] || continue
+        for dir in ${kodi}/share/kodi/addons/*/; do
+          # A directory name is not always the addon id - script.plex holds
+          # script.plexmod - so take it from addon.xml, where the tag can wrap.
+          id=$(tr '\n' ' ' < "$dir/addon.xml" | grep -o 'id="[^"]*"' | head -1 | sed 's/id="\(.*\)"/\1/')
+          [ -n "$id" ] || continue
+          printf "INSERT INTO installed (addonID,enabled,disabledReason) VALUES ('%s',1,0) ON CONFLICT(addonID) DO UPDATE SET enabled=1,disabledReason=0;\n" "$id"
+        done | sqlite3 "$db"
+      done
+    '';
+  };
 in
 {
   hardware.graphics.enable = true;
@@ -98,6 +122,7 @@ in
       conflicts = [ "getty@tty1.service" ];
 
       serviceConfig = {
+        ExecStartPre = lib.getExe enableAddons;
         ExecStart = lib.getExe' kodi "kodi-standalone";
         User = username;
         # PAMName = "login" is what makes the whole thing work: it opens a real
