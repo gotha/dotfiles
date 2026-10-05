@@ -46,6 +46,9 @@ let
 
       # Plex client.
       plex-for-kodi
+
+      # Live TV. The channel list it reads is assembled in ./iptv.nix.
+      pvr-iptvsimple
     ]
   );
 

@@ -40,6 +40,7 @@ in
 
   imports = [
     ./kodi.nix
+    ./iptv.nix
     ../../os/default.nix
     ../../os/nixos/bootloader.nix
     ../../os/nixos/gc.nix
