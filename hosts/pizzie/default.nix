@@ -98,8 +98,14 @@
     ];
   };
 
-  # The name the TV shows for this input in its own menus and on the CEC bus.
-  hardware.raspberry-pi.configtxt.settings.all.cec_osd_name = "Jukebox";
+  hardware.raspberry-pi.configtxt.settings.all = {
+    # The name the TV shows for this input in its own menus and on the CEC bus.
+    cec_osd_name = "Jukebox";
+
+    # 1.2 A across the USB ports instead of 600 mA, for the disk's spin-up
+    # surge - which browns out the 5 V rail and fails the SD read at boot.
+    max_usb_current = 1;
+  };
 
   boot = {
     # Otherwise the analog card takes ALSA 0 from vc4hdmi and Kodi's "Default"
