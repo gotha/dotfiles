@@ -107,6 +107,15 @@
     max_usb_current = 1;
   };
 
+  # 889 MB usable and no swap: Kodi reached 563 MB anon-rss and the kernel shot
+  # it. zram spills to compressed RAM rather than to the card, whose write
+  # endurance is why journald is capped in distros/jukebox. lz4 over the
+  # default zstd because four A53 cores are also decoding video.
+  zramSwap = {
+    enable = true;
+    algorithm = "lz4";
+  };
+
   boot = {
     # Otherwise the analog card takes ALSA 0 from vc4hdmi and Kodi's "Default"
     # misses the TV. dtparam=audio=off does not do it: snd_bcm2835 is built
