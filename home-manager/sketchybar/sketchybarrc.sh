@@ -83,7 +83,6 @@ for sid in {1..10}; do
   LABEL="${sid}"
 
   sketchybar --add item space.$sid left \
-      --subscribe space.$sid aerospace_workspace_change \
       --set space.$sid \
       icon.font="$FONT:Bolder:14.0" \
       icon.color=$ICON_COLOR \
@@ -91,11 +90,21 @@ for sid in {1..10}; do
       background.corner_radius=3 \
       background.height=20 \
       background.drawing=off \
+      drawing=off \
       label="$LABEL" \
-      click_script="aerospace workspace $sid" \
-      script="$CONFIG_DIR/plugins/aerospace.sh $sid"
+      click_script="aerospace workspace $sid"
 
 done
+
+# One hidden item draws every space.N item; the timer catches what events miss.
+sketchybar --add item spaces_watcher left \
+           --set spaces_watcher drawing=off \
+                                updates=on \
+                                update_freq=2 \
+                                script="$PLUGIN_DIR/aerospace.sh" \
+           --subscribe spaces_watcher aerospace_workspace_change \
+                                      front_app_switched \
+                                      space_windows_change
 
 # Active application display
 sketchybar --add item front_app left \
