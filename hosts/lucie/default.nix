@@ -113,6 +113,65 @@ in
     ];
   };
 
+  # The dissona stack runs on *rootless* Docker, which cannot rely on the CDI
+  # spec NixOS generates. The generator writes /run/cdi and is `requiredBy`
+  # docker.service -- but that is the rootful daemon. The rootless one searches,
+  # in increasing order of precedence:
+  #
+  #   /etc/.roN/cdi  <  /run/.roN/cdi  <  ~/.config/cdi  <  /run/user/UID/cdi
+  #
+  # (`docker info --format '{{.CDISpecDirs}}'` prints the live list. Note the
+  # order: a spec in a later directory wins.)
+  #
+  # The /run/.roN entry is RootlessKit's --copy-up of the host /run, and whether
+  # Docker puts it in that list has changed between releases, so ~/.config/cdi
+  # is the only target that does not depend on it. Publishing it here, rather
+  # than copying it by hand, is the whole point: a hand-copied snapshot
+  # outranks the generated spec, so it silently shadows a *correct* spec as soon
+  # as the nvidia derivation hash moves -- which is how this broke twice.
+  #
+  # gotha/dissona-infra#2, NixOS/nixpkgs#339999, NixOS/nixpkgs#451912.
+  systemd.services.nvidia-cdi-rootless-publish = {
+    description = "Publish the generated NVIDIA CDI spec for rootless Docker";
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "nvidia-container-toolkit-cdi-generator.service" ];
+    after = [ "nvidia-container-toolkit-cdi-generator.service" ];
+    # Republish whenever the generator reruns -- on a driver change, or from its
+    # udev rule. `requires` alone does not propagate a restart, and a copy that
+    # does not follow the generator is exactly the stale spec that wins.
+    partOf = [ "nvidia-container-toolkit-cdi-generator.service" ];
+    before = [ "systemd-user-sessions.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      # Root-owned 0444 on purpose: hand-editing this file is what started all
+      # of this. If the generator produced nothing, this fails loudly in the
+      # journal instead of leaving a stale spec in place -- logins are only
+      # ordered after it, never dependent on it, so a failure here does not
+      # keep anyone out.
+      ExecStart = "${pkgs.coreutils}/bin/install -D -m 0444 /run/cdi/nvidia-container-toolkit.json /home/${username}/.config/cdi/nvidia-container-toolkit.json";
+    };
+  };
+
+  # Rootless dockerd is a *user* unit, so it cannot be ordered against a system
+  # one; gating user sessions is the only ordering that reaches it. Containers
+  # re-resolve CDI on every start, so a session that begins before the spec is
+  # current starts them against a stale one. This boot won that race by a
+  # second; 2026-09-16 lost it by 17 and took all three GPU services down.
+  systemd.services.nvidia-container-toolkit-cdi-generator.before = [
+    "systemd-user-sessions.service"
+  ];
+
+  # Hand-written on 2026-07-30 by the usual `nvidia-ctk cdi generate
+  # --output=/etc/cdi` advice, and every store path in it has long since been
+  # garbage-collected. It is the lowest-precedence directory, so it only ever
+  # surfaces when the directories above it are missing -- i.e. during exactly
+  # the boot race above, which is how it supplied the dead path both outages
+  # failed on. Nix does not manage it, so removing it has to be explicit.
+  system.activationScripts.removeStaleEtcCdiSpec.text = ''
+    rm -f /etc/cdi/nvidia-container-toolkit.json
+  '';
+
   environment = {
     # Make nvidia-container-cli and CUDA toolkit available system-wide
     systemPackages = with pkgs; [
