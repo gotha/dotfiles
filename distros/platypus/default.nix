@@ -17,6 +17,11 @@ in
     "flakes"
   ];
 
+  # sketchybar's app icons. Has to go through fonts.packages: a font symlinked
+  # into ~/Library/Fonts is not registered by CoreText, so the labels render as
+  # literal ":firefox:" text. Merges with the list os/default.nix sets.
+  fonts.packages = [ pkgs.sketchybar-app-font ];
+
   _module.args = {
     inherit (cfg) username;
     inherit systemPackages;

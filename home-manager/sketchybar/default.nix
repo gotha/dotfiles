@@ -14,6 +14,9 @@ let
     "now_playing_helper.sh" = {
       inherit (pkgs) mpc;
     };
+    "aerospace.sh" = {
+      inherit (pkgs) sketchybar-app-font;
+    };
   };
 
   # Generate config for plugins with substitutions

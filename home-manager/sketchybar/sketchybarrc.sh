@@ -12,6 +12,7 @@ source "$CONFIG_DIR/colors.sh"
 #source "$CONFIG_DIR/icons.sh"
 
 FONT="Hack Nerd Font" # Needs to have Regular, Bold, Semibold, Heavy and Black variants
+APP_FONT="sketchybar-app-font" # Ligature font: ":firefox:" draws as a glyph
 PADDINGS=3 # All paddings use this value (icon, label, background)
 
 # Wait for aerospace to be ready
@@ -80,18 +81,18 @@ sketchybar --add event aerospace_workspace_change
 
 # temporarily switching to hardcoded workspaces
 for sid in {1..10}; do
-  LABEL="${sid}"
-
   sketchybar --add item space.$sid left \
       --set space.$sid \
+      icon="$sid" \
       icon.font="$FONT:Bolder:14.0" \
       icon.color=$ICON_COLOR \
+      label.font="$APP_FONT:Regular:14.0" \
+      label.padding_left=2 \
       background.color=0x44ffffff \
       background.corner_radius=3 \
       background.height=20 \
       background.drawing=off \
       drawing=off \
-      label="$LABEL" \
       click_script="aerospace workspace $sid"
 
 done
