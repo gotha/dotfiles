@@ -73,6 +73,15 @@ let
 
   generatedConfig = tomlFormat.generate "codex-config.toml" {
     mcp_servers = mcpServers;
+
+    # fix my tmux scroll
+    tui.alternate_screen = "never";
+
+    approval_policy = "on-request";
+    sandbox_mode = "workspace-write";
+    sandbox_workspace_write = {
+      network_access = false;
+    };
   };
 
   pythonWithToml = pkgs.python3.withPackages (ps: [ ps.tomli-w ]);
