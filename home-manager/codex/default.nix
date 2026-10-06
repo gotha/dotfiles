@@ -70,11 +70,33 @@ let
     });
 
   tomlFormat = pkgs.formats.toml { };
+
+  generatedConfig = tomlFormat.generate "codex-config.toml" {
+    mcp_servers = mcpServers;
+  };
+
+  pythonWithToml = pkgs.python3.withPackages (ps: [ ps.tomli-w ]);
 in
 {
   home.packages = [ pkgs.codex ];
 
-  home.file.".codex/config.toml".source = tomlFormat.generate "codex-config.toml" {
-    mcp_servers = mcpServers;
-  };
+  # Not home.file: that would symlink ~/.codex/config.toml into the store, and
+  # Codex writes to this file. Saying yes to its "Trust this folder?" prompt
+  # appends a [projects."/path"] table, which against a store path fails with
+  #   failed to persist config at /nix/store/...-codex-config.toml (code -32603)
+  # and the trust decision is lost on every new checkout.
+  #
+  # So the file is real and writable, and this merges the Nix-owned tables into
+  # it on each switch. Codex keeps ownership of everything else it puts there -
+  # [projects] above all, but also whatever a future version decides to persist.
+  # The other agents in this repo need none of this: claude-code keeps its
+  # mutable state in ~/.claude.json and reads only settings from the symlink,
+  # and crush never writes to crush.json at all.
+  #
+  # After linkGeneration rather than writeBoundary, so the symlink left by the
+  # generation that did use home.file is already gone when this runs.
+  home.activation.codexConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    run ${pythonWithToml}/bin/python3 ${./merge-config.py} \
+      ${generatedConfig} "$HOME/.codex/config.toml"
+  '';
 }
