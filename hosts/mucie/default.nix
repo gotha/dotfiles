@@ -13,6 +13,7 @@ in
 
   imports = [
     ./internal.nix
+    ./nightly-build.nix
     ./wireguard.nix
   ];
 
