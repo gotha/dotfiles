@@ -1,0 +1,29 @@
+ibis: read ast.Constant.value rather than falling back to .n
+
+The fallback is never needed and is always evaluated: Python computes the
+default argument of getattr() eagerly, so node.n is read for every constant
+in a template expression. ast.Constant.n was deprecated in Python 3.8 and
+removed in 3.14, which Kodi 21 links against here - so the read raises
+AttributeError, a bare `except: pass` in _parse_primary_expr swallows it, and
+the parser reports the expression as unparsable:
+
+  ibis.errors.TemplateSyntaxError: Template 'script-plex-playlist.xml.tpl',
+  line 169: Unparsable expression '132+63'.
+
+That kills the addon at startup on any template doing arithmetic, which
+includes script-plex-playlist.xml.tpl and script-plex-episodes.xml.tpl.
+
+Upstream: https://github.com/pannal/plex-for-kodi
+Applies to 0.7.9-rev4 and 1.0.6 alike.
+
+--- a/lib/_included_packages/ibis/nodes.py
++++ b/lib/_included_packages/ibis/nodes.py
+@@ -105,7 +105,7 @@
+         if isinstance(node, ast.Expression):
+             return _eval(node.body)
+         if isinstance(node, utils.Constant):
+-            return getattr(node, 'value', getattr(node, 'n'))
++            return node.value
+         if isinstance(node, ast.Name):
+             return node.id
+         if isinstance(node, ast.BinOp):

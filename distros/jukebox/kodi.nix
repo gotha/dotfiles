@@ -44,8 +44,14 @@ let
       # to export and nothing to mount.
       vfs-sftp
 
-      # Plex client.
-      plex-for-kodi
+      # Plex client. Patched because its bundled ibis template engine reads
+      # ast.Constant.n, which Python 3.14 removed and Kodi 21 links against:
+      # every template doing arithmetic dies as "Unparsable expression".
+      (plex-for-kodi.overrideAttrs (prev: {
+        patches = (prev.patches or [ ]) ++ [
+          ./patches/plexmod-ibis-ast-constant-value.patch
+        ];
+      }))
 
       # Live TV. The channel list it reads is assembled in ./iptv.nix.
       pvr-iptvsimple
