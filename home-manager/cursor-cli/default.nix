@@ -8,4 +8,9 @@
   home.packages = [ pkgs.cursor-cli ];
 
   home.file.".cursor/mcp.json".text = config.programs.mcp.configJSON;
+
+  # Match Claude's shell defaults, including approval to start MCP servers.
+  xdg.configFile."zsh/cursor-cli.zsh".text = ''
+    alias cursor-agent="cursor-agent --yolo --sandbox disabled --approve-mcps"
+  '';
 }
