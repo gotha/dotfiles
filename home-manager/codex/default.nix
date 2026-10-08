@@ -77,35 +77,29 @@ let
     # fix my tmux scroll
     tui.alternate_screen = "never";
 
-    approval_policy = "on-request";
-    sandbox_mode = "workspace-write";
-    sandbox_workspace_write = {
-      network_access = false;
-    };
+    # No prompts, no sandbox - the same grant as
+    # --dangerously-bypass-approvals-and-sandbox.
+    approval_policy = "never";
+    sandbox_mode = "danger-full-access";
+    # Empty so the merge prunes it: inert under danger-full-access, but left
+    # behind it would quietly reapply if sandbox_mode ever went back.
+    sandbox_workspace_write = { };
   };
 
   pythonWithToml = pkgs.python3.withPackages (ps: [ ps.tomli-w ]);
 in
 {
-  home.packages = [ pkgs.codex ];
+  home = {
+    packages = [ pkgs.codex ];
 
-  # Not home.file: that would symlink ~/.codex/config.toml into the store, and
-  # Codex writes to this file. Saying yes to its "Trust this folder?" prompt
-  # appends a [projects."/path"] table, which against a store path fails with
-  #   failed to persist config at /nix/store/...-codex-config.toml (code -32603)
-  # and the trust decision is lost on every new checkout.
-  #
-  # So the file is real and writable, and this merges the Nix-owned tables into
-  # it on each switch. Codex keeps ownership of everything else it puts there -
-  # [projects] above all, but also whatever a future version decides to persist.
-  # The other agents in this repo need none of this: claude-code keeps its
-  # mutable state in ~/.claude.json and reads only settings from the symlink,
-  # and crush never writes to crush.json at all.
-  #
-  # After linkGeneration rather than writeBoundary, so the symlink left by the
-  # generation that did use home.file is already gone when this runs.
-  home.activation.codexConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-    run ${pythonWithToml}/bin/python3 ${./merge-config.py} \
-      ${generatedConfig} "$HOME/.codex/config.toml"
-  '';
+    # Not home.file: Codex writes to config.toml, and against a store path its
+    # trust prompt fails with "failed to persist config ... (code -32603)".
+    # This merges the Nix-owned tables into a real file instead, leaving
+    # [projects] and anything else Codex persists alone. After linkGeneration
+    # so the symlink from the generation that did use home.file is already gone.
+    activation.codexConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      run ${pythonWithToml}/bin/python3 ${./merge-config.py} \
+        ${generatedConfig} "$HOME/.codex/config.toml"
+    '';
+  };
 }
