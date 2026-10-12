@@ -387,6 +387,8 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         {
+          openwhispr = import ./home-manager/openwhispr/tests.nix { inherit pkgs home-manager; };
+
           deadnix = pkgs.runCommand "deadnix-check" { nativeBuildInputs = [ pkgs.deadnix ]; } ''
             cd ${self}
             deadnix --fail .
@@ -419,6 +421,7 @@
       ) deploy-rs.lib;
     in
     {
+      homeManagerModules.openwhispr = import ./home-manager/openwhispr;
 
       darwinConfigurations = {
         "HS-DDH669533W" = darwin.lib.darwinSystem {

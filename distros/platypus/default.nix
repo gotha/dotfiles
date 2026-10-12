@@ -62,6 +62,7 @@ in
             #../../home-manager/mpd
             ../../home-manager/nodejs
             ../../home-manager/nvim
+            ../../home-manager/openwhispr
             ../../home-manager/sketchybar
             ../../home-manager/sops
             # Disabled due to glibc dependency issue on Darwin
@@ -79,6 +80,11 @@ in
               fontFamily = "Iosevka Nerd Font";
             };
             karabiner.custom.specialCharsLayer.enable = false;
+            openwhispr = {
+              enable = true;
+              settings = import ../../home-manager/openwhispr/settings.nix;
+              dictionary = import ../../home-manager/openwhispr/dictionary.nix;
+            };
           };
         };
       };
