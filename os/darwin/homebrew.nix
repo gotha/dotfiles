@@ -6,6 +6,7 @@ _: {
     onActivation = {
       autoUpdate = true;
       upgrade = true;
+      cleanup = "uninstall";
     };
     global.brewfile = true;
     masApps = { };
