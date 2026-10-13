@@ -134,7 +134,6 @@
           nix-index-database.nixosModules.nix-index
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
-          luna-podcatcher.nixosModules.default
         ];
         # devbox minus whatever nixpkgs has no aarch64-linux build for.
         devbox-arm = devbox ++ [ ./distros/devbox-arm ];
@@ -477,7 +476,10 @@
         };
         lucie = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = distro.devbox ++ [ ./hosts/lucie ];
+          modules = distro.devbox ++ [
+            luna-podcatcher.nixosModules.default
+            ./hosts/lucie
+          ];
           specialArgs = {
             inherit sops-nix;
             stablePkgs = import nixpkgs-stable {

@@ -63,9 +63,4 @@ in
     ../../home-manager/codex
     ../../home-manager/crush
   ];
-
-  # Steam is x86_64-linux only, and its module switches on
-  # hardware.graphics.enable32Bit, which asserts on any non-x86_64 system - so
-  # it has to go explicitly, no package list mentions it.
-  programs.steam.enable = lib.mkForce false;
 }
