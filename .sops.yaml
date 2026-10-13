@@ -25,6 +25,7 @@ keys:
   - &host_bastion age1za4avpeg9ppzq9d4dfms2pp0m92x9l0pte85zme35s7tqlux8uwsn53863
   - &host_lucie age1p3u6unlxc4dexv0xnnczsrvxjhr4pxw48wrjmvchxvxs866uu93qt686ph
   - &host_mucie age144cn0578fcg24aqddssd7fevsyzek758aec000jdtq9u4xdy3ylsp9pye8
+  - &host_thucie age1khekv27nml60uyh3ffs7aw44qw5cnjpjxlt34ynheeue23hdcg3q7yttm8
 
   # Offline recovery. Recipient on everything, installed on no machine - its
   # private half lives outside this infrastructure entirely. It is what makes
@@ -66,6 +67,13 @@ creation_rules:
     key_groups:
       - age:
           - *host_mucie
+          - *breakglass
+
+  - path_regex: hosts/thucie/secrets/
+    unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+    key_groups:
+      - age:
+          - *host_thucie
           - *breakglass
 
   # The hetzner token, read by `nix run .#dns` from a workstation. No machine

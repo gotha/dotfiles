@@ -486,6 +486,17 @@
             };
           };
         };
+        thucie = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = distro.devbox ++ [ ./hosts/thucie ];
+          specialArgs = {
+            inherit sops-nix;
+            stablePkgs = import nixpkgs-stable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
+        };
       };
 
       packages = {
@@ -678,6 +689,17 @@
           profiles.system = {
             user = "root";
             path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.bastion;
+          };
+        };
+        # Over the tunnel. The first deploy has to pass --hostname with the LAN
+        # address, since wg0 only comes up once this config is active.
+        thucie = {
+          hostname = "10.100.0.102";
+          remoteBuild = false;
+          sshUser = "gotha";
+          profiles.system = {
+            user = "root";
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.thucie;
           };
         };
       };
