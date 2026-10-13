@@ -88,7 +88,7 @@
         enableACME = true;
         serverAliases = [ "www.hgeorgiev.com" ];
 
-        root = "${gotha-website.packages.${pkgs.system}.default}";
+        root = "${gotha-website.packages.${pkgs.stdenv.hostPlatform.system}.default}";
 
         locations = {
           "/" = {
@@ -109,7 +109,7 @@
           # against the wrong base. Hugo writes a directory per page with an
           # index.html inside, so index alone serves them.
           "/blog/" = {
-            alias = "${gotha-blog.packages.${pkgs.system}.default}/";
+            alias = "${gotha-blog.packages.${pkgs.stdenv.hostPlatform.system}.default}/";
             index = "index.html";
           };
         };
