@@ -500,25 +500,23 @@
           };
         };
 
-        # An installer that carries thucie's whole closure, so the install runs
-        # with no network at all. The laptop's only link is a 1x1 2.4 GHz card,
-        # and a live switch there tears down its own path home.
-        thucie-installer = nixpkgs.lib.nixosSystem {
+        installer = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-            {
-              isoImage = {
-                storeContents = [ self.nixosConfigurations.thucie.config.system.build.toplevel ];
-                # iso-image.nix defines this without mkDefault, hence the force.
-                isoBaseName = nixpkgs.lib.mkForce "thucie-installer";
-                # The module default is level 19, which costs far more time than
-                # the ~1.4 GiB it saves over this; 6 builds in minutes and is
-                # what its own example suggests.
-                squashfsCompression = "zstd -Xcompression-level 6";
-              };
-            }
+            ./os/linux/installer.nix
           ];
+          specialArgs = {
+            installerHosts = {
+              inherit (self.nixosConfigurations)
+                bae
+                bastion
+                devbox
+                lucie
+                thucie
+                ;
+            };
+          };
         };
       };
 
@@ -537,7 +535,7 @@
             in
             config.config.system.build.images.qemu;
           devbox-qemu = repartImageOnOut devboxQemuImage;
-          thucie-iso = self.nixosConfigurations.thucie-installer.config.system.build.isoImage;
+          installer-iso = self.nixosConfigurations.installer.config.system.build.isoImage;
         };
         aarch64-linux = {
           devbox-qemu = repartImageOnOut devboxQemuImageArm;
