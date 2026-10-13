@@ -43,6 +43,11 @@ let
         command = "${mcp-server-kubectl-wrapper}/bin/mcp-server-kubectl-wrapper";
       };
     })
+    // (lib.optionalAttrs cfg.enableLinear {
+      linear = {
+        url = "https://mcp.linear.app/mcp";
+      };
+    })
     // (lib.optionalAttrs cfg.enableMemory {
       memory = {
         command = "${pkgs.mcp-server-memory}/bin/mcp-server-memory";

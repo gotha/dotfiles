@@ -107,6 +107,12 @@ in
       description = "Enable MCP kubectl server for Kubernetes cluster management";
     };
 
+    enableLinear = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable MCP Linear server for managing issues and projects";
+    };
+
     enableMemory = lib.mkOption {
       type = lib.types.bool;
       default = true;

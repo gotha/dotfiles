@@ -67,6 +67,12 @@ in
         description = "kubectl for managing and debugging Kubernetes clusters";
       };
     })
+    // (lib.optionalAttrs cfg.enableLinear {
+      linear = {
+        url = "https://mcp.linear.app/mcp";
+        type = "http";
+      };
+    })
     // (lib.optionalAttrs cfg.enableMemory {
       memory = {
         command = "${pkgs.mcp-server-memory}/bin/mcp-server-memory";
