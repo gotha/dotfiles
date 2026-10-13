@@ -1,4 +1,4 @@
-_:
+{ lib, ... }:
 
 {
   imports = [
@@ -29,5 +29,7 @@ _:
   # nixpkgs-unstable switched the default; switching live breaks activation.
   services.dbus.implementation = "dbus";
 
-  system.stateVersion = "25.05";
+  # Bumping this moves the default PostgreSQL major version, which cannot read
+  # roundcube's existing data directory.
+  system.stateVersion = lib.mkForce "25.05";
 }

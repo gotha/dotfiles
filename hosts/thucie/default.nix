@@ -1,4 +1,4 @@
-{ lib, ... }:
+_:
 let
   wireguard = import ../../config/wireguard.nix;
 in
@@ -21,7 +21,4 @@ in
     hostName = "thucie";
     networkmanager.enable = true;
   };
-
-  # Installed from 24.11, before it was a devbox.
-  system.stateVersion = lib.mkForce "24.11";
 }
