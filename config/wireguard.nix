@@ -17,7 +17,7 @@
     }
     {
       privateIP = "10.100.0.102";
-      publicKey = "7WZYMIHndpRM5lyHIvLgeRnaJm6+5vwTFBEbp2GlCEo=";
+      publicKey = "PJMoYoBrXxsq228tK1iKguh4IuqRLxKyVUaF1LfJvyY=";
     }
     {
       privateIP = "10.100.0.200";
