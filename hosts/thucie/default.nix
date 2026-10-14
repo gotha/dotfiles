@@ -1,4 +1,4 @@
-_:
+{ username, ... }:
 let
   wireguard = import ../../config/wireguard.nix;
 in
@@ -11,6 +11,11 @@ in
     ./hardware-configuration.nix
     ./wireguard.nix
   ];
+
+  home-manager.users.${username} = {
+    imports = [ ../../home-manager/alacritty ];
+    programs.sway.custom.terminal = "alacritty";
+  };
 
   boot.loader.grub = {
     enable = true;
