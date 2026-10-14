@@ -22,6 +22,12 @@ in
     device = "/dev/sda";
   };
 
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitchDocked = "ignore";
+  };
+
   networking = {
     hostName = "thucie";
     networkmanager.enable = true;
