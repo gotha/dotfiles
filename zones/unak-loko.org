@@ -1,0 +1,23 @@
+;; Exported on 2026-09-07T05:44:26Z
+$ORIGIN	unak-loko.org.
+$TTL	7200
+
+@	60	IN	SOA	ns1.your-server.de. postmaster.your-server.de. 2026082409 14400 1800 604800 7200
+
+; NS records
+@	60	IN	NS	ns.second-ns.com.
+@	60	IN	NS	ns1.your-server.de.
+@	60	IN	NS	ns3.second-ns.de.
+
+; A records
+@	60	IN	A	134.122.64.210
+control	601	IN	A	134.122.64.210
+mail	60	IN	A	213.133.104.4
+www	600	IN	A	134.122.64.210
+
+; CNAME records
+ftp	60	IN	CNAME	www.unak-loko.org.
+imap	60	IN	CNAME	mail.unak-loko.org.
+pop	60	IN	CNAME	mail.unak-loko.org.
+relay	60	IN	CNAME	mail.unak-loko.org.
+smtp	60	IN	CNAME	mail.unak-loko.org.
