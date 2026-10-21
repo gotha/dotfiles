@@ -54,6 +54,8 @@ let
       extraConfig = streamingLlm;
     };
 
+    slskd.port = 5030;
+
     # nix-serve, matching the cachix name it already answers to publicly.
     cachix.port = 5000;
   };

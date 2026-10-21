@@ -24,6 +24,7 @@ in
     ./nextcloud.nix
     ./nightly-build.nix
     ./observability.nix
+    ./slskd.nix
     ./tunnels.nix
     ./wireguard.nix
     ../../os/linux/efi.nix
