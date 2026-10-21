@@ -1,21 +1,12 @@
 { pkgs, config, ... }:
 {
 
-  # Create admin password file
-  # WARNING: This password is stored in the Nix store and is world-readable!
-  # For production, use a secrets management solution like sops-nix
-  environment.etc."nextcloud-admin-pass".text = "your-new-secure-password-here";
-
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud35;
     hostName = "nextcloud.hgeorgiev.com";
 
-    # Use SQLite as backend database
-    config = {
-      adminpassFile = "/etc/nextcloud-admin-pass";
-      dbtype = "sqlite";
-    };
+    config.dbtype = "sqlite";
 
     # Trust the reverse proxy
     settings = {
