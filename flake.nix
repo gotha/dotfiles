@@ -40,15 +40,6 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    luna-podcatcher = {
-      #url = "github:gotha/luna-podcatcher";
-      #url = "git+ssh://git@github.com/gotha/luna-podcatcher?ref=refs/tags/v0.1.0";
-      url = "git+ssh://git@github.com/gotha/luna-podcatcher?ref=release";
-      #url = "git+ssh://git@github.com/gotha/luna-podcatcher?ref=dev";
-      #url = "git+file:///home/gotha/Projects/github.com/gotha/luna-podcatcher";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     hunk.url = "github:modem-dev/hunk";
 
     gotha-website.url = "github:gotha/hgg";
@@ -69,7 +60,6 @@
       gotha,
       deploy-rs,
       llm-agents,
-      luna-podcatcher,
       hunk,
       gotha-website,
       gotha-blog,
@@ -477,7 +467,6 @@
         lucie = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = distro.devbox ++ [
-            luna-podcatcher.nixosModules.default
             ./hosts/lucie
           ];
           specialArgs = {
