@@ -18,6 +18,7 @@ in
   };
 
   imports = [
+    ./bluetooth.nix
     ./hardware-configuration.nix
     ./internal.nix
     ./litellm.nix
@@ -207,13 +208,6 @@ in
     ];
 
     variables.EDITOR = "vim";
-
-    # Bluetooth: disable LDAC (decoder has issues), use aptX HD as default
-    etc."wireplumber/wireplumber.conf.d/51-disable-ldac.conf".text = ''
-      monitor.bluez.properties = {
-        bluez5.codecs = [ aptx_hd aptx aac sbc_xq sbc ]
-      }
-    '';
   };
 
   services = {
