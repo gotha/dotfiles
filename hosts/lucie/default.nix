@@ -38,17 +38,27 @@ in
     ];
   };
 
-  # aarch64 emulation, so this x86_64 box can build the devbox-arm image for
-  # the mac. Registers the binfmt handlers and adds aarch64-linux to nix.conf's
-  # extra-platforms, which is what lets nix build aarch64 derivations here.
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  # Merged into one attrset because statix flags three repeated `boot.*` keys.
+  boot = {
+    # aarch64 emulation, so this x86_64 box can build the devbox-arm image for
+    # the mac. Registers the binfmt handlers and adds aarch64-linux to nix.conf's
+    # extra-platforms, which is what lets nix build aarch64 derivations here.
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  # Cap the dirty page cache in absolute terms - the default vm.dirty_ratio = 20
-  # works out to ~12 GB on this box - so a heavy writer is throttled steadily
-  # instead of accumulating GBs of dirty pages.
-  boot.kernel.sysctl = {
-    "vm.dirty_background_bytes" = 512 * 1024 * 1024; # start writeback at 512 MB
-    "vm.dirty_bytes" = 2 * 1024 * 1024 * 1024; # block the writer at 2 GB
+    # Keep the 990 PRO out of APST deep sleep. The kernel default budget of
+    # 100000us lets it reach PS4 (21800us exit latency), which it intermittently
+    # fails to wake from: the controller stops answering, the reset times out
+    # ("Device not ready; aborting reset, CSTS=0x1"), ext4 goes read-only and the
+    # box panics on killed init. Cost is a few watts at idle on an always-on host.
+    kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
+
+    # Cap the dirty page cache in absolute terms - the default vm.dirty_ratio = 20
+    # works out to ~12 GB on this box - so a heavy writer is throttled steadily
+    # instead of accumulating GBs of dirty pages.
+    kernel.sysctl = {
+      "vm.dirty_background_bytes" = 512 * 1024 * 1024; # start writeback at 512 MB
+      "vm.dirty_bytes" = 2 * 1024 * 1024 * 1024; # block the writer at 2 GB
+    };
   };
 
   networking = {
