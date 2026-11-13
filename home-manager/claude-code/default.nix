@@ -69,10 +69,25 @@
         history was produced by a Claude Code setting that is now disabled; it is
         not a convention to match.
       '';
+
+      # Second account, side by side with the first: CLAUDE_CONFIG_DIR moves
+      # credentials, ~/.claude.json, projects and history into this directory.
+      # Everything else is shared with ~/.claude via symlink.
+      ".claude-work/settings.json".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.claude/settings.json";
+      ".claude-work/CLAUDE.md".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.claude/CLAUDE.md";
+      ".claude-work/skills".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.agents/skills";
+      # ponytail: shared plugin dir, give it its own if the two instances fight
+      # over plugin state.
+      ".claude-work/plugins".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.claude/plugins";
     };
   };
 
   xdg.configFile."zsh/claude.zsh".text = ''
     alias claude="claude --mcp-config ~/.config/mcp/mcp.json --dangerously-skip-permissions"
+    alias claude-work="CLAUDE_CONFIG_DIR=$HOME/.claude-work command claude --mcp-config ~/.config/mcp/mcp.json --dangerously-skip-permissions"
   '';
 }
