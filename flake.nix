@@ -127,6 +127,8 @@
         ];
         # devbox minus whatever nixpkgs has no aarch64-linux build for.
         devbox-arm = devbox ++ [ ./distros/devbox-arm ];
+        # devbox with hyprland in place of sway.
+        h4kbox = devbox ++ [ ./distros/h4kbox ];
         platypus = [
           configuration
           ./distros/platypus
@@ -466,7 +468,7 @@
         };
         lucie = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = distro.devbox ++ [
+          modules = distro.h4kbox ++ [
             ./hosts/lucie
           ];
           specialArgs = {
