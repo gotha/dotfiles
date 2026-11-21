@@ -9,7 +9,6 @@ let
   mcp-server-github-wrapper = pkgs.callPackage ../mcp/mcp-server-github-wrapper.nix {
     inherit config;
   };
-  mcp-server-kubectl-wrapper = pkgs.callPackage ../mcp/mcp-server-kubectl-wrapper.nix { };
 
   cfg = config.programs.mcp;
 
@@ -36,11 +35,6 @@ let
     // (lib.optionalAttrs cfg.enableGithub {
       github = {
         command = "${mcp-server-github-wrapper}/bin/mcp-server-github-wrapper";
-      };
-    })
-    // (lib.optionalAttrs cfg.enableKubectl {
-      kubectl = {
-        command = "${mcp-server-kubectl-wrapper}/bin/mcp-server-kubectl-wrapper";
       };
     })
     // (lib.optionalAttrs cfg.enableLinear {

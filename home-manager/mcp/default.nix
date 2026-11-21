@@ -5,8 +5,6 @@
   ...
 }:
 let
-  mcp-server-kubectl-wrapper = pkgs.callPackage ./mcp-server-kubectl-wrapper.nix { };
-
   cfg = config.programs.mcp;
 
   inherit
@@ -33,7 +31,6 @@ let
     ++ (lib.optionals cfg.enableGithub [
       (pkgs.callPackage ./mcp-server-github-wrapper.nix { inherit config; })
     ])
-    ++ (lib.optionals cfg.enableKubectl [ mcp-server-kubectl-wrapper ])
     # mcp-server-memory and mcp-server-sequential-thinking both ship
     # `lib/node_modules/@modelcontextprotocol/servers/dist/index.js`
     # (different content per package). lib.hiPrio resolves the buildEnv
@@ -99,12 +96,6 @@ in
       type = lib.types.bool;
       default = true;
       description = "Enable MCP Grafana server for querying metrics and dashboards";
-    };
-
-    enableKubectl = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable MCP kubectl server for Kubernetes cluster management";
     };
 
     enableLinear = lib.mkOption {

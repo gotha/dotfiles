@@ -9,7 +9,6 @@ let
   mcp-server-circleci-wrapper = pkgs.callPackage ./mcp-server-circleci-wrapper.nix {
     inherit config;
   };
-  mcp-server-kubectl-wrapper = pkgs.callPackage ./mcp-server-kubectl-wrapper.nix { };
 in
 {
   mcpServers =
@@ -59,12 +58,6 @@ in
       github = {
         command = "${mcp-server-github-wrapper}/bin/mcp-server-github-wrapper";
         description = "GitHub integration for managing issues, pull requests, and repository operations";
-      };
-    })
-    // (lib.optionalAttrs cfg.enableKubectl {
-      kubectl = {
-        command = "${mcp-server-kubectl-wrapper}/bin/mcp-server-kubectl-wrapper";
-        description = "kubectl for managing and debugging Kubernetes clusters";
       };
     })
     // (lib.optionalAttrs cfg.enableLinear {
