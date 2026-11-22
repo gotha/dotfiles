@@ -285,9 +285,18 @@ let
     # with Ctrl+Shift+V, other apps with Ctrl+V). app_id covers native Wayland
     # windows; window_properties.class covers XWayland ones. Empty on failure,
     # which falls through to the Ctrl+V default below.
-    FOCUSED_APP=$(${pkgs.sway}/bin/swaymsg -t get_tree 2>/dev/null \
+    # Both lookups go through PATH rather than a store path on purpose: the
+    # compositor that is running is the one that answers, and neither sway nor
+    # hyprland gets dragged into the closure of a system that does not run it.
+    FOCUSED_APP=$(swaymsg -t get_tree 2>/dev/null \
       | ${pkgs.jq}/bin/jq -r 'recurse(.nodes[]?, .floating_nodes[]?) | select(.focused == true) | (.app_id // .window_properties.class // "")' \
       | head -n1)
+
+    # Nothing answered on sway's IPC, so try hyprland's.
+    if [[ -z "$FOCUSED_APP" ]]; then
+      FOCUSED_APP=$(hyprctl activewindow -j 2>/dev/null \
+        | ${pkgs.jq}/bin/jq -r '.class // ""')
+    fi
 
     # Duck currently-playing audio while dictating.
     ${duckStart}
