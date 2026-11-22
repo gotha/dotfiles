@@ -31,6 +31,7 @@ in
     ../../os/nixos/gc.nix
     ../../os/nixos/trustme.nix
     ../../os/nixos/unfree.nix
+    ../../os/nixos/1password.nix
     ../../os/nixos/services/audio.nix
     ../../os/nixos/services/greetd.nix
     ../../os/nixos/services/keyd.nix
@@ -93,11 +94,6 @@ in
   };
 
   programs = {
-    _1password.enable = true;
-    _1password-gui = {
-      enable = true;
-      polkitPolicyOwners = [ "${cfg.username}" ];
-    };
     #regreet = {
     #  enable = true;
     #  settings = {
