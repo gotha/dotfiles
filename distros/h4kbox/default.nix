@@ -61,6 +61,9 @@
     + "--sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions"
   );
 
+  # Without this hm aborts the whole generation on any unmanaged file in its way.
+  home-manager.backupFileExtension = "backup";
+
   home-manager.users.${username} = {
     imports = [
       ../../home-manager/hypridle
