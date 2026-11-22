@@ -468,7 +468,7 @@
         };
         lucie = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = distro.h4kbox ++ [
+          modules = distro.devbox ++ [
             ./hosts/lucie
           ];
           specialArgs = {
