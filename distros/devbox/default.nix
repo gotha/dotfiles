@@ -2,14 +2,10 @@
   pkgs,
   sops-nix,
   stablePkgs,
-  config,
-  lib,
   ...
 }:
 let
   cfg = import ../../config/default.nix;
-  keydSymbols = import ../../config/keyd-symbols.nix;
-  symbolLayer = config.services.keyd.custom.symbolLayer.enable;
   userPackages = import ../../config/packages-user.nix { inherit pkgs stablePkgs; };
   linuxUserPackages = import ../../os/linux/packages-user.nix { inherit pkgs; };
   systemPackages = import ../../config/packages.nix { inherit pkgs; };
@@ -35,10 +31,14 @@ in
     ../../os/nixos/gc.nix
     ../../os/nixos/trustme.nix
     ../../os/nixos/unfree.nix
+    ../../os/nixos/services/audio.nix
+    ../../os/nixos/services/greetd.nix
+    ../../os/nixos/services/keyd.nix
+    ../../os/nixos/services/mpd.nix
+    ../../os/nixos/services/transmission.nix
     ../../os/linux/virt.nix
     ../../os/linux/user.nix
     ../../os/linux/zsa.nix
-    ../../os/linux/keyd-symbols.nix
     {
       home-manager = {
         # @todo - maybe make waybar, mako, rofi, etc become deps of sway
@@ -47,32 +47,39 @@ in
         extraSpecialArgs = {
           inputs = { inherit sops-nix; };
         };
-        users.${cfg.username}.imports = [
-          ../../home-manager
-          ../../home-manager/aerc
-          ../../home-manager/claude-code
-          ../../home-manager/codex
-          ../../home-manager/crush
-          ../../home-manager/cursor-cli
-          ../../home-manager/kitty
-          ../../home-manager/firefox
-          ../../home-manager/git
-          ../../home-manager/mako
-          ../../home-manager/mcp
-          ../../home-manager/mpd
-          ../../home-manager/nextcloud-sync
-          ../../home-manager/nodejs
-          ../../home-manager/nvim
-          ../../home-manager/opencode
-          ../../home-manager/rofi
-          ../../home-manager/sops
-          ../../home-manager/ssh
-          ../../home-manager/swayfx
-          ../../home-manager/tmux
-          ../../home-manager/vale
-          ../../home-manager/waybar
-          ../../home-manager/zsh
-        ];
+        users.${cfg.username} = {
+          # The policies and force-installed extensions the NixOS firefox module
+          # used to write to /etc/firefox/policies. Opt-in, so a host can have
+          # plain firefox.
+          programs.firefox.custom.policies.enable = true;
+
+          imports = [
+            ../../home-manager
+            ../../home-manager/aerc
+            ../../home-manager/claude-code
+            ../../home-manager/codex
+            ../../home-manager/crush
+            ../../home-manager/cursor-cli
+            ../../home-manager/kitty
+            ../../home-manager/firefox
+            ../../home-manager/git
+            ../../home-manager/mako
+            ../../home-manager/mcp
+            ../../home-manager/mpd
+            ../../home-manager/nextcloud-sync
+            ../../home-manager/nodejs
+            ../../home-manager/nvim
+            ../../home-manager/opencode
+            ../../home-manager/rofi
+            ../../home-manager/sops
+            ../../home-manager/ssh
+            ../../home-manager/swayfx
+            ../../home-manager/tmux
+            ../../home-manager/vale
+            ../../home-manager/waybar
+            ../../home-manager/zsh
+          ];
+        };
       };
     }
   ];
@@ -91,52 +98,6 @@ in
       enable = true;
       polkitPolicyOwners = [ "${cfg.username}" ];
     };
-    firefox = {
-      enable = true;
-      policies = {
-        DisableTelemetry = true;
-        DisableFirefoxStudies = true;
-        DisablePocket = true;
-        DisableFirefoxAccounts = false;
-        DisableFormHistory = false;
-        DontCheckDefaultBrowser = true;
-        OfferToSaveLogins = false;
-
-        ExtensionSettings = {
-          # uBlock Origin
-          "uBlock0@raymondhill.net" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-            installation_mode = "force_installed";
-          };
-          # 1Password
-          "{d634138d-c276-4fc8-924b-40a0ea21d284}" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
-            installation_mode = "force_installed";
-          };
-          # Vimium
-          "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
-            installation_mode = "force_installed";
-          };
-          # SponsorBlock
-          "sponsorBlocker@ajay.app" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi";
-            installation_mode = "force_installed";
-          };
-          # Facebook Container
-          "@contain-facebook" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/facebook-container/latest.xpi";
-            installation_mode = "force_installed";
-          };
-          # Enhancer for YouTube
-          "enhancerforyoutube@maximerf.addons.mozilla.org" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/enhancer-for-youtube/latest.xpi";
-            installation_mode = "force_installed";
-          };
-        };
-      };
-    };
-
     #regreet = {
     #  enable = true;
     #  settings = {
@@ -154,90 +115,20 @@ in
     zsh.enable = true;
   };
 
-  # recommended so PipeWire gets realtime priority
-  security.rtkit.enable = true;
-
   services = {
     blueman.enable = true;
     gnome.gnome-keyring.enable = true;
+
+    # Straight to sway rather than the picker: devbox has the one session, and
+    # --unsupported-gpu keeps wlroots quiet on the hosts with an nvidia card.
+    greetd.custom.defaultSession = "sway --unsupported-gpu";
+
     libinput.enable = true;
-    mpd = {
-      enable = true;
-      user = "${cfg.username}";
-      group = "users";
-      settings = {
-        music_directory = "/home/${cfg.username}/Music";
-        audio_output = [
-          {
-            type = "pipewire";
-            name = "PipeWire Sound Server";
-          }
-        ];
-      };
-    };
     openssh.enable = true;
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      wireplumber.enable = true;
-    };
-    greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
-          user = "${cfg.username}";
-        };
-      };
-    };
-    keyd = {
-      enable = true;
-      keyboards.default = {
-        ids = [ "*" ];
-        settings = {
-          main = {
-            capslock = "overload(control, esc)";
-          }
-          // lib.optionalAttrs symbolLayer { space = keydSymbols.mainSpace; };
-        }
-        // lib.optionalAttrs symbolLayer keydSymbols.extraSections;
-      };
-    };
-
     upower.enable = true;
-
-    transmission = {
-      enable = true;
-      package = pkgs.transmission_4;
-      user = "${cfg.username}";
-      group = "users";
-      webHome = pkgs.flood-for-transmission;
-      openRPCPort = true;
-      settings = {
-        rpc-bind-address = "0.0.0.0";
-        rpc-whitelist-enabled = false;
-        download-dir = "/home/${cfg.username}/Downloads";
-        incomplete-dir = "/home/${cfg.username}/Downloads/.incomplete";
-        incomplete-dir-enabled = true;
-      };
-    };
-
   };
 
   systemd = {
-    # Create transmission download directories
-    tmpfiles.rules = [
-      "d /home/${cfg.username}/Downloads 0755 ${cfg.username} users -"
-      "d /home/${cfg.username}/Downloads/.incomplete 0755 ${cfg.username} users -"
-    ];
-
-    # Set XDG_RUNTIME_DIR for MPD to connect to PipeWire
-    services.mpd.environment = {
-      XDG_RUNTIME_DIR = "/run/user/1000";
-    };
-
     # Enable lingering for the ${cfg.username} user so the service starts at boot
     # even when the user is not logged in
     user.services."user@${cfg.username}".enable = true;

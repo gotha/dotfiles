@@ -5,7 +5,6 @@
 # the greeter's session picker is the way back out of a hyprland config that
 # does not start.
 {
-  config,
   lib,
   pkgs,
   username,
@@ -54,12 +53,11 @@
     "x-directory/normal" = "thunar.desktop";
   };
 
-  # No --cmd: with sway still installed, the session picker is the escape hatch.
-  # The desktop files live in sessionData.desktops, not in the system path.
-  services.greetd.settings.default_session.command = lib.mkForce (
-    "${pkgs.tuigreet}/bin/tuigreet --time --remember-session "
-    + "--sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions"
-  );
+  # No default session: with sway still installed, the picker is the escape
+  # hatch out of a hyprland config that does not start. mkForce because this
+  # still layers over devbox, which asks for sway - it goes once the two distros
+  # stop sharing a base.
+  services.greetd.custom.defaultSession = lib.mkForce null;
 
   # Without this hm aborts the whole generation on any unmanaged file in its way.
   home-manager.backupFileExtension = "backup";

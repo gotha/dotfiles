@@ -1,8 +1,73 @@
-{ pkgs, ... }:
 {
-  programs.firefox = {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.programs.firefox.custom;
+in
+{
+  # Off by default: the settings below are opinions about one browser, the
+  # policies below are opinions about the machine. ../../distros/devbox turns
+  # them on; a host that wants a stock firefox leaves them off.
+  options.programs.firefox.custom.policies.enable = lib.mkOption {
+    type = lib.types.bool;
+    default = false;
+    description = ''
+      Enterprise policies and force-installed extensions. home-manager bakes
+      these into the firefox package it installs, which is the one that wins in
+      PATH - they used to come from the NixOS module's
+      /etc/firefox/policies/policies.json.
+    '';
+  };
+
+  config.programs.firefox = {
     enable = true;
     configPath = ".mozilla/firefox";
+
+    policies = lib.mkIf cfg.policies.enable {
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      DisablePocket = true;
+      DisableFirefoxAccounts = false;
+      DisableFormHistory = false;
+      DontCheckDefaultBrowser = true;
+      OfferToSaveLogins = false;
+
+      ExtensionSettings = {
+        # uBlock Origin
+        "uBlock0@raymondhill.net" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        # 1Password
+        "{d634138d-c276-4fc8-924b-40a0ea21d284}" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        # Vimium
+        "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        # SponsorBlock
+        "sponsorBlocker@ajay.app" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        # Facebook Container
+        "@contain-facebook" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/facebook-container/latest.xpi";
+          installation_mode = "force_installed";
+        };
+        # Enhancer for YouTube
+        "enhancerforyoutube@maximerf.addons.mozilla.org" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/enhancer-for-youtube/latest.xpi";
+          installation_mode = "force_installed";
+        };
+      };
+    };
 
     profiles.default = {
       id = 0;
