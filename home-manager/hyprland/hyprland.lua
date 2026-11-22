@@ -145,25 +145,33 @@ hl.config({
 
     decoration = {
         rounding = 8,
-        blur   = { enabled = true, size = 6, passes = 2 },
-        shadow = { enabled = true, range = 12, render_power = 3, color = "rgba(1a1a1aee)" },
+        -- decoration:blur:variant adds frost/acrylic/aurora/water/etc; most redraw every frame.
+        blur        = { enabled = true, size = 6, passes = 2, special = true, popups = true },
+        shadow      = { enabled = true, range = 12, render_power = 3, color = "rgba(1a1a1aee)" },
+        motion_blur = { enabled = true },
     },
 
     animations = { enabled = true },
 
     misc = {
-        disable_hyprland_logo   = true,
-        disable_splash_rendering = true,
-        force_default_wallpaper = 0,
+        disable_hyprland_logo        = true,
+        disable_splash_rendering     = true,
+        force_default_wallpaper      = 0,
+        animate_manual_resizes       = true,
+        animate_mouse_windowdragging = true,
     },
 })
 
 hl.curve("smooth", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 1.0 } } })
 
-hl.animation({ leaf = "windows",    enabled = true, speed = 5, bezier = "smooth",  style = "popin 80%" })
-hl.animation({ leaf = "border",     enabled = true, speed = 8, bezier = "default" })
-hl.animation({ leaf = "fade",       enabled = true, speed = 5, bezier = "default" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 4, bezier = "smooth",  style = "slide" })
+hl.animation({ leaf = "windows",     enabled = true, speed = 5,   bezier = "smooth", style = "popin 80%" })
+hl.animation({ leaf = "border",      enabled = true, speed = 8,   bezier = "default" })
+hl.animation({ leaf = "fade",        enabled = true, speed = 5,   bezier = "default" })
+hl.animation({ leaf = "workspaces",  enabled = true, speed = 4,   bezier = "smooth", style = "slide" })
+-- The bar and hyprlauncher are layer surfaces; the leaves above do not cover them.
+hl.animation({ leaf = "layers",      enabled = true, speed = 4,   bezier = "smooth", style = "fade" })
+-- speed is a duration in ds: 100 is ten seconds per revolution.
+hl.animation({ leaf = "borderangle", enabled = true, speed = 100, bezier = "linear", style = "loop" })
 
 -- hy3's tab bar. Defaults are bright purple; these follow the nord-ish borders
 -- above so a tabbed group does not look like a different desktop. Only valid
