@@ -67,7 +67,7 @@ in
           ../../home-manager/rofi
           ../../home-manager/sops
           ../../home-manager/ssh
-          ../../home-manager/sway
+          ../../home-manager/swayfx
           ../../home-manager/tmux
           ../../home-manager/vale
           ../../home-manager/waybar

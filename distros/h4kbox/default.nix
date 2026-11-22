@@ -79,11 +79,13 @@
     # rest - comes through the layering untouched. ../../os/* needs nothing
     # either, for the same reason: devbox already imports it.
     #
-    # Three go. sway's own module, and waybar, whose workspace and window
+    # Three go. sway's own module - devbox reaches it through ../../home-manager/swayfx,
+    # so both paths have to be named here - and waybar, whose workspace and window
     # modules only speak sway's IPC - quickshell replaces the bar, and hypr*
     # replaces swaylock, swayidle and wob. Then rofi, which hyprlauncher
     # replaces for both the launcher and the clipboard picker.
     disabledModules = [
+      ../../home-manager/swayfx
       ../../home-manager/sway
       ../../home-manager/waybar
       ../../home-manager/rofi
