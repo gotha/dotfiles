@@ -67,6 +67,7 @@
   home-manager.users.${username} = {
     imports = [
       ../../home-manager/hypridle
+      ../../home-manager/hypr-layout
       ../../home-manager/hyprland
       ../../home-manager/hyprlock
       ../../home-manager/hyprpaper

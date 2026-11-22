@@ -20,6 +20,8 @@ keyboard.
 | `$mod + Shift + Space` | Toggle floating |
 | `$mod + Shift + C` | Reload the hyprland config |
 | `$mod + Shift + E` | Log out / power menu (wlogout) |
+| `$mod + Shift + S` | Save the window layout now |
+| `$mod + Shift + R` | Restore the saved layout |
 
 ## Moving around
 
@@ -90,6 +92,29 @@ xkb owns it.
 | `AltGr + I` | Dictation — speaks to text, result lands on the clipboard |
 
 Media keys work while the screen is locked.
+
+## Session restore
+
+Nothing is autostarted by name any more. On login, `hypr-layout` reopens the
+windows that were open when it last saved — one process per window, so three
+terminals on three workspaces come back as three.
+
+A snapshot is taken every two minutes by a systemd user timer, and `$mod +
+Shift + S` takes one immediately. The window arrangement inside a workspace is
+*not* restored: hypr-layout rebuilds tiling for dwindle and for hyprland's
+native groups, and hy3 uses neither, so the replay runs with `--no-arrange
+--no-groups`.
+
+| Command | Does |
+| --- | --- |
+| `hypr-layout show` | Print what is saved |
+| `hypr-layout restore --dry-run` | Say what a restore would do, change nothing |
+| `hypr-layout layouts` | List saved layouts and how many older saves exist |
+| `hypr-layout save --name work` | Keep a second, named layout |
+| `hypr-layout restore --history` | Go back to an earlier save |
+
+Saves live in `~/.config/hypr/layout.json`, older ones in
+`~/.config/hypr/layout-history/`.
 
 ## When something breaks
 

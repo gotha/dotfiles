@@ -10,6 +10,9 @@ local mod   = "SUPER"
 local term  = "{{TERMINAL}}"
 -- -t toggles, so a second $mod+D closes it instead of reopening.
 local menu  = "hyprlauncher -t"
+-- --no-arrange/--no-groups: its tiling replay targets dwindle and hyprland's
+-- native groups, and hy3 uses neither. Workspaces are restored either way.
+local restore = "hypr-layout restore --no-arrange --no-groups"
 
 -------------------------------------------------------------------------------
 -- Plugins
@@ -61,12 +64,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-clip-persist --clipboard regular")
     hl.exec_cmd("wl-paste --watch cliphist store")
 
-    hl.exec_cmd("1password")
-    hl.exec_cmd(term)
-    hl.exec_cmd("firefox")
-    hl.exec_cmd("slack")
-    hl.exec_cmd("spotify")
-    hl.exec_cmd("transmission-gtk")
+    -- Replaces a fixed list of apps, which could only ever reopen one window
+    -- each. See ../hypr-layout.
+    hl.exec_cmd(restore)
 end)
 
 -------------------------------------------------------------------------------
@@ -229,6 +229,8 @@ hl.bind(mod .. " + F",           hl.dsp.window.fullscreen())
 hl.bind(mod .. " + SHIFT + SPACE", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mod .. " + P",           hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
 hl.bind(mod .. " + N",           hl.dsp.exec_cmd("cliphist list | hyprlauncher -m | cliphist decode | wl-copy"))
+hl.bind(mod .. " + SHIFT + S",   hl.dsp.exec_cmd("hypr-layout save"))
+hl.bind(mod .. " + SHIFT + R",   hl.dsp.exec_cmd(restore))
 
 -- sway's splith / splitv / tabbed / "layout toggle split" / focus parent.
 if hy3 then
