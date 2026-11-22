@@ -208,6 +208,12 @@ in
     ];
 
     variables.EDITOR = "vim";
+
+    # sway nags about the proprietary nvidia driver unless it is told to shut
+    # up. greetd's --cmd passes --unsupported-gpu, but tuigreet also lists the
+    # sway.desktop that NixOS puts in XDG_DATA_DIRS, and logging in through
+    # that menu runs a bare `sway` instead. The variable covers both paths.
+    sessionVariables.SWAY_UNSUPPORTED_GPU = "true";
   };
 
   services = {
