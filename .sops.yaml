@@ -48,8 +48,8 @@ creation_rules:
           - *ws_thucie
           - *breakglass
 
-  # Host secrets, decrypted by root at boot. One host each, which is the whole
-  # point: bastion holds the key to bastion's secrets and nothing else.
+  # Host secrets, decrypted by root at boot. Visible by the workstation
+  # and the host key
   - path_regex: hosts/bastion/secrets/
     unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
     key_groups:
@@ -62,6 +62,7 @@ creation_rules:
     key_groups:
       - age:
           - *host_lucie
+          - *ws_lucie
           - *breakglass
 
   - path_regex: hosts/mucie/secrets/
@@ -69,6 +70,7 @@ creation_rules:
     key_groups:
       - age:
           - *host_mucie
+          - *ws_mucie
           - *breakglass
 
   - path_regex: hosts/thucie/secrets/
@@ -76,6 +78,7 @@ creation_rules:
     key_groups:
       - age:
           - *host_thucie
+          - *ws_thucie
           - *breakglass
 
   # The hetzner token, read by `nix run .#dns` from a workstation. No machine
