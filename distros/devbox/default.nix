@@ -86,26 +86,11 @@ in
   ];
 
   environment = {
-    shells = with pkgs; [
-      bash
-      zsh
-    ];
+    shells = [ pkgs.zsh ];
     inherit systemPackages;
   };
 
   programs = {
-    #regreet = {
-    #  enable = true;
-    #  settings = {
-    #    background = {
-    #      path =
-    #        "${wallpaperPkg}/nix-wallpaper-nineish-catppuccin-macchiato.png";
-    #      fit = "Cover";
-    #    };
-    #    GTK = { application_prefer_dark_theme = true; };
-    #    appearance = { greeting_msg = "Mr. Anderson, Welcome back!"; };
-    #  };
-    #};
     sway.enable = true;
     virt-manager.enable = true;
     zsh.enable = true;
